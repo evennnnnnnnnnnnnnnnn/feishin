@@ -1,6 +1,7 @@
 import {
     useQuery,
     useQueryClient,
+    UseQueryResult,
     useSuspenseQuery,
     UseSuspenseQueryResult,
 } from '@tanstack/react-query';
@@ -1061,6 +1062,7 @@ const AlbumArtistMetadataSimilarArtists = ({
                 mbz: null,
                 name: relatedArtist.name,
                 playCount: null,
+                roles: null,
                 similarArtists: null,
                 songCount: null,
                 userFavorite: relatedArtist.userFavorite,
@@ -1101,13 +1103,17 @@ const AlbumArtistMetadataSimilarArtists = ({
 };
 
 interface AlbumArtistDetailContentProps {
-    albumsQuery: UseSuspenseQueryResult<AlbumListResponse, Error>;
+    albumsQuery: UseQueryResult<AlbumListResponse, Error>;
     detailQuery: UseSuspenseQueryResult<AlbumArtistDetailResponse, Error>;
+    role: null | string;
+    setRole: (role: null | string) => void;
 }
 
 export const AlbumArtistDetailContent = ({
     albumsQuery,
     detailQuery,
+    role,
+    setRole,
 }: AlbumArtistDetailContentProps) => {
     const artistItems = useArtistItems();
     const artistRadioCount = useArtistRadioCount();
@@ -1220,7 +1226,13 @@ export const AlbumArtistDetailContent = ({
                             routeId={routeId}
                         />
                     )}
-                    <ArtistAlbums albumsQuery={albumsQuery} order={itemOrder.recentAlbums} />
+                    <ArtistAlbums
+                        albumsQuery={albumsQuery}
+                        order={itemOrder.recentAlbums}
+                        role={role}
+                        roles={detailQuery.data?.roles}
+                        setRole={setRole}
+                    />
                     {enabledItem.similarArtists && (
                         <AlbumArtistMetadataSimilarArtists
                             order={itemOrder.similarArtists}
@@ -1420,13 +1432,17 @@ const AlbumSection = memo(function AlbumSection({
 });
 
 import { useArtistAlbumsGrouped } from '/@/renderer/features/artists/hooks/use-artist-albums-grouped';
+import { Select } from '/@/shared/components/select/select';
 
 interface ArtistAlbumsProps {
-    albumsQuery: UseSuspenseQueryResult<AlbumListResponse, Error>;
+    albumsQuery: UseQueryResult<AlbumListResponse, Error>;
     order?: number;
+    role: null | string;
+    roles?: null | string[];
+    setRole: (role: null | string) => void;
 }
 
-const ArtistAlbums = ({ albumsQuery, order }: ArtistAlbumsProps) => {
+const ArtistAlbums = ({ albumsQuery, order, role, roles, setRole }: ArtistAlbumsProps) => {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
     const [debouncedSearchTerm] = useDebouncedValue(searchTerm, 300);
@@ -1521,6 +1537,17 @@ const ArtistAlbums = ({ albumsQuery, order }: ArtistAlbumsProps) => {
                         }}
                         value={searchTerm}
                     />
+                    {roles?.length && (
+                        <Select
+                            aria-label="role"
+                            clearable
+                            data={roles}
+                            onChange={setRole}
+                            placeholder={t('common.role')}
+                            value={role}
+                            w={200}
+                        />
+                    )}
                     <ListSortByDropdownControlled
                         filters={CLIENT_SIDE_ALBUM_FILTERS}
                         itemType={LibraryItem.ALBUM}
