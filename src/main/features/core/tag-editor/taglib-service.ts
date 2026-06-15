@@ -1,12 +1,11 @@
 import type { ArtworkKind, ArtworkOp, BatchFileError } from '/@/shared/types/tag-editor';
 import type { ICommonTagsResult } from 'music-metadata';
 
-import { EDITOR_FIELD_KEYS } from '/@/shared/types/tag-editor';
-
 import { constants, promises as fsPromises } from 'fs';
 import * as mm from 'music-metadata';
 import { TagLib } from 'taglib-wasm';
 
+import { EDITOR_FIELD_KEYS } from '/@/shared/types/tag-editor';
 import { getImageMimeTypeFromPath } from '/@/shared/utils/image-mime';
 
 let _taglib: null | TagLib = null;
@@ -65,20 +64,6 @@ const MM_CUSTOM: Partial<Record<string, TagAccessor>> = {
     trackNumber: (c) => c.track.no,
 };
 
-/** Maps a music-metadata `ICommonTagsResult` to the flat camelCase key map used by the editor. */
-export function flattenMusicMetadata(common: ICommonTagsResult): Record<string, string> {
-    const flat: Record<string, string> = {};
-    for (const key of EDITOR_FIELD_KEYS) {
-        const custom = MM_CUSTOM[key];
-        const raw: unknown = custom
-            ? custom(common)
-            : common[(MM_RENAMES[key] ?? key) as keyof ICommonTagsResult];
-        const value = Array.isArray(raw) ? raw[0] : raw;
-        if (value != null && value !== '') flat[key] = String(value);
-    }
-    return flat;
-}
-
 /** Returns an error entry for each path that is missing or not writable by the current process. */
 export async function checkPathsWritable(paths: string[]): Promise<BatchFileError[]> {
     const failed: BatchFileError[] = [];
@@ -95,6 +80,20 @@ export async function checkPathsWritable(paths: string[]): Promise<BatchFileErro
         }),
     );
     return failed;
+}
+
+/** Maps a music-metadata `ICommonTagsResult` to the flat camelCase key map used by the editor. */
+export function flattenMusicMetadata(common: ICommonTagsResult): Record<string, string> {
+    const flat: Record<string, string> = {};
+    for (const key of EDITOR_FIELD_KEYS) {
+        const custom = MM_CUSTOM[key];
+        const raw: unknown = custom
+            ? custom(common)
+            : common[(MM_RENAMES[key] ?? key) as keyof ICommonTagsResult];
+        const value = Array.isArray(raw) ? raw[0] : raw;
+        if (value != null && value !== '') flat[key] = String(value);
+    }
+    return flat;
 }
 
 /** Runs `fn` over `items` with at most `concurrency` tasks in flight at once. Stops early if `signal` is aborted. */
@@ -130,8 +129,8 @@ export async function readFilesMetadataBatch(
     artworkKind: ArtworkKind;
     artworkMimeType?: string;
     failedFiles: BatchFileError[];
-    success: boolean;
     readCount: number;
+    success: boolean;
     tagSummary: Record<string, null | string>;
     totalCount: number;
 }> {
@@ -216,8 +215,8 @@ export async function readFilesMetadataBatch(
     return {
         artworkKind,
         failedFiles,
-        success: readCount > 0,
         readCount,
+        success: readCount > 0,
         tagSummary,
         totalCount,
         ...(artworkData ? { artworkData, artworkMimeType } : {}),

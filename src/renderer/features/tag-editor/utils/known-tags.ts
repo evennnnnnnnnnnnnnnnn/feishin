@@ -49,14 +49,14 @@ const FIELD_TYPE_OVERRIDES: Partial<
     lyrics: 'textarea',
 };
 
-/** Which form control to render for a tag row. */
-export type TagFieldType = 'boolean' | 'number' | 'string' | 'textarea';
-
 export interface KnownTag {
     key: string;
     label: string;
     type: TagFieldType;
 }
+
+/** Which form control to render for a tag row. */
+export type TagFieldType = 'boolean' | 'number' | 'string' | 'textarea';
 
 const humanizeKey = (key: string): string =>
     key

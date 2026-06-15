@@ -2,7 +2,10 @@ import { closeAllModals } from '@mantine/modals';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useMetadataEditor } from '../hooks/use-metadata-editor';
+import { ArtworkPanel } from './artwork-panel';
 import styles from './song-edit-modal.module.css';
+import { TagFieldRow } from './tag-field-row';
 
 import { Button } from '/@/shared/components/button/button';
 import { Checkbox } from '/@/shared/components/checkbox/checkbox';
@@ -14,10 +17,6 @@ import { Table } from '/@/shared/components/table/table';
 import { Tabs } from '/@/shared/components/tabs/tabs';
 import { Text } from '/@/shared/components/text/text';
 import { Song } from '/@/shared/types/domain-types';
-
-import { useMetadataEditor } from '../hooks/use-metadata-editor';
-import { ArtworkPanel } from './artwork-panel';
-import { TagFieldRow } from './tag-field-row';
 
 export const SongEditModal = ({ songs }: { songs: Song[] }) => {
     const { t } = useTranslation();

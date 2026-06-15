@@ -1,15 +1,15 @@
 import { RiCloseLine } from 'react-icons/ri';
 
+import type { KnownTag } from '../utils/known-tags';
+
+import styles from './tag-field-row.module.css';
+
 import { Button } from '/@/shared/components/button/button';
 import { Checkbox } from '/@/shared/components/checkbox/checkbox';
 import { NumberInput } from '/@/shared/components/number-input/number-input';
 import { Table } from '/@/shared/components/table/table';
-import { Textarea } from '/@/shared/components/textarea/textarea';
 import { TextInput } from '/@/shared/components/text-input/text-input';
-
-import type { KnownTag } from '../utils/known-tags';
-
-import styles from './tag-field-row.module.css';
+import { Textarea } from '/@/shared/components/textarea/textarea';
 
 interface TagFieldRowProps {
     isMixed: boolean;

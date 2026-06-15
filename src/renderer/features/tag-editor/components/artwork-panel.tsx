@@ -1,9 +1,9 @@
-import { DragDropZone } from '/@/shared/components/drag-drop-zone/drag-drop-zone';
+import styles from './artwork-panel.module.css';
+
 import { Button } from '/@/shared/components/button/button';
+import { DragDropZone } from '/@/shared/components/drag-drop-zone/drag-drop-zone';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-
-import styles from './artwork-panel.module.css';
 
 interface ArtworkPanelProps {
     artworkDisplayUrl: null | string;
@@ -49,12 +49,7 @@ export const ArtworkPanel = ({
             )}
         </DragDropZone>
         {showRemoveButton && (
-            <Button
-                className={styles.removeButton}
-                onClick={onRemove}
-                size="sm"
-                variant="subtle"
-            >
+            <Button className={styles.removeButton} onClick={onRemove} size="sm" variant="subtle">
                 {removeArtworkLabel}
             </Button>
         )}

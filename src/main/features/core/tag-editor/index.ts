@@ -6,11 +6,7 @@ import type {
 
 import { ipcMain, type IpcMainInvokeEvent } from 'electron';
 
-import {
-    readFilesMetadataBatch,
-    readLocalImageFile,
-    writeFilesTags,
-} from './taglib-service';
+import { readFilesMetadataBatch, readLocalImageFile, writeFilesTags } from './taglib-service';
 
 const sendBatchProgress = (event: IpcMainInvokeEvent, processed: number, total: number) => {
     event.sender.send('batch-progress', { processed, total });
@@ -46,8 +42,8 @@ ipcMain.handle(
                     artworkKind: 'none',
                     error: result.failedFiles[0]?.error ?? 'No readable audio files in selection',
                     failedFiles: result.failedFiles,
-                    success: false,
                     readCount: result.readCount,
+                    success: false,
                     totalCount: result.totalCount,
                 };
             }
@@ -55,8 +51,8 @@ ipcMain.handle(
             return {
                 artworkKind: result.artworkKind,
                 failedFiles: result.failedFiles.length > 0 ? result.failedFiles : undefined,
-                success: true,
                 readCount: result.readCount,
+                success: true,
                 tagSummary: result.tagSummary,
                 totalCount: result.totalCount,
                 ...(result.artworkData

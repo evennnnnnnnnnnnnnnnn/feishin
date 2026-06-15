@@ -365,6 +365,16 @@ export const contract = c.router({
             400: jfType._response.error,
         },
     },
+    startScan: {
+        body: z.null(),
+        method: 'POST',
+        path: 'Library/Refresh',
+        query: z.object({}),
+        responses: {
+            204: z.null(),
+            400: jfType._response.error,
+        },
+    },
     updatePlaylist: {
         body: jfType._parameters.updatePlaylist,
         method: 'POST',
@@ -389,16 +399,6 @@ export const contract = c.router({
         path: 'Items/:id/Images/Primary',
         responses: {
             204: jfType._response.uploadPlaylistImage,
-            400: jfType._response.error,
-        },
-    },
-    startScan: {
-        body: z.null(),
-        method: 'POST',
-        path: 'Library/Refresh',
-        query: z.object({}),
-        responses: {
-            204: z.null(),
             400: jfType._response.error,
         },
     },

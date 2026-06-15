@@ -1376,16 +1376,6 @@ export type ScrobbleQuery = {
 // Scrobble
 export type ScrobbleResponse = null;
 
-export type StartScanArgs = BaseEndpointArgs;
-
-export type StartScanResponse = {
-    count: number;
-    folderCount: number;
-    lastScan?: string;
-    scanning: boolean;
-} | null;
-
-
 export type SearchAlbumArtistsQuery = {
     albumArtistLimit?: number;
     albumArtistStartIndex?: number;
@@ -1426,6 +1416,15 @@ export type SearchSongsQuery = {
     query?: string;
     songLimit?: number;
     songStartIndex?: number;
+};
+
+export type StartScanArgs = BaseEndpointArgs;
+
+export type StartScanResponse = null | {
+    count: number;
+    folderCount: number;
+    lastScan?: string;
+    scanning: boolean;
 };
 
 export type SynchronizedLyricsArray = Array<[number, string]>;
@@ -1541,6 +1540,7 @@ export type ControllerEndpoint = {
     setPlaylistSongs: (args: SetPlaylistSongsArgs) => Promise<SetPlaylistSongsResponse>;
     setRating?: (args: SetRatingArgs) => Promise<RatingResponse>;
     shareItem?: (args: ShareItemArgs) => Promise<ShareItemResponse>;
+    startScan: (args: StartScanArgs) => Promise<StartScanResponse>;
     updateInternetRadioStation: (
         args: UpdateInternetRadioStationArgs,
     ) => Promise<UpdateInternetRadioStationResponse>;
@@ -1550,7 +1550,6 @@ export type ControllerEndpoint = {
         args: UploadInternetRadioStationImageArgs,
     ) => Promise<UploadInternetRadioStationImageResponse>;
     uploadPlaylistImage?: (args: UploadPlaylistImageArgs) => Promise<UploadPlaylistImageResponse>;
-    startScan: (args: StartScanArgs) => Promise<StartScanResponse>;
 };
 
 export type DownloadArgs = BaseEndpointArgs & {
@@ -1710,6 +1709,7 @@ export type InternalControllerEndpoint = {
     ) => Promise<SetPlaylistSongsResponse>;
     setRating?: (args: ReplaceApiClientProps<SetRatingArgs>) => Promise<RatingResponse>;
     shareItem?: (args: ReplaceApiClientProps<ShareItemArgs>) => Promise<ShareItemResponse>;
+    startScan: (args: ReplaceApiClientProps<StartScanArgs>) => Promise<StartScanResponse>;
     updateInternetRadioStation: (
         args: ReplaceApiClientProps<UpdateInternetRadioStationArgs>,
     ) => Promise<UpdateInternetRadioStationResponse>;
@@ -1725,7 +1725,6 @@ export type InternalControllerEndpoint = {
     uploadPlaylistImage?: (
         args: ReplaceApiClientProps<UploadPlaylistImageArgs>,
     ) => Promise<UploadPlaylistImageResponse>;
-    startScan: (args: ReplaceApiClientProps<StartScanArgs>) => Promise<StartScanResponse>;
 };
 
 export type LyricGetQuery = {

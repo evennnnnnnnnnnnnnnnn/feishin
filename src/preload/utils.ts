@@ -1,4 +1,4 @@
-import { type IpcRendererEvent, ipcRenderer, webFrame } from 'electron';
+import { ipcRenderer, type IpcRendererEvent, webFrame } from 'electron';
 
 import type {
     ArtworkOp,

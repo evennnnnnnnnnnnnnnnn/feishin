@@ -1931,6 +1931,20 @@ export const JellyfinController: InternalControllerEndpoint = {
 
         return null;
     },
+    startScan: async (args) => {
+        const { apiClientProps } = args;
+
+        const res = await jfApiClient(apiClientProps).startScan({
+            body: null,
+            query: {},
+        });
+
+        if (res.status !== 204) {
+            throw new Error('Failed to start scan');
+        }
+
+        return null;
+    },
     updateInternetRadioStation: async (args) => {
         const { apiClientProps, body, query } = args;
 
@@ -1995,20 +2009,6 @@ export const JellyfinController: InternalControllerEndpoint = {
             body.image,
             'Failed to upload playlist image',
         );
-    },
-    startScan: async (args) => {
-        const { apiClientProps } = args;
-
-        const res = await jfApiClient(apiClientProps).startScan({
-            body: null,
-            query: {},
-        });
-
-        if (res.status !== 204) {
-            throw new Error('Failed to start scan');
-        }
-
-        return null;
     },
 };
 
