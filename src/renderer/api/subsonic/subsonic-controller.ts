@@ -2497,6 +2497,17 @@ export const SubsonicController: InternalControllerEndpoint = {
 
         return null;
     },
+    startScan: async (args) => {
+        const { apiClientProps } = args;
+
+        const res = await ssApiClient(apiClientProps).startScan({ query: {} });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to start scan');
+        }
+
+        return res.body.scanStatus;
+    },
 };
 
 function getLibraryId(musicFolderId?: string | string[]) {

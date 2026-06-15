@@ -347,6 +347,19 @@ const scrobbleParameters = z.object({
 
 const scrobble = z.null();
 
+const scanStatusBody = z.object({
+    count: z.number(),
+    folderCount: z.number(),
+    lastScan: z.string().optional(),
+    scanning: z.boolean(),
+});
+
+const startScanParameters = z.object({});
+const startScan = z.object({ scanStatus: scanStatusBody });
+
+const getScanStatusParameters = z.object({});
+const getScanStatus = z.object({ scanStatus: scanStatusBody });
+
 const search3 = z.object({
     searchResult3: z
         .object({
@@ -839,8 +852,10 @@ export const ssType = {
         reportPlayback: reportPlaybackParameters,
         savePlayQueueByIndex: savePlayQueueByIndexParameters,
         saveQueue: saveQueueParameters,
+        getScanStatus: getScanStatusParameters,
         scrobble: scrobbleParameters,
         search3: search3Parameters,
+        startScan: startScanParameters,
         setRating: setRatingParameters,
         similarSongs: similarSongsParameters,
         similarSongs2: similarSongs2Parameters,
@@ -892,8 +907,10 @@ export const ssType = {
         removeFavorite,
         reportPlayback,
         saveQueue,
+        getScanStatus,
         scrobble,
         search3,
+        startScan,
         serverInfo,
         setRating,
         similarSongs,

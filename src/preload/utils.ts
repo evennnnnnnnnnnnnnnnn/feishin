@@ -1,9 +1,46 @@
-import { ipcRenderer, webFrame } from 'electron';
+import { type IpcRendererEvent, ipcRenderer, webFrame } from 'electron';
+
+import type {
+    ArtworkOp,
+    BatchProgress,
+    ReadLocalImageResult,
+    ReadSongMetadataBatchResult,
+    WriteSongTagsBatchResult,
+} from '../shared/types/tag-editor';
 
 import { disableAutoUpdates, isLinux, isMacOS, isWindows } from '../main/env';
 
 const openItem = async (path: string) => {
     return ipcRenderer.invoke('open-item', path);
+};
+
+const cancelReadSongMetadata = (): void => {
+    ipcRenderer.invoke('cancel-read-song-metadata');
+};
+
+const readSongMetadataBatch = (filePaths: string[]): Promise<ReadSongMetadataBatchResult> => {
+    return ipcRenderer.invoke('read-song-metadata-batch', filePaths);
+};
+
+const writeSongTagsBatch = (
+    filePaths: string[],
+    edits: Record<string, string>,
+    removed: string[],
+    artworkOp?: ArtworkOp,
+): Promise<WriteSongTagsBatchResult> => {
+    return ipcRenderer.invoke('write-song-tags-batch', filePaths, edits, removed, artworkOp);
+};
+
+const onBatchProgress = (cb: (event: IpcRendererEvent, data: BatchProgress) => void) => {
+    ipcRenderer.on('batch-progress', cb);
+};
+
+const offBatchProgress = (cb: (event: IpcRendererEvent, data: BatchProgress) => void) => {
+    ipcRenderer.removeListener('batch-progress', cb);
+};
+
+const readLocalImage = (filePath: string): Promise<ReadLocalImageResult> => {
+    return ipcRenderer.invoke('read-local-image', filePath);
 };
 
 const openApplicationDirectory = async () => {
@@ -117,6 +154,7 @@ const rendererUpdateAvailable = (cb: (version: string) => void) => {
 };
 
 export const utils = {
+    cancelReadSongMetadata,
     checkForUpdates,
     customCssUpdatedListener,
     disableAutoUpdates,
@@ -127,10 +165,14 @@ export const utils = {
     isMacOS,
     isWindows,
     mainMessageListener,
+    offBatchProgress,
+    onBatchProgress,
     openApplicationDirectory,
     openCustomCssFolder,
     openItem,
     playerErrorListener,
+    readLocalImage,
+    readSongMetadataBatch,
     rendererOpenCommandPalette,
     rendererOpenManageServers,
     rendererOpenReleaseNotes,
@@ -143,6 +185,7 @@ export const utils = {
     setInputFocused,
     startPowerSaveBlocker,
     stopPowerSaveBlocker,
+    writeSongTagsBatch,
 };
 
 export type Utils = typeof utils;

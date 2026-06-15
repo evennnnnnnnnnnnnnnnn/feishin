@@ -353,6 +353,22 @@ export const contract = c.router({
             200: ssType._response.baseResponse,
         },
     },
+    startScan: {
+        method: 'GET',
+        path: 'startScan.view',
+        query: ssType._parameters.startScan,
+        responses: {
+            200: ssType._response.startScan,
+        },
+    },
+    getScanStatus: {
+        method: 'GET',
+        path: 'getScanStatus.view',
+        query: ssType._parameters.getScanStatus,
+        responses: {
+            200: ssType._response.getScanStatus,
+        },
+    },
 });
 
 const axiosClient = axios.create({});

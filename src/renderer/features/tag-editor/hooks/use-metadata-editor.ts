@@ -1,0 +1,340 @@
+import type {
+    ArtworkKind,
+    ArtworkOp,
+    BatchProgress,
+    TagEditorUtils,
+} from '/@/shared/types/tag-editor';
+import { closeAllModals } from '@mantine/modals';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { FIELD_PRIORITY, KNOWN_TAG_MAP, KNOWN_TAGS, type KnownTag } from '../utils/known-tags';
+import { base64ToBytes, filterTagSummary, formatBatchFileErrors } from '../utils/utils';
+import { controller } from '/@/renderer/api/controller';
+import { useCurrentServer } from '/@/renderer/store';
+import { toast } from '/@/shared/components/toast/toast';
+import { Song } from '/@/shared/types/domain-types';
+
+/**
+ * Subscribes to batch progress events for the duration of `fn`, then unsubscribes.
+ * Ensures the progress handler is always cleaned up even if `fn` throws.
+ */
+const withBatchProgress = async <T>(
+    utils: TagEditorUtils,
+    onProgress: (data: BatchProgress) => void,
+    fn: () => Promise<T>,
+): Promise<T> => {
+    const handler = (_e: unknown, data: BatchProgress) => onProgress(data);
+    utils.onBatchProgress(handler);
+    try {
+        return await fn();
+    } finally {
+        utils.offBatchProgress(handler);
+    }
+};
+
+interface UseMetadataEditorArgs {
+    browser: null | { clearCache: () => Promise<void> };
+    songs?: Song[];
+    utils: TagEditorUtils;
+}
+
+/**
+ * Drives the metadata editor UI: loads song tags from disk, tracks field edits
+ * and artwork changes, and writes them back on save.
+ */
+export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetadataEditorArgs) => {
+    const { t } = useTranslation();
+    const server = useCurrentServer();
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [loadProgress, setLoadProgress] = useState<BatchProgress | null>(null);
+    const [error, setError] = useState<null | string>(null);
+    const [readWarning, setReadWarning] = useState<null | string>(null);
+    const [resolvedSongs, setResolvedSongs] = useState<Song[]>([]);
+    const [rescan, setRescan] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [tagSummary, setTagSummary] = useState<Record<string, null | string>>({});
+    const [editedFields, setEditedFields] = useState<Record<string, string>>({});
+    const [removedKeys, setRemovedKeys] = useState<Set<string>>(new Set());
+    const [loadedArtwork, setLoadedArtwork] = useState<{ kind: ArtworkKind }>({ kind: 'none' });
+    const [artworkDisplayUrl, setArtworkDisplayUrl] = useState<null | string>(null);
+    const [artworkOp, setArtworkOp] = useState<ArtworkOp | null>(null);
+
+    /**
+     * Merges `tagSummary` (on-disk values) and `editedFields` (unsaved edits) into
+     * `displayFields`. Keys present in `tagSummary` with a `null` value (differing
+     * across files) are added to `mixedKeys`. `sortedFieldEntries` applies
+     * `FIELD_PRIORITY` ordering, then alphabetical by label for unlisted keys.
+     */
+    const { displayFields, mixedKeys, sortedFieldEntries } = useMemo(() => {
+        const allKeys = new Set<string>();
+        for (const k of Object.keys(tagSummary)) allKeys.add(k);
+        for (const k of Object.keys(editedFields)) allKeys.add(k);
+        for (const k of removedKeys) allKeys.delete(k);
+
+        const displayFields: Record<string, string> = {};
+        const mixedKeys = new Set<string>();
+
+        for (const key of allKeys) {
+            if (key in editedFields) {
+                displayFields[key] = editedFields[key];
+                continue;
+            }
+            const summaryVal = tagSummary[key];
+            if (summaryVal === null) {
+                mixedKeys.add(key);
+                displayFields[key] = '';
+            } else if (summaryVal !== undefined) {
+                displayFields[key] = summaryVal;
+            }
+        }
+
+        const sortedFieldEntries = Object.entries(displayFields).sort(([a], [b]) => {
+            const pa = FIELD_PRIORITY.indexOf(a);
+            const pb = FIELD_PRIORITY.indexOf(b);
+            if (pa !== -1 && pb !== -1) return pa - pb;
+            if (pa !== -1) return -1;
+            if (pb !== -1) return 1;
+            const labelA = KNOWN_TAG_MAP.get(a)?.label ?? a;
+            const labelB = KNOWN_TAG_MAP.get(b)?.label ?? b;
+            return labelA.localeCompare(labelB);
+        });
+
+        return { displayFields, mixedKeys, sortedFieldEntries };
+    }, [tagSummary, editedFields, removedKeys]);
+
+    /**
+     * Runs once on mount: reads metadata for all songs in batch and populates
+     * tag summary and initial artwork state.
+     */
+    useEffect(() => {
+        const initialize = async () => {
+            const songs = (songsProp ?? []).filter((s) => s.path);
+
+            if (songs.length === 0) {
+                setError(t('page.itemDetail.noLocalSongs', 'No songs with local file paths found'));
+                setIsLoading(false);
+                return;
+            }
+
+            setResolvedSongs(songs);
+            const paths = songs.map((s) => s.path!);
+
+            const batchResult = await withBatchProgress(utils, setLoadProgress, () =>
+                utils.readSongMetadataBatch(paths),
+            );
+
+            if (!batchResult.success || !batchResult.tagSummary) {
+                setError(batchResult.error ?? t('page.itemDetail.fileNotWritable'));
+                setIsLoading(false);
+                return;
+            }
+
+            if (batchResult.failedFiles?.length) {
+                const count = batchResult.failedFiles.length;
+                const total = batchResult.totalCount ?? paths.length;
+                setReadWarning(
+                    t('page.itemDetail.readPartialFailure', {
+                        count,
+                        defaultValue: `Could not read metadata from ${count} of ${total} file(s).`,
+                        total,
+                    }),
+                );
+            }
+
+            setTagSummary(filterTagSummary(batchResult.tagSummary));
+
+            if (
+                batchResult.artworkKind === 'common' &&
+                batchResult.artworkData &&
+                batchResult.artworkMimeType
+            ) {
+                setArtworkDisplayUrl(
+                    `data:${batchResult.artworkMimeType};base64,${batchResult.artworkData}`,
+                );
+            }
+            setLoadedArtwork({ kind: batchResult.artworkKind });
+            setIsLoading(false);
+        };
+
+        initialize().catch((err) => {
+            setError(String(err));
+            setIsLoading(false);
+        });
+
+        return () => utils.cancelReadSongMetadata();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /** Records an edited value for `key`, overriding the on-disk summary. */
+    const handleFieldChange = useCallback((key: string, value: string) => {
+        setEditedFields((prev) => ({ ...prev, [key]: value }));
+    }, []);
+
+    /** Removes `key` from both `editedFields` and the display, marking it for deletion on save. */
+    const handleRemoveField = useCallback((key: string) => {
+        setEditedFields((prev) => {
+            const next = { ...prev };
+            delete next[key];
+            return next;
+        });
+        setRemovedKeys((prev) => new Set(prev).add(key));
+    }, []);
+
+    /** Adds `key` to `editedFields` with an empty value and un-marks it from removal. */
+    const handleAddField = useCallback((key: null | string) => {
+        if (!key) return;
+        setEditedFields((prev) => ({ ...prev, [key]: '' }));
+        setRemovedKeys((prev) => {
+            const next = new Set(prev);
+            next.delete(key);
+            return next;
+        });
+    }, []);
+
+    /** Creates a blob URL from raw image bytes and queues a `set` artwork operation. */
+    const applyArtworkBytes = useCallback((bytes: Uint8Array, mimeType: string) => {
+        const blob = new Blob([bytes.buffer as ArrayBuffer], { type: mimeType });
+        setArtworkDisplayUrl(URL.createObjectURL(blob));
+        setArtworkOp({ bytes, mimeType, type: 'set' });
+    }, []);
+
+    /** Opens a native file picker, reads the selected image, and applies it as the new artwork. */
+    const handleChangeArtwork = useCallback(async () => {
+        const path = await window.api.localSettings.openFileSelector({
+            filters: [{ extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'], name: 'Images' }],
+        });
+        if (!path) return;
+        const result = await utils.readLocalImage(path);
+        if (result.success && result.data && result.mimeType) {
+            applyArtworkBytes(base64ToBytes(result.data), result.mimeType);
+        }
+    }, [applyArtworkBytes, utils]);
+
+    /** Clears the artwork preview and queues a `clear` artwork operation. */
+    const handleRemoveArtwork = useCallback(() => {
+        setArtworkDisplayUrl(null);
+        setArtworkOp({ type: 'clear' });
+    }, []);
+
+    /** Returns the `KnownTag` descriptor for `key`, falling back to a generic string entry. */
+    const getFieldMeta = useCallback(
+        (key: string): KnownTag => KNOWN_TAG_MAP.get(key) ?? { key, label: key, type: 'string' },
+        [],
+    );
+
+    /**
+     * Validates that no editable fields are empty, writes all tag and artwork
+     * changes to disk in batch, then optionally triggers a server rescan and
+     * closes the modal.
+     */
+    const handleSave = useCallback(async () => {
+        if (resolvedSongs.length === 0) return;
+
+        const emptyFields = Object.entries(editedFields)
+            .filter(([key, value]) => {
+                const meta = KNOWN_TAG_MAP.get(key);
+                return meta?.type !== 'boolean' && value.trim() === '';
+            })
+            .map(([key]) => KNOWN_TAG_MAP.get(key)?.label ?? key);
+
+        if (emptyFields.length > 0) {
+            toast.error({
+                message: `${t('page.itemDetail.emptyFields', 'Fields cannot be empty')}: ${emptyFields.join(', ')}`,
+                title: t('error.generalError', 'Error'),
+            });
+            return;
+        }
+
+        setIsSaving(true);
+        const paths = resolvedSongs.map((s) => s.path!).filter(Boolean);
+
+        try {
+            const writeResult = await withBatchProgress(utils, setLoadProgress, () =>
+                utils.writeSongTagsBatch(
+                    paths,
+                    editedFields,
+                    [...removedKeys],
+                    artworkOp ?? undefined,
+                ),
+            );
+
+            if (!writeResult.success) {
+                const failed = writeResult.failedFiles ?? [];
+                const message =
+                    failed.length > 0
+                        ? formatBatchFileErrors(
+                              failed,
+                              t('page.itemDetail.writePartialFailure', {
+                                  count: failed.length,
+                                  defaultValue: `Failed to save ${failed.length} file(s).`,
+                              }),
+                          )
+                        : (writeResult.error ?? t('page.itemDetail.fileNotWritable'));
+                toast.error({ message, title: t('error.generalError', 'Error') });
+                return;
+            }
+
+            toast.success({ message: t('page.itemDetail.tagsSaved') });
+
+            if (artworkOp) {
+                await browser?.clearCache();
+            }
+
+            if (rescan && server) {
+                try {
+                    await controller.startScan({ apiClientProps: { serverId: server.id } });
+                    toast.success({ message: t('page.itemDetail.rescanStarted') });
+                } catch {
+                    // non-fatal
+                }
+            }
+
+            closeAllModals();
+        } finally {
+            setLoadProgress(null);
+            setIsSaving(false);
+        }
+    }, [artworkOp, browser, editedFields, removedKeys, rescan, resolvedSongs, server, t, utils]);
+
+    /** Known tags not yet present in `displayFields`, sorted alphabetically for the add-field dropdown. */
+    const availableToAdd = useMemo(
+        () =>
+            KNOWN_TAGS.filter((tag) => !(tag.key in displayFields))
+                .map((tag) => ({ label: tag.label, value: tag.key }))
+                .sort((a, b) => a.label.localeCompare(b.label)),
+        [displayFields],
+    );
+
+    const artworkIsMixed = artworkOp === null && loadedArtwork.kind === 'mixed';
+    const showRemoveArtworkButton =
+        artworkOp?.type !== 'clear' && (artworkOp?.type === 'set' || loadedArtwork.kind !== 'none');
+
+    const mixedPlaceholder = t('page.itemDetail.multipleValues', '(Multiple Values)');
+
+    return {
+        applyArtworkBytes,
+        artworkDisplayUrl,
+        artworkIsMixed,
+        availableToAdd,
+        error,
+        getFieldMeta,
+        handleAddField,
+        handleChangeArtwork,
+        handleFieldChange,
+        handleRemoveArtwork,
+        handleRemoveField,
+        handleSave,
+        isLoading,
+        isSaving,
+        loadProgress,
+        mixedKeys,
+        mixedPlaceholder,
+        readWarning,
+        rescan,
+        setRescan,
+        showRemoveArtworkButton,
+        sortedFieldEntries,
+    };
+};

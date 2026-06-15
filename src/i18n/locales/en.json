@@ -538,7 +538,8 @@
             "goTo": "Go to",
             "goToAlbum": "Go to $t(entity.album, {\"count\": 1})",
             "goToAlbumArtist": "Go to $t(entity.albumArtist, {\"count\": 1})",
-            "showDetails": "Get info"
+            "showDetails": "Get info",
+            "editMetadata": "Edit Metadata"
         },
         "fullscreenPlayer": {
             "config": {
@@ -593,7 +594,22 @@
         "itemDetail": {
             "copyPath": "Copy path to clipboard",
             "copiedPath": "Path copied successfully",
-            "openFile": "Show track in file manager"
+            "openFile": "Show track in file manager",
+            "tagsSaved": "Tags saved successfully",
+            "rescanStarted": "Library rescan started",
+            "fileNotWritable": "File is not accessible or not writable",
+            "triggerRescan": "Trigger library rescan after saving",
+            "addField": "Add field…",
+            "emptyFields": "Fields cannot be empty",
+            "tagsTab": "Tags",
+            "artworkTab": "Artwork",
+            "removeArtwork": "Remove Artwork",
+            "noArtwork": "No Artwork",
+            "multipleValues": "(Multiple Values)",
+            "multipleArtworks": "Multiple Artworks",
+            "noLocalSongs": "No songs with local file paths found",
+            "readPartialFailure": "Could not read metadata from {{count}} of {{total}} file(s)",
+            "writePartialFailure": "Failed to save {{count}} file(s)"
         },
         "playlist": {
             "reorder": "Reordering only enabled when sorting by ID"

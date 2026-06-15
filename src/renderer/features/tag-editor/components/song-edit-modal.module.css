@@ -1,0 +1,26 @@
+.tabLabel {
+    font-size: 1rem;
+}
+
+.tableScroller {
+    max-height: 55vh;
+    overflow-y: auto;
+    margin-top: var(--theme-spacing-sm);
+    padding-top: var(--theme-spacing-sm);
+    padding-bottom: var(--theme-spacing-sm);
+    border-top: 1px solid var(--mantine-color-default-border);
+}
+
+.tableCell {
+    padding: var(--theme-spacing-xs) var(--theme-spacing-sm);
+    vertical-align: middle;
+}
+
+.tableHeader {
+    width: 1%;
+    color: var(--theme-colors-foreground-muted);
+    font-weight: 500;
+    padding: var(--theme-spacing-xs) var(--theme-spacing-sm);
+    vertical-align: middle;
+    white-space: nowrap;
+}
