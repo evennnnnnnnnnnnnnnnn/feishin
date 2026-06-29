@@ -365,11 +365,13 @@ export const contract = c.router({
             400: jfType._response.error,
         },
     },
-    startScan: {
+    refreshItem: {
         body: z.null(),
         method: 'POST',
-        path: 'Library/Refresh',
-        query: z.object({}),
+        path: 'Items/:id/Refresh',
+        query: z.object({
+            MetadataRefreshMode: z.string().optional(),
+        }),
         responses: {
             204: z.null(),
             400: jfType._response.error,

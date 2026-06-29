@@ -286,7 +286,10 @@ export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetad
 
             if (rescan && server) {
                 try {
-                    await controller.startScan({ apiClientProps: { serverId: server.id } });
+                    await controller.refreshItems({
+                        apiClientProps: { serverId: server.id },
+                        query: { ids: resolvedSongs.map((s) => s.id) },
+                    });
                     toast.success({ message: t('page.itemDetail.rescanStarted') });
                 } catch {
                     // non-fatal

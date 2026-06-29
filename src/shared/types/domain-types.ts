@@ -1418,14 +1418,9 @@ export type SearchSongsQuery = {
     songStartIndex?: number;
 };
 
-export type StartScanArgs = BaseEndpointArgs;
+export type RefreshItemsArgs = BaseEndpointArgs & { query: { ids: string[] } };
 
-export type StartScanResponse = null | {
-    count: number;
-    folderCount: number;
-    lastScan?: string;
-    scanning: boolean;
-};
+export type RefreshItemsResponse = null;
 
 export type SynchronizedLyricsArray = Array<[number, string]>;
 
@@ -1532,6 +1527,7 @@ export type ControllerEndpoint = {
     getUserInfo: (args: UserInfoArgs) => Promise<UserInfoResponse>;
     getUserList?: (args: UserListArgs) => Promise<UserListResponse>;
     movePlaylistItem?: (args: MoveItemArgs) => Promise<void>;
+    refreshItems: (args: RefreshItemsArgs) => Promise<RefreshItemsResponse>;
     removeFromPlaylist: (args: RemoveFromPlaylistArgs) => Promise<RemoveFromPlaylistResponse>;
     replacePlaylist: (args: ReplacePlaylistArgs) => Promise<ReplacePlaylistResponse>;
     savePlayQueue: (args: SaveQueueArgs) => Promise<void>;
@@ -1540,7 +1536,6 @@ export type ControllerEndpoint = {
     setPlaylistSongs: (args: SetPlaylistSongsArgs) => Promise<SetPlaylistSongsResponse>;
     setRating?: (args: SetRatingArgs) => Promise<RatingResponse>;
     shareItem?: (args: ShareItemArgs) => Promise<ShareItemResponse>;
-    startScan: (args: StartScanArgs) => Promise<StartScanResponse>;
     updateInternetRadioStation: (
         args: UpdateInternetRadioStationArgs,
     ) => Promise<UpdateInternetRadioStationResponse>;
@@ -1695,6 +1690,9 @@ export type InternalControllerEndpoint = {
     getUserInfo: (args: ReplaceApiClientProps<UserInfoArgs>) => Promise<UserInfoResponse>;
     getUserList?: (args: ReplaceApiClientProps<UserListArgs>) => Promise<UserListResponse>;
     movePlaylistItem?: (args: ReplaceApiClientProps<MoveItemArgs>) => Promise<void>;
+    refreshItems: (
+        args: ReplaceApiClientProps<RefreshItemsArgs>,
+    ) => Promise<RefreshItemsResponse>;
     removeFromPlaylist: (
         args: ReplaceApiClientProps<RemoveFromPlaylistArgs>,
     ) => Promise<RemoveFromPlaylistResponse>;
@@ -1709,7 +1707,6 @@ export type InternalControllerEndpoint = {
     ) => Promise<SetPlaylistSongsResponse>;
     setRating?: (args: ReplaceApiClientProps<SetRatingArgs>) => Promise<RatingResponse>;
     shareItem?: (args: ReplaceApiClientProps<ShareItemArgs>) => Promise<ShareItemResponse>;
-    startScan: (args: ReplaceApiClientProps<StartScanArgs>) => Promise<StartScanResponse>;
     updateInternetRadioStation: (
         args: ReplaceApiClientProps<UpdateInternetRadioStationArgs>,
     ) => Promise<UpdateInternetRadioStationResponse>;

@@ -2461,7 +2461,7 @@ export const SubsonicController: InternalControllerEndpoint = {
 
         return null;
     },
-    startScan: async (args) => {
+    refreshItems: async (args) => {
         const { apiClientProps } = args;
 
         const res = await ssApiClient(apiClientProps).startScan({ query: {} });
@@ -2470,7 +2470,7 @@ export const SubsonicController: InternalControllerEndpoint = {
             throw new Error('Failed to start scan');
         }
 
-        return res.body.scanStatus;
+        return null;
     },
     updateInternetRadioStation: async (args) => {
         const { apiClientProps, body, query } = args;

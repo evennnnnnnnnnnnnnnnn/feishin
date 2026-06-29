@@ -1931,17 +1931,18 @@ export const JellyfinController: InternalControllerEndpoint = {
 
         return null;
     },
-    startScan: async (args) => {
-        const { apiClientProps } = args;
+    refreshItems: async (args) => {
+        const { apiClientProps, query } = args;
 
-        const res = await jfApiClient(apiClientProps).startScan({
-            body: null,
-            query: {},
-        });
-
-        if (res.status !== 204) {
-            throw new Error('Failed to start scan');
-        }
+        await Promise.all(
+            query.ids.map((id) =>
+                jfApiClient(apiClientProps).refreshItem({
+                    body: null,
+                    params: { id },
+                    query: { MetadataRefreshMode: 'FullRefresh' },
+                }),
+            ),
+        );
 
         return null;
     },
