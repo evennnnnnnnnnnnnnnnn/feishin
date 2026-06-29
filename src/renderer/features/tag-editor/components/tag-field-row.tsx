@@ -12,6 +12,7 @@ import { TextInput } from '/@/shared/components/text-input/text-input';
 import { Textarea } from '/@/shared/components/textarea/textarea';
 
 interface TagFieldRowProps {
+    isDirty?: boolean;
     isMixed: boolean;
     meta: KnownTag;
     mixedPlaceholder?: string;
@@ -22,6 +23,7 @@ interface TagFieldRowProps {
 }
 
 export const TagFieldRow = ({
+    isDirty,
     isMixed,
     meta,
     mixedPlaceholder,
@@ -31,7 +33,7 @@ export const TagFieldRow = ({
     value,
 }: TagFieldRowProps) => (
     <Table.Tr data-field-key={tagKey} key={tagKey}>
-        <Table.Th>{meta.label}</Table.Th>
+        <Table.Th className={isDirty ? styles.dirtyLabel : undefined}>{meta.label}</Table.Th>
         <Table.Td>
             {meta.type === 'textarea' ? (
                 <Textarea

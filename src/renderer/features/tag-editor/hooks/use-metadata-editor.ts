@@ -323,6 +323,7 @@ export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetad
         artworkDisplayUrl,
         artworkIsMixed,
         availableToAdd,
+        editedFields,
         error,
         getFieldMeta,
         handleAddField,

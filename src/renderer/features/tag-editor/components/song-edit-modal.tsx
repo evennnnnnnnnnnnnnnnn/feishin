@@ -104,6 +104,7 @@ export const SongEditModal = ({ songs }: { songs: Song[] }) => {
                                 <Table.Tbody>
                                     {editor.sortedFieldEntries.map(([key, value]) => (
                                         <TagFieldRow
+                                            isDirty={key in editor.editedFields}
                                             isMixed={editor.mixedKeys.has(key)}
                                             key={key}
                                             meta={editor.getFieldMeta(key)}
