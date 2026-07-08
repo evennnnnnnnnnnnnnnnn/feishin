@@ -6,13 +6,14 @@ import styles from './synchronized-lyrics.module.css';
 
 import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
 import {
+    subscribePlayerStatus,
     useLyricsDisplaySettings,
     useLyricsSettings,
     usePlaybackType,
     usePlayerActions,
-    usePlayerStatus,
+    usePlayerStoreBase,
 } from '/@/renderer/store';
-import { usePlayerTimestamp } from '/@/renderer/store/timestamp.store';
+import { subscribePlayerProgress, useTimestampStoreBase } from '/@/renderer/store/timestamp.store';
 import { FullLyricsMetadata, SynchronizedLyricsArray } from '/@/shared/types/domain-types';
 import { PlayerStatus, PlayerType } from '/@/shared/types/types';
 
@@ -58,8 +59,6 @@ export const SynchronizedLyrics = ({
                 : 0.95,
     };
     const { mediaSeekToTimestamp } = usePlayerActions();
-    const status = usePlayerStatus();
-    const timestamp = usePlayerTimestamp();
 
     const effectiveOffsetMs = offsetMs ?? 0;
 
@@ -75,7 +74,20 @@ export const SynchronizedLyrics = ({
         [mediaSeekToTimestamp, playbackType],
     );
 
-    // const seeked = useSeeked();
+    const handleContainerClick = useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            const target = (event.target as HTMLElement).closest('[data-lyric-time]');
+            if (!target) {
+                return;
+            }
+
+            const time = Number((target as HTMLElement).dataset.lyricTime);
+            if (time > 0 && Number.isFinite(time)) {
+                handleSeek(time / 1000);
+            }
+        },
+        [handleSeek],
+    );
 
     // A reference to the timeout handler
     const lyricTimer = useRef<null | ReturnType<typeof setTimeout>>(null);
@@ -91,6 +103,7 @@ export const SynchronizedLyrics = ({
 
     const delayMsRef = useRef(effectiveOffsetMs);
     const followRef = useRef(settings.follow);
+    const statusRef = useRef(usePlayerStoreBase.getState().player.status);
     const userScrollingRef = useRef(false);
     const scrollTimeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -197,6 +210,11 @@ export const SynchronizedLyrics = ({
         [],
     );
 
+    const syncFromCurrentTimestamp = useCallback(() => {
+        const timestamp = useTimestampStoreBase.getState().timestamp;
+        setCurrentLyric(timestamp * 1000 + delayMsRef.current);
+    }, [setCurrentLyric]);
+
     // Store the callback in a ref so it can be called recursively
     useEffect(() => {
         setCurrentLyricRef.current = setCurrentLyric;
@@ -208,32 +226,22 @@ export const SynchronizedLyrics = ({
     }, [settings.follow]);
 
     useEffect(() => {
-        // This handler is used to handle when lyrics change. It is in some sense the
-        // 'primary' handler for parsing lyrics, as unlike the other callbacks, it will
-        // ALSO remove listeners on close.
         lyricRef.current = lyrics;
 
-        if (status === PlayerStatus.PLAYING) {
-            // Use the current timestamp from player events
-            setCurrentLyric(timestamp * 1000 + delayMsRef.current);
-
-            return () => {
-                // Cleanup: clear the timer when lyrics change or component unmounts
-                if (lyricTimer.current) clearTimeout(lyricTimer.current);
-            };
+        if (statusRef.current === PlayerStatus.PLAYING) {
+            syncFromCurrentTimestamp();
         }
 
-        return () => {};
-    }, [lyrics, setCurrentLyric, status, timestamp]);
+        return () => {
+            if (lyricTimer.current) {
+                clearTimeout(lyricTimer.current);
+            }
+        };
+    }, [lyrics, syncFromCurrentTimestamp]);
 
     useEffect(() => {
-        // This handler is used to deal with changes to the current delay. If the offset
-        // changes, we should immediately stop the current listening set and calculate
-        // the correct one using the new offset. Afterwards, timing can be calculated like normal
         const newOffset = offsetMs ?? 0;
-        const changed = delayMsRef.current !== newOffset;
-
-        if (!changed) {
+        if (delayMsRef.current === newOffset) {
             return;
         }
 
@@ -242,28 +250,48 @@ export const SynchronizedLyrics = ({
         }
 
         delayMsRef.current = newOffset;
-
-        // Use the current timestamp from player events
-        setCurrentLyric(timestamp * 1000 + delayMsRef.current);
-    }, [setCurrentLyric, offsetMs, timestamp]);
+        syncFromCurrentTimestamp();
+    }, [offsetMs, syncFromCurrentTimestamp]);
 
     useEffect(() => {
-        // This handler is used specifically for dealing with seeking and progress updates.
-        // When the timestamp changes, update the current lyric position.
-        if (status !== PlayerStatus.PLAYING) {
+        const unsubscribe = subscribePlayerProgress(({ timestamp }) => {
+            if (statusRef.current !== PlayerStatus.PLAYING) {
+                return;
+            }
+
             if (lyricTimer.current) {
                 clearTimeout(lyricTimer.current);
             }
 
-            return;
-        }
+            setCurrentLyric(timestamp * 1000 + delayMsRef.current);
+        });
 
-        if (lyricTimer.current) {
-            clearTimeout(lyricTimer.current);
-        }
+        return unsubscribe;
+    }, [setCurrentLyric]);
 
-        setCurrentLyric(timestamp * 1000 + delayMsRef.current);
-    }, [timestamp, setCurrentLyric, status]);
+    useEffect(() => {
+        statusRef.current = usePlayerStoreBase.getState().player.status;
+
+        const unsubscribe = subscribePlayerStatus(({ status }) => {
+            statusRef.current = status;
+
+            if (status !== PlayerStatus.PLAYING) {
+                if (lyricTimer.current) {
+                    clearTimeout(lyricTimer.current);
+                }
+
+                return;
+            }
+
+            if (lyricTimer.current) {
+                clearTimeout(lyricTimer.current);
+            }
+
+            syncFromCurrentTimestamp();
+        });
+
+        return unsubscribe;
+    }, [syncFromCurrentTimestamp]);
 
     useEffect(() => {
         // Guaranteed cleanup; stop the timer, and just in case also increment
@@ -336,6 +364,7 @@ export const SynchronizedLyrics = ({
         <div
             className={clsx(styles.container, 'synchronized-lyrics overlay-scrollbar')}
             id="sychronized-lyrics-scroll-container"
+            onClick={handleContainerClick}
             onMouseEnter={showScrollbar}
             onMouseLeave={hideScrollbar}
             ref={containerRef}
@@ -372,14 +401,10 @@ export const SynchronizedLyrics = ({
                 <LyricLine
                     alignment={settings.alignment}
                     className="lyric-line synchronized"
+                    data-lyric-time={time}
                     fontSize={settings.fontSize}
                     id={`lyric-${idx}`}
                     key={idx}
-                    onClick={() => {
-                        if (time > 0 && Number.isFinite(time)) {
-                            handleSeek(time / 1000);
-                        }
-                    }}
                     romajiText={romajiLyrics?.[idx]?.[1]}
                     text={text}
                     translatedText={translatedLyrics?.split('\n')[idx]}
