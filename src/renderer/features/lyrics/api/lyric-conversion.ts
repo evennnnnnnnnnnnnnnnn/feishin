@@ -230,7 +230,7 @@ export const alignRomajiTokensToWordCues = (
 
         aligned.push({
             ...word,
-            text: romajiText || word.text,
+            text: romajiText,
         });
     }
 

@@ -115,28 +115,34 @@ export const useRomajiLyrics = (lyrics: LyricsResponse | null | undefined, enabl
     });
 };
 
-export type SyncedRomajiLyrics = (null | SyncedCueLine[])[];
+export type SyncedRomajiLyrics = ((null | SyncedCueLine)[] | null)[];
 
 const buildSyncedRomajiLine = async (
     cueLines: SyncedCueLine[],
-): Promise<null | SyncedCueLine[]> => {
-    const romajiCueLines: SyncedCueLine[] = [];
+): Promise<(null | SyncedCueLine)[]> => {
+    const romajiCueLines: (null | SyncedCueLine)[] = [];
 
     for (const cueLine of cueLines) {
         if (!cueLine.words.length) {
-            romajiCueLines.push({ ...cueLine });
+            romajiCueLines.push(null);
             continue;
         }
 
         if (!lyricsApi) {
-            return null;
+            return cueLines.map(() => null);
         }
 
         const tokens = (await lyricsApi.convertRomajiTokens(cueLine.value)) as RomajiToken[];
+        if (!tokens.length) {
+            romajiCueLines.push(null);
+            continue;
+        }
+
         const alignedWords = alignRomajiTokensToWordCues(cueLine.value, cueLine.words, tokens);
 
         if (!alignedWords) {
-            return null;
+            romajiCueLines.push(null);
+            continue;
         }
 
         romajiCueLines.push({
@@ -170,7 +176,8 @@ export const useSyncedRomajiLyrics = (
                     continue;
                 }
 
-                result.push(await buildSyncedRomajiLine(line.cueLines));
+                const romajiCueLines = await buildSyncedRomajiLine(line.cueLines);
+                result.push(romajiCueLines.some((entry) => entry !== null) ? romajiCueLines : null);
             }
 
             return result;

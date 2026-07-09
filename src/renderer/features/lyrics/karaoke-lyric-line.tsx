@@ -21,7 +21,7 @@ interface KaraokeLyricLineProps extends ComponentPropsWithoutRef<'div'> {
     cueLines: SyncedCueLine[];
     fontSize: number;
     lineIndex: number;
-    romajiCueLines?: null | SyncedCueLine[];
+    romajiCueLines?: (null | SyncedCueLine)[] | null;
     romajiText?: null | string;
     text?: string;
     translatedText?: null | string;
