@@ -111,7 +111,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     const shouldFetchLyrics = !isLyricsDisabled && !!currentSong?._serverId && !!currentSong?.id;
     const isWaitingToFetchLyrics = shouldFetchLyrics && pendingSongId !== currentSong?.id;
 
-    const { data, isFetching, isLoading } = useQuery(
+    const { data, isLoading, isRefetching } = useQuery(
         lyricsQueries.songLyrics(
             {
                 options: {
@@ -383,8 +383,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     }, [data?.local]);
 
     const isLoadingLyrics =
-        shouldFetchLyrics &&
-        (isWaitingToFetchLyrics || isLoading || (isFetching && !displayLyrics));
+        shouldFetchLyrics && (isWaitingToFetchLyrics || isLoading || isRefetching);
     const hasNoLyrics = !displayLyrics;
     const [shouldFadeOut, setShouldFadeOut] = useState(false);
 
