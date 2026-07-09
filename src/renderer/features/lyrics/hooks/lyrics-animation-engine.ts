@@ -456,6 +456,22 @@ const setupLineAnimation = (line: LineData, interpolatedTimeSec: number, now: nu
     line.accumulatedOffsetMs = 0;
 };
 
+const clearLineKaraokeHighlights = (lineData: LineData, interpolatedTimeSec: number): void => {
+    if (lineData.hasWordCues) {
+        for (const part of lineData.parts) {
+            clearPartAnimation(part);
+            clearWordSungState(part);
+            syncRomajiAnimation(part.element, interpolatedTimeSec, 'clear');
+        }
+    } else {
+        clearLineAnimation(lineData);
+    }
+
+    lineData.isSelected = false;
+    lineData.isAnimating = false;
+    lineData.isAnimationPlayStatePlaying = false;
+};
+
 const decaySkipScrolls = (state: ScrollState, now: number): void => {
     let decayCount = 0;
 
@@ -601,6 +617,17 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
     let newLyricSelected = timeJumped;
     let activeLineIndex = -1;
 
+    if (!isPlaying) {
+        for (const lineData of lines) {
+            clearLineKaraokeHighlights(lineData, interpolatedTimeSec);
+
+            if (lineData.isScrolled) {
+                lineData.element.classList.remove(LINE_ACTIVE_CLASS);
+                lineData.isScrolled = false;
+            }
+        }
+    }
+
     for (let index = 0; index < lines.length; index += 1) {
         const lineData = lines[index];
         const time = lineData.time;
@@ -616,7 +643,7 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
             state.selectedElementIndex = index;
             activeLineIndex = index;
 
-            if (!lineData.isScrolled) {
+            if (isPlaying && !lineData.isScrolled) {
                 newLyricSelected = true;
                 state.scroll.pendingScroll = true;
                 lineData.element.classList.add(LINE_ACTIVE_CLASS);
@@ -628,7 +655,11 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
             lineData.isScrolled = false;
         }
 
-        const setUpEarly = isPlaying ? 2 : 0;
+        if (!isPlaying) {
+            continue;
+        }
+
+        const setUpEarly = 2;
         const effectiveEnd = Math.max(nextTime, time + lineData.duration + 0.05);
         const isLineInRange =
             interpolatedTimeSec + setUpEarly >= time && interpolatedTimeSec < effectiveEnd;
@@ -636,34 +667,19 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
         if (isLineInRange) {
             lineData.isSelected = true;
 
-            if (!isPlaying) {
-                if (lineData.hasWordCues) {
-                    for (const part of lineData.parts) {
-                        if (part.isAnimating) {
-                            part.element.classList.add(PAUSED_CLASS);
-                            syncRomajiAnimation(part.element, interpolatedTimeSec, 'pause');
-                        }
-                    }
-                } else if (lineData.isAnimating) {
-                    lineData.element.classList.add(PAUSED_CLASS);
+            if (lineData.hasWordCues) {
+                for (const part of lineData.parts) {
+                    part.element.classList.remove(PAUSED_CLASS);
+                    syncRomajiAnimation(part.element, interpolatedTimeSec, 'resume');
                 }
-
-                lineData.isAnimationPlayStatePlaying = false;
             } else {
-                if (lineData.hasWordCues) {
-                    for (const part of lineData.parts) {
-                        part.element.classList.remove(PAUSED_CLASS);
-                        syncRomajiAnimation(part.element, interpolatedTimeSec, 'resume');
-                    }
-                } else {
-                    lineData.element.classList.remove(PAUSED_CLASS);
-                }
+                lineData.element.classList.remove(PAUSED_CLASS);
+            }
 
-                lineData.isAnimationPlayStatePlaying = true;
+            lineData.isAnimationPlayStatePlaying = true;
 
-                if (!lineData.hasWordCues && !lineData.isAnimating) {
-                    setupLineAnimation(lineData, interpolatedTimeSec, now);
-                }
+            if (!lineData.hasWordCues && !lineData.isAnimating) {
+                setupLineAnimation(lineData, interpolatedTimeSec, now);
             }
 
             if (lineData.hasWordCues) {
@@ -680,7 +696,7 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
                             clearWordSungState(part);
                             syncRomajiAnimation(part.element, interpolatedTimeSec, 'clear');
                         }
-                    } else if (isPlaying && !part.isAnimating) {
+                    } else if (!part.isAnimating) {
                         setupPartAnimation(part, interpolatedTimeSec, now);
                     }
                 }
