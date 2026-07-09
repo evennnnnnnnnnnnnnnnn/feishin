@@ -38,6 +38,8 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
                     : 24,
             gap: displaySettings.gap && displaySettings.gap !== 0 ? displaySettings.gap : 24,
             opacityNonActive: displaySettings.opacityNonActive,
+            paddingLeft: displaySettings.paddingLeft ?? 0,
+            paddingRight: displaySettings.paddingRight ?? 0,
             scaleNonActive:
                 displaySettings.scaleNonActive && displaySettings.scaleNonActive !== 0
                     ? displaySettings.scaleNonActive
@@ -135,9 +137,8 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
                 '--lyric-opacity': settings.opacityNonActive,
                 '--lyric-scale': settings.scaleNonActive,
                 '--lyric-scale-origin': settings.alignment,
-                gap: `${settings.gap}px`,
             }) as React.CSSProperties,
-        [settings.alignment, settings.gap, settings.opacityNonActive, settings.scaleNonActive],
+        [settings.alignment, settings.opacityNonActive, settings.scaleNonActive],
     );
 
     const hideScrollbar = useCallback(() => {

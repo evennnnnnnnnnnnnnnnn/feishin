@@ -9,6 +9,7 @@ import {
     getLyricLineText,
     normalizeLyrics,
 } from '/@/renderer/features/lyrics/api/lyrics-utils';
+import { LyricsScrollContent } from '/@/renderer/features/lyrics/components/lyrics-scroll-content';
 import { useLyricsAnimationEngine } from '/@/renderer/features/lyrics/hooks/use-lyrics-animation-engine';
 import {
     LYRICS_SCROLL_CONTAINER_ID,
@@ -235,50 +236,56 @@ export const SynchronizedLyrics = ({
             ref={containerRef}
             style={{ ...containerStyle, ...style }}
         >
-            {settings.showProvider && source && (
-                <LyricLine
-                    alignment={settings.alignment}
-                    className="lyric-credit"
-                    fontSize={settings.fontSize}
-                    text={`Provided by ${source}`}
-                />
-            )}
-            {settings.showMatch && remote && (
-                <LyricLine
-                    alignment={settings.alignment}
-                    className="lyric-credit"
-                    fontSize={settings.fontSize}
-                    text={`"${name} by ${artist}"`}
-                />
-            )}
-            {normalizedLyrics.map((rawLine, idx) => {
-                const lineStartMs = getLyricLineStartMs(rawLine);
-                const lineText = getLyricLineText(rawLine);
-                const pronunciationText = getOverlayText(
-                    pronunciationLyrics,
-                    lineStartMs,
-                    romajiLyrics?.[idx] ? getLyricLineText(romajiLyrics[idx]) : undefined,
-                );
-                const translationText = getOverlayText(
-                    translationLyrics,
-                    lineStartMs,
-                    translatedLyrics?.split('\n')[idx],
-                );
-
-                return (
+            <LyricsScrollContent
+                gap={settings.gap}
+                paddingLeft={settings.paddingLeft}
+                paddingRight={settings.paddingRight}
+            >
+                {settings.showProvider && source && (
                     <LyricLine
                         alignment={settings.alignment}
-                        className="lyric-line synchronized"
-                        data-lyric-time={lineStartMs}
+                        className="lyric-credit"
                         fontSize={settings.fontSize}
-                        id={`lyric-${idx}`}
-                        key={idx}
-                        romajiText={pronunciationText}
-                        text={lineText}
-                        translatedText={translationText}
+                        text={`Provided by ${source}`}
                     />
-                );
-            })}
+                )}
+                {settings.showMatch && remote && (
+                    <LyricLine
+                        alignment={settings.alignment}
+                        className="lyric-credit"
+                        fontSize={settings.fontSize}
+                        text={`"${name} by ${artist}"`}
+                    />
+                )}
+                {normalizedLyrics.map((rawLine, idx) => {
+                    const lineStartMs = getLyricLineStartMs(rawLine);
+                    const lineText = getLyricLineText(rawLine);
+                    const pronunciationText = getOverlayText(
+                        pronunciationLyrics,
+                        lineStartMs,
+                        romajiLyrics?.[idx] ? getLyricLineText(romajiLyrics[idx]) : undefined,
+                    );
+                    const translationText = getOverlayText(
+                        translationLyrics,
+                        lineStartMs,
+                        translatedLyrics?.split('\n')[idx],
+                    );
+
+                    return (
+                        <LyricLine
+                            alignment={settings.alignment}
+                            className="lyric-line synchronized"
+                            data-lyric-time={lineStartMs}
+                            fontSize={settings.fontSize}
+                            id={`lyric-${idx}`}
+                            key={idx}
+                            romajiText={pronunciationText}
+                            text={lineText}
+                            translatedText={translationText}
+                        />
+                    );
+                })}
+            </LyricsScrollContent>
         </div>
     );
 };
