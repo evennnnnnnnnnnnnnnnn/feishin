@@ -108,7 +108,10 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         return queryKeys.songs.lyrics(currentSong._serverId, { songId: currentSong.id });
     }, [currentSong]);
 
-    const { data, isLoading } = useQuery(
+    const shouldFetchLyrics = !isLyricsDisabled && !!currentSong?._serverId && !!currentSong?.id;
+    const isWaitingToFetchLyrics = shouldFetchLyrics && pendingSongId !== currentSong?.id;
+
+    const { data, isFetching, isLoading } = useQuery(
         lyricsQueries.songLyrics(
             {
                 options: {
@@ -379,7 +382,9 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         return [];
     }, [data?.local]);
 
-    const isLoadingLyrics = isLoading && !isLyricsDisabled;
+    const isLoadingLyrics =
+        shouldFetchLyrics &&
+        (isWaitingToFetchLyrics || isLoading || (isFetching && !displayLyrics));
     const hasNoLyrics = !displayLyrics;
     const [shouldFadeOut, setShouldFadeOut] = useState(false);
 
@@ -431,7 +436,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 ) : (
                     <AnimatePresence mode="sync">
                         {hasNoLyrics ? (
-                            <Center w="100%">
+                            <Center flex={1} w="100%">
                                 <motion.div
                                     animate={{ opacity: shouldFadeOut ? 0 : 1 }}
                                     initial={{ opacity: 1 }}
