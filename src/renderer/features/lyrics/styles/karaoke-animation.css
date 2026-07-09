@@ -75,6 +75,11 @@
     animation-play-state: running;
 }
 
+.karaoke-word.karaoke-furigana-word.lyrics-word-animating {
+    transform: none;
+    animation: none;
+}
+
 .karaoke-word.lyrics-word-animating.lyrics-word-paused {
     animation-play-state: paused;
 }
