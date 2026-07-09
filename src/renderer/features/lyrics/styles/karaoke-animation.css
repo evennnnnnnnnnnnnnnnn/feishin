@@ -11,45 +11,39 @@
     initial-value: 0;
 }
 
-/* Container-level line context blur/fade (karaoke + line sync) */
-.synchronized-karaoke-lyrics:has(.lyrics-line-active):not(.lyrics-user-scrolling)
-    > :is(.karaoke-line, .lyric-line):not(
+/* Container-level line context blur/fade (karaoke sync only) */
+.synchronized-karaoke-lyrics:has(.lyrics-line-active)
+    :is(.karaoke-line, .lyric-line):not(
         .lyrics-line-active,
         .lyrics-line-active ~ :is(.karaoke-line, .lyric-line)
-    ),
-.synchronized-lyrics:has(.lyrics-line-active):not(.lyrics-user-scrolling)
-    > .lyric-line:not(.lyrics-line-active, .lyrics-line-active ~ .lyric-line) {
-    opacity: 0.33;
+    ) {
+    opacity: var(--lyric-opacity, 0.3);
     filter: blur(2.5px);
 }
 
-.synchronized-karaoke-lyrics > :is(.karaoke-line, .lyric-line).lyrics-line-active,
-.synchronized-lyrics > .lyric-line.lyrics-line-active {
+.synchronized-karaoke-lyrics :is(.karaoke-line, .lyric-line).lyrics-line-active {
     opacity: 1 !important;
     filter: blur(0);
 }
 
 .synchronized-karaoke-lyrics:has(.lyrics-line-active)
-    > :is(.karaoke-line, .lyric-line).lyrics-line-active
-    ~ :is(.karaoke-line, .lyric-line),
-.synchronized-lyrics:has(.lyrics-line-active) > .lyric-line.lyrics-line-active ~ .lyric-line {
-    opacity: 0.66;
+    :is(.karaoke-line, .lyric-line).lyrics-line-active
+    ~ :is(.karaoke-line, .lyric-line) {
+    opacity: var(--lyric-opacity, 0.3);
     filter: blur(0);
 }
 
-.synchronized-karaoke-lyrics > :is(.karaoke-line, .lyric-line).lyrics-line-animating,
-.synchronized-lyrics > .lyric-line.lyrics-line-animating {
+.synchronized-karaoke-lyrics :is(.karaoke-line, .lyric-line).lyrics-line-animating {
     opacity: 1 !important;
     filter: blur(0) !important;
 }
 
-.synchronized-karaoke-lyrics > :is(.karaoke-line, .lyric-line):hover,
-.synchronized-lyrics > .lyric-line:hover {
+.synchronized-karaoke-lyrics :is(.karaoke-line, .lyric-line):hover {
     opacity: 1 !important;
     filter: blur(0) !important;
 }
 
-/* Word highlight via ::after pseudo-element gradient swipe */
+/* Word highlight via stacked text twin + gradient swipe */
 .karaoke-word {
     position: relative;
     display: inline-block;
@@ -57,127 +51,19 @@
     color: rgb(from var(--theme-colors-foreground) r g b / var(--lyric-opacity, 0.3));
     overflow-wrap: break-word;
     white-space: pre-wrap;
-    transform: translateY(0);
+}
+
+.karaoke-word:has(.karaoke-word-highlight) {
+    display: inline-grid;
+    vertical-align: baseline;
 }
 
 .karaoke-word.sung {
     color: var(--theme-colors-foreground);
 }
 
-.karaoke-line.lyrics-line-pre-animating,
-.karaoke-line.lyrics-line-pre-animating .karaoke-word {
+.karaoke-line.lyrics-line-pre-animating {
     will-change: transform;
-}
-
-.karaoke-word.lyrics-word-animating {
-    animation: karaoke-wobble var(--karaoke-wobble-duration, 1s) forwards ease;
-    animation-delay: var(--karaoke-anim-delay, 0s);
-    animation-play-state: running;
-}
-
-.karaoke-word.karaoke-furigana-word.lyrics-word-animating {
-    transform: none;
-    animation: none;
-}
-
-.karaoke-word.lyrics-word-animating.lyrics-word-paused {
-    animation-play-state: paused;
-}
-
-.karaoke-word::after {
-    position: absolute;
-    top: -2rem;
-    left: -2rem;
-    box-sizing: content-box;
-    width: 100%;
-    padding: 2rem;
-    color: transparent;
-    white-space: pre-wrap;
-    pointer-events: none;
-    content: attr(data-content);
-    background-image: linear-gradient(
-        90deg,
-        var(--theme-colors-foreground)
-            calc(
-                100% * var(--lyric-transition-amount-start) - 4rem *
-                    var(--lyric-transition-amount-start) + 2rem
-            ),
-        #0000
-            calc(
-                100% * var(--lyric-transition-amount-end) - 4rem *
-                    var(--lyric-transition-amount-end) + 2rem + 1px
-            )
-    );
-    background-clip: text;
-    opacity: 0;
-    transition:
-        --lyric-transition-amount-start 1s linear 1000s,
-        --lyric-transition-amount-end 1s linear 1000s,
-        opacity 0.5s ease;
-
-    --lyric-transition-amount-start: -0.2;
-    --lyric-transition-amount-end: -0.1;
-    --karaoke-glow-color: color(display-p3 1 1 1 / 0.01%);
-}
-
-.karaoke-word[data-long-word]::after {
-    --karaoke-glow-color: color(display-p3 1 1 1 / 100%);
-}
-
-.karaoke-word.lyrics-word-pre-animating:not(.lyrics-word-animating)::after {
-    opacity: 0;
-    transition: none;
-
-    --lyric-transition-amount-start: -0.2;
-    --lyric-transition-amount-end: -0.1;
-}
-
-.karaoke-word.lyrics-word-pre-animating:not(.lyrics-word-animating, .karaoke-zero-dur)::after {
-    opacity: 1;
-}
-
-.karaoke-word.lyrics-word-animating::after {
-    opacity: 1;
-    transition-delay:
-        var(--karaoke-swipe-delay, 0s), var(--karaoke-swipe-delay, 0s),
-        var(--karaoke-anim-delay, 0s);
-    transition-timing-function: linear, linear, ease;
-    transition-duration:
-        calc(var(--karaoke-duration, 1ms) * 1.6), calc(var(--karaoke-duration, 1ms) * 1.6),
-        var(--karaoke-highlight-fade-in-duration, 0.33s);
-    transition-property: --lyric-transition-amount-start, --lyric-transition-amount-end, opacity;
-    animation: karaoke-glow calc(var(--karaoke-duration, 1ms) * 1.6) forwards ease-out;
-    animation-delay: var(--karaoke-anim-delay, 0s);
-    animation-play-state: running;
-    will-change: --lyric-transition-amount-start, --lyric-transition-amount-end, opacity;
-
-    --lyric-transition-amount-start: 1.4;
-    --lyric-transition-amount-end: 1.5;
-}
-
-.karaoke-word.lyrics-word-animating.lyrics-word-paused::after {
-    opacity: 0.5;
-    transition-duration: 100000000s, 100000000s, 100000000s;
-    animation-play-state: paused;
-
-    --lyric-transition-amount-start: 10;
-    --lyric-transition-amount-end: 10;
-}
-
-.karaoke-word.karaoke-rtl::after {
-    background-image: linear-gradient(
-        270deg,
-        var(--theme-colors-foreground)
-            calc(
-                100% * var(--lyric-transition-amount-start) - 4rem *
-                    var(--lyric-transition-amount-start) + 2rem
-            ),
-        #0000
-            calc(
-                100% * var(--lyric-transition-amount-end) - 4rem *
-                    var(--lyric-transition-amount-end) + 2rem + 1px
-            )
-    );
 }
 
 .karaoke-word.karaoke-bg-vocal {
@@ -190,62 +76,12 @@
     font-weight: 600;
 }
 
-.karaoke-word.karaoke-romaji-word::after {
-    top: -1.25em;
-    left: -1.25em;
-    padding: 1.25em;
-    background-image: linear-gradient(
-        90deg,
-        var(--theme-colors-foreground)
-            calc(
-                100% * var(--lyric-transition-amount-start) - 2.5em *
-                    var(--lyric-transition-amount-start) + 1.25em
-            ),
-        #0000
-            calc(
-                100% * var(--lyric-transition-amount-end) - 2.5em *
-                    var(--lyric-transition-amount-end) + 1.25em + 1px
-            )
-    );
-}
-
-.karaoke-word.karaoke-romaji-word.karaoke-rtl::after {
-    background-image: linear-gradient(
-        270deg,
-        var(--theme-colors-foreground)
-            calc(
-                100% * var(--lyric-transition-amount-start) - 2.5em *
-                    var(--lyric-transition-amount-start) + 1.25em
-            ),
-        #0000
-            calc(
-                100% * var(--lyric-transition-amount-end) - 2.5em *
-                    var(--lyric-transition-amount-end) + 1.25em + 1px
-            )
-    );
-}
-
-/* Furigana words use an HTML highlight twin instead of ::after */
-.karaoke-word:has(.karaoke-word-highlight) {
-    display: inline-block;
-}
-
-.karaoke-word:has(.karaoke-word-highlight)::after {
-    display: none;
-    content: none;
-    opacity: 0;
-}
-
-.karaoke-word-text {
-    display: inline;
+.karaoke-word-text,
+.karaoke-word-highlight {
+    grid-area: 1 / 1;
 }
 
 .karaoke-word-highlight {
-    position: absolute;
-    inset: 0;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0;
     color: transparent;
     overflow-wrap: break-word;
     white-space: pre-wrap;
@@ -264,11 +100,6 @@
 
     --lyric-transition-amount-start: -0.2;
     --lyric-transition-amount-end: -0.1;
-    --karaoke-glow-color: color(display-p3 1 1 1 / 0.01%);
-}
-
-.karaoke-word[data-long-word] .karaoke-word-highlight {
-    --karaoke-glow-color: color(display-p3 1 1 1 / 100%);
 }
 
 .karaoke-word.lyrics-word-pre-animating:not(.lyrics-word-animating) .karaoke-word-highlight {
@@ -294,9 +125,6 @@
         calc(var(--karaoke-duration, 1ms) * 1.6), calc(var(--karaoke-duration, 1ms) * 1.6),
         var(--karaoke-highlight-fade-in-duration, 0.33s);
     transition-property: --lyric-transition-amount-start, --lyric-transition-amount-end, opacity;
-    animation: karaoke-glow calc(var(--karaoke-duration, 1ms) * 1.6) forwards ease-out;
-    animation-delay: var(--karaoke-anim-delay, 0s);
-    animation-play-state: running;
     will-change: --lyric-transition-amount-start, --lyric-transition-amount-end, opacity;
 
     --lyric-transition-amount-start: 1.4;
@@ -306,7 +134,6 @@
 .karaoke-word.lyrics-word-animating.lyrics-word-paused .karaoke-word-highlight {
     opacity: 0.5;
     transition-duration: 100000000s, 100000000s, 100000000s;
-    animation-play-state: paused;
 
     --lyric-transition-amount-start: 10;
     --lyric-transition-amount-end: 10;
@@ -337,24 +164,4 @@
 
 .karaoke-word ruby rp {
     display: none;
-}
-
-@keyframes karaoke-wobble {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(-0.0375em);
-    }
-}
-
-@keyframes karaoke-glow {
-    0% {
-        filter: drop-shadow(0 0 0.8rem var(--karaoke-glow-color));
-    }
-
-    100% {
-        filter: drop-shadow(0 0 0 var(--karaoke-glow-color));
-    }
 }

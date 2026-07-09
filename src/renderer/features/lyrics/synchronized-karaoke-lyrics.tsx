@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import styles from './synchronized-karaoke-lyrics.module.css';
 
+import '/@/renderer/features/lyrics/styles/karaoke-animation.css';
 import {
     findOverlayLineByTime,
     getLyricLineStartMs,

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import styles from './synchronized-lyrics.module.css';
 
+import '/@/renderer/features/lyrics/styles/synchronized-lyrics-animation.css';
 import {
     findOverlayLineByTime,
     getLyricLineStartMs,

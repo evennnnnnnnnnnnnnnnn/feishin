@@ -127,9 +127,6 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
     const resumeAutoscroll = useCallback(() => {
         userScrollingRef.current = false;
         resumeLyricsAutoscroll(scrollAnimStateRef.current);
-
-        const doc = document.getElementById(LYRICS_SCROLL_CONTAINER_ID) as HTMLElement;
-        doc?.classList.remove('lyrics-user-scrolling');
     }, []);
 
     const containerStyle = useMemo(
@@ -198,7 +195,6 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
 
             userScrollingRef.current = true;
             handleLyricsUserScroll(scrollAnimStateRef.current);
-            container.classList.add('lyrics-user-scrolling');
 
             if (scrollTimeoutRef.current) {
                 clearTimeout(scrollTimeoutRef.current);
@@ -206,7 +202,6 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
 
             scrollTimeoutRef.current = setTimeout(() => {
                 userScrollingRef.current = false;
-                container.classList.remove('lyrics-user-scrolling');
             }, 3000);
         };
 

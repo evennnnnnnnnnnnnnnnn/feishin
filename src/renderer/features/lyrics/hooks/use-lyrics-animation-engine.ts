@@ -13,7 +13,6 @@ import {
     tickLyricsAnimation,
 } from '/@/renderer/features/lyrics/hooks/lyrics-animation-engine';
 import { SynchronizedLyrics } from '/@/shared/types/domain-types';
-import '/@/renderer/features/lyrics/styles/karaoke-animation.css';
 
 export interface UseLyricsAnimationEngineOptions {
     animStateRef?: React.MutableRefObject<AnimEngineState>;

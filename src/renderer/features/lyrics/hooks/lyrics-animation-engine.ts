@@ -22,7 +22,7 @@ const DEFAULT_ENDING_THRESHOLD = 0.5;
 const DEFAULT_LINE_LEAD_TIME_MS = 800;
 const RICHSYNC_TIMING_OFFSET_MS = 150;
 const SYNC_TIMING_OFFSET_MS = 115;
-const GLOW_DURATION_MULTIPLIER = 1.6;
+const HIGHLIGHT_DURATION_MULTIPLIER = 1.6;
 
 export interface AnimEngineState {
     lastActiveElements: LineData[];
@@ -58,6 +58,7 @@ export interface LineData {
 
 export interface LyricsData {
     container: HTMLElement;
+    lineIdPrefix: 'karaoke-line' | 'lyric';
     lines: LineData[];
     syncType: LyricsSyncType;
 }
@@ -199,14 +200,14 @@ const completeSungVisualCleanup = (element: HTMLElement): void => {
     element.classList.remove(PAUSED_CLASS);
 };
 
-const getRemainingGlowDurationSec = (
+const getRemainingHighlightDurationSec = (
     durationSec: number,
     startTimeSec: number,
     interpolatedTimeSec: number,
 ): number => {
-    const glowDurationSec = durationSec * GLOW_DURATION_MULTIPLIER;
+    const highlightDurationSec = durationSec * HIGHLIGHT_DURATION_MULTIPLIER;
     const elapsedSec = Math.max(0, interpolatedTimeSec - startTimeSec);
-    return Math.max(0, glowDurationSec - elapsedSec);
+    return Math.max(0, highlightDurationSec - elapsedSec);
 };
 
 const scheduleSungAnimationCleanup = (
@@ -215,7 +216,7 @@ const scheduleSungAnimationCleanup = (
     startTimeSec: number,
     interpolatedTimeSec: number,
 ): void => {
-    const remainingSec = getRemainingGlowDurationSec(
+    const remainingSec = getRemainingHighlightDurationSec(
         durationSec,
         startTimeSec,
         interpolatedTimeSec,
@@ -373,6 +374,7 @@ export const buildLyricsDataFromDom = ({
 
     return {
         container,
+        lineIdPrefix,
         lines,
         syncType,
     };
@@ -612,7 +614,8 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
     const interpolatedTimeSec = playbackTimeSec + timingOffsetMs / 1000;
     const leadTimeSec = (opts.lineLeadTimeMs ?? DEFAULT_LINE_LEAD_TIME_MS) / 1000;
 
-    const { lines, syncType } = lyricsData;
+    const { lineIdPrefix, lines, syncType } = lyricsData;
+    const isLineSyncMode = lineIdPrefix === 'lyric';
     if (syncType === 'none') {
         return -1;
     }
@@ -638,12 +641,16 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
         const time = lineData.time;
         const nextTime =
             index + 1 < lines.length ? lines[index + 1].time : Number.POSITIVE_INFINITY;
+        const isInLineWindow =
+            playbackTimeSec < nextTime || playbackTimeSec < time + lineData.duration;
 
-        const isUpcoming =
-            playbackTimeSec >= time - leadTimeSec &&
-            (playbackTimeSec < nextTime || playbackTimeSec < time + lineData.duration);
+        const isScrollCandidate = playbackTimeSec >= time - leadTimeSec && isInLineWindow;
 
-        if (isUpcoming) {
+        const isVisuallyActive = isLineSyncMode
+            ? playbackTimeSec >= time && isInLineWindow
+            : isScrollCandidate;
+
+        if (isScrollCandidate) {
             activeElems.push(lineData);
             state.selectedElementIndex = index;
             activeLineIndex = index;
@@ -651,16 +658,34 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
             if (isPlaying && !lineData.isScrolled) {
                 newLyricSelected = true;
                 state.scroll.pendingScroll = true;
-                lineData.element.classList.add(LINE_ACTIVE_CLASS);
                 lineData.isScrolled = true;
                 onLineActive?.(index);
+
+                if (!isLineSyncMode) {
+                    lineData.element.classList.add(LINE_ACTIVE_CLASS);
+                }
             }
         } else if (lineData.isScrolled) {
-            lineData.element.classList.remove(LINE_ACTIVE_CLASS);
             lineData.isScrolled = false;
+
+            if (!isLineSyncMode) {
+                lineData.element.classList.remove(LINE_ACTIVE_CLASS);
+            }
+        }
+
+        if (isLineSyncMode) {
+            if (isVisuallyActive) {
+                lineData.element.classList.add(LINE_ACTIVE_CLASS);
+            } else {
+                lineData.element.classList.remove(LINE_ACTIVE_CLASS);
+            }
         }
 
         if (!isPlaying) {
+            continue;
+        }
+
+        if (isLineSyncMode && !lineData.hasWordCues) {
             continue;
         }
 

@@ -99,29 +99,18 @@ const renderWordSpans = (
             ...(durationMs > LONG_WORD_THRESHOLD_MS ? { 'data-long-word': true as const } : {}),
         };
 
-        if (hasFurigana) {
-            return (
-                <span key={wordKey} {...wordProps}>
-                    <span
-                        className="karaoke-word-text"
-                        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-                    />
-                    <span
-                        aria-hidden
-                        className="karaoke-word-highlight"
-                        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-                    />
-                </span>
-            );
-        }
-
         return (
-            <span
-                key={wordKey}
-                {...wordProps}
-                dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-                data-content={word.text}
-            />
+            <span key={wordKey} {...wordProps}>
+                <span
+                    className="karaoke-word-text"
+                    dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+                />
+                <span
+                    aria-hidden
+                    className="karaoke-word-highlight"
+                    dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+                />
+            </span>
         );
     });
 };
