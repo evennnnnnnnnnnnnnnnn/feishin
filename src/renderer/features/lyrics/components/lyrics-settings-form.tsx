@@ -214,6 +214,23 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
         },
         {
             control: (
+                <Slider
+                    defaultValue={lyricsSettings.followScrollAlignment ?? 0}
+                    label={(value) => value.toString()}
+                    max={50}
+                    min={-50}
+                    onChangeEnd={(value) => {
+                        updateLyricsSetting({ followScrollAlignment: value });
+                    }}
+                    step={1}
+                    w={100}
+                />
+            ),
+            description: '',
+            title: t('page.fullscreenPlayer.config.lyricFollowScrollAlignment'),
+        },
+        {
+            control: (
                 <NumberInput
                     defaultValue={lyricsSettings.lineLeadTimeMs}
                     max={3000}

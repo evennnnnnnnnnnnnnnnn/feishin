@@ -20,6 +20,7 @@ export interface UseLyricsAnimationEngineOptions {
     containerRef: React.RefObject<HTMLElement | null>;
     enabled?: boolean;
     followRef?: React.RefObject<boolean>;
+    followScrollAlignmentRef?: React.RefObject<number>;
     lineIdPrefix: 'karaoke-line' | 'lyric';
     lineLeadTimeMsRef?: React.RefObject<number>;
     lyrics: SynchronizedLyrics;
@@ -32,6 +33,7 @@ export const useLyricsAnimationEngine = ({
     containerRef,
     enabled = true,
     followRef,
+    followScrollAlignmentRef,
     lineIdPrefix,
     lineLeadTimeMsRef,
     lyrics,
@@ -116,6 +118,7 @@ export const useLyricsAnimationEngine = ({
                 currentTimeMs,
                 eventCreationTime: options?.eventCreationTime ?? Date.now(),
                 follow: followRef?.current ?? true,
+                followScrollAlignment: followScrollAlignmentRef?.current ?? 0,
                 forceResync: options?.forceResync ?? false,
                 isPlaying,
                 lineLeadTimeMs: lineLeadTimeMsRef?.current,

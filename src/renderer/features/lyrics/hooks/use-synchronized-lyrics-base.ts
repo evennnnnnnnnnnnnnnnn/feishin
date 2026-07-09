@@ -51,6 +51,7 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
     const effectiveOffsetMs = offsetMs ?? 0;
     const delayMsRef = useRef(effectiveOffsetMs);
     const followRef = useRef(settings.follow);
+    const followScrollAlignmentRef = useRef(settings.followScrollAlignment);
     const lineLeadTimeMsRef = useRef(settings.lineLeadTimeMs);
     const userScrollingRef = useRef(false);
     const scrollTimeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
@@ -156,6 +157,10 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
     }, [settings.follow]);
 
     useEffect(() => {
+        followScrollAlignmentRef.current = settings.followScrollAlignment;
+    }, [settings.followScrollAlignment]);
+
+    useEffect(() => {
         lineLeadTimeMsRef.current = settings.lineLeadTimeMs;
     }, [settings.lineLeadTimeMs]);
 
@@ -224,6 +229,7 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
         containerStyle,
         delayMsRef,
         followRef,
+        followScrollAlignmentRef,
         handleLineClick,
         handleSeek,
         hideScrollbar,

@@ -548,6 +548,7 @@
                 "dynamicImageBlur": "Image blur size",
                 "dynamicIsImage": "Enable background image",
                 "followCurrentLyric": "Follow current lyric",
+                "lyricFollowScrollAlignment": "Lyrics follow alignment",
                 "lyricAlignment": "Lyric alignment",
                 "lyricOffset": "Lyrics offset (ms)",
                 "lyricGap": "Lyric gap",

@@ -17,9 +17,9 @@ const LINE_ANIMATING_CLASS = 'lyrics-line-animating';
 const LINE_PRE_ANIMATING_CLASS = 'lyrics-line-pre-animating';
 
 const TIME_JUMP_THRESHOLD = 0.5;
+const CENTER_SCROLL_POS_RATIO = 0.5;
 const DEFAULT_ENDING_THRESHOLD = 0.5;
 const DEFAULT_LINE_LEAD_TIME_MS = 800;
-const DEFAULT_SCROLL_POS_RATIO = 0.37;
 const RICHSYNC_TIMING_OFFSET_MS = 150;
 const SYNC_TIMING_OFFSET_MS = 115;
 const GLOW_DURATION_MULTIPLIER = 1.6;
@@ -90,6 +90,7 @@ export interface TickOptions {
     currentTimeMs: number;
     eventCreationTime: number;
     follow?: boolean;
+    followScrollAlignment?: number;
     forceResync?: boolean;
     isPlaying: boolean;
     lineLeadTimeMs?: number;
@@ -98,6 +99,10 @@ export interface TickOptions {
     scrollContainer: HTMLElement;
     smoothScroll?: boolean;
 }
+
+export const getFollowScrollPositionRatio = (followScrollAlignment = 0): number => {
+    return Math.min(0.95, Math.max(0.05, CENTER_SCROLL_POS_RATIO + followScrollAlignment / 100));
+};
 
 const reflow = (element: HTMLElement): void => {
     void element.offsetHeight;
@@ -735,7 +740,8 @@ export const tickLyricsAnimation = (state: AnimEngineState, opts: TickOptions): 
         state.lastActiveElements = activeElems.filter((entry) => playbackTimeSec >= entry.time);
 
         if (activeElems.length > 0) {
-            const scrollPosOffset = scrollHeight * DEFAULT_SCROLL_POS_RATIO;
+            const scrollPosRatio = getFollowScrollPositionRatio(opts.followScrollAlignment);
+            const scrollPosOffset = scrollHeight * scrollPosRatio;
             const lastActive = activeElems[activeElems.length - 1];
             const useLastActiveOnly = newLyricSelected || activeElems.length > 1;
             const scrollLines = useLastActiveOnly ? [lastActive] : activeElems;

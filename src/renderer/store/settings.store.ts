@@ -584,6 +584,7 @@ const LyricsSettingsSchema = z.object({
     enableRomaji: z.boolean().optional(),
     fetch: z.boolean(),
     follow: z.boolean(),
+    followScrollAlignment: z.number(),
     lineLeadTimeMs: z.number(),
     preferLocalLyrics: z.boolean(),
     showMatch: z.boolean(),
@@ -1858,6 +1859,7 @@ const initialState: SettingsState = {
         enableRomaji: false,
         fetch: true,
         follow: true,
+        followScrollAlignment: 0,
         lineLeadTimeMs: 800,
         preferLocalLyrics: true,
         showMatch: true,
@@ -2558,10 +2560,16 @@ export const useSettingsStore = createWithEqualityFn<SettingsSlice>()(
                     }
                 }
 
+                if (version < 31) {
+                    if (state.lyrics.followScrollAlignment === undefined) {
+                        state.lyrics.followScrollAlignment = 0;
+                    }
+                }
+
                 return persistedState;
             },
             name: 'store_settings',
-            version: 30,
+            version: 31,
         },
     ),
 );
