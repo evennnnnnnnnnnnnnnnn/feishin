@@ -21,10 +21,14 @@ export interface UseLyricsAnimationEngineOptions {
     enabled?: boolean;
     followRef?: React.RefObject<boolean>;
     followScrollAlignmentRef?: React.RefObject<number>;
+    fontSize?: number;
+    gap?: number;
     lineIdPrefix: 'karaoke-line' | 'lyric';
     lineLeadTimeMsRef?: React.RefObject<number>;
     lyrics: SynchronizedLyrics;
     onLineActive?: (lineIndex: number) => void;
+    paddingLeft?: number;
+    paddingRight?: number;
     scrollContainerId: string;
 }
 
@@ -34,10 +38,14 @@ export const useLyricsAnimationEngine = ({
     enabled = true,
     followRef,
     followScrollAlignmentRef,
+    fontSize,
+    gap,
     lineIdPrefix,
     lineLeadTimeMsRef,
     lyrics,
     onLineActive,
+    paddingLeft,
+    paddingRight,
     scrollContainerId,
 }: UseLyricsAnimationEngineOptions) => {
     const internalAnimStateRef = useRef<AnimEngineState>(createAnimEngineState());
@@ -83,6 +91,7 @@ export const useLyricsAnimationEngine = ({
     const recalculatePositions = useCallback(() => {
         if (lyricsDataRef.current) {
             recalculateLinePositions(lyricsDataRef.current);
+            animStateRef.current.scroll.pendingScroll = true;
             animStateRef.current.scroll.wasUserScrolling = true;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps -- animStateRef is read via .current at call time
@@ -150,19 +159,50 @@ export const useLyricsAnimationEngine = ({
     }, [lyrics, enabled, rebuildLyricsData, reset]);
 
     useEffect(() => {
+        const frame = requestAnimationFrame(() => {
+            recalculatePositions();
+        });
+
+        return () => {
+            cancelAnimationFrame(frame);
+        };
+    }, [fontSize, gap, paddingLeft, paddingRight, recalculatePositions]);
+
+    useEffect(() => {
         const container = containerRef.current;
         if (!container) {
             return;
         }
 
+        const observedElements = new Set<Element>();
+
         const observer = new ResizeObserver(() => {
             recalculatePositions();
         });
 
-        observer.observe(container);
+        const observeLayoutTargets = () => {
+            if (!observedElements.has(container)) {
+                observer.observe(container);
+                observedElements.add(container);
+            }
+
+            const content = container.firstElementChild;
+            if (content && !observedElements.has(content)) {
+                observer.observe(content);
+                observedElements.add(content);
+            }
+        };
+
+        observeLayoutTargets();
+
+        const mutationObserver = new MutationObserver(() => {
+            observeLayoutTargets();
+        });
+        mutationObserver.observe(container, { childList: true });
 
         return () => {
             observer.disconnect();
+            mutationObserver.disconnect();
         };
     }, [containerRef, recalculatePositions]);
 

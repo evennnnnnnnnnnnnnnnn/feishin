@@ -94,9 +94,13 @@ export const SynchronizedKaraokeLyrics = ({
         containerRef,
         followRef,
         followScrollAlignmentRef,
+        fontSize: settings.fontSize,
+        gap: settings.gap,
         lineIdPrefix: 'karaoke-line',
         lineLeadTimeMsRef,
         lyrics: normalizedLyrics,
+        paddingLeft: settings.paddingLeft,
+        paddingRight: settings.paddingRight,
         scrollContainerId: LYRICS_SCROLL_CONTAINER_ID,
     });
 

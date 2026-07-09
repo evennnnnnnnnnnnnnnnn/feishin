@@ -82,9 +82,13 @@ export const SynchronizedLyrics = ({
         containerRef,
         followRef,
         followScrollAlignmentRef,
+        fontSize: settings.fontSize,
+        gap: settings.gap,
         lineIdPrefix: 'lyric',
         lineLeadTimeMsRef,
         lyrics: normalizedLyrics,
+        paddingLeft: settings.paddingLeft,
+        paddingRight: settings.paddingRight,
         scrollContainerId: LYRICS_SCROLL_CONTAINER_ID,
     });
 
