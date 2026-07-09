@@ -551,6 +551,7 @@
                 "lyricAlignment": "Lyric alignment",
                 "lyricOffset": "Lyrics offset (ms)",
                 "lyricGap": "Lyric gap",
+                "lyricLineLeadTime": "Line lead time (ms)",
                 "lyricSize": "Lyric size",
                 "lyricOpacityNonActive": "Non-active lyric opacity",
                 "lyricScaleNonActive": "Non-active lyric scale",

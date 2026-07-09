@@ -4,9 +4,9 @@
     flex-direction: column;
     width: 100%;
     min-height: 0;
-    padding: 10vh 0 6vh;
+    padding: 10vh 0 50vh;
     overflow: hidden auto;
-    transform: translateY(-2rem);
+    word-break: break-all;
 
     @media screen and (orientation: portrait) {
         padding: 5vh 0;

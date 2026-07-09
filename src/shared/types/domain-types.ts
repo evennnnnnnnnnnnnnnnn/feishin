@@ -1349,17 +1349,25 @@ export type InternetProviderLyricSearchResponse = {
     source: LyricSource;
 };
 
+export type LyricAgent = {
+    id: string;
+    name?: string;
+    role: 'bg' | 'group' | 'main' | 'voice';
+};
+
 export type LyricOverride = Omit<InternetProviderLyricResponse, 'lyrics'>;
 
 export type LyricsArgs = BaseEndpointArgs & {
     query: LyricsQuery;
 };
 
+export type LyricsKind = 'main' | 'pronunciation' | 'translation';
+
 export type LyricsQuery = {
     songId: string;
 };
 
-export type LyricsResponse = string | SynchronizedLyricsArray;
+export type LyricsResponse = string | SynchronizedLyrics;
 
 export type RandomSongListArgs = BaseEndpointArgs & {
     query: RandomSongListQuery;
@@ -1435,7 +1443,34 @@ export type SearchSongsQuery = {
     songStartIndex?: number;
 };
 
-export type SynchronizedLyricsArray = Array<[number, string]>;
+export type SyncedCueLine = {
+    agentId?: string;
+    endMs: number;
+    index: number;
+    startMs: number;
+    value: string;
+    words: SyncedWordCue[];
+};
+
+export type SyncedWordCue = {
+    endMs: number;
+    startMs: number;
+    text: string;
+};
+
+export type SynchronizedLyricLine = {
+    cueLines?: SyncedCueLine[];
+    startMs: number;
+    text: string;
+};
+
+export type SynchronizedLyrics = SynchronizedLyricLine[];
+
+/** @deprecated Use SynchronizedLyrics instead */
+export type SynchronizedLyricsArray = SynchronizedLyrics;
+
+/** @deprecated Use SynchronizedLyrics instead */
+export type SynchronizedLyricsLineTuple = [number, string];
 
 export type TopSongListArgs = BaseEndpointArgs & { query: TopSongListQuery };
 
@@ -1825,7 +1860,9 @@ export type StructuredLyricsArgs = BaseEndpointArgs & {
 };
 
 export type StructuredSyncedLyric = Omit<FullLyricsMetadata, 'lyrics'> & {
-    lyrics: SynchronizedLyricsArray;
+    agents?: LyricAgent[];
+    kind?: LyricsKind;
+    lyrics: SynchronizedLyrics;
     synced: true;
 };
 

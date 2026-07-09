@@ -180,6 +180,23 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
         },
         {
             control: (
+                <NumberInput
+                    defaultValue={lyricsSettings.lineLeadTimeMs}
+                    max={3000}
+                    min={0}
+                    onBlur={(e) => {
+                        const value = Number(e.currentTarget.value);
+                        updateLyricsSetting({ lineLeadTimeMs: value });
+                    }}
+                    step={50}
+                    width={100}
+                />
+            ),
+            description: '',
+            title: t('page.fullscreenPlayer.config.lyricLineLeadTime'),
+        },
+        {
+            control: (
                 <Slider
                     defaultValue={displaySettings.opacityNonActive}
                     label={(e) => (e * 100).toFixed(0) + '%'}
