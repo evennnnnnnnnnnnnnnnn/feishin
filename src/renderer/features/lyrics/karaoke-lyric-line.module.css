@@ -52,25 +52,10 @@
     text-align: inherit;
 }
 
-.agent-badge {
-    display: block;
-    margin-bottom: 0.15rem;
-    font-size: 0.65em;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    opacity: 0.7;
-}
-
 .agent-text {
     display: block;
     width: 100%;
     max-width: 100%;
     overflow-wrap: break-word;
     white-space: normal;
-}
-
-.agent-line[data-agent-role='bg'] .agent-badge,
-.agent-line[data-agent-role='group'] .agent-badge {
-    font-style: italic;
 }

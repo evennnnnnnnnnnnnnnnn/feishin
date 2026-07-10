@@ -29,15 +29,6 @@ interface KaraokeLyricLineProps extends ComponentPropsWithoutRef<'div'> {
 
 type WordSpanVariant = 'main' | 'romaji';
 
-const getAgentLabel = (agents: LyricAgent[] | undefined, agentId?: string): string | undefined => {
-    if (!agentId || !agents?.length) {
-        return undefined;
-    }
-
-    const agent = agents.find((entry) => entry.id === agentId);
-    return agent?.name ?? agent?.role;
-};
-
 const renderWordSpans = (
     cueLine: SyncedCueLine,
     lineIndex: number,
@@ -146,7 +137,6 @@ export const KaraokeLyricLine = memo(
             >
                 <Stack align="stretch" gap={0} w="100%">
                     {cueLines.map((cueLine, cueLineIndex) => {
-                        const agentLabel = getAgentLabel(agents, cueLine.agentId);
                         const agent = agents?.find((entry) => entry.id === cueLine.agentId);
                         const isBackground = agent?.role === 'bg' || agent?.role === 'group';
                         const romajiCueLine = romajiCueLines?.[cueLineIndex];
@@ -157,9 +147,6 @@ export const KaraokeLyricLine = memo(
                                 data-agent-role={agent?.role}
                                 key={`${cueLine.index}-${cueLineIndex}`}
                             >
-                                {agentLabel && (
-                                    <span className={styles.agentBadge}>{agentLabel}</span>
-                                )}
                                 <span
                                     className={styles.agentText}
                                     id={
