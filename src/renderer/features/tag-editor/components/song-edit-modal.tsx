@@ -1,16 +1,19 @@
+import { Autocomplete } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { RiAddLine } from 'react-icons/ri';
 import { useTranslation } from 'react-i18next';
 
 import { useMetadataEditor } from '../hooks/use-metadata-editor';
+import { KNOWN_TAG_MAP, resolveTagKey } from '../utils/known-tags';
 import { ArtworkPanel } from './artwork-panel';
 import styles from './song-edit-modal.module.css';
 import { TagFieldRow } from './tag-field-row';
 
+import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Button } from '/@/shared/components/button/button';
 import { Checkbox } from '/@/shared/components/checkbox/checkbox';
 import { Group } from '/@/shared/components/group/group';
-import { Select } from '/@/shared/components/select/select';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Table } from '/@/shared/components/table/table';
@@ -21,27 +24,55 @@ import { Song } from '/@/shared/types/domain-types';
 export const SongEditModal = ({ songs }: { songs: Song[] }) => {
     const { t } = useTranslation();
     const tableContainerRef = useRef<HTMLDivElement>(null);
+    const skipNextEnterRef = useRef(false);
+    const skipNextOnChangeResetRef = useRef(false);
+    const [addFieldInput, setAddFieldInput] = useState('');
+    const [duplicateAttempted, setDuplicateAttempted] = useState(false);
 
-    // Opens the metadata editor modal that displays a table of editable fields for the songs, as well as an artwork panel for changing the songs' artwork
     const editor = useMetadataEditor({
         browser: window.api.browser,
         songs,
         utils: window.api.utils,
     });
 
-    // After adding the field, scrolls to and focuses the new field's row in the table.
-    const handleAddField = (key: null | string) => {
-        editor.handleAddField(key);
-        if (!key) return;
+    const trimmedInput = addFieldInput.trim();
+    const customKeyError =
+        trimmedInput && !KNOWN_TAG_MAP.has(trimmedInput)
+            ? trimmedInput.includes('=')
+                ? "Tag key cannot contain '='"
+                : /[^\x00-\x7F]/.test(trimmedInput)
+                  ? 'Tag key must use ASCII characters only'
+                  : null
+            : null;
 
-        // Scroll to focus on the newly added field
+    const resolvedInputKey = trimmedInput ? resolveTagKey(trimmedInput) : '';
+    const duplicateError =
+        trimmedInput && !customKeyError && editor.sortedFieldEntries.some(([k]) => k === resolvedInputKey)
+            ? 'Field already exists'
+            : null;
+    const fieldError = customKeyError ?? (duplicateAttempted ? duplicateError : null);
+
+    const handleAddField = (key: string): boolean => {
+        const trimmed = key.trim();
+        if (!trimmed) return false;
+        if (!KNOWN_TAG_MAP.has(trimmed) && (trimmed.includes('=') || /[^\x00-\x7F]/.test(trimmed))) return false;
+        const normalizedKey = resolveTagKey(trimmed);
+        if (editor.sortedFieldEntries.some(([k]) => k === normalizedKey)) {
+            setDuplicateAttempted(true);
+            return false;
+        }
+        setDuplicateAttempted(false);
+        editor.handleAddField(normalizedKey);
+        setAddFieldInput('');
+
         requestAnimationFrame(() => {
             const row = tableContainerRef.current?.querySelector<HTMLElement>(
-                `[data-field-key="${key}"]`,
+                `[data-field-key="${normalizedKey}"]`,
             );
             row?.scrollIntoView({ block: 'nearest' });
             row?.querySelector<HTMLElement>('input, textarea')?.focus();
         });
+        return true;
     };
 
     // While loading, shows a spinner
@@ -86,15 +117,47 @@ export const SongEditModal = ({ songs }: { songs: Song[] }) => {
                                 {editor.readWarning}
                             </Text>
                         )}
-                        {editor.availableToAdd.length > 0 && (
-                            <Select
-                                clearable
-                                data={editor.availableToAdd}
-                                onChange={handleAddField}
-                                placeholder={t('page.itemDetail.addField', 'Add field…')}
-                                value={null}
-                            />
-                        )}
+                        <Autocomplete
+                            data={editor.availableToAdd}
+                            error={fieldError}
+                            onChange={(v) => {
+                                setAddFieldInput(v);
+                                if (skipNextOnChangeResetRef.current) {
+                                    skipNextOnChangeResetRef.current = false;
+                                } else {
+                                    setDuplicateAttempted(false);
+                                }
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    if (skipNextEnterRef.current) {
+                                        skipNextEnterRef.current = false;
+                                        return;
+                                    }
+                                    handleAddField(addFieldInput);
+                                }
+                            }}
+                            onOptionSubmit={(value) => {
+                                skipNextEnterRef.current = true;
+                                skipNextOnChangeResetRef.current = true;
+                                const added = handleAddField(value);
+                                if (added) {
+                                    queueMicrotask(() => setAddFieldInput(''));
+                                }
+                            }}
+                            placeholder={t('page.itemDetail.addField', 'Add field…')}
+                            rightSection={
+                                <ActionIcon
+                                    disabled={!!fieldError}
+                                    onClick={() => handleAddField(addFieldInput)}
+                                    variant="filled"
+                                >
+                                    <RiAddLine size={16} />
+                                </ActionIcon>
+                            }
+                            rightSectionPointerEvents="all"
+                            value={addFieldInput}
+                        />
                         <div className={styles.tableScroller} ref={tableContainerRef}>
                             <Table
                                 classNames={{ td: styles.tableCell, th: styles.tableHeader }}

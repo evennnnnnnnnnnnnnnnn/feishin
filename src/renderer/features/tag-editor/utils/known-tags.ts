@@ -1,6 +1,4 @@
-import type { EditorFieldKey } from '/@/shared/types/tag-editor';
-
-import { EDITOR_FIELD_KEYS } from '/@/shared/types/tag-editor';
+import { PROPERTIES } from 'taglib-wasm';
 
 /** Tags pinned to the top of the editor table (most frequently edited). */
 export const FIELD_PRIORITY: readonly string[] = [
@@ -13,42 +11,6 @@ export const FIELD_PRIORITY: readonly string[] = [
     'date',
 ];
 
-/** Human-readable labels where auto-generated text is awkward. */
-const FIELD_LABEL_OVERRIDES: Partial<Record<EditorFieldKey, string>> = {
-    acoustidId: 'AcoustID',
-    albumArtist: 'Album Artist',
-    albumArtistSort: 'Album Artist Sort',
-    albumSort: 'Album Sort',
-    artistSort: 'Artist Sort',
-    catalogNumber: 'Catalog Number',
-    composerSort: 'Composer Sort',
-    discNumber: 'Disc Number',
-    musicbrainzArtistId: 'MusicBrainz Artist ID',
-    musicbrainzReleaseArtistId: 'MusicBrainz Album Artist ID',
-    musicbrainzReleaseGroupId: 'MusicBrainz Release Group ID',
-    musicbrainzReleaseId: 'MusicBrainz Album ID',
-    musicbrainzReleaseTrackId: 'MusicBrainz Release Track ID',
-    musicbrainzTrackId: 'MusicBrainz Track ID',
-    musicbrainzWorkId: 'MusicBrainz Work ID',
-    originalAlbum: 'Original Album',
-    originalArtist: 'Original Artist',
-    originalDate: 'Original Date',
-    remixedBy: 'Remixer',
-    titleSort: 'Title Sort',
-    totalDiscs: 'Total Discs',
-    totalTracks: 'Total Tracks',
-    trackNumber: 'Track Number',
-};
-
-/** Input widget overrides (taglib metadata type is not always specific enough). */
-const FIELD_TYPE_OVERRIDES: Partial<
-    Record<EditorFieldKey, 'boolean' | 'number' | 'string' | 'textarea'>
-> = {
-    bpm: 'number',
-    comment: 'textarea',
-    lyrics: 'textarea',
-};
-
 export interface KnownTag {
     key: string;
     label: string;
@@ -58,20 +20,81 @@ export interface KnownTag {
 /** Which form control to render for a tag row. */
 export type TagFieldType = 'boolean' | 'number' | 'string' | 'textarea';
 
+/**
+ * Per-key overrides and extras. Keys present in taglib-wasm PROPERTIES get their
+ * label/type overridden; keys absent from PROPERTIES are appended as extra entries.
+ */
+const TAG_CONFIG: Record<string, { label?: string; type?: TagFieldType }> = {
+    acoustidId: { label: 'AcoustID' },
+    albumArtist: { label: 'Album Artist' },
+    albumArtistSort: { label: 'Album Artist Sort' },
+    albumSort: { label: 'Album Sort' },
+    artistSort: { label: 'Artist Sort' },
+    catalogNumber: { label: 'Catalog Number' },
+    composerSort: { label: 'Composer Sort' },
+    discNumber: { label: 'Disc Number' },
+    musicbrainzArtistId: { label: 'MusicBrainz Artist ID' },
+    musicbrainzReleaseArtistId: { label: 'MusicBrainz Album Artist ID' },
+    musicbrainzReleaseGroupId: { label: 'MusicBrainz Release Group ID' },
+    musicbrainzReleaseId: { label: 'MusicBrainz Album ID' },
+    musicbrainzReleaseTrackId: { label: 'MusicBrainz Release Track ID' },
+    musicbrainzTrackId: { label: 'MusicBrainz Track ID' },
+    musicbrainzWorkId: { label: 'MusicBrainz Work ID' },
+    originalAlbum: { label: 'Original Album' },
+    originalArtist: { label: 'Original Artist' },
+    originalDate: { label: 'Original Date' },
+    remixedBy: { label: 'Remixer' },
+    titleSort: { label: 'Title Sort' },
+    totalDiscs: { label: 'Total Discs' },
+    totalTracks: { label: 'Total Tracks' },
+    trackNumber: { label: 'Track Number' },
+    acoustidFingerprint: { type: 'textarea' },
+    bpm: { type: 'number' },
+    comment: { type: 'textarea' },
+    lyrics: { type: 'textarea' },
+    // extras not in PROPERTIES (common MusicBrainz Picard tags)
+    ARTISTS: { label: 'Artists', type: 'string' },
+    ORIGINALYEAR: { label: 'Original Year', type: 'number' },
+    RELEASECOUNTRY: { label: 'Release Country', type: 'string' },
+    RELEASESTATUS: { label: 'Release Status', type: 'string' },
+    RELEASETYPE: { label: 'Release Type', type: 'string' },
+};
+
 const humanizeKey = (key: string): string =>
     key
         .replace(/([A-Z])/g, ' $1')
         .replace(/^./, (c) => c.toUpperCase())
         .trim();
 
-const resolveFieldType = (key: string): TagFieldType =>
-    FIELD_TYPE_OVERRIDES[key as EditorFieldKey] ?? 'string';
-
-/** Field definitions used to render the tag editor table and "Add field" dropdown. */
-export const KNOWN_TAGS: KnownTag[] = EDITOR_FIELD_KEYS.map((key) => ({
-    key,
-    label: FIELD_LABEL_OVERRIDES[key] ?? humanizeKey(key),
-    type: resolveFieldType(key),
-}));
+/** Field definitions derived from taglib-wasm's PROPERTIES plus any extras in TAG_CONFIG. */
+export const KNOWN_TAGS: KnownTag[] = [
+    ...Object.entries(PROPERTIES).map(([key, prop]) => {
+        const cfg = TAG_CONFIG[key];
+        return {
+            key,
+            label: cfg?.label ?? humanizeKey(key),
+            type: cfg?.type ?? (prop.type as TagFieldType),
+        };
+    }),
+    ...Object.entries(TAG_CONFIG)
+        .filter(([key]) => !(key in PROPERTIES))
+        .map(([key, cfg]) => ({
+            key,
+            label: cfg.label ?? humanizeKey(key),
+            type: cfg.type ?? ('string' as TagFieldType),
+        })),
+];
 
 export const KNOWN_TAG_MAP = new Map(KNOWN_TAGS.map((t) => [t.key, t]));
+
+/**
+ * Resolves a user-typed string to a canonical tag key.
+ * Matches by label first (e.g. "Album Sort" → "albumSort"), then falls back to
+ * the raw input. Unknown keys are uppercased so TagLib writes them as valid
+ * Vorbis comment field names.
+ */
+export const resolveTagKey = (input: string): string => {
+    const byLabel = KNOWN_TAGS.find((t) => t.label.toLowerCase() === input.toLowerCase());
+    const key = byLabel?.key ?? input;
+    return KNOWN_TAG_MAP.has(key) ? key : key.toUpperCase();
+};

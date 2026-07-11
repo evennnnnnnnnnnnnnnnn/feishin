@@ -6,11 +6,11 @@ import type {
 } from '/@/shared/types/tag-editor';
 
 import { closeAllModals } from '@mantine/modals';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FIELD_PRIORITY, KNOWN_TAG_MAP, KNOWN_TAGS, type KnownTag } from '../utils/known-tags';
-import { base64ToBytes, filterTagSummary, formatBatchFileErrors } from '../utils/utils';
+import { base64ToBytes, formatBatchFileErrors } from '../utils/utils';
 
 import { controller } from '/@/renderer/api/controller';
 import { useCurrentServer } from '/@/renderer/store';
@@ -145,7 +145,7 @@ export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetad
                 );
             }
 
-            setTagSummary(filterTagSummary(batchResult.tagSummary));
+            setTagSummary(batchResult.tagSummary);
 
             if (
                 batchResult.artworkKind === 'common' &&
@@ -184,10 +184,21 @@ export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetad
         setRemovedKeys((prev) => new Set(prev).add(key));
     }, []);
 
+    // Refs so the functional updater inside handleAddField can see latest values without needing them in the dependency array.
+    const tagSummaryRef = useRef(tagSummary);
+    tagSummaryRef.current = tagSummary;
+    const removedKeysRef = useRef(removedKeys);
+    removedKeysRef.current = removedKeys;
+
     /** Adds `key` to `editedFields` with an empty value and un-marks it from removal. */
     const handleAddField = useCallback((key: null | string) => {
         if (!key) return;
-        setEditedFields((prev) => ({ ...prev, [key]: '' }));
+        setEditedFields((prev) => {
+            const wasRemoved = removedKeysRef.current.has(key);
+            const alreadyVisible = (key in tagSummaryRef.current || key in prev) && !wasRemoved;
+            if (alreadyVisible) return prev;
+            return { ...prev, [key]: '' };
+        });
         setRemovedKeys((prev) => {
             const next = new Set(prev);
             next.delete(key);

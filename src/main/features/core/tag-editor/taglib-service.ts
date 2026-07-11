@@ -1,11 +1,8 @@
 import type { ArtworkKind, ArtworkOp, BatchFileError } from '/@/shared/types/tag-editor';
-import type { ICommonTagsResult } from 'music-metadata';
 
 import { constants, promises as fsPromises } from 'fs';
-import * as mm from 'music-metadata';
-import { TagLib } from 'taglib-wasm';
+import { PROPERTIES, TagLib } from 'taglib-wasm';
 
-import { EDITOR_FIELD_KEYS } from '/@/shared/types/tag-editor';
 import { getImageMimeTypeFromPath } from '/@/shared/utils/image-mime';
 
 let _taglib: null | TagLib = null;
@@ -26,44 +23,6 @@ export async function readLocalImageFile(filePath: string) {
     };
 }
 
-const pickFrontCover = <T extends { type?: string }>(pictures: T[]): T | undefined =>
-    pictures.find((p) => p.type === 'Front Cover') ?? pictures[0];
-
-type TagAccessor = (c: ICommonTagsResult) => null | number | string | undefined;
-
-// Only fields where the editor key differs from the music-metadata key.
-const MM_RENAMES: Partial<Record<string, keyof ICommonTagsResult>> = {
-    acoustidId: 'acoustid_id',
-    albumArtist: 'albumartist',
-    albumArtistSort: 'albumartistsort',
-    albumSort: 'albumsort',
-    artistSort: 'artistsort',
-    catalogNumber: 'catalognumber',
-    composerSort: 'composersort',
-    musicbrainzArtistId: 'musicbrainz_artistid',
-    musicbrainzReleaseArtistId: 'musicbrainz_albumartistid',
-    musicbrainzReleaseGroupId: 'musicbrainz_releasegroupid',
-    musicbrainzReleaseId: 'musicbrainz_albumid',
-    musicbrainzReleaseTrackId: 'musicbrainz_trackid',
-    musicbrainzTrackId: 'musicbrainz_recordingid',
-    musicbrainzWorkId: 'musicbrainz_workid',
-    originalAlbum: 'originalalbum',
-    originalArtist: 'originalartist',
-    originalDate: 'originaldate',
-    remixedBy: 'remixer',
-    titleSort: 'titlesort',
-};
-
-// Only fields that need sub-property access or live on a nested object.
-const MM_CUSTOM: Partial<Record<string, TagAccessor>> = {
-    comment: (c) => c.comment?.[0]?.text,
-    discNumber: (c) => c.disk.no,
-    lyrics: (c) => c.lyrics?.[0]?.text,
-    totalDiscs: (c) => c.disk.of,
-    totalTracks: (c) => c.track.of,
-    trackNumber: (c) => c.track.no,
-};
-
 /** Returns an error entry for each path that is missing or not writable by the current process. */
 export async function checkPathsWritable(paths: string[]): Promise<BatchFileError[]> {
     const failed: BatchFileError[] = [];
@@ -82,16 +41,23 @@ export async function checkPathsWritable(paths: string[]): Promise<BatchFileErro
     return failed;
 }
 
-/** Maps a music-metadata `ICommonTagsResult` to the flat camelCase key map used by the editor. */
-export function flattenMusicMetadata(common: ICommonTagsResult): Record<string, string> {
+/** Flattens a taglib-wasm PropertyMap to a string record, dropping ALL_CAPS alias keys already covered by a camelCase equivalent. */
+function flattenProperties(props: Record<string, string[] | undefined>): Record<string, string> {
     const flat: Record<string, string> = {};
-    for (const key of EDITOR_FIELD_KEYS) {
-        const custom = MM_CUSTOM[key];
-        const raw: unknown = custom
-            ? custom(common)
-            : common[(MM_RENAMES[key] ?? key) as keyof ICommonTagsResult];
-        const value = Array.isArray(raw) ? raw[0] : raw;
-        if (value != null && value !== '') flat[key] = String(value);
+    for (const [key, values] of Object.entries(props)) {
+        if (values && values.length > 0 && values[0] !== '') {
+            flat[key] = values[0];
+        }
+    }
+    const coveredByUpperCase = new Set(
+        Object.keys(flat)
+            .filter((k) => k !== k.toUpperCase())
+            .map((k) => k.toUpperCase()),
+    );
+    for (const key of Object.keys(flat)) {
+        if (key === key.toUpperCase() && coveredByUpperCase.has(key)) {
+            delete flat[key];
+        }
     }
     return flat;
 }
@@ -116,9 +82,10 @@ const mapWithConcurrency = async <T>(
 };
 
 /**
- * Reads tags and artwork from a batch of audio files via music-metadata (which preserves full ISO dates).
+ * Reads all tags and artwork from a batch of audio files via taglib-wasm.
+ * Returns every tag present on disk — not limited to any known-field list.
  * Values that differ across files are merged to `null` and shown as "(Multiple Values)" in the editor.
- * Artwork bytes are only loaded for one representative file, after confirming all files share the same cover.
+ * Artwork bytes are captured from the first successful file; subsequent files only contribute their size for comparison.
  */
 export async function readFilesMetadataBatch(
     filePaths: string[],
@@ -136,57 +103,59 @@ export async function readFilesMetadataBatch(
 }> {
     const totalCount = filePaths.length;
     const failedFiles: BatchFileError[] = [];
-
-    // Merged incrementally; safe because JS is single-threaded between awaits.
     const tagSummary: Record<string, null | string> = {};
     let artworkKind = 'none' as ArtworkKind;
     let artworkByteSize: number | undefined;
-    let firstSuccessPath: string | undefined;
+    let artworkData: string | undefined;
+    let artworkMimeType: string | undefined;
     let readCount = 0;
     let processed = 0;
+
+    const taglib = await getTagLib();
 
     await mapWithConcurrency(
         filePaths,
         BATCH_CONCURRENCY,
         async (filePath) => {
             try {
-                const { common } = await mm.parseFile(filePath);
-                const flat = flattenMusicMetadata(common);
-                const hasCoverArt = (common.picture?.length ?? 0) > 0;
-                // Only access artwork bytes if we still need them for comparison.
-                const picSize =
-                    artworkKind !== 'mixed' && hasCoverArt
-                        ? pickFrontCover(common.picture!)?.data.length
-                        : undefined;
-                // common.picture's Uint8Array is not stored anywhere — eligible for GC here.
+                const file = await taglib.open(filePath);
+                try {
+                    const flat = flattenProperties(file.properties());
+                    const pictures = file.getPictures();
+                    const frontCover = pictures.find((p) => p.type === 'FrontCover') ?? pictures[0];
+                    const hasCoverArt = frontCover !== undefined;
+                    const picSize = hasCoverArt ? frontCover.data.length : undefined;
 
-                if (readCount === 0) {
-                    // First success: seed the summary.
-                    Object.assign(tagSummary, flat);
-                    firstSuccessPath = filePath;
-                    artworkKind = hasCoverArt ? 'common' : 'none';
-                    artworkByteSize = picSize;
-                } else {
-                    // Merge tags: keys already null stay null; new divergences become null.
-                    for (const k of Object.keys(tagSummary)) {
-                        if (tagSummary[k] !== null && flat[k] !== tagSummary[k])
-                            tagSummary[k] = null;
-                    }
-                    for (const k of Object.keys(flat)) {
-                        if (!(k in tagSummary)) tagSummary[k] = null;
-                    }
-                    // Merge artwork.
-                    if (artworkKind !== 'mixed') {
-                        if (
-                            hasCoverArt !== (artworkKind === 'common') ||
-                            picSize !== artworkByteSize
-                        ) {
-                            artworkKind = 'mixed';
+                    if (readCount === 0) {
+                        Object.assign(tagSummary, flat);
+                        artworkKind = hasCoverArt ? 'common' : 'none';
+                        artworkByteSize = picSize;
+                        if (frontCover) {
+                            artworkData = Buffer.from(frontCover.data).toString('base64');
+                            artworkMimeType = frontCover.mimeType;
+                        }
+                    } else {
+                        for (const k of Object.keys(tagSummary)) {
+                            if (tagSummary[k] !== null && flat[k] !== tagSummary[k])
+                                tagSummary[k] = null;
+                        }
+                        for (const k of Object.keys(flat)) {
+                            if (!(k in tagSummary)) tagSummary[k] = null;
+                        }
+                        if (artworkKind !== 'mixed') {
+                            if (
+                                hasCoverArt !== (artworkKind === 'common') ||
+                                picSize !== artworkByteSize
+                            ) {
+                                artworkKind = 'mixed';
+                            }
                         }
                     }
-                }
 
-                readCount += 1;
+                    readCount += 1;
+                } finally {
+                    file.dispose();
+                }
             } catch (err) {
                 failedFiles.push({
                     error: err instanceof Error ? err.message : String(err),
@@ -198,19 +167,6 @@ export async function readFilesMetadataBatch(
         },
         signal,
     );
-
-    let artworkData: string | undefined;
-    let artworkMimeType: string | undefined;
-
-    // Re-read artwork from one file only after confirming all files share the same cover.
-    if (artworkKind === 'common' && firstSuccessPath) {
-        const { common } = await mm.parseFile(firstSuccessPath);
-        const pic = pickFrontCover(common.picture ?? []);
-        if (pic) {
-            artworkData = Buffer.from(pic.data).toString('base64');
-            artworkMimeType = pic.format;
-        }
-    }
 
     return {
         artworkKind,
@@ -264,7 +220,7 @@ export async function writeFilesTags(
         try {
             await taglib.edit(path, (file) => {
                 for (const [k, v] of Object.entries(mergedEdits)) {
-                    file.setProperty(k.toUpperCase(), v);
+                    file.setProperty(k in PROPERTIES ? k : k.toUpperCase(), v);
                 }
                 if (artworkOp?.type === 'clear') {
                     file.removePictures();
