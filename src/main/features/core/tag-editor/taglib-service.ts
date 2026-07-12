@@ -14,15 +14,6 @@ const getTagLib = async (): Promise<TagLib> => {
 
 const BATCH_CONCURRENCY = 8;
 
-/** Reads an image file and returns it as base64 + MIME type for IPC transport to the renderer. */
-export async function readLocalImageFile(filePath: string) {
-    const buf = await fsPromises.readFile(filePath);
-    return {
-        data: buf.toString('base64'),
-        mimeType: getImageMimeTypeFromPath(filePath),
-    };
-}
-
 /** Returns an error entry for each path that is missing or not writable by the current process. */
 export async function checkPathsWritable(paths: string[]): Promise<BatchFileError[]> {
     const failed: BatchFileError[] = [];
@@ -39,6 +30,15 @@ export async function checkPathsWritable(paths: string[]): Promise<BatchFileErro
         }),
     );
     return failed;
+}
+
+/** Reads an image file and returns it as base64 + MIME type for IPC transport to the renderer. */
+export async function readLocalImageFile(filePath: string) {
+    const buf = await fsPromises.readFile(filePath);
+    return {
+        data: buf.toString('base64'),
+        mimeType: getImageMimeTypeFromPath(filePath),
+    };
 }
 
 /** Flattens a taglib-wasm PropertyMap to a string record, dropping ALL_CAPS alias keys already covered by a camelCase equivalent. */

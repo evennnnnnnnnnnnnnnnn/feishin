@@ -1384,6 +1384,10 @@ export type RandomSongListQuery = {
 
 export type RandomSongListResponse = SongListResponse;
 
+export type RefreshItemsArgs = BaseEndpointArgs & { query: { ids: string[] } };
+
+export type RefreshItemsResponse = null;
+
 export type ScrobbleArgs = BaseEndpointArgs & {
     query: ScrobbleQuery;
 };
@@ -1442,10 +1446,6 @@ export type SearchSongsQuery = {
     songLimit?: number;
     songStartIndex?: number;
 };
-
-export type RefreshItemsArgs = BaseEndpointArgs & { query: { ids: string[] } };
-
-export type RefreshItemsResponse = null;
 
 export type SyncedCueLine = {
     agentId?: string;
@@ -1750,9 +1750,7 @@ export type InternalControllerEndpoint = {
         args: ReplaceApiClientProps<JukeboxControlArgs>,
     ) => Promise<JukeboxControlResponse>;
     movePlaylistItem?: (args: ReplaceApiClientProps<MoveItemArgs>) => Promise<void>;
-    refreshItems: (
-        args: ReplaceApiClientProps<RefreshItemsArgs>,
-    ) => Promise<RefreshItemsResponse>;
+    refreshItems: (args: ReplaceApiClientProps<RefreshItemsArgs>) => Promise<RefreshItemsResponse>;
     removeFromPlaylist: (
         args: ReplaceApiClientProps<RemoveFromPlaylistArgs>,
     ) => Promise<RemoveFromPlaylistResponse>;

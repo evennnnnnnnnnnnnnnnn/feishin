@@ -25,14 +25,20 @@ export type TagFieldType = 'boolean' | 'number' | 'string' | 'textarea';
  * label/type overridden; keys absent from PROPERTIES are appended as extra entries.
  */
 const TAG_CONFIG: Record<string, { label?: string; type?: TagFieldType }> = {
+    acoustidFingerprint: { type: 'textarea' },
     acoustidId: { label: 'AcoustID' },
     albumArtist: { label: 'Album Artist' },
     albumArtistSort: { label: 'Album Artist Sort' },
     albumSort: { label: 'Album Sort' },
+    // extras not in PROPERTIES (common MusicBrainz Picard tags)
+    ARTISTS: { label: 'Artists', type: 'string' },
     artistSort: { label: 'Artist Sort' },
+    bpm: { type: 'number' },
     catalogNumber: { label: 'Catalog Number' },
+    comment: { type: 'textarea' },
     composerSort: { label: 'Composer Sort' },
     discNumber: { label: 'Disc Number' },
+    lyrics: { type: 'textarea' },
     musicbrainzArtistId: { label: 'MusicBrainz Artist ID' },
     musicbrainzReleaseArtistId: { label: 'MusicBrainz Album Artist ID' },
     musicbrainzReleaseGroupId: { label: 'MusicBrainz Release Group ID' },
@@ -43,21 +49,15 @@ const TAG_CONFIG: Record<string, { label?: string; type?: TagFieldType }> = {
     originalAlbum: { label: 'Original Album' },
     originalArtist: { label: 'Original Artist' },
     originalDate: { label: 'Original Date' },
+    ORIGINALYEAR: { label: 'Original Year', type: 'number' },
+    RELEASECOUNTRY: { label: 'Release Country', type: 'string' },
+    RELEASESTATUS: { label: 'Release Status', type: 'string' },
+    RELEASETYPE: { label: 'Release Type', type: 'string' },
     remixedBy: { label: 'Remixer' },
     titleSort: { label: 'Title Sort' },
     totalDiscs: { label: 'Total Discs' },
     totalTracks: { label: 'Total Tracks' },
     trackNumber: { label: 'Track Number' },
-    acoustidFingerprint: { type: 'textarea' },
-    bpm: { type: 'number' },
-    comment: { type: 'textarea' },
-    lyrics: { type: 'textarea' },
-    // extras not in PROPERTIES (common MusicBrainz Picard tags)
-    ARTISTS: { label: 'Artists', type: 'string' },
-    ORIGINALYEAR: { label: 'Original Year', type: 'number' },
-    RELEASECOUNTRY: { label: 'Release Country', type: 'string' },
-    RELEASESTATUS: { label: 'Release Status', type: 'string' },
-    RELEASETYPE: { label: 'Release Type', type: 'string' },
 };
 
 const humanizeKey = (key: string): string =>

@@ -301,6 +301,18 @@ export const contract = c.router({
             400: jfType._response.error,
         },
     },
+    refreshItem: {
+        body: z.null(),
+        method: 'POST',
+        path: 'Items/:id/Refresh',
+        query: z.object({
+            MetadataRefreshMode: z.string().optional(),
+        }),
+        responses: {
+            204: z.null(),
+            400: jfType._response.error,
+        },
+    },
     removeFavorite: {
         body: jfType._parameters.favorite,
         method: 'DELETE',
@@ -362,18 +374,6 @@ export const contract = c.router({
         query: jfType._parameters.search,
         responses: {
             200: jfType._response.search,
-            400: jfType._response.error,
-        },
-    },
-    refreshItem: {
-        body: z.null(),
-        method: 'POST',
-        path: 'Items/:id/Refresh',
-        query: z.object({
-            MetadataRefreshMode: z.string().optional(),
-        }),
-        responses: {
-            204: z.null(),
             400: jfType._response.error,
         },
     },

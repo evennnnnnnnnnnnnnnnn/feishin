@@ -1027,6 +1027,7 @@ export const NavidromeController: InternalControllerEndpoint = {
             throw new Error('Failed to move item in playlist');
         }
     },
+    refreshItems: SubsonicController.refreshItems,
     removeFromPlaylist: async (args) => {
         const { apiClientProps, query } = args;
 
@@ -1185,7 +1186,6 @@ export const NavidromeController: InternalControllerEndpoint = {
             id: res.body.data.id,
         };
     },
-    refreshItems: SubsonicController.refreshItems,
     updateInternetRadioStation: async (args) => {
         const { apiClientProps, body, query } = args;
 

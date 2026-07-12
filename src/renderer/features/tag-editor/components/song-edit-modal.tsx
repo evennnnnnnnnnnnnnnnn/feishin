@@ -1,8 +1,8 @@
 import { Autocomplete } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 import { useRef, useState } from 'react';
-import { RiAddLine } from 'react-icons/ri';
 import { useTranslation } from 'react-i18next';
+import { RiAddLine } from 'react-icons/ri';
 
 import { useMetadataEditor } from '../hooks/use-metadata-editor';
 import { KNOWN_TAG_MAP, resolveTagKey } from '../utils/known-tags';
@@ -40,14 +40,17 @@ export const SongEditModal = ({ songs }: { songs: Song[] }) => {
         trimmedInput && !KNOWN_TAG_MAP.has(trimmedInput)
             ? trimmedInput.includes('=')
                 ? "Tag key cannot contain '='"
-                : /[^\x00-\x7F]/.test(trimmedInput)
+                : // eslint-disable-next-line no-control-regex
+                  /[^\x00-\x7F]/.test(trimmedInput)
                   ? 'Tag key must use ASCII characters only'
                   : null
             : null;
 
     const resolvedInputKey = trimmedInput ? resolveTagKey(trimmedInput) : '';
     const duplicateError =
-        trimmedInput && !customKeyError && editor.sortedFieldEntries.some(([k]) => k === resolvedInputKey)
+        trimmedInput &&
+        !customKeyError &&
+        editor.sortedFieldEntries.some(([k]) => k === resolvedInputKey)
             ? 'Field already exists'
             : null;
     const fieldError = customKeyError ?? (duplicateAttempted ? duplicateError : null);
@@ -55,7 +58,12 @@ export const SongEditModal = ({ songs }: { songs: Song[] }) => {
     const handleAddField = (key: string): boolean => {
         const trimmed = key.trim();
         if (!trimmed) return false;
-        if (!KNOWN_TAG_MAP.has(trimmed) && (trimmed.includes('=') || /[^\x00-\x7F]/.test(trimmed))) return false;
+        if (
+            !KNOWN_TAG_MAP.has(trimmed) &&
+            (trimmed.includes('=') || // eslint-disable-next-line no-control-regex
+                /[^\x00-\x7F]/.test(trimmed))
+        )
+            return false;
         const normalizedKey = resolveTagKey(trimmed);
         if (editor.sortedFieldEntries.some(([k]) => k === normalizedKey)) {
             setDuplicateAttempted(true);

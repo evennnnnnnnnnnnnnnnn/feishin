@@ -15,7 +15,7 @@ type SongEditInnerProps = {
 
 export const SongEditContextModal = ({ innerProps }: ContextModalProps<SongEditInnerProps>) => {
     const server = useCurrentServer();
-    const [resolvedSongs, setResolvedSongs] = useState<Song[] | null>(null);
+    const [resolvedSongs, setResolvedSongs] = useState<null | Song[]>(null);
 
     useEffect(() => {
         if (innerProps.albumIds) {
