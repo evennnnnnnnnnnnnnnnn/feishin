@@ -14,6 +14,7 @@ import { base64ToBytes, formatBatchFileErrors } from '../utils/utils';
 
 import { controller } from '/@/renderer/api/controller';
 import { useCurrentServer } from '/@/renderer/store';
+import { resolveSongPath } from '/@/renderer/utils/resolve-song-path';
 import { toast } from '/@/shared/components/toast/toast';
 import { Song } from '/@/shared/types/domain-types';
 
@@ -121,7 +122,7 @@ export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetad
             }
 
             setResolvedSongs(songs);
-            const paths = songs.map((s) => s.path!);
+            const paths = songs.map((s) => resolveSongPath(s.path)).filter(Boolean) as string[];
 
             const batchResult = await withBatchProgress(utils, setLoadProgress, () =>
                 utils.readSongMetadataBatch(paths),
@@ -261,7 +262,7 @@ export const useMetadataEditor = ({ browser, songs: songsProp, utils }: UseMetad
         }
 
         setIsSaving(true);
-        const paths = resolvedSongs.map((s) => s.path!).filter(Boolean);
+        const paths = resolvedSongs.map((s) => resolveSongPath(s.path)).filter(Boolean) as string[];
 
         try {
             const writeResult = await withBatchProgress(utils, setLoadProgress, () =>
