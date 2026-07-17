@@ -747,6 +747,7 @@ const AutoDJSettingsSchema = z.object({
 const TagEditorSettingsSchema = z.object({
     favoriteValues: z.record(z.string(), z.array(z.string())),
     multiValueFields: z.array(z.string()),
+    triggerRescan: z.boolean(),
 });
 
 /**
@@ -1997,6 +1998,7 @@ const initialState: SettingsState = {
     tagEditor: {
         favoriteValues: {},
         multiValueFields: ['artist', 'albumArtist', 'genre', 'composer', 'lyricist'],
+        triggerRescan: true,
     },
     visualizer: {
         audiomotionanalyzer: {
