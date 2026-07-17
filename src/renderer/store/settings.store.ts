@@ -744,6 +744,11 @@ const AutoDJSettingsSchema = z.object({
     timing: z.number(),
 });
 
+const TagEditorSettingsSchema = z.object({
+    favoriteValues: z.record(z.string(), z.array(z.string())),
+    multiValueFields: z.array(z.string()),
+});
+
 /**
  * This schema is used for validation of the imported settings json
  */
@@ -767,6 +772,7 @@ export const ValidationSettingsStateSchema = z.object({
         z.literal('window'),
         z.string(),
     ]),
+    tagEditor: TagEditorSettingsSchema,
     visualizer: VisualizerSettingsSchema,
     window: WindowSettingsSchema,
 });
@@ -1988,6 +1994,10 @@ const initialState: SettingsState = {
         username: 'feishin',
     },
     tab: 'general',
+    tagEditor: {
+        favoriteValues: {},
+        multiValueFields: ['artist', 'albumArtist', 'genre', 'composer', 'lyricist'],
+    },
     visualizer: {
         audiomotionanalyzer: {
             alphaBars: false,
@@ -2676,6 +2686,8 @@ export const useCssSettings = () => useSettingsStore((state) => state.css, shall
 
 export const useQueryBuilderSettings = () =>
     useSettingsStore((state) => state.queryBuilder, shallow);
+
+export const useTagEditorSettings = () => useSettingsStore((state) => state.tagEditor, shallow);
 
 const getSettingsStoreVersion = () => useSettingsStore.persist.getOptions().version!;
 
