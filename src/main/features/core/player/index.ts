@@ -773,10 +773,8 @@ const cleanupMpv = async (force = false) => {
 // the renderer to reload mpv so it reconnects with a fresh stream instead of staying
 // stuck on the old, now-dead connection until the app is manually restarted.
 powerMonitor.on('resume', () => {
-    if (getMpvInstance()) {
-        mpvLog({ action: 'System resumed from sleep, reloading mpv' });
-        getMainWindow()?.webContents.send('renderer-mpv-reconnect');
-    }
+    mpvLog({ action: 'System resumed from sleep, notifying renderer to reconnect mpv' });
+    getMainWindow()?.webContents.send('renderer-mpv-reconnect');
 });
 
 app.on('before-quit', async (event) => {
