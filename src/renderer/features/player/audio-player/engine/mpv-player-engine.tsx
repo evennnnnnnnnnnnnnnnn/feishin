@@ -147,7 +147,9 @@ export const MpvPlayerEngine = (props: MpvPlayerEngineProps) => {
                     : undefined;
 
                 if (currentSongUrl && nextSongUrl && !hasPopulatedQueueRef.current && mpvPlayer) {
-                    mpvPlayer.setQueue(currentSongUrl, nextSongUrl, true);
+                    const shouldPause =
+                        usePlayerStore.getState().player.status !== PlayerStatus.PLAYING;
+                    mpvPlayer.setQueue(currentSongUrl, nextSongUrl, shouldPause);
                     hasPopulatedQueueRef.current = true;
                 }
             }
