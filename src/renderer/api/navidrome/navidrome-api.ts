@@ -1,3 +1,6 @@
+import { ndType } from '@feishin/core/api/navidrome/navidrome-types';
+import { resultWithHeaders } from '@feishin/core/api/utils';
+import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
 import { initClient, initContract } from '@ts-rest/core';
 import axios, { AxiosError, AxiosResponse, isAxiosError, Method } from 'axios';
 import isElectron from 'is-electron';
@@ -10,10 +13,7 @@ import { authenticationFailure } from '/@/renderer/api/utils';
 import { useAuthStore } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
 import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
-import { ndType } from '/@/shared/api/navidrome/navidrome-types';
-import { resultWithHeaders } from '/@/shared/api/utils';
 import { toast } from '/@/shared/components/toast/toast';
-import { ServerListItemWithCredential } from '/@/shared/types/domain-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

@@ -1,3 +1,14 @@
+import { LibraryItem, LyricSource, SavedCollection } from '@feishin/core/types/domain-types';
+import {
+    FontType,
+    ItemListKey,
+    ListDisplayType,
+    ListPaginationType,
+    Platform,
+    Play,
+    PlayerType,
+    TableColumn,
+} from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import cloneDeep from 'lodash/cloneDeep';
 import mergeWith from 'lodash/mergeWith';
@@ -29,17 +40,6 @@ import { FontValueSchema } from '/@/renderer/types/fonts';
 import { randomString } from '/@/renderer/utils';
 import { sanitizeCss } from '/@/renderer/utils/sanitize';
 import { AppTheme } from '/@/shared/themes/app-theme-types';
-import { LibraryItem, LyricSource, SavedCollection } from '/@/shared/types/domain-types';
-import {
-    FontType,
-    ItemListKey,
-    ListDisplayType,
-    ListPaginationType,
-    Platform,
-    Play,
-    PlayerType,
-    TableColumn,
-} from '/@/shared/types/types';
 
 const utils = isElectron() ? window.api.utils : null;
 

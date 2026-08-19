@@ -1,3 +1,5 @@
+import { LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
+import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
@@ -18,8 +20,6 @@ import {
     useSkipButtons,
     useTimestampStoreBase,
 } from '/@/renderer/store';
-import { LibraryItem, QueueSong } from '/@/shared/types/domain-types';
-import { PlayerStatus, PlayerType } from '/@/shared/types/types';
 
 const mediaSession = navigator.mediaSession;
 

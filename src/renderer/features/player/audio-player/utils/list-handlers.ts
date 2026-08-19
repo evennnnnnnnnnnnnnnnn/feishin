@@ -1,6 +1,6 @@
 import type { Dispatch } from 'react';
 
-import { CrossfadeStyle } from '/@/shared/types/types';
+import { CrossfadeStyle } from '@feishin/core/types/types';
 
 export const gaplessHandler = (args: {
     currentTime: number;

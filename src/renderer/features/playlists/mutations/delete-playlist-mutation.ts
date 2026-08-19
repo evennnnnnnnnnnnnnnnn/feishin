@@ -1,3 +1,8 @@
+import {
+    DeletePlaylistArgs,
+    DeletePlaylistResponse,
+    LibraryItem,
+} from '@feishin/core/types/domain-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
@@ -10,11 +15,6 @@ import {
     restorePlaylistQueryData,
 } from '/@/renderer/features/playlists/mutations/playlist-optimistic-updates';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
-import {
-    DeletePlaylistArgs,
-    DeletePlaylistResponse,
-    LibraryItem,
-} from '/@/shared/types/domain-types';
 
 export const useDeletePlaylist = (args: MutationHookArgs) => {
     const { options } = args || {};

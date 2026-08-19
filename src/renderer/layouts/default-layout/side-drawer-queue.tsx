@@ -1,3 +1,4 @@
+import { Platform } from '@feishin/core/types/types';
 import { AnimatePresence, motion, Variants } from 'motion/react';
 import { useCallback } from 'react';
 import { useLocation } from 'react-router';
@@ -10,7 +11,6 @@ import { useAppStore } from '/@/renderer/store';
 import { Icon } from '/@/shared/components/icon/icon';
 import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 import { useTimeout } from '/@/shared/hooks/use-timeout';
-import { Platform } from '/@/shared/types/types';
 
 const queueDrawerVariants: Variants = {
     closed: (windowBarStyle) => ({

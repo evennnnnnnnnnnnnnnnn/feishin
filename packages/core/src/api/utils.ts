@@ -1,11 +1,3 @@
-import { AxiosHeaders } from 'axios';
-import isElectron from 'is-electron';
-import orderBy from 'lodash/orderBy';
-import shuffle from 'lodash/shuffle';
-import semverCoerce from 'semver/functions/coerce';
-import semverGte from 'semver/functions/gte';
-import { z } from 'zod';
-
 import {
     Album,
     AlbumArtist,
@@ -19,8 +11,15 @@ import {
     Song,
     SongListSort,
     SortOrder,
-} from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
+} from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { AxiosHeaders } from 'axios';
+import isElectron from 'is-electron';
+import orderBy from 'lodash/orderBy';
+import shuffle from 'lodash/shuffle';
+import semverCoerce from 'semver/functions/coerce';
+import semverGte from 'semver/functions/gte';
+import { z } from 'zod';
 
 // Since ts-rest client returns a strict response type, we need to add the headers to the body object
 export const resultWithHeaders = <ItemType extends z.ZodTypeAny>(itemSchema: ItemType) => {

@@ -1,3 +1,4 @@
+import { ItemListKey, ListDisplayType } from '@feishin/core/types/types';
 import { useTranslation } from 'react-i18next';
 
 import { SONG_TABLE_COLUMNS } from '/@/renderer/components/item-list/item-table-list/default-columns';
@@ -27,7 +28,6 @@ import { SegmentedControl } from '/@/shared/components/segmented-control/segment
 import { Select } from '/@/shared/components/select/select';
 import { Slider } from '/@/shared/components/slider/slider';
 import { Switch } from '/@/shared/components/switch/switch';
-import { ItemListKey, ListDisplayType } from '/@/shared/types/types';
 
 export const SharedFullscreenPlayerSettings = () => {
     const { t } = useTranslation();

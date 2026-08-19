@@ -1,3 +1,4 @@
+import { Platform } from '@feishin/core/types/types';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import { CSSProperties, forwardRef, memo, ReactNode, Ref, useEffect, useRef } from 'react';
 
@@ -7,7 +8,6 @@ import { PageHeader, PageHeaderProps } from '/@/renderer/components/page-header/
 import { useWindowSettings } from '/@/renderer/store/settings.store';
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 import { useThrottledCallback } from '/@/shared/hooks/use-throttled-callback';
-import { Platform } from '/@/shared/types/types';
 
 interface NativeScrollAreaProps {
     children: ReactNode;

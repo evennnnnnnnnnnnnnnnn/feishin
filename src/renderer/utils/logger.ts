@@ -1,4 +1,4 @@
-import { LogLevel, LogSeverity } from '/@/shared/logger/types';
+import { LogLevel, LogSeverity } from '@feishin/core/logger/types';
 
 export type { LogLevel, LogSeverity };
 

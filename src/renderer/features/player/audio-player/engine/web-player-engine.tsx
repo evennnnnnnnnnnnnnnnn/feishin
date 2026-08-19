@@ -1,12 +1,12 @@
 import type { RefObject } from 'react';
 import type ReactPlayer from 'react-player';
 
+import { PlayerStatus } from '@feishin/core/types/types';
 import { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { AudioPlayer, PlayerOnProgressProps } from '/@/renderer/features/player/audio-player/types';
 import { convertToLogVolume } from '/@/renderer/features/player/audio-player/utils/player-utils';
 import { logger } from '/@/renderer/utils/logger';
-import { PlayerStatus } from '/@/shared/types/types';
 
 export interface WebPlayerEngineHandle extends AudioPlayer {
     player1(): {

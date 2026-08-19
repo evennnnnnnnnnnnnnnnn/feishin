@@ -1,9 +1,9 @@
 import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 
+import { ItemListKey, TableColumn } from '@feishin/core/types/types';
 import { useCallback } from 'react';
 
 import { useSettingsStore, useSettingsStoreActions } from '/@/renderer/store';
-import { ItemListKey, TableColumn } from '/@/shared/types/types';
 
 interface UseItemListColumnReorderProps {
     itemListKey: ItemListKey;

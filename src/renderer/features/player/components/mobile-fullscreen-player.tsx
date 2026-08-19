@@ -1,3 +1,5 @@
+import { LibraryItem, ServerType } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { AnimatePresence, motion } from 'motion/react';
 import { Variants } from 'motion/react';
 import {
@@ -43,8 +45,6 @@ import {
 } from '/@/renderer/store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem, ServerType } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 const mainBackground = 'var(--theme-colors-background)';
 

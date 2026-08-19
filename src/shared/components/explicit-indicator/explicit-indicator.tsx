@@ -1,9 +1,8 @@
+import { ExplicitStatus } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { ComponentPropsWithoutRef } from 'react';
 
 import styles from './explicit-indicator.module.css';
-
-import { ExplicitStatus } from '/@/shared/types/domain-types';
 
 const EXPLICIT_SYMBOL = '🅴';
 const CLEAN_SYMBOL = '🅲';

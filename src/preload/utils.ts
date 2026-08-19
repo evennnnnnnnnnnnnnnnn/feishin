@@ -1,5 +1,3 @@
-import { ipcRenderer, type IpcRendererEvent, webFrame } from 'electron';
-
 import type {
     ArtworkOp,
     BatchProgress,
@@ -7,7 +5,9 @@ import type {
     ReadSongMetadataBatchResult,
     TagValue,
     WriteSongTagsBatchResult,
-} from '../shared/types/tag-editor';
+} from '@feishin/core/types/tag-editor';
+
+import { ipcRenderer, type IpcRendererEvent, webFrame } from 'electron';
 
 import { disableAutoUpdates, isLinux, isMacOS, isWindows } from '../main/env';
 

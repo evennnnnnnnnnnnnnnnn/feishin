@@ -1,7 +1,7 @@
+import { QueueSong, Song } from '@feishin/core/types/domain-types';
 import { useMemo } from 'react';
 
 import { usePlayerSong } from '/@/renderer/store';
-import { QueueSong, Song } from '/@/shared/types/domain-types';
 
 export const useIsCurrentSong = (song: QueueSong | Song) => {
     const currentSong = usePlayerSong();

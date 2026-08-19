@@ -1,4 +1,4 @@
-import { TableColumn } from '/@/shared/types/types';
+import { TableColumn } from '@feishin/core/types/types';
 
 const FIXED_TRACK_COLUMN_WIDTHS: Partial<Record<TableColumn, number>> = {
     [TableColumn.ACTIONS]: 32,

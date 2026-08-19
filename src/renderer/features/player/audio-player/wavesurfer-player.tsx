@@ -1,6 +1,7 @@
 import type { Dispatch } from 'react';
 import type WaveSurfer from 'wavesurfer.js';
 
+import { PlayerStatus, PlayerStyle } from '@feishin/core/types/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
@@ -19,7 +20,6 @@ import {
     usePlayerStoreBase,
     usePlayerVolume,
 } from '/@/renderer/store';
-import { PlayerStatus, PlayerStyle } from '/@/shared/types/types';
 
 const PLAY_PAUSE_FADE_DURATION = 300;
 const PLAY_PAUSE_FADE_INTERVAL = 10;

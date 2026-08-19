@@ -1,3 +1,4 @@
+import { ClientEvent, ServerEvent, SongUpdateSocket } from '@feishin/core/types/remote-types';
 import merge from 'lodash/merge';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -5,7 +6,6 @@ import { createWithEqualityFn } from 'zustand/traditional';
 
 import { logger } from '/@/renderer/utils/logger';
 import { toast } from '/@/shared/components/toast/toast';
-import { ClientEvent, ServerEvent, SongUpdateSocket } from '/@/shared/types/remote-types';
 
 export interface SettingsSlice extends SettingsState {
     actions: {

@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { type RefObject, useRef } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -9,8 +11,6 @@ import {
 import { ItemControls } from '/@/renderer/components/item-list/types';
 import { useHotkeys } from '/@/renderer/hooks/use-hotkeys';
 import { useHotkeySettings, usePlayButtonBehavior } from '/@/renderer/store';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 export const useListHotkeys = ({
     controls,

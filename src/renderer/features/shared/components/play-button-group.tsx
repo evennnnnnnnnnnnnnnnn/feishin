@@ -1,3 +1,4 @@
+import { Play } from '@feishin/core/types/types';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -11,7 +12,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 import { useClickOutside } from '/@/shared/hooks/use-click-outside';
-import { Play } from '/@/shared/types/types';
 
 const playButtons: {
     icon: AppIconSelection;

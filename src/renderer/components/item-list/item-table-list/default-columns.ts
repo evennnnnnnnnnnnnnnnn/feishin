@@ -1,6 +1,7 @@
+import { TableColumn } from '@feishin/core/types/types';
+
 import i18n from '/@/i18n/i18n';
 import { ItemGridListRowConfig, ItemTableListColumnConfig } from '/@/renderer/store';
-import { TableColumn } from '/@/shared/types/types';
 
 export type DefaultTableColumn = {
     align: 'center' | 'end' | 'start';

@@ -6,7 +6,7 @@ import {
     SynchronizedLyricLine,
     SynchronizedLyrics,
     SynchronizedLyricsLineTuple,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
 
 export const isLyricsLineTuple = (
     line: SynchronizedLyricLine | SynchronizedLyricsLineTuple,

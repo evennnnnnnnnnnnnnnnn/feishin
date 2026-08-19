@@ -1,3 +1,4 @@
+import { CreateInternetRadioStationBody, ServerListItem } from '@feishin/core/types/domain-types';
 import { t } from 'i18next';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { TextInput } from '/@/shared/components/text-input/text-input';
 import { toast } from '/@/shared/components/toast/toast';
 import { useForm } from '/@/shared/hooks/use-form';
-import { CreateInternetRadioStationBody, ServerListItem } from '/@/shared/types/domain-types';
 
 interface CreateRadioStationFormProps {
     onCancel: () => void;

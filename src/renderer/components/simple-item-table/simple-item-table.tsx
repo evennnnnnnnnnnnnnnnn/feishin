@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { memo, useId, useMemo } from 'react';
 
@@ -17,7 +18,6 @@ import { TableColumnHeaderContainer } from '/@/renderer/components/item-list/ite
 import { ItemTableListColumnConfig } from '/@/renderer/components/item-list/types';
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { Table } from '/@/shared/components/table/table';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 enum TableItemSize {
     COMPACT = 40,

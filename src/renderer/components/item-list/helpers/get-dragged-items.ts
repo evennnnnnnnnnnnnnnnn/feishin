@@ -1,8 +1,4 @@
 import {
-    ItemListStateActions,
-    ItemListStateItemWithRequiredProperties,
-} from '/@/renderer/components/item-list/helpers/item-list-state';
-import {
     Album,
     AlbumArtist,
     Artist,
@@ -10,7 +6,12 @@ import {
     Genre,
     Playlist,
     Song,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+
+import {
+    ItemListStateActions,
+    ItemListStateItemWithRequiredProperties,
+} from '/@/renderer/components/item-list/helpers/item-list-state';
 
 /**
  * Type guard to assert that an item has the required properties for dragging

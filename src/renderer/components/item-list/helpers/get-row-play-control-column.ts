@@ -1,5 +1,6 @@
+import { TableColumn } from '@feishin/core/types/types';
+
 import { ItemTableListColumnConfig } from '/@/renderer/components/item-list/types';
-import { TableColumn } from '/@/shared/types/types';
 
 const ROW_PLAY_CONTROL_COLUMN_IDS = [TableColumn.TRACK_NUMBER, TableColumn.ROW_INDEX] as const;
 

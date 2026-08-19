@@ -1,3 +1,12 @@
+import {
+    LibraryItem,
+    Song,
+    SongListQuery,
+    SongListResponse,
+    SongListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey, Play } from '@feishin/core/types/types';
 import { QueryFunctionContext, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { Suspense, useCallback, useMemo } from 'react';
 
@@ -14,15 +23,6 @@ import { useGridRows } from '/@/renderer/components/item-list/helpers/use-grid-r
 import { DefaultItemControlProps } from '/@/renderer/components/item-list/types';
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { useCurrentServerId } from '/@/renderer/store';
-import {
-    LibraryItem,
-    Song,
-    SongListQuery,
-    SongListResponse,
-    SongListSort,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey, Play } from '/@/shared/types/types';
 
 interface SongCarouselProps {
     containerQuery?: ReturnType<typeof useGridCarouselContainerQuery>;

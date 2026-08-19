@@ -1,3 +1,12 @@
+import { PlayerData, QueueData, QueueSong, Song } from '@feishin/core/types/domain-types';
+import {
+    CrossfadeStyle,
+    Play,
+    PlayerRepeat,
+    PlayerShuffle,
+    PlayerStatus,
+    PlayerStyle,
+} from '@feishin/core/types/types';
 import merge from 'lodash/merge';
 import { nanoid } from 'nanoid';
 import { useMemo } from 'react';
@@ -16,15 +25,6 @@ import {
 } from '/@/renderer/store/timestamp.store';
 import { migratePlayerStorePersist, playerStoreStorage } from '/@/renderer/store/utils';
 import { shuffleInPlace } from '/@/renderer/utils/shuffle';
-import { PlayerData, QueueData, QueueSong, Song } from '/@/shared/types/domain-types';
-import {
-    CrossfadeStyle,
-    Play,
-    PlayerRepeat,
-    PlayerShuffle,
-    PlayerStatus,
-    PlayerStyle,
-} from '/@/shared/types/types';
 
 export interface PlayerState extends Actions, State {}
 

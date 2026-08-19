@@ -1,3 +1,9 @@
+import {
+    AlbumArtistListSort,
+    GenreListSort,
+    LibraryItem,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,12 +28,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { Switch } from '/@/shared/components/switch/switch';
 import { Text } from '/@/shared/components/text/text';
 import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
-import {
-    AlbumArtistListSort,
-    GenreListSort,
-    LibraryItem,
-    SortOrder,
-} from '/@/shared/types/domain-types';
 
 interface NavidromeAlbumFiltersProps {
     disableArtistFilter?: boolean;

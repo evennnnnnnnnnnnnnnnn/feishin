@@ -9,6 +9,8 @@ import {
     dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview';
+import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import { ItemListKey, ListPaginationType, TableColumn } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import Fuse, { type FuseResultMatch } from 'fuse.js';
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -42,8 +44,6 @@ import { TextInput } from '/@/shared/components/text-input/text-input';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 import { useDebouncedState } from '/@/shared/hooks/use-debounced-state';
-import { dndUtils, DragData, DragOperation, DragTarget } from '/@/shared/types/drag-and-drop';
-import { ItemListKey, ListPaginationType, TableColumn } from '/@/shared/types/types';
 
 interface TableConfigProps {
     enablePinColumnButtons?: boolean;

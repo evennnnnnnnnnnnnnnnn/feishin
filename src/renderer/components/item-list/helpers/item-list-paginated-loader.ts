@@ -1,3 +1,4 @@
+import { LibraryItem, SortKeyRandom } from '@feishin/core/types/domain-types';
 import {
     useMutation,
     useQuery,
@@ -12,7 +13,6 @@ import { useListContext } from '/@/renderer/context/list-context';
 import { eventEmitter } from '/@/renderer/events/event-emitter';
 import { UserFavoriteEventPayload, UserRatingEventPayload } from '/@/renderer/events/events';
 import { getListRefreshMutationKey } from '/@/renderer/features/shared/components/list-refresh-button';
-import { LibraryItem, SortKeyRandom } from '/@/shared/types/domain-types';
 
 const getQueryKeyName = (itemType: LibraryItem): string => {
     switch (itemType) {

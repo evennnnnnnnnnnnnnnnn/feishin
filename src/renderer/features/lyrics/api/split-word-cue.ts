@@ -1,4 +1,4 @@
-import { SyncedWordCue } from '/@/shared/types/domain-types';
+import { SyncedWordCue } from '@feishin/core/types/domain-types';
 
 // eslint-disable-next-line no-irregular-whitespace
 const BREAK_CHAR_RE = /[\s​­\p{Dash_Punctuation}]/u;

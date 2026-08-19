@@ -1,8 +1,8 @@
+import { ServerType } from '@feishin/core/types/domain-types';
 import { useEffect, useRef } from 'react';
 
 import { useSaveQueue } from '/@/renderer/features/player/hooks/use-queue-restore';
 import { useCurrentServer, usePlayerSong, useSettingsStore } from '/@/renderer/store';
-import { ServerType } from '/@/shared/types/domain-types';
 
 export const useAutosave = () => {
     const server = useCurrentServer();

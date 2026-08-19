@@ -1,12 +1,12 @@
 import type { RefObject } from 'react';
 import type WaveSurfer from 'wavesurfer.js';
 
+import { PlayerStatus } from '@feishin/core/types/types';
 import { useWavesurfer } from '@wavesurfer/react';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { AudioPlayer, PlayerOnProgressProps } from '/@/renderer/features/player/audio-player/types';
 import { convertToLogVolume } from '/@/renderer/features/player/audio-player/utils/player-utils';
-import { PlayerStatus } from '/@/shared/types/types';
 
 export interface WaveSurferPlayerEngineHandle extends AudioPlayer {
     player1(): {

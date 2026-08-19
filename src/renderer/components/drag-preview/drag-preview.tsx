@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { DragData, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,8 +7,6 @@ import styles from './drag-preview.module.css';
 
 import { useItemImageUrl } from '/@/renderer/components/item-image/item-image';
 import { Icon } from '/@/shared/components/icon/icon';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { DragData, DragTarget } from '/@/shared/types/drag-and-drop';
 
 interface DragPreviewProps {
     data: DragData;

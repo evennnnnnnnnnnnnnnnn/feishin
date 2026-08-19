@@ -1,9 +1,9 @@
+import { SearchQuery, SearchResponse } from '@feishin/core/types/domain-types';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { QueryHookArgs } from '/@/renderer/lib/react-query';
-import { SearchQuery, SearchResponse } from '/@/shared/types/domain-types';
 
 const SEARCH_PAGE_SIZE = 4;
 

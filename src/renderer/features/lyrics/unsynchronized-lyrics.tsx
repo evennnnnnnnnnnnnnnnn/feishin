@@ -1,3 +1,4 @@
+import { FullLyricsMetadata } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 
@@ -6,7 +7,6 @@ import styles from './unsynchronized-lyrics.module.css';
 import { LyricsScrollContent } from '/@/renderer/features/lyrics/components/lyrics-scroll-content';
 import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
 import { useLyricsDisplaySettings, useLyricsSettings } from '/@/renderer/store';
-import { FullLyricsMetadata } from '/@/shared/types/domain-types';
 
 export interface UnsynchronizedLyricsProps extends Omit<FullLyricsMetadata, 'lyrics'> {
     lyrics: string;

@@ -1,3 +1,5 @@
+import { ArtistListSort, LibraryItem, SortOrder } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useQuery } from '@tanstack/react-query';
 
 import { ALBUM_ARTIST_TABLE_COLUMNS } from '/@/renderer/components/item-list/item-table-list/default-columns';
@@ -13,8 +15,6 @@ import { useCurrentServer } from '/@/renderer/store';
 import { Divider } from '/@/shared/components/divider/divider';
 import { Flex } from '/@/shared/components/flex/flex';
 import { Group } from '/@/shared/components/group/group';
-import { ArtistListSort, LibraryItem, SortOrder } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const ArtistListHeaderFilters = () => {
     const server = useCurrentServer();

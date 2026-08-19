@@ -1,5 +1,5 @@
-import { QueueSong } from '/@/shared/types/domain-types';
-import { PlayerRepeat, PlayerStatus, SongState } from '/@/shared/types/types';
+import { QueueSong } from '@feishin/core/types/domain-types';
+import { PlayerRepeat, PlayerStatus, SongState } from '@feishin/core/types/types';
 
 export interface ClientAuth {
     event: 'authenticate';

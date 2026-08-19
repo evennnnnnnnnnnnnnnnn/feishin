@@ -1,7 +1,7 @@
+import { PlayerStatus } from '@feishin/core/types/types';
 import { app, ipcMain, Menu } from 'electron';
 
 import { getMainWindow } from '/@/main/index';
-import { PlayerStatus } from '/@/shared/types/types';
 
 let currentStatus: PlayerStatus = PlayerStatus.PAUSED;
 

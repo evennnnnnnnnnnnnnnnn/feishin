@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { Suspense } from 'react';
 
 import styles from './expanded-list-item.module.css';
@@ -5,7 +6,6 @@ import styles from './expanded-list-item.module.css';
 import { ItemListStateItem } from '/@/renderer/components/item-list/helpers/item-list-state';
 import { ExpandedAlbumListItem } from '/@/renderer/features/albums/components/expanded-album-list-item';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface ExpandedListItemProps {
     item?: ItemListStateItem;

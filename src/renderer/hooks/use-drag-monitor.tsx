@@ -1,7 +1,6 @@
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { DragData } from '@feishin/core/types/drag-and-drop';
 import { useEffect } from 'react';
-
-import { DragData } from '/@/shared/types/drag-and-drop';
 
 interface UseDragMonitorProps {
     canMonitor?: (source: DragData) => boolean;

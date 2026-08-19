@@ -1,9 +1,9 @@
+import { PlayerRepeat, PlayerStatus } from '@feishin/core/types/types';
 import { BrowserWindow, Menu, MenuItemConstructorOptions, shell } from 'electron';
 
 import packageJson from '../../package.json';
 
 import { store } from '/@/main/features/core/settings';
-import { PlayerRepeat, PlayerStatus } from '/@/shared/types/types';
 
 export type MenuPlaybackState = {
     accelerators?: {

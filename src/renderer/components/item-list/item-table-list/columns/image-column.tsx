@@ -1,3 +1,5 @@
+import { Folder, LibraryItem } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -16,8 +18,6 @@ import {
 import { usePlayButtonBehavior } from '/@/renderer/store';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Skeleton } from '/@/shared/components/skeleton/skeleton';
-import { Folder, LibraryItem } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 const ImageColumnBase = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

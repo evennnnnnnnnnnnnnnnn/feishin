@@ -1,3 +1,4 @@
+import { FullLyricsMetadata } from '@feishin/core/types/domain-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import formatDuration from 'format-duration';
 import { useCallback, useMemo } from 'react';
@@ -13,7 +14,6 @@ import { Group } from '/@/shared/components/group/group';
 import { NumberInput } from '/@/shared/components/number-input/number-input';
 import { Stack } from '/@/shared/components/stack/stack';
 import { useForm } from '/@/shared/hooks/use-form';
-import { FullLyricsMetadata } from '/@/shared/types/domain-types';
 
 interface LyricsExportFormProps {
     lyrics: FullLyricsMetadata;

@@ -1,3 +1,14 @@
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
+import {
+    Album,
+    AlbumArtist,
+    Artist,
+    Genre,
+    LibraryItem,
+    Playlist,
+    Song,
+} from '@feishin/core/types/domain-types';
+import { DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import clsx from 'clsx';
 import { AnimatePresence } from 'motion/react';
 import { Fragment, memo, ReactNode, useCallback, useMemo, useState } from 'react';
@@ -27,7 +38,6 @@ import {
     formatPartialIsoDateUTC,
     formatRating,
 } from '/@/renderer/utils/format';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
 import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
 import { Group } from '/@/shared/components/group/group';
 import { Icon } from '/@/shared/components/icon/icon';
@@ -35,16 +45,6 @@ import { Separator } from '/@/shared/components/separator/separator';
 import { Skeleton } from '/@/shared/components/skeleton/skeleton';
 import { Text } from '/@/shared/components/text/text';
 import { useDoubleClick } from '/@/shared/hooks/use-double-click';
-import {
-    Album,
-    AlbumArtist,
-    Artist,
-    Genre,
-    LibraryItem,
-    Playlist,
-    Song,
-} from '/@/shared/types/domain-types';
-import { DragOperation, DragTarget } from '/@/shared/types/drag-and-drop';
 import { stringToColor } from '/@/shared/utils/string-to-color';
 
 export type DataRow = {

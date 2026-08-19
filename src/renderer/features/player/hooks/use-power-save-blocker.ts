@@ -1,8 +1,8 @@
+import { PlayerStatus } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import React, { useCallback, useEffect } from 'react';
 
 import { usePlayerStatus, useSettingsStore, useWindowSettings } from '/@/renderer/store';
-import { PlayerStatus } from '/@/shared/types/types';
 
 const utils = isElectron() ? window.api.utils : null;
 

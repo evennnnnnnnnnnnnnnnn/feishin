@@ -9,6 +9,9 @@ import {
     dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview';
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import { TableColumn } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import React, {
     CSSProperties,
@@ -71,9 +74,6 @@ import { Skeleton } from '/@/shared/components/skeleton/skeleton';
 import { Text } from '/@/shared/components/text/text';
 import { useDoubleClick } from '/@/shared/hooks/use-double-click';
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { dndUtils, DragData, DragOperation, DragTarget } from '/@/shared/types/drag-and-drop';
-import { TableColumn } from '/@/shared/types/types';
 
 export interface ItemTableListColumn extends CellComponentProps<TableItemProps> {
     columnType?: TableColumn;

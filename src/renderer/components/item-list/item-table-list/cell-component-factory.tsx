@@ -1,10 +1,10 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { TableColumn } from '@feishin/core/types/types';
 import React from 'react';
 import { CellComponentProps } from 'react-window-v2';
 
 import { TableItemProps } from '/@/renderer/components/item-list/item-table-list/item-table-list';
 import { ItemTableListColumn } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { TableColumn } from '/@/shared/types/types';
 
 export const createColumnCellComponent = (
     columnType: TableColumn,

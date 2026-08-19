@@ -1,3 +1,4 @@
+import { Song } from '@feishin/core/types/domain-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,6 @@ import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 import { ConfirmModal } from '/@/shared/components/modal/modal';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
-import { Song } from '/@/shared/types/domain-types';
 
 interface RemoveFromPlaylistActionProps {
     items: Song[];

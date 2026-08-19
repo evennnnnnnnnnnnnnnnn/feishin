@@ -1,3 +1,5 @@
+import { SynchronizedLyrics } from '@feishin/core/types/domain-types';
+
 import {
     animateScrollTop,
     computeScrollDurationMs,
@@ -7,7 +9,6 @@ import {
     getLyricLineStartMs,
     lyricsHasWordCues,
 } from '/@/renderer/features/lyrics/api/lyrics-utils';
-import { SynchronizedLyrics } from '/@/shared/types/domain-types';
 
 const ANIMATING_CLASS = 'lyrics-word-animating';
 const PRE_ANIMATING_CLASS = 'lyrics-word-pre-animating';

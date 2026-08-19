@@ -1,3 +1,5 @@
+import { LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
+import { PlayerShuffle, ServerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import React, { useEffect, useMemo } from 'react';
 
@@ -8,8 +10,6 @@ import {
     useRadioPlayer,
 } from '/@/renderer/features/radio/hooks/use-radio-player';
 import { usePlayerSong, usePlayerStore } from '/@/renderer/store';
-import { LibraryItem, QueueSong } from '/@/shared/types/domain-types';
-import { PlayerShuffle, ServerType } from '/@/shared/types/types';
 
 const ipc = isElectron() ? window.api.ipc : null;
 const utils = isElectron() ? window.api.utils : null;

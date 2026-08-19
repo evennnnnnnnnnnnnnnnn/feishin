@@ -1,3 +1,5 @@
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
+import { TableColumn } from '@feishin/core/types/types';
 import { useMemo } from 'react';
 
 import {
@@ -11,8 +13,6 @@ import {
     formatDateRelative,
     formatPartialIsoDateUTC,
 } from '/@/renderer/utils/format';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
-import { TableColumn } from '/@/shared/types/types';
 
 const DateColumnBase = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

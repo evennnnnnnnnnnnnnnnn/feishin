@@ -1,7 +1,7 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { generatePath } from 'react-router';
 
 import { AppRoute } from '/@/renderer/router/routes';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 export const getTitlePath = (itemType: LibraryItem, id: string) => {
     switch (itemType) {

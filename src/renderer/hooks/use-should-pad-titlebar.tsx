@@ -1,9 +1,9 @@
+import { Platform } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { useLocation } from 'react-router';
 
 import { AppRoute } from '/@/renderer/router/routes';
 import { useSidebarRightExpanded, useSideQueueType, useWindowSettings } from '/@/renderer/store';
-import { Platform } from '/@/shared/types/types';
 
 export const useShouldPadTitlebar = () => {
     const location = useLocation();

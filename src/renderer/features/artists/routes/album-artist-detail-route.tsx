@@ -1,3 +1,4 @@
+import { AlbumListSort, LibraryItem, SortOrder } from '@feishin/core/types/domain-types';
 import { useSuspenseQueries } from '@tanstack/react-query';
 import { Suspense, useRef } from 'react';
 import { useParams } from 'react-router';
@@ -20,7 +21,6 @@ import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-e
 import { useFastAverageColor } from '/@/renderer/hooks';
 import { useArtistBackground, useCurrentServer, useCurrentServerId } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import { AlbumListSort, LibraryItem, SortOrder } from '/@/shared/types/domain-types';
 
 const AlbumArtistDetailRouteContent = () => {
     const scrollAreaRef = useRef<HTMLDivElement>(null);

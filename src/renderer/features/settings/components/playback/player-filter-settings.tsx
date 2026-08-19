@@ -1,3 +1,9 @@
+import {
+    NDSongQueryBooleanOperators,
+    NDSongQueryDateOperators,
+    NDSongQueryNumberOperators,
+    NDSongQueryStringOperators,
+} from '@feishin/core/api/navidrome/navidrome-types';
 import { nanoid } from 'nanoid/non-secure';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,12 +19,6 @@ import {
     useSettingsStore,
     useSettingsStoreActions,
 } from '/@/renderer/store';
-import {
-    NDSongQueryBooleanOperators,
-    NDSongQueryDateOperators,
-    NDSongQueryNumberOperators,
-    NDSongQueryStringOperators,
-} from '/@/shared/api/navidrome/navidrome-types';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Button } from '/@/shared/components/button/button';
 import { Checkbox } from '/@/shared/components/checkbox/checkbox';

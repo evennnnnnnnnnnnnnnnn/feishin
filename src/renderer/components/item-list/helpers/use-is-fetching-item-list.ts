@@ -1,9 +1,9 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useIsFetching } from '@tanstack/react-query';
 
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { getListQueryKeyName } from '/@/renderer/components/item-list/helpers/item-list-infinite-loader';
 import { useCurrentServerId } from '/@/renderer/store';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 export const useIsFetchingItemListCount = ({ itemType }: { itemType: LibraryItem }) => {
     const serverId = useCurrentServerId();

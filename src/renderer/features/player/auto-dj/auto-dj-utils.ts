@@ -1,6 +1,6 @@
-import type { Genre } from '/@/shared/types/domain-types';
+import type { Genre } from '@feishin/core/types/domain-types';
 
-import { ServerType } from '/@/shared/types/domain-types';
+import { ServerType } from '@feishin/core/types/domain-types';
 
 export const autoDjGenreIdsForSongGenre = (genre: Genre, serverType: ServerType): string[] => {
     if (serverType === ServerType.JELLYFIN) {

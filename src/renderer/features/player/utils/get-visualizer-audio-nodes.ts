@@ -1,6 +1,6 @@
-import type { WebAudio } from '/@/shared/types/types';
+import type { WebAudio } from '@feishin/core/types/types';
 
-import { PlayerType } from '/@/shared/types/types';
+import { PlayerType } from '@feishin/core/types/types';
 
 export function getVisualizerAudioNodes(
     webAudio: undefined | WebAudio,

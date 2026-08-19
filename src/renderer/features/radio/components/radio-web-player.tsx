@@ -1,5 +1,6 @@
 import type ReactPlayer from 'react-player';
 
+import { PlayerStatus } from '@feishin/core/types/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
@@ -14,7 +15,6 @@ import {
 } from '/@/renderer/features/radio/hooks/use-radio-player';
 import { usePlaybackSettings, usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
 import { toast } from '/@/shared/components/toast/toast';
-import { PlayerStatus } from '/@/shared/types/types';
 
 export function RadioWebPlayer() {
     const playerRef = useRef<null | WebPlayerEngineHandle>(null);

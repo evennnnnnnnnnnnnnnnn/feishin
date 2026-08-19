@@ -1,3 +1,7 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import { LibraryItem, QueueSong, ServerType } from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { PlayerStatus } from '@feishin/core/types/types';
 import React, { useCallback, useEffect, useRef } from 'react';
 
 import { useItemImageUrl } from '/@/renderer/components/item-image/item-image';
@@ -15,10 +19,6 @@ import {
     useTimestampStoreBase,
 } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { hasFeature } from '/@/shared/api/utils';
-import { LibraryItem, QueueSong, ServerType } from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
-import { PlayerStatus } from '/@/shared/types/types';
 
 type ScrobbleManualHandlers = {
     forceSubmitScrobble: () => void;

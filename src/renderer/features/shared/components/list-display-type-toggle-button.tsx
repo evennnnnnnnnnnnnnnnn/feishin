@@ -1,6 +1,7 @@
+import { ItemListKey, ListDisplayType } from '@feishin/core/types/types';
+
 import { DisplayTypeToggleButton } from '/@/renderer/features/shared/components/display-type-toggle-button';
 import { useSettingsStore, useSettingsStoreActions } from '/@/renderer/store';
-import { ItemListKey, ListDisplayType } from '/@/shared/types/types';
 
 interface ListDisplayTypeToggleButtonProps {
     enableDetail?: boolean;

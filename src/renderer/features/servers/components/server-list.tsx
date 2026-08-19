@@ -1,3 +1,4 @@
+import { ServerType } from '@feishin/core/types/domain-types';
 import { openContextModal } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +19,6 @@ import { Icon } from '/@/shared/components/icon/icon';
 import { ContextModalVars } from '/@/shared/components/modal/modal';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { ServerType } from '/@/shared/types/domain-types';
 
 export const ServerList = () => {
     const { t } = useTranslation();

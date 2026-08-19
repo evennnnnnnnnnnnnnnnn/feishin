@@ -1,3 +1,4 @@
+import { ScrobbleArgs, ScrobbleResponse } from '@feishin/core/types/domain-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
@@ -5,7 +6,6 @@ import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { MutationOptions } from '/@/renderer/lib/react-query';
 import { incrementQueuePlayCount } from '/@/renderer/store/player.store';
-import { ScrobbleArgs, ScrobbleResponse } from '/@/shared/types/domain-types';
 
 export const useSendScrobble = (options?: MutationOptions) => {
     const queryClient = useQueryClient();

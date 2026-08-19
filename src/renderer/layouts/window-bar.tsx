@@ -1,3 +1,4 @@
+import { Platform, PlayerStatus } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -22,7 +23,6 @@ import {
     useWindowSettings,
 } from '/@/renderer/store';
 import { Text } from '/@/shared/components/text/text';
-import { Platform, PlayerStatus } from '/@/shared/types/types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

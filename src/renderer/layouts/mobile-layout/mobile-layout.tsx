@@ -1,3 +1,4 @@
+import { Platform } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { AnimatePresence } from 'motion/react';
 import { Suspense } from 'react';
@@ -16,7 +17,6 @@ import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Drawer } from '/@/shared/components/drawer/drawer';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { useDisclosure } from '/@/shared/hooks/use-disclosure';
-import { Platform } from '/@/shared/types/types';
 
 interface MobileLayoutProps {
     shell?: boolean;

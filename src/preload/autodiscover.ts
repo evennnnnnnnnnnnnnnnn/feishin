@@ -1,6 +1,5 @@
+import { DiscoveredServerItem } from '@feishin/core/types/types';
 import { ipcRenderer } from 'electron';
-
-import { DiscoveredServerItem } from '../shared/types/types';
 
 const discover = (onReply: (server: DiscoveredServerItem) => void): Promise<void> => {
     const { port1: local, port2: remote } = new MessageChannel();

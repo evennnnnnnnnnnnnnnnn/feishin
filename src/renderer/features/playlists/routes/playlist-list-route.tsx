@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -6,7 +7,6 @@ import { PlaylistListContent } from '/@/renderer/features/playlists/components/p
 import { PlaylistListHeader } from '/@/renderer/features/playlists/components/playlist-list-header';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { ItemListKey } from '/@/shared/types/types';
 
 const PlaylistListRoute = () => {
     const { playlistId } = useParams();

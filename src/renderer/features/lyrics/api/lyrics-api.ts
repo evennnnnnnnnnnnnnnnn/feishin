@@ -1,12 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
-import isElectron from 'is-electron';
-
-import { api } from '/@/renderer/api';
-import { queryKeys } from '/@/renderer/api/query-keys';
-import { getDefaultStructuredIndex } from '/@/renderer/features/lyrics/api/lyrics-utils';
-import { queryClient, QueryHookArgs } from '/@/renderer/lib/react-query';
-import { getServerById, useSettingsStore } from '/@/renderer/store';
-import { hasFeature } from '/@/shared/api/utils';
+import { hasFeature } from '@feishin/core/api/utils';
 import {
     FullLyricsMetadata,
     InternetProviderLyricResponse,
@@ -19,10 +11,18 @@ import {
     Song,
     StructuredLyric,
     SynchronizedLyrics,
-} from '/@/shared/types/domain-types';
-import { LyricSource } from '/@/shared/types/domain-types';
-import { LyricsResponse } from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
+} from '@feishin/core/types/domain-types';
+import { LyricSource } from '@feishin/core/types/domain-types';
+import { LyricsResponse } from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { queryOptions } from '@tanstack/react-query';
+import isElectron from 'is-electron';
+
+import { api } from '/@/renderer/api';
+import { queryKeys } from '/@/renderer/api/query-keys';
+import { getDefaultStructuredIndex } from '/@/renderer/features/lyrics/api/lyrics-utils';
+import { queryClient, QueryHookArgs } from '/@/renderer/lib/react-query';
+import { getServerById, useSettingsStore } from '/@/renderer/store';
 
 const lyricsIpc = isElectron() ? window.api.lyrics : null;
 

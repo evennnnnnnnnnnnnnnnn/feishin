@@ -1,16 +1,6 @@
-import axios from 'axios';
-import { set } from 'idb-keyval';
-import chunk from 'lodash/chunk';
-import filter from 'lodash/filter';
-import orderBy from 'lodash/orderBy';
-import { z } from 'zod';
-
-import { createAuthHeader, jfApiClient } from '/@/renderer/api/jellyfin/jellyfin-api';
-import { useRadioStore } from '/@/renderer/features/radio/store/radio-store';
-import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
-import { jfNormalize } from '/@/shared/api/jellyfin/jellyfin-normalize';
-import { JFSongListSort, JFSortOrder, jfType } from '/@/shared/api/jellyfin/jellyfin-types';
-import { getFeatures, hasFeature, sortSongList, VersionInfo } from '/@/shared/api/utils';
+import { jfNormalize } from '@feishin/core/api/jellyfin/jellyfin-normalize';
+import { JFSongListSort, JFSortOrder, jfType } from '@feishin/core/api/jellyfin/jellyfin-types';
+import { getFeatures, hasFeature, sortSongList, VersionInfo } from '@feishin/core/api/utils';
 import {
     albumArtistListSortMap,
     albumListSortMap,
@@ -38,8 +28,18 @@ import {
     UploadArtistImageResponse,
     UploadPlaylistImageArgs,
     UploadPlaylistImageResponse,
-} from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
+} from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import axios from 'axios';
+import { set } from 'idb-keyval';
+import chunk from 'lodash/chunk';
+import filter from 'lodash/filter';
+import orderBy from 'lodash/orderBy';
+import { z } from 'zod';
+
+import { createAuthHeader, jfApiClient } from '/@/renderer/api/jellyfin/jellyfin-api';
+import { useRadioStore } from '/@/renderer/features/radio/store/radio-store';
+import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
 
 const getJellyfinImageRequest = ({
     apiClientProps: { server },

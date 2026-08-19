@@ -1,9 +1,9 @@
+import { AlbumArtist, RelatedAlbumArtist, RelatedArtist } from '@feishin/core/types/domain-types';
 import { Fragment, memo } from 'react';
 import { generatePath, Link } from 'react-router';
 
 import { AppRoute } from '/@/renderer/router/routes';
 import { Text, TextProps } from '/@/shared/components/text/text';
-import { AlbumArtist, RelatedAlbumArtist, RelatedArtist } from '/@/shared/types/domain-types';
 
 export const JOINED_ARTISTS_MUTED_PROPS = {
     linkProps: { fw: 400, isMuted: true },

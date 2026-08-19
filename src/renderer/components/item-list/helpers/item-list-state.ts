@@ -1,7 +1,7 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useCallback, useMemo, useRef, useSyncExternalStore } from 'react';
 
 import { itemListSelectors } from '/@/renderer/components/item-list/helpers/item-list-reducer-utils';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 const sortByDataOrder = <T>(
     items: T[],

@@ -1,6 +1,7 @@
 import type { Variants } from 'motion/react';
 import type { ReactNode } from 'react';
 
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -11,7 +12,6 @@ import { useContainerQuery } from '/@/renderer/hooks';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
 import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 export const useGridCarouselContainerQuery = () => {
     return useContainerQuery({

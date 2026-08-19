@@ -1,3 +1,4 @@
+import { LibraryItem, ServerType } from '@feishin/core/types/domain-types';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
@@ -12,7 +13,6 @@ import { useIsMutatingRating } from '/@/renderer/features/shared/mutations/set-r
 import { useShowFavorites, useShowRatings } from '/@/renderer/store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Rating } from '/@/shared/components/rating/rating';
-import { LibraryItem, ServerType } from '/@/shared/types/domain-types';
 
 const isRatingSupported = (serverType: ServerType | undefined) =>
     serverType === ServerType.NAVIDROME || serverType === ServerType.SUBSONIC;

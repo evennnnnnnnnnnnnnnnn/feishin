@@ -1,3 +1,4 @@
+import { AddToPlaylistArgs, AddToPlaylistResponse } from '@feishin/core/types/domain-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
@@ -6,7 +7,6 @@ import { queryKeys } from '/@/renderer/api/query-keys';
 import { useRecentPlaylists } from '/@/renderer/features/playlists/hooks/use-recent-playlists';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
 import { useCurrentServerId } from '/@/renderer/store';
-import { AddToPlaylistArgs, AddToPlaylistResponse } from '/@/shared/types/domain-types';
 
 export const useAddToPlaylist = (args: MutationHookArgs) => {
     const { options } = args || {};

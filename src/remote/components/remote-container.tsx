@@ -1,3 +1,4 @@
+import { PlayerRepeat, PlayerStatus } from '@feishin/core/types/types';
 import formatDuration from 'format-duration';
 import debounce from 'lodash/debounce';
 import { useCallback } from 'react';
@@ -13,7 +14,6 @@ import { Rating } from '/@/shared/components/rating/rating';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { PlayerRepeat, PlayerStatus } from '/@/shared/types/types';
 
 export const RemoteContainer = () => {
     const { position, repeat, shuffle, song, status, volume } = useInfo();

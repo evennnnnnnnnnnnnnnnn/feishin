@@ -1,7 +1,5 @@
-import { z } from 'zod';
-
-import { coerceYear, parsePartialIsoDate } from '/@/shared/api/partial-iso-date';
-import { ssType } from '/@/shared/api/subsonic/subsonic-types';
+import { coerceYear, parsePartialIsoDate } from '@feishin/core/api/partial-iso-date';
+import { ssType } from '@feishin/core/api/subsonic/subsonic-types';
 import {
     Album,
     AlbumArtist,
@@ -15,7 +13,8 @@ import {
     ServerListItemWithCredential,
     ServerType,
     Song,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { z } from 'zod';
 
 const getArtistList = (
     artists?: typeof ssType._response.song._type.artists,

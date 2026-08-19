@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { Suspense, useMemo } from 'react';
 import { useParams } from 'react-router';
 
@@ -10,8 +12,6 @@ import { GenreTarget, useGenreTarget, useListSettings } from '/@/renderer/store'
 import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Stack } from '/@/shared/components/stack/stack';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 const GenreDetailFilters = () => {
     const genreTarget = useGenreTarget();

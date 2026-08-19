@@ -1,8 +1,7 @@
+import { NDSongQueryFields } from '@feishin/core/api/navidrome/navidrome-types';
+import { Album, LibraryItem, Song } from '@feishin/core/types/domain-types';
+import { QueryBuilderGroup } from '@feishin/core/types/types';
 import { nanoid } from 'nanoid/non-secure';
-
-import { NDSongQueryFields } from '/@/shared/api/navidrome/navidrome-types';
-import { Album, LibraryItem, Song } from '/@/shared/types/domain-types';
-import { QueryBuilderGroup } from '/@/shared/types/types';
 
 export type PlaylistAlbumRow = Album & { _playlistSongs?: Song[] };
 

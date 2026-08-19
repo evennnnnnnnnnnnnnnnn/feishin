@@ -1,4 +1,4 @@
-import type { TitleTheme } from '/@/shared/types/types';
+import type { TitleTheme } from '@feishin/core/types/types';
 import type { FSWatcher } from 'fs';
 
 import {

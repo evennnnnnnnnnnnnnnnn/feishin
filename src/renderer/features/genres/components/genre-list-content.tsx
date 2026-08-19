@@ -1,10 +1,10 @@
+import { GenreListQuery } from '@feishin/core/types/domain-types';
+import { ItemListKey, ListDisplayType, ListPaginationType } from '@feishin/core/types/types';
 import { lazy, Suspense, useMemo } from 'react';
 
 import { useGenreListFilters } from '/@/renderer/features/genres/hooks/use-genre-list-filters';
 import { ItemListSettings, useCurrentServer, useListSettings } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import { GenreListQuery } from '/@/shared/types/domain-types';
-import { ItemListKey, ListDisplayType, ListPaginationType } from '/@/shared/types/types';
 
 const GenreListInfiniteGrid = lazy(() =>
     import('/@/renderer/features/genres/components/genre-list-infinite-grid').then((module) => ({

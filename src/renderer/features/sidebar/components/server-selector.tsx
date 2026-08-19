@@ -1,3 +1,6 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import { ServerType } from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +13,6 @@ import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { useScanStatus } from '/@/renderer/features/shared/hooks/use-scan-status';
 import { ServerSelectorItems } from '/@/renderer/features/sidebar/components/server-selector-items';
 import { useCurrentServer } from '/@/renderer/store';
-import { hasFeature } from '/@/shared/api/utils';
 import { Box } from '/@/shared/components/box/box';
 import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
 import { Group } from '/@/shared/components/group/group';
@@ -18,8 +20,6 @@ import { Icon } from '/@/shared/components/icon/icon';
 import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { ServerType } from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
 
 export const ServerSelector = () => {
     const { t } = useTranslation();

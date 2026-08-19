@@ -1,17 +1,5 @@
-import { AppRoute } from '@ts-rest/core';
-import { TFunction } from 'i18next';
-import { ReactNode } from 'react';
-
-import {
-    Album,
-    AlbumArtist,
-    Artist,
-    LibraryItem,
-    Playlist,
-    QueueSong,
-    Song,
-} from '/@/shared/types/domain-types';
-import { ServerFeatures } from '/@/shared/types/features-types';
+import { LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
+import { ServerFeatures } from '@feishin/core/types/features-types';
 
 export enum ItemListKey {
     ALBUM = LibraryItem.ALBUM,
@@ -59,28 +47,11 @@ export enum ServerType {
     SUBSONIC = 'subsonic',
 }
 
-export type CardRoute = {
-    route: AppRoute | string;
-    slugs?: RouteSlug[];
-};
-
-export type CardRow<T> = {
-    arrayProperty?: string;
-    format?: (value: T, t: TFunction) => ReactNode;
-    property: keyof T;
-    route?: CardRoute;
-};
-
 export type ListPagination = {
     currentPage: number;
     itemsPerPage: number;
     totalItems: number;
     totalPages: number;
-};
-
-export type RouteSlug = {
-    idProperty: string;
-    slugProperty: string;
 };
 
 export const toServerType = (value?: string): null | ServerType => {
@@ -212,36 +183,6 @@ export type DiscoveredServerItem = {
     name: string;
     type: ServerType;
     url: string;
-};
-
-export type GridCardData = {
-    cardControls: any;
-    cardRows: CardRow<Album | AlbumArtist | Artist | Playlist | Song>[];
-    columnCount: number;
-    display: ListDisplayType;
-    handleFavorite: (options: { id: string[]; isFavorite: boolean; itemType: LibraryItem }) => void;
-    handlePlayQueueAdd: (options: PlayQueueAddOptions) => void;
-    itemCount: number;
-    itemData: any[];
-    itemGap: number;
-    itemHeight: number;
-    itemType: LibraryItem;
-    itemWidth: number;
-    playButtonBehavior: Play;
-    resetInfiniteLoaderCache: () => void;
-    route: CardRoute;
-};
-
-export type PlayQueueAddOptions = {
-    byData?: QueueSong[];
-    byItemType?: {
-        id: string[];
-        type: LibraryItem;
-    };
-    initialIndex?: number;
-    initialSongId?: string;
-    playType: Play;
-    query?: Record<string, any>;
 };
 
 export type QueryBuilderGroup = {

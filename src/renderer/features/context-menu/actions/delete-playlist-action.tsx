@@ -1,3 +1,4 @@
+import { Playlist } from '@feishin/core/types/domain-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,6 @@ import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 import { ConfirmModal } from '/@/shared/components/modal/modal';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
-import { Playlist } from '/@/shared/types/domain-types';
 
 interface DeletePlaylistActionProps {
     disabled?: boolean;

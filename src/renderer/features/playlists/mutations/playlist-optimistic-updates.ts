@@ -1,13 +1,13 @@
-import { QueryClient } from '@tanstack/react-query';
-
-import { queryKeys } from '/@/renderer/api/query-keys';
-import { infiniteLoaderDataQueryKey } from '/@/renderer/components/item-list/helpers/item-list-infinite-loader';
 import {
     DeletePlaylistArgs,
     LibraryItem,
     Playlist,
     PlaylistListResponse,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { QueryClient } from '@tanstack/react-query';
+
+import { queryKeys } from '/@/renderer/api/query-keys';
+import { infiniteLoaderDataQueryKey } from '/@/renderer/components/item-list/helpers/item-list-infinite-loader';
 
 export interface PreviousQueryData {
     data: unknown;

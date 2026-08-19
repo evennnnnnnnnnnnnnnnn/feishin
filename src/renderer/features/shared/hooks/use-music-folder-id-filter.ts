@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -5,7 +6,6 @@ import { useListFilterPersistence } from '/@/renderer/features/shared/hooks/use-
 import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
 import { useCurrentServer } from '/@/renderer/store';
 import { parseStringParam, setSearchParam } from '/@/renderer/utils/query-params';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const useMusicFolderIdFilter = (defaultValue: null | string, listKey: ItemListKey) => {
     const server = useCurrentServer();

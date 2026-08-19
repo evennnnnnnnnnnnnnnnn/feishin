@@ -1,3 +1,5 @@
+import { LibraryItem, ServerType } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { forwardRef, Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,8 +28,6 @@ import { Group } from '/@/shared/components/group/group';
 import { Separator } from '/@/shared/components/separator/separator';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem, ServerType } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 export const AlbumDetailHeader = forwardRef<HTMLDivElement>((_props, ref) => {
     const { albumId } = useParams() as { albumId: string };

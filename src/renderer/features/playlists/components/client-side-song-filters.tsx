@@ -1,5 +1,6 @@
 import type { RowComponentProps } from 'react-window-v2';
 
+import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +28,6 @@ import { SegmentedControl } from '/@/shared/components/segmented-control/segment
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
-import { LibraryItem, Song } from '/@/shared/types/domain-types';
 
 interface BooleanSegmentFilterProps {
     label: string;

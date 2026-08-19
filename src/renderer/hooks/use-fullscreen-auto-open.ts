@@ -1,3 +1,4 @@
+import { PlayerStatus } from '@feishin/core/types/types';
 import { useEffect, useRef } from 'react';
 
 import {
@@ -10,7 +11,6 @@ import {
     usePlayerStatus,
     useSetFullScreenPlayerStore,
 } from '/@/renderer/store';
-import { PlayerStatus } from '/@/shared/types/types';
 
 const ACTIVITY_EVENTS = ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart'] as const;
 

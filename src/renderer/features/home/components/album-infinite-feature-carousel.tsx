@@ -1,3 +1,9 @@
+import {
+    Album,
+    AlbumListResponse,
+    AlbumListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
 import { QueryFunctionContext, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef } from 'react';
 
@@ -5,7 +11,6 @@ import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { FeatureCarousel } from '/@/renderer/components/feature-carousel/feature-carousel';
 import { useCurrentServerId } from '/@/renderer/store';
-import { Album, AlbumListResponse, AlbumListSort, SortOrder } from '/@/shared/types/domain-types';
 
 interface InfiniteAlbumFeatureCarouselProps {
     itemLimit?: number;

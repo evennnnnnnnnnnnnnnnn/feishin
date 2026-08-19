@@ -1,3 +1,5 @@
+import { SongListSort, SortOrder } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -15,8 +17,6 @@ import {
     setSearchParam,
 } from '/@/renderer/utils/query-params';
 import { runInUrlTransition } from '/@/renderer/utils/url-transition';
-import { SongListSort, SortOrder } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const usePlaylistSongListFilters = () => {
     const albumArtistIdsMode = useAppStore((state) => state.albumArtistIdsMode);

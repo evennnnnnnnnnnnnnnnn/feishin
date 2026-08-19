@@ -1,14 +1,14 @@
-import { queryOptions } from '@tanstack/react-query';
-
-import { api } from '/@/renderer/api';
-import { queryKeys } from '/@/renderer/api/query-keys';
-import { QueryHookArgs } from '/@/renderer/lib/react-query';
 import {
     ListCountQuery,
     PlaylistDetailQuery,
     PlaylistListQuery,
     PlaylistSongListQuery,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { queryOptions } from '@tanstack/react-query';
+
+import { api } from '/@/renderer/api';
+import { queryKeys } from '/@/renderer/api/query-keys';
+import { QueryHookArgs } from '/@/renderer/lib/react-query';
 
 export const playlistsQueries = {
     detail: (args: QueryHookArgs<PlaylistDetailQuery>) => {

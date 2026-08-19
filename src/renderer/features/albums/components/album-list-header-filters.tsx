@@ -1,3 +1,5 @@
+import { AlbumListSort, LibraryItem, SortOrder } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,8 +26,6 @@ import { Divider } from '/@/shared/components/divider/divider';
 import { Flex } from '/@/shared/components/flex/flex';
 import { Group } from '/@/shared/components/group/group';
 import { Icon } from '/@/shared/components/icon/icon';
-import { AlbumListSort, LibraryItem, SortOrder } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const AlbumListHeaderFilters = ({ toggleGenreTarget }: { toggleGenreTarget?: boolean }) => {
     const { t } = useTranslation();

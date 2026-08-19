@@ -1,3 +1,5 @@
+import { Genre, GenreListSort, Played, SortOrder } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { shuffle } from 'lodash';
 import { memo, useCallback, useMemo } from 'react';
@@ -17,8 +19,6 @@ import { useCurrentServer, useCurrentServerId } from '/@/renderer/store';
 import { Button } from '/@/shared/components/button/button';
 import { Group } from '/@/shared/components/group/group';
 import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Genre, GenreListSort, Played, SortOrder } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 import { stringToColor } from '/@/shared/utils/string-to-color';
 
 function getGenresToShow(breakpoints: {

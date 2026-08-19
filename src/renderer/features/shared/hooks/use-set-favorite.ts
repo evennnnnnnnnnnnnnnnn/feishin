@@ -1,8 +1,8 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useCallback, useRef } from 'react';
 
 import { useCreateFavorite } from '/@/renderer/features/shared/mutations/create-favorite-mutation';
 import { useDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 export const useSetFavorite = () => {
     const createFavoriteMutation = useCreateFavorite({});

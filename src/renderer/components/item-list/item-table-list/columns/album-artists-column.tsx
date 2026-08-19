@@ -1,3 +1,4 @@
+import { Album, RelatedAlbumArtist, Song } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 
 import styles from './album-artists-column.module.css';
@@ -9,7 +10,6 @@ import {
     TableColumnContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { JoinedArtists } from '/@/renderer/features/albums/components/joined-artists';
-import { Album, RelatedAlbumArtist, Song } from '/@/shared/types/domain-types';
 
 const AlbumArtistsColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

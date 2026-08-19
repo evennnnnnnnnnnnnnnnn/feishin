@@ -1,3 +1,4 @@
+import { AuthState } from '@feishin/core/types/types';
 import { isAxiosError } from 'axios';
 import isElectron from 'is-electron';
 import debounce from 'lodash/debounce';
@@ -11,7 +12,6 @@ import { AppRoute } from '/@/renderer/router/routes';
 import { getServerById, useAuthStoreActions, useCurrentServerId } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
 import { toast } from '/@/shared/components/toast/toast';
-import { AuthState } from '/@/shared/types/types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

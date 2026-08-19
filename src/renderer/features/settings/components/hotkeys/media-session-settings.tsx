@@ -1,3 +1,4 @@
+import { PlayerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,6 @@ import {
 import { openRestartRequiredToast } from '/@/renderer/features/settings/restart-toast';
 import { usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
 import { Switch } from '/@/shared/components/switch/switch';
-import { PlayerType } from '/@/shared/types/types';
 
 const isLinux = isElectron() ? window.api.utils.isLinux() : false;
 const isDesktop = isElectron();

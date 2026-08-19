@@ -1,3 +1,4 @@
+import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
 import { createRef, useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './visualizer.module.css';
@@ -21,7 +22,6 @@ import { usePlayerStatus } from '/@/renderer/store/player.store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
 import { Text } from '/@/shared/components/text/text';
-import { PlayerStatus, PlayerType } from '/@/shared/types/types';
 
 // Ignore presets that are erroring out
 const IGNORED_PRESETS = ['Flexi + Martin - astral projection'];

@@ -1,3 +1,4 @@
+import { ExplicitStatus, LibraryItem } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'motion/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -25,7 +26,6 @@ import { Center } from '/@/shared/components/center/center';
 import { Flex } from '/@/shared/components/flex/flex';
 import { Icon } from '/@/shared/components/icon/icon';
 import { useSetState } from '/@/shared/hooks/use-set-state';
-import { ExplicitStatus, LibraryItem } from '/@/shared/types/domain-types';
 
 const imageVariants: Variants = {
     closed: {

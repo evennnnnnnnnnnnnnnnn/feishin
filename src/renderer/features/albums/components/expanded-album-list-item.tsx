@@ -1,3 +1,6 @@
+import { LibraryItem, RelatedArtist, Song } from '@feishin/core/types/domain-types';
+import { DragOperation, DragTarget, DragTargetMap } from '@feishin/core/types/drag-and-drop';
+import { Play } from '@feishin/core/types/types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import formatDuration from 'format-duration';
@@ -31,9 +34,6 @@ import { Spinner } from '/@/shared/components/spinner/spinner';
 import { TextTitle } from '/@/shared/components/text-title/text-title';
 import { Text } from '/@/shared/components/text/text';
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
-import { LibraryItem, RelatedArtist, Song } from '/@/shared/types/domain-types';
-import { DragOperation, DragTarget, DragTargetMap } from '/@/shared/types/drag-and-drop';
-import { Play } from '/@/shared/types/types';
 
 export interface ExpandedAlbumData {
     _serverId: string;

@@ -1,8 +1,8 @@
+import { Platform } from '@feishin/core/types/types';
 import { useInView } from 'motion/react';
 import { RefObject, useEffect, useMemo, useRef } from 'react';
 
 import { useWindowSettings } from '/@/renderer/store/settings.store';
-import { Platform } from '/@/shared/types/types';
 
 export const useStickyTableHeader = ({
     containerRef,

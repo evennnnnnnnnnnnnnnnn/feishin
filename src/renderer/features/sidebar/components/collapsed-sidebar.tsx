@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Platform } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
@@ -26,8 +28,6 @@ import { Group } from '/@/shared/components/group/group';
 import { Icon } from '/@/shared/components/icon/icon';
 import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
 import { Stack } from '/@/shared/components/stack/stack';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { Platform } from '/@/shared/types/types';
 
 export const CollapsedSidebar = () => {
     const { t } = useTranslation();

@@ -1,3 +1,10 @@
+import {
+    ArtistListQuery,
+    ArtistListSort,
+    LibraryItem,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { UseSuspenseQueryOptions } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
@@ -8,13 +15,6 @@ import { ItemGridList } from '/@/renderer/components/item-list/item-grid-list/it
 import { ItemListGridComponentProps } from '/@/renderer/components/item-list/types';
 import { artistsQueries } from '/@/renderer/features/artists/api/artists-api';
 import { useGeneralSettings } from '/@/renderer/store';
-import {
-    ArtistListQuery,
-    ArtistListSort,
-    LibraryItem,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface ArtistListInfiniteGridProps extends ItemListGridComponentProps<ArtistListQuery> {}
 

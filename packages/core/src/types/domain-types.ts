@@ -6,7 +6,7 @@ import {
     JFPlaylistListSort,
     JFSongListSort,
     JFSortOrder,
-} from '/@/shared/api/jellyfin/jellyfin-types';
+} from '@feishin/core/api/jellyfin/jellyfin-types';
 import {
     NDAlbumArtistListSort,
     NDAlbumListSort,
@@ -16,9 +16,9 @@ import {
     NDSortOrder,
     NDTagListSort,
     NDUserListSort,
-} from '/@/shared/api/navidrome/navidrome-types';
-import { ServerFeatures } from '/@/shared/types/features-types';
-import { PlayerStatus } from '/@/shared/types/types';
+} from '@feishin/core/api/navidrome/navidrome-types';
+import { ServerFeatures } from '@feishin/core/types/features-types';
+import { PlayerStatus } from '@feishin/core/types/types';
 
 export enum LibraryItem {
     ALBUM = 'album',

@@ -6,6 +6,9 @@ import { useEffect, useRef } from 'react';
 
 dayjs.extend(utc);
 
+import { LyricSource, ServerType } from '@feishin/core/types/domain-types';
+import { FontType, Platform, PlayerStyle, PlayerType } from '@feishin/core/types/types';
+
 import packageJson from '../../../../../package.json';
 
 import { isAnalyticsDisabled } from '/@/renderer/features/analytics/hooks/use-analytics-disabled';
@@ -17,8 +20,6 @@ import {
     useSettingsStore,
 } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { LyricSource, ServerType } from '/@/shared/types/domain-types';
-import { FontType, Platform, PlayerStyle, PlayerType } from '/@/shared/types/types';
 
 const utils = isElectron() ? window.api.utils : null;
 let appTrackerInFlight = false;

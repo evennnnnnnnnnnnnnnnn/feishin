@@ -1,3 +1,5 @@
+import { AlbumListQuery } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -8,8 +10,6 @@ import { AnimatedPage } from '/@/renderer/features/shared/components/animated-pa
 import { ListWithSidebarContainer } from '/@/renderer/features/shared/components/list-with-sidebar-container';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
 import { usePageSidebar } from '/@/renderer/store/app.store';
-import { AlbumListQuery } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 const getPageKey = (options: { albumArtistId?: string; genreId?: string }) => {
     if (options.albumArtistId) {

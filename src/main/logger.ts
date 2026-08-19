@@ -1,5 +1,6 @@
-import type { LogLevel } from '/@/shared/logger/types';
+import type { LogLevel } from '@feishin/core/logger/types';
 
+import { sanitizeForDiagnostics } from '@feishin/core/utils/sanitize-for-diagnostics';
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import log from 'electron-log/main';
 import { promises as fs } from 'node:fs';
@@ -8,10 +9,9 @@ import path from 'node:path';
 import util from 'node:util';
 
 import { createZipBuffer } from '/@/main/utils/zip';
-import { sanitizeForDiagnostics } from '/@/shared/utils/sanitize-for-diagnostics';
 
 export type { LogLevel };
-export type { LogSeverity } from '/@/shared/logger/types';
+export type { LogSeverity } from '@feishin/core/logger/types';
 
 const PROCESS_WIDTH = 10; // width of "[renderer]"
 const LEVEL_WIDTH = 5; // width of "DEBUG" / "ERROR"

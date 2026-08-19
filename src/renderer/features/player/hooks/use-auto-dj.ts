@@ -1,3 +1,7 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { Play } from '@feishin/core/types/types';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
 
@@ -17,10 +21,6 @@ import {
     useSettingsStore,
 } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { hasFeature } from '/@/shared/api/utils';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
-import { Play } from '/@/shared/types/types';
 
 export const useAutoDJ = () => {
     const queryClient = useQueryClient();

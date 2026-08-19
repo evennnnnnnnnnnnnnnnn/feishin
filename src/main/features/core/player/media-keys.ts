@@ -1,9 +1,9 @@
+import { PlayerType } from '@feishin/core/types/types';
 import { BrowserWindow, globalShortcut, systemPreferences } from 'electron';
 
 import { store } from '../settings';
 
 import { isLinux, isMacOS } from '/@/main/env';
-import { PlayerType } from '/@/shared/types/types';
 
 export const enableMediaKeys = (window: BrowserWindow | null) => {
     if (isMacOS()) {

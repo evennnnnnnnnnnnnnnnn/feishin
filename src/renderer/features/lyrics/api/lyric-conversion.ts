@@ -1,4 +1,4 @@
-import { SyncedWordCue } from '/@/shared/types/domain-types';
+import { SyncedWordCue } from '@feishin/core/types/domain-types';
 
 export type LyricTextToken = {
     endChar: number;

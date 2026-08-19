@@ -1,7 +1,7 @@
+import { ServerType } from '@feishin/core/types/domain-types';
 import { QueryClient } from '@tanstack/react-query';
 
 import { getServerById } from '/@/renderer/store';
-import { ServerType } from '/@/shared/types/domain-types';
 
 interface OptimizedListCountOptions<TQuery, TListQuery, TResponse> {
     client: QueryClient;

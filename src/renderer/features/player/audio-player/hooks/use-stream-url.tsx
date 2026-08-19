@@ -1,9 +1,9 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 import { api } from '/@/renderer/api';
 import { TranscodingConfig } from '/@/renderer/store';
-import { QueueSong } from '/@/shared/types/domain-types';
 
 export function useSongUrl(
     song: QueueSong | undefined,

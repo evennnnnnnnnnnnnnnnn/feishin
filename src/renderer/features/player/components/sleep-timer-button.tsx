@@ -1,3 +1,4 @@
+import { PlayerShuffle, PlayerStatus } from '@feishin/core/types/types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -27,7 +28,6 @@ import { Popover } from '/@/shared/components/popover/popover';
 import { Stack } from '/@/shared/components/stack/stack';
 import { TextTitle } from '/@/shared/components/text-title/text-title';
 import { Text } from '/@/shared/components/text/text';
-import { PlayerShuffle, PlayerStatus } from '/@/shared/types/types';
 
 const PRESET_OPTIONS = [
     { minutes: 0, mode: 'endOfSong' as const },

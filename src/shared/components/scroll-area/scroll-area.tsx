@@ -1,13 +1,13 @@
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
+import { DragData, DragTarget } from '@feishin/core/types/drag-and-drop';
 import clsx from 'clsx';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import { forwardRef, Ref, useEffect, useRef, useState } from 'react';
 
-import styles from './scroll-area.module.css';
 import './scroll-area.css';
+import styles from './scroll-area.module.css';
 
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
-import { DragData, DragTarget } from '/@/shared/types/drag-and-drop';
 
 interface ScrollAreaProps extends React.ComponentPropsWithoutRef<'div'> {
     allowDragScroll?: boolean;

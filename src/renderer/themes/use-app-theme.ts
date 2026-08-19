@@ -1,5 +1,6 @@
 import type { MantineThemeOverride } from '@mantine/core';
 
+import { FontType } from '@feishin/core/types/types';
 import { generateColors } from '@mantine/colors-generator';
 import { useMantineColorScheme } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -14,7 +15,6 @@ import {
 import { createMantineTheme } from '/@/renderer/themes/mantine-theme';
 import { getAppTheme } from '/@/shared/themes/app-theme';
 import { AppTheme, AppThemeConfiguration } from '/@/shared/themes/app-theme-types';
-import { FontType } from '/@/shared/types/types';
 
 export const THEME_DATA = [
     { label: 'Default Dark', type: 'dark', value: AppTheme.DEFAULT_DARK },

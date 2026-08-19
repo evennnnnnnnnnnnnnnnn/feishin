@@ -1,3 +1,4 @@
+import { Play } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { ReactNode, useCallback } from 'react';
 
@@ -14,7 +15,6 @@ import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Flex } from '/@/shared/components/flex/flex';
 import { HoverCard } from '/@/shared/components/hover-card/hover-card';
 import { Text } from '/@/shared/components/text/text';
-import { Play } from '/@/shared/types/types';
 
 export const RowPlayControlCell = (
     props: ItemTableListInnerColumn & {

@@ -1,3 +1,7 @@
+import {
+    keyboardCodeToHotkeyKey,
+    MODIFIER_KEY_CODES,
+} from '@feishin/core/utils/keyboard-code-to-hotkey';
 import isElectron from 'is-electron';
 import debounce from 'lodash/debounce';
 import { ChangeEvent, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react';
@@ -18,10 +22,6 @@ import { Checkbox } from '/@/shared/components/checkbox/checkbox';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Table } from '/@/shared/components/table/table';
 import { TextInput } from '/@/shared/components/text-input/text-input';
-import {
-    keyboardCodeToHotkeyKey,
-    MODIFIER_KEY_CODES,
-} from '/@/shared/utils/keyboard-code-to-hotkey';
 
 const ipc = isElectron() ? window.api.ipc : null;
 

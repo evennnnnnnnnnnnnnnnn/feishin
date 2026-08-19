@@ -1,3 +1,9 @@
+import {
+    AuthenticationResponse,
+    ServerListItem,
+    ServerListItemWithCredential,
+    ServerType,
+} from '@feishin/core/types/domain-types';
 import { closeAllModals } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useState } from 'react';
@@ -18,12 +24,6 @@ import { toast } from '/@/shared/components/toast/toast';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 import { useFocusTrap } from '/@/shared/hooks/use-focus-trap';
 import { useForm } from '/@/shared/hooks/use-form';
-import {
-    AuthenticationResponse,
-    ServerListItem,
-    ServerListItemWithCredential,
-    ServerType,
-} from '/@/shared/types/domain-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

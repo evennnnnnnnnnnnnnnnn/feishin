@@ -1,3 +1,12 @@
+import {
+    Album,
+    AlbumListQuery,
+    AlbumListResponse,
+    AlbumListSort,
+    LibraryItem,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { QueryFunctionContext, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { Suspense, useCallback, useMemo } from 'react';
 
@@ -12,15 +21,6 @@ import { DataRow, MemoizedItemCard } from '/@/renderer/components/item-card/item
 import { useDefaultItemListControls } from '/@/renderer/components/item-list/helpers/item-list-controls';
 import { useGridRows } from '/@/renderer/components/item-list/helpers/use-grid-rows';
 import { useCurrentServerId } from '/@/renderer/store';
-import {
-    Album,
-    AlbumListQuery,
-    AlbumListResponse,
-    AlbumListSort,
-    LibraryItem,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface AlbumCarouselProps {
     containerQuery?: ReturnType<typeof useGridCarouselContainerQuery>;

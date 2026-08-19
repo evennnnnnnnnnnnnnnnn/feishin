@@ -1,3 +1,4 @@
+import { LibraryItem, SongDetailResponse } from '@feishin/core/types/domain-types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +32,6 @@ import { Icon } from '/@/shared/components/icon/icon';
 import { Spoiler } from '/@/shared/components/spoiler/spoiler';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem, SongDetailResponse } from '/@/shared/types/domain-types';
 
 const DummyAlbumDetailRoute = () => {
     const { t } = useTranslation();

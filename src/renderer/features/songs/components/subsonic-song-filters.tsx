@@ -1,3 +1,4 @@
+import { AlbumArtistListSort, LibraryItem, SortOrder } from '@feishin/core/types/domain-types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,6 @@ import { VirtualMultiSelect } from '/@/shared/components/multi-select/virtual-mu
 import { Stack } from '/@/shared/components/stack/stack';
 import { Switch } from '/@/shared/components/switch/switch';
 import { Text } from '/@/shared/components/text/text';
-import { AlbumArtistListSort, LibraryItem, SortOrder } from '/@/shared/types/domain-types';
 
 interface SubsonicSongFiltersProps {
     disableArtistFilter?: boolean;

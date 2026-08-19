@@ -1,4 +1,4 @@
-import { ServerListItem } from '/@/shared/types/domain-types';
+import { ServerListItem } from '@feishin/core/types/domain-types';
 
 export const normalizeServerUrl = (url: string) => {
     // Remove trailing slash

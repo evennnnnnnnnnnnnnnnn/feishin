@@ -1,5 +1,5 @@
-import { ServerListItemWithCredential } from '/@/shared/types/domain-types';
-import { ServerType } from '/@/shared/types/types';
+import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
+import { ServerType } from '@feishin/core/types/types';
 
 export const normalizeServerUrl = (url: string) => url.replace(/\/$/, '');
 

@@ -1,3 +1,13 @@
+import {
+    NDSongQueryBooleanOperators,
+    NDSongQueryDateOperators,
+    NDSongQueryFields,
+    NDSongQueryNumberOperators,
+    NDSongQueryPlaylistOperators,
+    NDSongQueryStringOperators,
+} from '@feishin/core/api/navidrome/navidrome-types';
+import { PlaylistListSort, SongListSort, SortOrder } from '@feishin/core/types/domain-types';
+import { QueryBuilderGroup, QueryBuilderRule } from '@feishin/core/types/types';
 import { useQuery } from '@tanstack/react-query';
 import clone from 'lodash/clone';
 import get from 'lodash/get';
@@ -19,14 +29,6 @@ import { playlistsQueries } from '/@/renderer/features/playlists/api/playlists-a
 import { convertNDQueryToQueryGroup } from '/@/renderer/features/playlists/utils';
 import { useCurrentServer } from '/@/renderer/store';
 import { useQueryBuilderSettings } from '/@/renderer/store/settings.store';
-import {
-    NDSongQueryBooleanOperators,
-    NDSongQueryDateOperators,
-    NDSongQueryFields,
-    NDSongQueryNumberOperators,
-    NDSongQueryPlaylistOperators,
-    NDSongQueryStringOperators,
-} from '/@/shared/api/navidrome/navidrome-types';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Flex } from '/@/shared/components/flex/flex';
 import { Group } from '/@/shared/components/group/group';
@@ -36,8 +38,6 @@ import { SegmentedControl } from '/@/shared/components/segmented-control/segment
 import { Select } from '/@/shared/components/select/select';
 import { Stack } from '/@/shared/components/stack/stack';
 import { useForm } from '/@/shared/hooks/use-form';
-import { PlaylistListSort, SongListSort, SortOrder } from '/@/shared/types/domain-types';
-import { QueryBuilderGroup, QueryBuilderRule } from '/@/shared/types/types';
 
 type AddArgs = {
     groupIndex: number[];

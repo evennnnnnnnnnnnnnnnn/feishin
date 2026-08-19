@@ -1,11 +1,11 @@
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
+import { Album } from '@feishin/core/types/domain-types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ArtistReleaseTypeItem, useAppStore } from '/@/renderer/store';
 import { useArtistReleaseTypeItems } from '/@/renderer/store/settings.store';
 import { titleCase } from '/@/renderer/utils';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
-import { Album } from '/@/shared/types/domain-types';
 
 const collator = new Intl.Collator();
 

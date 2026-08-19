@@ -1,3 +1,4 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
 import { memo, MouseEvent } from 'react';
 
 import styles from './mobile-fullscreen-player.module.css';
@@ -6,7 +7,6 @@ import { SharedFullscreenPlayerMetadata } from '/@/renderer/features/player/comp
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
 import { Rating } from '/@/shared/components/rating/rating';
-import { QueueSong } from '/@/shared/types/domain-types';
 
 interface MobileFullscreenPlayerMetadataProps {
     currentSong?: QueueSong;

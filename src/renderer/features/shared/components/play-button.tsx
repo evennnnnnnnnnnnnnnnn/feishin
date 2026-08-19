@@ -1,3 +1,4 @@
+import { Play } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { t } from 'i18next';
 import { forwardRef, memo } from 'react';
@@ -11,7 +12,6 @@ import { Button, ButtonProps } from '/@/shared/components/button/button';
 import { Group } from '/@/shared/components/group/group';
 import { AppIcon, Icon } from '/@/shared/components/icon/icon';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Play } from '/@/shared/types/types';
 
 export interface DefaultPlayButtonProps extends ActionIconProps {
     size?: number | string;

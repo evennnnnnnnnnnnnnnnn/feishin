@@ -1,7 +1,5 @@
-import { z } from 'zod';
-
-import { jfType } from '/@/shared/api/jellyfin/jellyfin-types';
-import { coerceYear, parsePartialIsoDateFromApi } from '/@/shared/api/partial-iso-date';
+import { jfType } from '@feishin/core/api/jellyfin/jellyfin-types';
+import { coerceYear, parsePartialIsoDateFromApi } from '@feishin/core/api/partial-iso-date';
 import {
     Album,
     AlbumArtist,
@@ -11,8 +9,9 @@ import {
     MusicFolder,
     Playlist,
     Song,
-} from '/@/shared/types/domain-types';
-import { ServerListItem, ServerType } from '/@/shared/types/types';
+} from '@feishin/core/types/domain-types';
+import { ServerListItem, ServerType } from '@feishin/core/types/types';
+import { z } from 'zod';
 
 const TICKS_PER_MS = 10000;
 

@@ -1,3 +1,4 @@
+import { LibraryItem, Playlist } from '@feishin/core/types/domain-types';
 import { useMemo } from 'react';
 
 import { AddToPlaylistAction } from '/@/renderer/features/context-menu/actions/add-to-playlist-action';
@@ -8,7 +9,6 @@ import { PlayAction } from '/@/renderer/features/context-menu/actions/play-actio
 import { ContextMenuPreview } from '/@/renderer/features/context-menu/components/context-menu-preview';
 import { usePermissions } from '/@/renderer/store';
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { LibraryItem, Playlist } from '/@/shared/types/domain-types';
 
 interface PlaylistContextMenuProps {
     items: Playlist[];

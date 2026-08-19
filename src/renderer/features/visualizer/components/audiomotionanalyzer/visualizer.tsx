@@ -1,3 +1,4 @@
+import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
 import { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './visualizer.module.css';
@@ -14,7 +15,6 @@ import {
 import { usePlayerStatus } from '/@/renderer/store/player.store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
-import { PlayerStatus, PlayerType } from '/@/shared/types/types';
 
 const VisualizerInner = () => {
     const { webAudio } = useWebAudio();

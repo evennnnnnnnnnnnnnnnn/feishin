@@ -1,10 +1,10 @@
+import { Song } from '@feishin/core/types/domain-types';
 import { openContextModal } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { Song } from '/@/shared/types/domain-types';
 
 interface EditMetadataActionProps {
     albumIds?: string[];

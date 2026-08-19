@@ -1,3 +1,4 @@
+import { Play } from '@feishin/core/types/types';
 import clsx from 'clsx';
 
 import styles from './item-row-play-controls.module.css';
@@ -8,7 +9,6 @@ import {
 } from '/@/renderer/features/shared/components/play-button-group';
 import { usePlayButtonClick } from '/@/renderer/features/shared/hooks/use-play-button-click';
 import { ActionIcon, ActionIconGroup } from '/@/shared/components/action-icon/action-icon';
-import { Play } from '/@/shared/types/types';
 
 interface ItemRowPlayControlsProps {
     className?: string;

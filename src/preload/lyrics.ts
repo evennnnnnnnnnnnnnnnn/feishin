@@ -1,3 +1,4 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
 import { ipcRenderer } from 'electron';
 
 import {
@@ -6,8 +7,6 @@ import {
     LyricSearchQuery,
     LyricSource,
 } from '../main/features/core/lyrics';
-
-import { QueueSong } from '/@/shared/types/domain-types';
 
 const getRemoteLyricsBySong = (song: QueueSong) => {
     const result = ipcRenderer.invoke('lyric-by-song', song);

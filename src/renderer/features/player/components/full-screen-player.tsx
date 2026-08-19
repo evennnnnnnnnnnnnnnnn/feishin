@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Platform } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { AnimatePresence, motion, Variants } from 'motion/react';
 import {
@@ -33,8 +35,6 @@ import {
     useWindowSettings,
 } from '/@/renderer/store';
 import { Group } from '/@/shared/components/group/group';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { Platform } from '/@/shared/types/types';
 
 const mainBackground = 'var(--theme-colors-background)';
 

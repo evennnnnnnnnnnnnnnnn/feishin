@@ -1,3 +1,4 @@
+import { PlayerStatus } from '@feishin/core/types/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { t } from 'i18next';
 import { useCallback, useEffect, useRef } from 'react';
@@ -17,7 +18,6 @@ import {
     useTimestampStoreBase,
 } from '/@/renderer/store';
 import { toast } from '/@/shared/components/toast/toast';
-import { PlayerStatus } from '/@/shared/types/types';
 
 let startupRestoreSessionHandled = false;
 

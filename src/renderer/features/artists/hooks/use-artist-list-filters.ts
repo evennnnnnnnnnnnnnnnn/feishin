@@ -1,10 +1,11 @@
+import { ArtistListSort } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
+
 import { useSearchTermFilter } from '/@/renderer/features/shared/hooks/use-search-term-filter';
 import { useSelectFilter } from '/@/renderer/features/shared/hooks/use-select-filter';
 import { useSortByFilter } from '/@/renderer/features/shared/hooks/use-sort-by-filter';
 import { useSortOrderFilter } from '/@/renderer/features/shared/hooks/use-sort-order-filter';
 import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
-import { ArtistListSort } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const useArtistListFilters = () => {
     const { sortBy } = useSortByFilter<ArtistListSort>(ArtistListSort.NAME, ItemListKey.ARTIST);

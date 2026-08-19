@@ -1,3 +1,6 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
 import { t } from 'i18next';
 import isElectron from 'is-electron';
 import { memo, useEffect, useState } from 'react';
@@ -16,14 +19,11 @@ import {
     useSettingsStoreActions,
 } from '/@/renderer/store/settings.store';
 import { logger } from '/@/renderer/utils/logger';
-import { hasFeature } from '/@/shared/api/utils';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
 import { Select } from '/@/shared/components/select/select';
 import { Switch } from '/@/shared/components/switch/switch';
 import { toast } from '/@/shared/components/toast/toast';
-import { ServerFeature } from '/@/shared/types/features-types';
-import { PlayerStatus, PlayerType } from '/@/shared/types/types';
 
 const ipc = isElectron() ? window.api.ipc : null;
 const mpvPlayer = isElectron() ? window.api.mpvPlayer : null;

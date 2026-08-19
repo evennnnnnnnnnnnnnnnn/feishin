@@ -1,6 +1,5 @@
+import { ImageRequest } from '@feishin/core/types/domain-types';
 import { useEffect, useMemo, useRef, useState } from 'react';
-
-import { ImageRequest } from '/@/shared/types/domain-types';
 
 type FetchPriority = 'auto' | 'high' | 'low';
 

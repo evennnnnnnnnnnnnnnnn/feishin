@@ -1,4 +1,4 @@
-import { LibraryItem, Song } from '/@/shared/types/domain-types';
+import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 
 export type AutoDJQueueAddedEventPayload = {
     songCount: number;

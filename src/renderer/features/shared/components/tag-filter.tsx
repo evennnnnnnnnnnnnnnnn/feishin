@@ -1,3 +1,5 @@
+import { NDSongQueryFieldsLabelMap } from '@feishin/core/api/navidrome/navidrome-types';
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
@@ -5,8 +7,6 @@ import { MultiSelectWithInvalidData } from '/@/renderer/components/select-with-i
 import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { useCurrentServerId } from '/@/renderer/store';
 import { titleCase } from '/@/renderer/utils';
-import { NDSongQueryFieldsLabelMap } from '/@/shared/api/navidrome/navidrome-types';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface TagFilterItemProps {
     label: string;

@@ -1,3 +1,4 @@
+import { Song } from '@feishin/core/types/domain-types';
 import { ContextModalProps } from '@mantine/modals';
 import { useEffect, useState } from 'react';
 
@@ -6,7 +7,6 @@ import { SongEditModal } from '/@/renderer/features/tag-editor/components/song-e
 import { useCurrentServer } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Stack } from '/@/shared/components/stack/stack';
-import { Song } from '/@/shared/types/domain-types';
 
 type SongEditInnerProps = {
     albumIds?: string[];

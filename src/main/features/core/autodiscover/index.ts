@@ -1,8 +1,8 @@
+import { DiscoveredServerItem, ServerType } from '@feishin/core/types/types';
 import { createSocket } from 'dgram';
 import { ipcMain } from 'electron';
 
 import log from '/@/main/logger';
-import { DiscoveredServerItem, ServerType } from '/@/shared/types/types';
 
 type JellyfinResponse = {
     Address: string;

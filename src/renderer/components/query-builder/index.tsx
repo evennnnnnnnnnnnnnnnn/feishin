@@ -1,3 +1,4 @@
+import { QueryBuilderGroup, QueryBuilderRule } from '@feishin/core/types/types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +10,6 @@ import { Group } from '/@/shared/components/group/group';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Select } from '/@/shared/components/select/select';
 import { Stack } from '/@/shared/components/stack/stack';
-import { QueryBuilderGroup, QueryBuilderRule } from '/@/shared/types/types';
 
 export type FilterGroup = { group: string; items: FilterItem[] };
 

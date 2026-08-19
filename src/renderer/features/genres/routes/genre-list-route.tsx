@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 
 import { ListContext } from '/@/renderer/context/list-context';
@@ -5,7 +6,6 @@ import { GenreListContent } from '/@/renderer/features/genres/components/genre-l
 import { GenreListHeader } from '/@/renderer/features/genres/components/genre-list-header';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { ItemListKey } from '/@/shared/types/types';
 
 const GenreListRoute = () => {
     const pageKey = ItemListKey.GENRE;

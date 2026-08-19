@@ -1,3 +1,4 @@
+import { ItemListKey, ListDisplayType } from '@feishin/core/types/types';
 import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -19,7 +20,6 @@ import { Switch } from '/@/shared/components/switch/switch';
 import { Table } from '/@/shared/components/table/table';
 import { Text } from '/@/shared/components/text/text';
 import { useDisclosure } from '/@/shared/hooks/use-disclosure';
-import { ItemListKey, ListDisplayType } from '/@/shared/types/types';
 
 export const SONG_DISPLAY_TYPES: ListConfigMenuDisplayTypeConfig[] = [
     { hidden: true, value: ListDisplayType.DETAIL },

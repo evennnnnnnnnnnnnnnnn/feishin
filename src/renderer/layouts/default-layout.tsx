@@ -1,3 +1,4 @@
+import { Platform, PlayerType } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import isElectron from 'is-electron';
 
@@ -8,7 +9,6 @@ import { MainContent } from '/@/renderer/layouts/default-layout/main-content';
 import { PlayerBar } from '/@/renderer/layouts/default-layout/player-bar';
 import { WindowBar } from '/@/renderer/layouts/window-bar';
 import { useSettingsStore, useWindowBarStyle } from '/@/renderer/store/settings.store';
-import { Platform, PlayerType } from '/@/shared/types/types';
 
 if (!isElectron()) {
     useSettingsStore.getState().actions.setSettings({

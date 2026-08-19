@@ -1,5 +1,7 @@
 import type { MouseEvent } from 'react';
 
+import { Album, LibraryItem } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { generatePath, Link } from 'react-router';
@@ -18,8 +20,6 @@ import { Badge } from '/@/shared/components/badge/badge';
 import { Group } from '/@/shared/components/group/group';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { Album, LibraryItem } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 const containerVariants = {
     animate: {},

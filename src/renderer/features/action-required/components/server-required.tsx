@@ -1,3 +1,8 @@
+import {
+    ServerListItem,
+    ServerListItemWithCredential,
+    ServerType,
+} from '@feishin/core/types/domain-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
@@ -19,11 +24,6 @@ import { Icon } from '/@/shared/components/icon/icon';
 import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import {
-    ServerListItem,
-    ServerListItemWithCredential,
-    ServerType,
-} from '/@/shared/types/domain-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

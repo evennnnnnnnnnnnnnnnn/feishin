@@ -1,3 +1,10 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import {
+    ServerListItem,
+    ServerListItemWithCredential,
+    ServerType,
+} from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import isElectron from 'is-electron';
@@ -15,16 +22,9 @@ import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { startScanWatch, useScanStatus } from '/@/renderer/features/shared/hooks/use-scan-status';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useAuthStoreActions, useCurrentServer, useServerList } from '/@/renderer/store';
-import { hasFeature } from '/@/shared/api/utils';
 import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
 import { Icon } from '/@/shared/components/icon/icon';
 import { toast } from '/@/shared/components/toast/toast';
-import {
-    ServerListItem,
-    ServerListItemWithCredential,
-    ServerType,
-} from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

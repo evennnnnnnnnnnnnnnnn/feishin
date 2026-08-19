@@ -5,8 +5,9 @@ import type {
     FileArtworkData,
     TagEditorUtils,
     TagValue,
-} from '/@/shared/types/tag-editor';
+} from '@feishin/core/types/tag-editor';
 
+import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { closeAllModals } from '@mantine/modals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +20,6 @@ import { eventEmitter } from '/@/renderer/events/event-emitter';
 import { useCurrentServer, useSettingsStoreActions, useTagEditorSettings } from '/@/renderer/store';
 import { resolveSongPath } from '/@/renderer/utils/resolve-song-path';
 import { toast } from '/@/shared/components/toast/toast';
-import { LibraryItem, Song } from '/@/shared/types/domain-types';
 
 export const EDIT_SCOPE_ALL = '__all__';
 

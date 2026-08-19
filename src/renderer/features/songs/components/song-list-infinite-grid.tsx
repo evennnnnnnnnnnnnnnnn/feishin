@@ -1,3 +1,10 @@
+import {
+    LibraryItem,
+    SongListQuery,
+    SongListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { UseSuspenseQueryOptions } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
@@ -9,8 +16,6 @@ import { ItemListGridComponentProps } from '/@/renderer/components/item-list/typ
 import { useListContext } from '/@/renderer/context/list-context';
 import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
 import { useGeneralSettings } from '/@/renderer/store';
-import { LibraryItem, SongListQuery, SongListSort, SortOrder } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface SongListInfiniteGridProps extends ItemListGridComponentProps<SongListQuery> {}
 

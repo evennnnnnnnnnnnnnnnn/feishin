@@ -1,10 +1,10 @@
+import { AlbumArtistListQuery } from '@feishin/core/types/domain-types';
+import { ItemListKey, ListDisplayType, ListPaginationType } from '@feishin/core/types/types';
 import { lazy, Suspense, useMemo } from 'react';
 
 import { useAlbumArtistListFilters } from '/@/renderer/features/artists/hooks/use-album-artist-list-filters';
 import { ItemListSettings, useCurrentServer, useListSettings } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import { AlbumArtistListQuery } from '/@/shared/types/domain-types';
-import { ItemListKey, ListDisplayType, ListPaginationType } from '/@/shared/types/types';
 
 const AlbumArtistListInfiniteGrid = lazy(() =>
     import('/@/renderer/features/artists/components/album-artist-list-infinite-grid').then(

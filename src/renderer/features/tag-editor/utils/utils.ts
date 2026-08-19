@@ -1,4 +1,4 @@
-import type { BatchFileError } from '/@/shared/types/tag-editor';
+import type { BatchFileError } from '@feishin/core/types/tag-editor';
 
 export const base64ToBytes = (base64: string): Uint8Array => {
     const binary = atob(base64);

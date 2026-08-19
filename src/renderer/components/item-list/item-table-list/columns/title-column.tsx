@@ -1,3 +1,4 @@
+import { LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { Link } from 'react-router';
@@ -14,7 +15,6 @@ import {
 import { useIsActiveRow } from '/@/renderer/components/item-list/item-table-list/item-table-list-context';
 import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem, QueueSong } from '/@/shared/types/domain-types';
 
 const TitleColumnBase = (props: ItemTableListInnerColumn) => {
     const { itemType } = props;

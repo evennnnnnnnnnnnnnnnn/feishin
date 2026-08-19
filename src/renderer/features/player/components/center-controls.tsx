@@ -1,3 +1,4 @@
+import { PlayerRepeat, PlayerShuffle, PlayerStatus } from '@feishin/core/types/types';
 import { useTranslation } from 'react-i18next';
 
 import styles from './center-controls.module.css';
@@ -23,7 +24,6 @@ import {
 import { Icon } from '/@/shared/components/icon/icon';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { PlayerRepeat, PlayerShuffle, PlayerStatus } from '/@/shared/types/types';
 
 export const CenterControls = () => {
     const skip = useSkipButtons();

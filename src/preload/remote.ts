@@ -1,7 +1,6 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
+import { PlayerStatus } from '@feishin/core/types/types';
 import { ipcRenderer } from 'electron';
-
-import { QueueSong } from '/@/shared/types/domain-types';
-import { PlayerStatus } from '/@/shared/types/types';
 
 const requestFavorite = (
     cb: (data: { favorite: boolean; id: string; serverId: string }) => void,

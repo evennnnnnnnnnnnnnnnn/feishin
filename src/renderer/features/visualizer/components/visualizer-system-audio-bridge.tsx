@@ -1,3 +1,4 @@
+import { PlayerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
 import { useDisclosure } from '/@/shared/hooks/use-disclosure';
-import { PlayerType } from '/@/shared/types/types';
 
 const CONSENT_GRANTED_KEY = 'visualizer_system_audio_consent_granted';
 

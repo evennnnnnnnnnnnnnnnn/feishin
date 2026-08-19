@@ -1,7 +1,6 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { createContext, useContext } from 'react';
-
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export type ListDisplayMode = LibraryItem.ALBUM | LibraryItem.SONG;
 

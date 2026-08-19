@@ -1,3 +1,4 @@
+import { LibraryItem, SavedCollection } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { MouseEvent, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +21,6 @@ import { TextInput } from '/@/shared/components/text-input/text-input';
 import { Text } from '/@/shared/components/text/text';
 import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 import { useForm } from '/@/shared/hooks/use-form';
-import { LibraryItem, SavedCollection } from '/@/shared/types/domain-types';
 
 export const getCollectionTo = (collection: SavedCollection) => {
     const pathname =

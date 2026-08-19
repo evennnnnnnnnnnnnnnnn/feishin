@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import throttle from 'lodash/throttle';
 import { motion } from 'motion/react';
@@ -44,7 +45,6 @@ import { animationProps } from '/@/shared/components/animations/animation-props'
 import { useElementSize } from '/@/shared/hooks/use-element-size';
 import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface VirtualizedGridListProps {
     _tableMetaVersion: number; // Used to trigger rerenders via React.memo comparison

@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { AnimatePresence, motion, Variants } from 'motion/react';
 import { lazy, Suspense, useMemo } from 'react';
@@ -16,7 +17,6 @@ import {
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
 import { AppIcon } from '/@/shared/components/icon/icon';
-import { ItemListKey } from '/@/shared/types/types';
 
 const AudioMotionAnalyzerVisualizer = lazy(() =>
     import('../../visualizer/components/audiomotionanalyzer/visualizer').then((module) => ({

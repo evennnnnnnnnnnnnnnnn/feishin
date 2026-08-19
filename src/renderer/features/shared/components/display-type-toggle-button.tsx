@@ -1,7 +1,7 @@
+import { ListDisplayType } from '@feishin/core/types/types';
 import { useTranslation } from 'react-i18next';
 
 import { ActionIcon, ActionIconProps } from '/@/shared/components/action-icon/action-icon';
-import { ListDisplayType } from '/@/shared/types/types';
 
 interface DisplayTypeToggleButtonProps {
     buttonProps?: Partial<ActionIconProps>;

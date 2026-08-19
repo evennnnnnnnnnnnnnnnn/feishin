@@ -1,9 +1,5 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { queryKeys } from '/@/renderer/api/query-keys';
-import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
-import { AUTO_DJ_STRATEGY, type AutoDJStrategy } from '/@/renderer/store/settings.store';
-import { shuffleInPlace } from '/@/renderer/utils/shuffle';
 import {
     Played,
     type QueueSong,
@@ -11,7 +7,12 @@ import {
     Song,
     SongListSort,
     SortOrder,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+
+import { queryKeys } from '/@/renderer/api/query-keys';
+import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
+import { AUTO_DJ_STRATEGY, type AutoDJStrategy } from '/@/renderer/store/settings.store';
+import { shuffleInPlace } from '/@/renderer/utils/shuffle';
 
 export type AutoDjSongCollectArgs = {
     allowDuplicates: boolean;

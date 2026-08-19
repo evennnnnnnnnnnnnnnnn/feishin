@@ -1,7 +1,3 @@
-import Fuse from 'fuse.js';
-import z from 'zod';
-
-import i18n from '/@/i18n/i18n';
 import {
     Album,
     AlbumArtist,
@@ -12,8 +8,12 @@ import {
     Playlist,
     QueueSong,
     Song,
-} from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
+} from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
+import Fuse from 'fuse.js';
+import z from 'zod';
+
+import i18n from '/@/i18n/i18n';
 
 export const PLAY_TYPES = [
     {

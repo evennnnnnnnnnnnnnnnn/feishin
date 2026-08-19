@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { nanoid } from 'nanoid/non-secure';
 import { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +8,6 @@ import { openCreatePlaylistModal } from '/@/renderer/features/playlists/componen
 import { Command, CommandPalettePages } from '/@/renderer/features/search/components/command';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer } from '/@/renderer/store';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface HomeCommandsProps {
     handleClose: () => void;

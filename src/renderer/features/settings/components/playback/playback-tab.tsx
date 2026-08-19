@@ -1,3 +1,4 @@
+import { PlayerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { lazy, memo, Suspense, useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
@@ -10,7 +11,6 @@ import { TranscodeSettings } from '/@/renderer/features/settings/components/play
 import { useSettingsStore } from '/@/renderer/store';
 import { Divider } from '/@/shared/components/divider/divider';
 import { Stack } from '/@/shared/components/stack/stack';
-import { PlayerType } from '/@/shared/types/types';
 
 const MpvSettings = lazy(() =>
     import('/@/renderer/features/settings/components/playback/mpv-settings').then((module) => {

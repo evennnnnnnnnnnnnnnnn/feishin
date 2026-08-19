@@ -1,4 +1,4 @@
-import type { QueueData, QueueSong } from '/@/shared/types/domain-types';
+import type { QueueData, QueueSong } from '@feishin/core/types/domain-types';
 import type { PersistStorage, StateStorage } from 'zustand/middleware';
 
 import { del, get, set } from 'idb-keyval';

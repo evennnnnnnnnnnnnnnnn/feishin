@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,7 +6,6 @@ import { useCreateFavorite } from '/@/renderer/features/shared/mutations/create-
 import { useDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
 import { useCurrentServerId, useShowFavorites } from '/@/renderer/store';
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface SetFavoriteActionProps {
     ids: string[];

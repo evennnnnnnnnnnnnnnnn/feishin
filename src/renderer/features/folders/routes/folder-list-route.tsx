@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 
 import { ListContext } from '/@/renderer/context/list-context';
@@ -6,7 +7,6 @@ import { FolderListHeader } from '/@/renderer/features/folders/components/folder
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { ListWithSidebarContainer } from '/@/renderer/features/shared/components/list-with-sidebar-container';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { ItemListKey } from '/@/shared/types/types';
 
 const FolderListRoute = () => {
     const pageKey = ItemListKey.SONG;

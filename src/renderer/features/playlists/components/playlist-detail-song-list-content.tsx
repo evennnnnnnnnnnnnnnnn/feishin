@@ -1,3 +1,15 @@
+import {
+    LibraryItem,
+    PlaylistSongListQuery,
+    PlaylistSongListResponse,
+    Song,
+} from '@feishin/core/types/domain-types';
+import {
+    ItemListKey,
+    ListDisplayType,
+    ListPaginationType,
+    TableColumn,
+} from '@feishin/core/types/types';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router';
@@ -11,18 +23,6 @@ import { PlaylistDetailAlbumView } from '/@/renderer/features/playlists/componen
 import { usePlaylistTrackList } from '/@/renderer/features/playlists/hooks/use-playlist-track-list';
 import { useCurrentServer, useListSettings } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import {
-    LibraryItem,
-    PlaylistSongListQuery,
-    PlaylistSongListResponse,
-    Song,
-} from '/@/shared/types/domain-types';
-import {
-    ItemListKey,
-    ListDisplayType,
-    ListPaginationType,
-    TableColumn,
-} from '/@/shared/types/types';
 
 const PlaylistDetailSongListTable = lazy(() =>
     import('/@/renderer/features/playlists/components/playlist-detail-song-list-table').then(

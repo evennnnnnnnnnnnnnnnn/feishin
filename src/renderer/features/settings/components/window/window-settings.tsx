@@ -1,3 +1,4 @@
+import { Platform } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,6 @@ import { openRestartRequiredToast } from '/@/renderer/features/settings/restart-
 import { useSettingsStoreActions, useWindowSettings } from '/@/renderer/store';
 import { Select } from '/@/shared/components/select/select';
 import { Switch } from '/@/shared/components/switch/switch';
-import { Platform } from '/@/shared/types/types';
 
 const WINDOW_BAR_OPTIONS = [
     { label: 'Web (hidden)', value: Platform.WEB },

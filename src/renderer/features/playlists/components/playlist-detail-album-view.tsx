@@ -1,3 +1,18 @@
+import { sortSongList } from '@feishin/core/api/utils';
+import {
+    LibraryItem,
+    PlaylistSongListResponse,
+    Song,
+    SongListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import {
+    ItemListKey,
+    ListDisplayType,
+    ListPaginationType,
+    Play,
+    TableColumn,
+} from '@feishin/core/types/types';
 import shuffle from 'lodash/shuffle';
 import { useEffect, useMemo } from 'react';
 
@@ -22,21 +37,6 @@ import { useListRefreshTick } from '/@/renderer/features/shared/hooks/use-list-r
 import { useSearchTermFilter } from '/@/renderer/features/shared/hooks/use-search-term-filter';
 import { searchLibraryItems } from '/@/renderer/features/shared/utils';
 import { useGeneralSettings, useListSettings } from '/@/renderer/store';
-import { sortSongList } from '/@/shared/api/utils';
-import {
-    LibraryItem,
-    PlaylistSongListResponse,
-    Song,
-    SongListSort,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import {
-    ItemListKey,
-    ListDisplayType,
-    ListPaginationType,
-    Play,
-    TableColumn,
-} from '/@/shared/types/types';
 
 export const PlaylistDetailAlbumView = ({ data }: { data: PlaylistSongListResponse }) => {
     const player = usePlayer();

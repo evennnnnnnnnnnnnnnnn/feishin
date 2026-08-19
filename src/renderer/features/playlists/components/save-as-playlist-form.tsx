@@ -1,8 +1,14 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import {
+    CreatePlaylistBody,
+    CreatePlaylistResponse,
+    ServerType,
+} from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
 import { useTranslation } from 'react-i18next';
 
 import { useCreatePlaylist } from '/@/renderer/features/playlists/mutations/create-playlist-mutation';
 import { useCurrentServer } from '/@/renderer/store';
-import { hasFeature } from '/@/shared/api/utils';
 import { Group } from '/@/shared/components/group/group';
 import { ModalButton } from '/@/shared/components/modal/model-shared';
 import { Stack } from '/@/shared/components/stack/stack';
@@ -10,12 +16,6 @@ import { Switch } from '/@/shared/components/switch/switch';
 import { TextInput } from '/@/shared/components/text-input/text-input';
 import { toast } from '/@/shared/components/toast/toast';
 import { useForm } from '/@/shared/hooks/use-form';
-import {
-    CreatePlaylistBody,
-    CreatePlaylistResponse,
-    ServerType,
-} from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
 
 interface SaveAsPlaylistFormProps {
     body: Partial<CreatePlaylistBody>;

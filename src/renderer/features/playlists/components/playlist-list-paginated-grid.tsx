@@ -1,3 +1,10 @@
+import {
+    LibraryItem,
+    PlaylistListQuery,
+    PlaylistListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { UseSuspenseQueryOptions } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
@@ -10,13 +17,6 @@ import { useItemListPagination } from '/@/renderer/components/item-list/item-lis
 import { ItemListGridComponentProps } from '/@/renderer/components/item-list/types';
 import { playlistsQueries } from '/@/renderer/features/playlists/api/playlists-api';
 import { useGeneralSettings } from '/@/renderer/store';
-import {
-    LibraryItem,
-    PlaylistListQuery,
-    PlaylistListSort,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface PlaylistListPaginatedGridProps extends ItemListGridComponentProps<PlaylistListQuery> {}
 

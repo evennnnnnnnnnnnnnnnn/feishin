@@ -1,7 +1,8 @@
+import { SortOrder } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
+
 import { OrderToggleButton } from '/@/renderer/features/shared/components/order-toggle-button';
 import { useSortOrderFilter } from '/@/renderer/features/shared/hooks/use-sort-order-filter';
-import { SortOrder } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface ListSortOrderToggleButtonProps {
     defaultSortOrder: SortOrder;

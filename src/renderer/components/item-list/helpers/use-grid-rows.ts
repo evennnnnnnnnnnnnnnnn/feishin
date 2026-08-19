@@ -1,10 +1,10 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { TableColumn } from '@feishin/core/types/types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo } from 'react';
 
 import { type DataRow, getDataRows } from '/@/renderer/components/item-card/item-card';
 import { useSettingsStore } from '/@/renderer/store';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { TableColumn } from '/@/shared/types/types';
-import { ItemListKey } from '/@/shared/types/types';
 
 const getDefaultRowsForItemType = (
     itemType: LibraryItem,

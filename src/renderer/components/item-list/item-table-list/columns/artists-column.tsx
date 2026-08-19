@@ -1,3 +1,4 @@
+import { LibraryItem, RelatedAlbumArtist, Song } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { Fragment, useMemo } from 'react';
 import { generatePath, Link } from 'react-router';
@@ -13,7 +14,6 @@ import {
 import { JoinedArtists } from '/@/renderer/features/albums/components/joined-artists';
 import { AppRoute } from '/@/renderer/router/routes';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem, RelatedAlbumArtist, Song } from '/@/shared/types/domain-types';
 
 const AlbumArtistsColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

@@ -10,6 +10,7 @@ import {
     dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview';
+import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
@@ -17,7 +18,6 @@ import styles from './checkbox-select.module.css';
 
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { dndUtils, DragData, DragOperation, DragTarget } from '/@/shared/types/drag-and-drop';
 
 interface CheckboxSelectProps {
     data: { label: string; value: string }[];

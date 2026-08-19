@@ -1,3 +1,7 @@
+import { hasFeature } from '@feishin/core/api/utils';
+import { LibraryItem, Playlist, Song } from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { Play } from '@feishin/core/types/types';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +31,6 @@ import {
 } from '/@/renderer/store';
 import { formatDurationString } from '/@/renderer/utils';
 import { replaceURLWithHTMLLinks } from '/@/renderer/utils/linkify';
-import { hasFeature } from '/@/shared/api/utils';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { FileButton } from '/@/shared/components/file-button/file-button';
 import { Group } from '/@/shared/components/group/group';
@@ -35,9 +38,6 @@ import { Spoiler } from '/@/shared/components/spoiler/spoiler';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
-import { LibraryItem, Playlist, Song } from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
-import { Play } from '/@/shared/types/types';
 
 interface PlaylistDetailSongListHeaderProps {
     isSmartPlaylist?: boolean;

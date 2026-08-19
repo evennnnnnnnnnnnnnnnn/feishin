@@ -1,12 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
-
-import { api } from '/@/renderer/api';
-import { queryKeys } from '/@/renderer/api/query-keys';
-import { folderQueries } from '/@/renderer/features/folders/api/folder-api';
-import { PlayerFilter, useSettingsStore } from '/@/renderer/store';
-import { logger } from '/@/renderer/utils/logger';
-import { resolveSongPath } from '/@/renderer/utils/resolve-song-path';
-import { sortSongList } from '/@/shared/api/utils';
+import { sortSongList } from '@feishin/core/api/utils';
 import {
     PlaylistSongListQuery,
     PlaylistSongListQueryClientSide,
@@ -16,7 +8,15 @@ import {
     SongListResponse,
     SongListSort,
     SortOrder,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { QueryClient } from '@tanstack/react-query';
+
+import { api } from '/@/renderer/api';
+import { queryKeys } from '/@/renderer/api/query-keys';
+import { folderQueries } from '/@/renderer/features/folders/api/folder-api';
+import { PlayerFilter, useSettingsStore } from '/@/renderer/store';
+import { logger } from '/@/renderer/utils/logger';
+import { resolveSongPath } from '/@/renderer/utils/resolve-song-path';
 
 export const getPlaylistSongsById = async (args: {
     id: string;

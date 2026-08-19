@@ -1,4 +1,6 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { PlayerStatus } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import React, { MouseEvent } from 'react';
@@ -25,8 +27,6 @@ import { Icon } from '/@/shared/components/icon/icon';
 import { Separator } from '/@/shared/components/separator/separator';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { PlayerStatus } from '/@/shared/types/types';
 
 export const MobilePlayerbar = () => {
     const { t } = useTranslation();

@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 
 import { ListContext } from '/@/renderer/context/list-context';
@@ -5,7 +6,6 @@ import { RadioListContent } from '/@/renderer/features/radio/components/radio-li
 import { RadioListHeader } from '/@/renderer/features/radio/components/radio-list-header';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { ItemListKey } from '/@/shared/types/types';
 
 const RadioListRoute = () => {
     const pageKey = ItemListKey.RADIO;

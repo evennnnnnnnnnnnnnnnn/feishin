@@ -1,3 +1,4 @@
+import { PlayerShuffle } from '@feishin/core/types/types';
 import { openModal } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useEffect } from 'react';
@@ -19,7 +20,6 @@ import {
     usePlayerShuffle,
     usePlayerStatus,
 } from '/@/renderer/store';
-import { PlayerShuffle } from '/@/shared/types/types';
 
 const ipc = isElectron() ? window.api.ipc : null;
 

@@ -1,7 +1,7 @@
+import { ItemListKey, TableColumn } from '@feishin/core/types/types';
 import { useCallback } from 'react';
 
 import { useSettingsStore, useSettingsStoreActions } from '/@/renderer/store';
-import { ItemListKey, TableColumn } from '/@/shared/types/types';
 
 interface UseItemListColumnResizeProps {
     itemListKey: ItemListKey;

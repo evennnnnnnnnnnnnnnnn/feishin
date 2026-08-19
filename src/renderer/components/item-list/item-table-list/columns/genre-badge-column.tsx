@@ -1,3 +1,4 @@
+import { Genre } from '@feishin/core/types/domain-types';
 import { useMemo } from 'react';
 import { generatePath, Link } from 'react-router';
 
@@ -12,7 +13,6 @@ import {
 import { AppRoute } from '/@/renderer/router/routes';
 import { Badge } from '/@/shared/components/badge/badge';
 import { Group } from '/@/shared/components/group/group';
-import { Genre } from '/@/shared/types/domain-types';
 import { stringToColor } from '/@/shared/utils/string-to-color';
 
 const MAX_GENRES = 4;

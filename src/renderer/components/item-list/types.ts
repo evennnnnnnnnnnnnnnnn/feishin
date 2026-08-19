@@ -1,4 +1,3 @@
-import { ItemListStateActions } from '/@/renderer/components/item-list/helpers/item-list-state';
 import {
     Album,
     AlbumArtist,
@@ -8,8 +7,10 @@ import {
     LibraryItem,
     Playlist,
     Song,
-} from '/@/shared/types/domain-types';
-import { Play, TableColumn } from '/@/shared/types/types';
+} from '@feishin/core/types/domain-types';
+import { Play, TableColumn } from '@feishin/core/types/types';
+
+import { ItemListStateActions } from '/@/renderer/components/item-list/helpers/item-list-state';
 
 export interface DefaultItemControlProps {
     event: null | React.MouseEvent<unknown>;

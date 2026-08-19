@@ -1,3 +1,4 @@
+import { ExplicitStatus, ImageRequest, LibraryItem } from '@feishin/core/types/domain-types';
 import { memo, useMemo } from 'react';
 import z from 'zod';
 
@@ -12,7 +13,6 @@ import {
     useSettingsStore,
 } from '/@/renderer/store';
 import { BaseImage, ImageProps } from '/@/shared/components/image/image';
-import { ExplicitStatus, ImageRequest, LibraryItem } from '/@/shared/types/domain-types';
 
 const getUnloaderIcon = (itemType: LibraryItem) => {
     switch (itemType) {

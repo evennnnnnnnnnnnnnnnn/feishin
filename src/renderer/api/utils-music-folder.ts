@@ -1,4 +1,4 @@
-import { ServerListItemWithCredential } from '/@/shared/types/domain-types';
+import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
 
 export const mergeMusicFolderId = <T extends { musicFolderId?: string | string[] }>(
     query: T,

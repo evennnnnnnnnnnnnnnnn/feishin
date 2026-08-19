@@ -1,5 +1,6 @@
+import { TableColumn } from '@feishin/core/types/types';
+
 import { ItemTableListColumnConfig } from '/@/renderer/components/item-list/types';
-import { TableColumn } from '/@/shared/types/types';
 
 const LAYOUT_FILL_COLUMN: ItemTableListColumnConfig = {
     align: 'start',

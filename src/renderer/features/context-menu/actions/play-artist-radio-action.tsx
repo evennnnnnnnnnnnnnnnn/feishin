@@ -1,3 +1,5 @@
+import { AlbumArtist, Artist } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,8 +9,6 @@ import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
 import { useArtistRadioCount, useCurrentServerId, usePlayButtonBehavior } from '/@/renderer/store';
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { AlbumArtist, Artist } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 interface PlayArtistRadioActionProps {
     artist: AlbumArtist | Artist;

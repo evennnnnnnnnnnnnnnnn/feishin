@@ -1,3 +1,5 @@
+import { LibraryItem, QueueSong, ServerType } from '@feishin/core/types/domain-types';
+import { PlayerType } from '@feishin/core/types/types';
 import { t } from 'i18next';
 import { useCallback, useEffect, useMemo, useState, WheelEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -57,8 +59,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { useMediaQuery } from '/@/shared/hooks/use-media-query';
 import { useThrottledCallback } from '/@/shared/hooks/use-throttled-callback';
 import { useThrottledValue } from '/@/shared/hooks/use-throttled-value';
-import { LibraryItem, QueueSong, ServerType } from '/@/shared/types/domain-types';
-import { PlayerType } from '/@/shared/types/types';
 
 const calculateVolumeUp = (volume: number, volumeWheelStep: number) => {
     let volumeToSet: number;

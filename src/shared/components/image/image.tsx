@@ -1,3 +1,4 @@
+import { ImageRequest } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import {
     ForwardedRef,
@@ -18,7 +19,6 @@ import { AppIcon, Icon } from '/@/shared/components/icon/icon';
 import { Skeleton } from '/@/shared/components/skeleton/skeleton';
 import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
 import { useInViewport } from '/@/shared/hooks/use-in-viewport';
-import { ImageRequest } from '/@/shared/types/domain-types';
 
 const loadedImageCacheKeys = new Set<string>();
 

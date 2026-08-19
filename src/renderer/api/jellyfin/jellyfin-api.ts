@@ -1,3 +1,6 @@
+import { jfType } from '@feishin/core/api/jellyfin/jellyfin-types';
+import { getClientType } from '@feishin/core/api/utils';
+import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
 import { initClient, initContract } from '@ts-rest/core';
 import axios, { AxiosError, AxiosResponse, isAxiosError, Method } from 'axios';
 import omitBy from 'lodash/omitBy';
@@ -10,9 +13,6 @@ import i18n from '/@/i18n/i18n';
 import { authenticationFailure } from '/@/renderer/api/utils';
 import { useAuthStore } from '/@/renderer/store';
 import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
-import { jfType } from '/@/shared/api/jellyfin/jellyfin-types';
-import { getClientType } from '/@/shared/api/utils';
-import { ServerListItemWithCredential } from '/@/shared/types/domain-types';
 
 const c = initContract();
 

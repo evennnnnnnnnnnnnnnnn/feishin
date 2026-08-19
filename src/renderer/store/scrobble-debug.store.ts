@@ -1,7 +1,6 @@
+import { PlayerStatus } from '@feishin/core/types/types';
 import { useEffect, useState } from 'react';
 import { createWithEqualityFn } from 'zustand/traditional';
-
-import { PlayerStatus } from '/@/shared/types/types';
 
 const SCROBBLE_DEBUG_POLL_INTERVAL_MS = 1000;
 

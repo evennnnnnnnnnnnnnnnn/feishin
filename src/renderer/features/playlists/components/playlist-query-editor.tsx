@@ -1,5 +1,6 @@
 import type { UseSuspenseQueryResult } from '@tanstack/react-query';
 
+import { SongListSort } from '@feishin/core/types/domain-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +24,6 @@ import { SegmentedControl } from '/@/shared/components/segmented-control/segment
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
-import { SongListSort } from '/@/shared/types/domain-types';
 
 export interface PlaylistQueryEditorProps {
     detailQuery: UseSuspenseQueryResult<any, Error>;

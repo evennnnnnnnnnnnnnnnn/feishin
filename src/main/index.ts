@@ -1,6 +1,7 @@
 import type { UpdateCheckResult } from 'electron-updater';
 
 import { is } from '@electron-toolkit/utils';
+import { PlayerRepeat, PlayerStatus, PlayerType, TitleTheme } from '@feishin/core/types/types';
 import {
     app,
     BrowserWindow,
@@ -32,8 +33,8 @@ import { shutdownServer } from './features/core/remote';
 import { store } from './features/core/settings';
 import { canHandleVisualizerDisplayMedia } from './features/core/visualizer';
 import log, { autoUpdaterLogInterface } from './logger';
-import MenuBuilder, { MenuPlaybackState } from './menu';
 import './features';
+import MenuBuilder, { MenuPlaybackState } from './menu';
 import { hotkeyToElectronAccelerator } from './utils';
 
 import { disableAutoUpdates, isLinux, isMacOS, isWindows } from '/@/main/env';
@@ -42,7 +43,6 @@ import {
     DEFAULT_WINDOW_BOUNDS,
     resolveWindowBounds,
 } from '/@/main/utils/window-bounds';
-import { PlayerRepeat, PlayerStatus, PlayerType, TitleTheme } from '/@/shared/types/types';
 
 const ALPHA_UPDATER_CONFIG: {
     bucket: string;

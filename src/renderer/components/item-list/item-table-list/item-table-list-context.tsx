@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import React, {
     createContext,
     useCallback,
@@ -16,7 +17,6 @@ import type { TableItemProps } from './item-table-list';
 import { ItemListStateActions } from '/@/renderer/components/item-list/helpers/item-list-state';
 import { ItemControls, ItemTableListColumnConfig } from '/@/renderer/components/item-list/types';
 import { PlayerContext } from '/@/renderer/features/player/context/player-context';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 export type ItemTableListConfig = {
     cellPadding: 'lg' | 'md' | 'sm' | 'xl' | 'xs';

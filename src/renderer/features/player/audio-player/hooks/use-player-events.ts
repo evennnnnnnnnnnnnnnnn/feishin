@@ -1,3 +1,5 @@
+import { LibraryItem, QueueData, QueueSong, Song } from '@feishin/core/types/domain-types';
+import { PlayerRepeat, PlayerShuffle, PlayerStatus } from '@feishin/core/types/types';
 import { useEffect } from 'react';
 
 import { eventEmitter } from '/@/renderer/events/event-emitter';
@@ -15,8 +17,6 @@ import {
     subscribePlayerVolume,
     subscribeQueueCleared,
 } from '/@/renderer/store';
-import { LibraryItem, QueueData, QueueSong, Song } from '/@/shared/types/domain-types';
-import { PlayerRepeat, PlayerShuffle, PlayerStatus } from '/@/shared/types/types';
 
 interface PlayerEvents {
     cleanup: () => void;

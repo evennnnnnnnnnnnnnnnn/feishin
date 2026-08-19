@@ -1,3 +1,10 @@
+import {
+    AlbumListQuery,
+    AlbumListSort,
+    LibraryItem,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { UseSuspenseQueryOptions } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
@@ -8,13 +15,6 @@ import { ItemDetailList } from '/@/renderer/components/item-list/item-detail-lis
 import { ItemListComponentProps } from '/@/renderer/components/item-list/types';
 import { useListContext } from '/@/renderer/context/list-context';
 import { albumQueries } from '/@/renderer/features/albums/api/album-api';
-import {
-    AlbumListQuery,
-    AlbumListSort,
-    LibraryItem,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface AlbumListInfiniteDetailProps extends ItemListComponentProps<AlbumListQuery> {
     enableHeader?: boolean;

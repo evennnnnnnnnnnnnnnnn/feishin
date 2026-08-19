@@ -1,3 +1,11 @@
+import {
+    AlbumArtistListSort,
+    AlbumListSort,
+    LibraryItem,
+    SongListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { Suspense } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 
@@ -16,14 +24,6 @@ import {
 } from '/@/renderer/features/songs/components/song-list-content';
 import { useListSettings } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
-import {
-    AlbumArtistListSort,
-    AlbumListSort,
-    LibraryItem,
-    SongListSort,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const SearchContent = () => {
     const { itemType } = useParams() as { itemType: LibraryItem };

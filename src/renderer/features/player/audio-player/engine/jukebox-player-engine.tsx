@@ -1,16 +1,16 @@
 import type { RefObject } from 'react';
 
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
-
-import { useJukeboxControl } from '/@/renderer/features/player/audio-player/hooks/use-jukebox-control';
-import { AudioPlayer } from '/@/renderer/features/player/audio-player/types';
 import {
     JukeboxControlAction,
     JukeboxControlQuery,
     JukeboxControlResponse,
     PlayerData,
-} from '/@/shared/types/domain-types';
-import { PlayerStatus } from '/@/shared/types/types';
+} from '@feishin/core/types/domain-types';
+import { PlayerStatus } from '@feishin/core/types/types';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+
+import { useJukeboxControl } from '/@/renderer/features/player/audio-player/hooks/use-jukebox-control';
+import { AudioPlayer } from '/@/renderer/features/player/audio-player/types';
 
 export interface JukeboxPlayerEngineHandle extends AudioPlayer {}
 

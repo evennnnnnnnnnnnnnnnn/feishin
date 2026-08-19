@@ -1,15 +1,15 @@
+import {
+    GenreListQuery,
+    GenreListSort,
+    ListCountQuery,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { QueryHookArgs } from '/@/renderer/lib/react-query';
 import { useCurrentServerId } from '/@/renderer/store';
-import {
-    GenreListQuery,
-    GenreListSort,
-    ListCountQuery,
-    SortOrder,
-} from '/@/shared/types/domain-types';
 
 export const genresQueries = {
     list: (args: QueryHookArgs<GenreListQuery>) => {

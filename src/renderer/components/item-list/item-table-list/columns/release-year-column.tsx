@@ -1,3 +1,4 @@
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
 import { useMemo } from 'react';
 
 import {
@@ -6,7 +7,6 @@ import {
     ItemTableListInnerColumn,
     TableColumnTextContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
 
 const ReleaseYearColumnBase = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

@@ -1,3 +1,4 @@
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -10,7 +11,6 @@ import { ListWithSidebarContainer } from '/@/renderer/features/shared/components
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
 import { GenreTarget, useGenreTarget } from '/@/renderer/store';
 import { usePageSidebar } from '/@/renderer/store/app.store';
-import { ItemListKey } from '/@/shared/types/types';
 
 const GenreDetailRoute = () => {
     const { genreId } = useParams() as { genreId: string };

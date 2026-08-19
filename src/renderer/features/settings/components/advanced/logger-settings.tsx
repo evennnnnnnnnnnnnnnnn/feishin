@@ -1,3 +1,4 @@
+import { isLocalUrl } from '@feishin/core/utils/is-local-url';
 import { ComboboxItem, ComboboxLikeRenderOptionInput } from '@mantine/core';
 import isElectron from 'is-electron';
 import { memo, useState } from 'react';
@@ -15,7 +16,6 @@ import { Select } from '/@/shared/components/select/select';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
-import { isLocalUrl } from '/@/shared/utils/is-local-url';
 
 const DEFAULT_LOG_LEVEL: LogLevel = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
 const utils = isElectron() ? window.api.utils : null;

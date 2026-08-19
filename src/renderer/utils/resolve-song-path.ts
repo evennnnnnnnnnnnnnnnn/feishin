@@ -1,7 +1,7 @@
+import { replacePathPrefix } from '@feishin/core/api/utils';
 import { useMemo } from 'react';
 
 import { usePathReplace, useSettingsStore } from '/@/renderer/store/settings.store';
-import { replacePathPrefix } from '/@/shared/api/utils';
 
 export const resolveSongPath = (path: null | string | undefined): null | string => {
     if (!path) {

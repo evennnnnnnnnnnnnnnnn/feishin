@@ -1,3 +1,5 @@
+import { LibraryItem, Song } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { closeAllModals } from '@mantine/modals';
 import { AnimatePresence } from 'motion/react';
 import { CSSProperties, memo, ReactNode, useCallback, useRef, useState } from 'react';
@@ -11,8 +13,6 @@ import { useCurrentServerId } from '/@/renderer/store';
 import { Badge, BadgeProps } from '/@/shared/components/badge/badge';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { LibraryItem, Song } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 interface LibraryHeaderBarProps {
     children: ReactNode;

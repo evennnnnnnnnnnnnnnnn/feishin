@@ -1,3 +1,4 @@
+import { QueueSong, SongDetailQuery } from '@feishin/core/types/domain-types';
 import { useQueryClient } from '@tanstack/react-query';
 import isEqual from 'lodash/isEqual';
 import { useCallback } from 'react';
@@ -7,7 +8,6 @@ import { queryKeys } from '/@/renderer/api/query-keys';
 import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/use-player-events';
 import { updateQueueSong } from '/@/renderer/store/player.store';
 import { logger } from '/@/renderer/utils/logger';
-import { QueueSong, SongDetailQuery } from '/@/shared/types/domain-types';
 
 export const useUpdateCurrentSong = () => {
     const queryClient = useQueryClient();

@@ -1,8 +1,7 @@
+import { PlayerType } from '@feishin/core/types/types';
 import { ipcMain } from 'electron';
 
 import { store } from '../settings';
-
-import { PlayerType } from '/@/shared/types/types';
 
 let isLocalVisualizerSurfaceVisible = false;
 

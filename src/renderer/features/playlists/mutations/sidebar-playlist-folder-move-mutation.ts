@@ -1,9 +1,9 @@
+import { Playlist } from '@feishin/core/types/domain-types';
 import { useIsMutating, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
-import { Playlist } from '/@/shared/types/domain-types';
 
 export const sidebarPlaylistFolderMoveMutationKey = ['sidebar-playlist-folder-move'];
 

@@ -1,3 +1,12 @@
+import { hasFeature, SEPARATOR_STRING, sortAlbumList } from '@feishin/core/api/utils';
+import {
+    AlbumArtistDetailResponse,
+    AlbumListResponse,
+    LibraryItem,
+    ServerType,
+} from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import { Play } from '@feishin/core/types/types';
 import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query';
 import { forwardRef, Fragment, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,20 +31,11 @@ import { AppRoute } from '/@/renderer/router/routes';
 import { useAppStore, useCurrentServer, useShowFavorites, useShowRatings } from '/@/renderer/store';
 import { useArtistReleaseTypeItems, usePlayButtonBehavior } from '/@/renderer/store/settings.store';
 import { formatDurationString } from '/@/renderer/utils';
-import { hasFeature, SEPARATOR_STRING, sortAlbumList } from '/@/shared/api/utils';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { FileButton } from '/@/shared/components/file-button/file-button';
 import { Group } from '/@/shared/components/group/group';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import {
-    AlbumArtistDetailResponse,
-    AlbumListResponse,
-    LibraryItem,
-    ServerType,
-} from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
-import { Play } from '/@/shared/types/types';
 
 interface AlbumArtistDetailHeaderProps {
     albumsQuery: UseSuspenseQueryResult<AlbumListResponse, Error>;

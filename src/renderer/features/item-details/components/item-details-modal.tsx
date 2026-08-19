@@ -1,3 +1,15 @@
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
+import {
+    Album,
+    AlbumArtist,
+    AnyLibraryItem,
+    Artist,
+    ExplicitStatus,
+    LibraryItem,
+    Playlist,
+    RelatedArtist,
+    Song,
+} from '@feishin/core/types/domain-types';
 import { TFunction } from 'i18next';
 import { ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +26,6 @@ import {
 import { replaceURLWithHTMLLinks } from '/@/renderer/utils/linkify';
 import { normalizeReleaseTypes } from '/@/renderer/utils/normalize-release-types';
 import { sanitize } from '/@/renderer/utils/sanitize';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Select } from '/@/shared/components/select/select';
 import { Separator } from '/@/shared/components/separator/separator';
@@ -22,17 +33,6 @@ import { Spoiler } from '/@/shared/components/spoiler/spoiler';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Table } from '/@/shared/components/table/table';
 import { Text } from '/@/shared/components/text/text';
-import {
-    Album,
-    AlbumArtist,
-    AnyLibraryItem,
-    Artist,
-    ExplicitStatus,
-    LibraryItem,
-    Playlist,
-    RelatedArtist,
-    Song,
-} from '/@/shared/types/domain-types';
 
 export type ItemDetailsModalProps = {
     item?: Album | AlbumArtist | Artist | Playlist | Song;

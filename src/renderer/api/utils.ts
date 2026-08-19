@@ -1,9 +1,9 @@
+import { ServerListItem } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 
 import i18n from '/@/i18n/i18n';
 import { useAuthStore } from '/@/renderer/store';
 import { toast } from '/@/shared/components/toast/toast';
-import { ServerListItem } from '/@/shared/types/types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

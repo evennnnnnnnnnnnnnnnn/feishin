@@ -1,6 +1,8 @@
 import type { ItemListStateItem } from '/@/renderer/components/item-list/helpers/item-list-state';
-import type { LibraryItem } from '/@/shared/types/domain-types';
+import type { LibraryItem } from '@feishin/core/types/domain-types';
 
+import { AlbumListSort, SongListSort, SortOrder } from '@feishin/core/types/domain-types';
+import { Platform } from '@feishin/core/types/types';
 import merge from 'lodash/merge';
 import semverGt from 'semver/functions/gt';
 import semverValid from 'semver/functions/valid';
@@ -10,9 +12,6 @@ import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 import packageJson from '../../../package.json';
-
-import { AlbumListSort, SongListSort, SortOrder } from '/@/shared/types/domain-types';
-import { Platform } from '/@/shared/types/types';
 
 export interface AppSlice extends AppState {
     actions: {

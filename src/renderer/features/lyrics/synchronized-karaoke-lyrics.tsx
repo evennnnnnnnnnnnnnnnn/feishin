@@ -1,9 +1,16 @@
+import {
+    FullLyricsMetadata,
+    LyricAgent,
+    SynchronizedLyrics as SynchronizedLyricsData,
+} from '@feishin/core/types/domain-types';
+import { PlayerStatus } from '@feishin/core/types/types';
 import clsx from 'clsx';
+
+import '/@/renderer/features/lyrics/styles/karaoke-animation.css';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import styles from './synchronized-karaoke-lyrics.module.css';
 
-import '/@/renderer/features/lyrics/styles/karaoke-animation.css';
 import {
     findOverlayLineByTime,
     getLyricLineStartMs,
@@ -22,12 +29,6 @@ import { KaraokeLyricLine } from '/@/renderer/features/lyrics/karaoke-lyric-line
 import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
 import { subscribePlayerStatus, usePlayerStoreBase } from '/@/renderer/store';
 import { subscribePlayerProgress, useTimestampStoreBase } from '/@/renderer/store/timestamp.store';
-import {
-    FullLyricsMetadata,
-    LyricAgent,
-    SynchronizedLyrics as SynchronizedLyricsData,
-} from '/@/shared/types/domain-types';
-import { PlayerStatus } from '/@/shared/types/types';
 
 export interface SynchronizedKaraokeLyricsProps extends Omit<FullLyricsMetadata, 'lyrics'> {
     agents?: LyricAgent[];

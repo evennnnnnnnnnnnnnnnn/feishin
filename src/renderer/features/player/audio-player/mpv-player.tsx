@@ -1,3 +1,4 @@
+import { PlayerStatus } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -14,7 +15,6 @@ import {
     usePlayerStore,
     usePlayerVolume,
 } from '/@/renderer/store';
-import { PlayerStatus } from '/@/shared/types/types';
 
 const PLAY_PAUSE_FADE_DURATION = 300;
 const PLAY_PAUSE_FADE_INTERVAL = 10;

@@ -9,6 +9,16 @@ import {
     dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview';
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
+import {
+    Album,
+    LibraryItem,
+    Song,
+    SongListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import { ItemListKey, Play, TableColumn } from '@feishin/core/types/types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import throttle from 'lodash/throttle';
@@ -69,15 +79,11 @@ import { useDragDrop } from '/@/renderer/hooks/use-drag-drop';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useSettingsStore, useShowFavorites, useShowRatings } from '/@/renderer/store';
 import { formatDurationString, formatPartialIsoDateUTC } from '/@/renderer/utils';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
 import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
 import { Skeleton } from '/@/shared/components/skeleton/skeleton';
 import { useDoubleClick } from '/@/shared/hooks/use-double-click';
 import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
-import { Album, LibraryItem, Song, SongListSort, SortOrder } from '/@/shared/types/domain-types';
-import { dndUtils, DragData, DragOperation, DragTarget } from '/@/shared/types/drag-and-drop';
-import { ItemListKey, Play, TableColumn } from '/@/shared/types/types';
 
 const DEFAULT_ROW_HEIGHT = 300;
 

@@ -1,10 +1,10 @@
+import { Play } from '@feishin/core/types/types';
 import { ReactNode } from 'react';
 
 import styles from './row-play-control-cell.module.css';
 
 import { ItemRowPlayControls } from '/@/renderer/features/shared/components/item-row-play-controls';
 import { HoverCard } from '/@/shared/components/hover-card/hover-card';
-import { Play } from '/@/shared/types/types';
 
 export const ItemDetailRowPlayControlCell = ({
     indexContent,

@@ -1,8 +1,3 @@
-import { QueryClient } from '@tanstack/react-query';
-
-import { PreviousQueryData } from './favorite-optimistic-updates';
-
-import { queryKeys } from '/@/renderer/api/query-keys';
 import {
     Album,
     AlbumArtist,
@@ -18,7 +13,12 @@ import {
     Song,
     SongDetailResponse,
     TopSongListResponse,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { QueryClient } from '@tanstack/react-query';
+
+import { PreviousQueryData } from './favorite-optimistic-updates';
+
+import { queryKeys } from '/@/renderer/api/query-keys';
 
 interface PendingUpdate {
     previousData: unknown;

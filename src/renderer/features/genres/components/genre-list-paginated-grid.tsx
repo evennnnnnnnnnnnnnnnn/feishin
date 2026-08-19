@@ -1,3 +1,10 @@
+import {
+    GenreListQuery,
+    GenreListSort,
+    LibraryItem,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { UseSuspenseQueryOptions } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
@@ -10,13 +17,6 @@ import { useItemListPagination } from '/@/renderer/components/item-list/item-lis
 import { ItemListGridComponentProps } from '/@/renderer/components/item-list/types';
 import { genresQueries } from '/@/renderer/features/genres/api/genres-api';
 import { useGeneralSettings } from '/@/renderer/store';
-import {
-    GenreListQuery,
-    GenreListSort,
-    LibraryItem,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface GenreListPaginatedGridProps extends ItemListGridComponentProps<GenreListQuery> {}
 

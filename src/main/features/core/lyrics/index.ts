@@ -1,3 +1,4 @@
+import { Song } from '@feishin/core/types/domain-types';
 import { ipcMain } from 'electron';
 
 import { store } from '../settings';
@@ -18,7 +19,6 @@ import {
 } from './simpmusic';
 
 import log from '/@/main/logger';
-import { Song } from '/@/shared/types/domain-types';
 
 export enum LyricSource {
     GENIUS = 'Genius',

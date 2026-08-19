@@ -1,3 +1,4 @@
+import { Platform } from '@feishin/core/types/types';
 import { motion, Variants } from 'motion/react';
 import { lazy, memo, ReactNode, Suspense, useEffect, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
@@ -17,7 +18,6 @@ import {
     useSettingsStore,
     useWindowSettings,
 } from '/@/renderer/store/settings.store';
-import { Platform } from '/@/shared/types/types';
 
 const AudioMotionAnalyzerVisualizer = lazy(() =>
     import('../../visualizer/components/audiomotionanalyzer/visualizer').then((module) => ({

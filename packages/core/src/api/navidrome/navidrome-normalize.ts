@@ -1,8 +1,6 @@
-import z from 'zod';
-
-import { ndType } from '/@/shared/api/navidrome/navidrome-types';
-import { coerceYear, parsePartialIsoDate } from '/@/shared/api/partial-iso-date';
-import { ssType } from '/@/shared/api/subsonic/subsonic-types';
+import { ndType } from '@feishin/core/api/navidrome/navidrome-types';
+import { coerceYear, parsePartialIsoDate } from '@feishin/core/api/partial-iso-date';
+import { ssType } from '@feishin/core/api/subsonic/subsonic-types';
 import {
     Album,
     AlbumArtist,
@@ -14,8 +12,9 @@ import {
     RelatedArtist,
     Song,
     User,
-} from '/@/shared/types/domain-types';
-import { ServerListItem, ServerType } from '/@/shared/types/types';
+} from '@feishin/core/types/domain-types';
+import { ServerListItem, ServerType } from '@feishin/core/types/types';
+import z from 'zod';
 
 // const getImageUrl = (args: { url: null | string }) => {
 //     const { url } = args;

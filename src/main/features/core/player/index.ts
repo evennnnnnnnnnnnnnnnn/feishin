@@ -1,3 +1,4 @@
+import { PlayerData } from '@feishin/core/types/domain-types';
 import { app, ipcMain, powerMonitor } from 'electron';
 import { access, rm } from 'fs/promises';
 import uniq from 'lodash/uniq';
@@ -10,7 +11,6 @@ import log from '../../../logger';
 import { store } from '../settings';
 
 import { isMacOS, isWindows } from '/@/main/env';
-import { PlayerData } from '/@/shared/types/domain-types';
 
 declare module 'node-mpv';
 

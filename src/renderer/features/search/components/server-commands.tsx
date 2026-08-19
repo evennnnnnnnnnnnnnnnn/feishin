@@ -1,3 +1,4 @@
+import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
 import { openModal } from '@mantine/modals';
 import { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,6 @@ import { Command, CommandPalettePages } from '/@/renderer/features/search/compon
 import { ServerList } from '/@/renderer/features/servers/components/server-list';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useAuthStoreActions, useServerList } from '/@/renderer/store';
-import { ServerListItemWithCredential } from '/@/shared/types/domain-types';
 
 interface ServerCommandsProps {
     handleClose: () => void;

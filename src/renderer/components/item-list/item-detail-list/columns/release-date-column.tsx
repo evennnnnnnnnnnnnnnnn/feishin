@@ -1,7 +1,8 @@
+import { SEPARATOR_STRING } from '@feishin/core/api/utils';
+
 import { ItemDetailListCellProps } from './types';
 
 import { formatPartialIsoDateUTC } from '/@/renderer/utils/format';
-import { SEPARATOR_STRING } from '/@/shared/api/utils';
 
 export const ReleaseDateColumn = ({ song }: ItemDetailListCellProps) => {
     const row = song as typeof song & { originalDate?: null | string };

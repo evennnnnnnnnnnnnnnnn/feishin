@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,7 +14,6 @@ import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-li
 import { GenreTarget, useGenreTarget } from '/@/renderer/store';
 import { Group } from '/@/shared/components/group/group';
 import { Stack } from '/@/shared/components/stack/stack';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface GenreDetailHeaderProps {
     title?: string;

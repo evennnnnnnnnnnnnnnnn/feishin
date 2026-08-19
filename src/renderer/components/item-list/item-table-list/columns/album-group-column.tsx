@@ -1,3 +1,5 @@
+import { Song } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,8 +11,6 @@ import {
     ItemTableListInnerColumn,
     TableColumnContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
-import { Song } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 export const AlbumGroupColumn = (props: ItemTableListInnerColumn) => {
     const { t } = useTranslation();

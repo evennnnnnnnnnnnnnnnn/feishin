@@ -1,12 +1,11 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { TableColumn } from '@feishin/core/types/types';
 import React, { useMemo } from 'react';
 import { CellComponentProps } from 'react-window-v2';
 
 import { createColumnCellComponents } from './cell-component-factory';
 import { TableItemProps } from './item-table-list';
 import { ItemTableListColumn } from './item-table-list-column';
-
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { TableColumn } from '/@/shared/types/types';
 
 interface MemoizedCellRouterProps extends CellComponentProps<TableItemProps> {
     columnCellComponents: Map<TableColumn, React.ComponentType<CellComponentProps<TableItemProps>>>;

@@ -1,3 +1,4 @@
+import { ServerType } from '@feishin/core/types/domain-types';
 import { useEffect, useMemo } from 'react';
 import { Navigate, Outlet } from 'react-router';
 import { shallow } from 'zustand/shallow';
@@ -6,7 +7,6 @@ import { normalizeServerUrl } from '/@/renderer/features/action-required/utils/s
 import { isServerLock } from '/@/renderer/features/action-required/utils/window-properties';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useAuthStore, useAuthStoreActions } from '/@/renderer/store';
-import { ServerType } from '/@/shared/types/domain-types';
 
 export const AppOutlet = () => {
     const currentServer = useAuthStore(

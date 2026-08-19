@@ -1,3 +1,11 @@
+import {
+    AlbumListSort,
+    LibraryItem,
+    ServerType,
+    SongListSort,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { Platform } from '@feishin/core/types/types';
 import { Suspense, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -23,14 +31,6 @@ import {
 } from '/@/renderer/store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Stack } from '/@/shared/components/stack/stack';
-import {
-    AlbumListSort,
-    LibraryItem,
-    ServerType,
-    SongListSort,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { Platform } from '/@/shared/types/types';
 
 const HomeRoute = () => {
     const { t } = useTranslation();

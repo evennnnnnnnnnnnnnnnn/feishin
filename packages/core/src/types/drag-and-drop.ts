@@ -1,6 +1,6 @@
 import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 
-import { LibraryItem } from '/@/shared/types/domain-types';
+import { LibraryItem } from '@feishin/core/types/domain-types';
 
 export enum DragTarget {
     ALBUM = LibraryItem.ALBUM,

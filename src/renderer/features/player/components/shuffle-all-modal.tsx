@@ -1,3 +1,13 @@
+import {
+    AlbumListQuery,
+    AlbumListSort,
+    LibraryItem,
+    Played,
+    RandomSongListQuery,
+    ServerType,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import { closeAllModals, openContextModal } from '@mantine/modals';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import merge from 'lodash/merge';
@@ -22,16 +32,6 @@ import { NumberInput } from '/@/shared/components/number-input/number-input';
 import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
 import { Select } from '/@/shared/components/select/select';
 import { Stack } from '/@/shared/components/stack/stack';
-import {
-    AlbumListQuery,
-    AlbumListSort,
-    LibraryItem,
-    Played,
-    RandomSongListQuery,
-    ServerType,
-    SortOrder,
-} from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 interface ShuffleAllSlice extends RandomSongListQuery {
     actions: {

@@ -1,9 +1,8 @@
-import Fuse, { FuseResult, IFuseOptions } from 'fuse.js';
-
 import {
     InternetProviderLyricSearchResponse,
     LyricSearchQuery,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import Fuse, { FuseResult, IFuseOptions } from 'fuse.js';
 
 export const orderSearchResults = (args: {
     params: LyricSearchQuery;

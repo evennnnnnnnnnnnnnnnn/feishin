@@ -1,3 +1,5 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
+import { PlayerStatus } from '@feishin/core/types/types';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,8 +9,6 @@ import { MainPlayButton, PlayerButton } from '/@/renderer/features/player/compon
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { usePlayerStatus } from '/@/renderer/store';
 import { Icon } from '/@/shared/components/icon/icon';
-import { QueueSong } from '/@/shared/types/domain-types';
-import { PlayerStatus } from '/@/shared/types/types';
 
 interface MobileFullscreenPlayerControlsProps {
     currentSong?: QueueSong;

@@ -1,3 +1,4 @@
+import { Play } from '@feishin/core/types/types';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +21,6 @@ import { Slider } from '/@/shared/components/slider/slider';
 import { Switch } from '/@/shared/components/switch/switch';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { Play } from '/@/shared/types/types';
 
 export const ControlSettings = memo(() => {
     const { t } = useTranslation();

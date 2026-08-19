@@ -1,3 +1,5 @@
+import { Song } from '@feishin/core/types/domain-types';
+import { Play, PlayerStatus } from '@feishin/core/types/types';
 import { useCallback } from 'react';
 
 import { ItemDetailListCellProps } from './types';
@@ -6,8 +8,6 @@ import { playSongFromItemListControl } from '/@/renderer/components/item-list/he
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { useIsCurrentSong } from '/@/renderer/features/player/hooks/use-is-current-song';
 import { usePlayerStatus } from '/@/renderer/store';
-import { Song } from '/@/shared/types/domain-types';
-import { Play, PlayerStatus } from '/@/shared/types/types';
 
 export const useDetailRowPlayControl = ({
     internalState,

@@ -1,3 +1,5 @@
+import { SortOrder } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -6,8 +8,6 @@ import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
 import { useCurrentServer } from '/@/renderer/store';
 import { parseStringParam, setSearchParam } from '/@/renderer/utils/query-params';
 import { runInUrlTransition } from '/@/renderer/utils/url-transition';
-import { SortOrder } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 export const useSortOrderFilter = (defaultValue: null | string, listKey: ItemListKey) => {
     const server = useCurrentServer();

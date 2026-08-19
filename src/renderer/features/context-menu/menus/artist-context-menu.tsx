@@ -1,3 +1,4 @@
+import { Artist, LibraryItem } from '@feishin/core/types/domain-types';
 import { useMemo } from 'react';
 
 import { AddToPlaylistAction } from '/@/renderer/features/context-menu/actions/add-to-playlist-action';
@@ -10,7 +11,6 @@ import { SetRatingAction } from '/@/renderer/features/context-menu/actions/set-r
 import { ShareAction } from '/@/renderer/features/context-menu/actions/share-action';
 import { ContextMenuPreview } from '/@/renderer/features/context-menu/components/context-menu-preview';
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { Artist, LibraryItem } from '/@/shared/types/domain-types';
 
 interface ArtistContextMenuProps {
     items: Artist[];

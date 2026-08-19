@@ -1,3 +1,6 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
+import { ClientEvent, ServerEvent } from '@feishin/core/types/remote-types';
+import { PlayerRepeat, PlayerStatus, SongState } from '@feishin/core/types/types';
 import axios from 'axios';
 import { app, ipcMain } from 'electron';
 import { promises, Stats } from 'fs';
@@ -12,9 +15,6 @@ import manifest from './manifest.json';
 import { isLinux } from '/@/main/env';
 import { getMainWindow } from '/@/main/index';
 import log from '/@/main/logger';
-import { QueueSong } from '/@/shared/types/domain-types';
-import { ClientEvent, ServerEvent } from '/@/shared/types/remote-types';
-import { PlayerRepeat, PlayerStatus, SongState } from '/@/shared/types/types';
 
 let mprisPlayer: any | undefined;
 

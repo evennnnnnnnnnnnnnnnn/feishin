@@ -1,3 +1,4 @@
+import { LyricsKind, LyricsOverride } from '@feishin/core/types/domain-types';
 import isElectron from 'is-electron';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { Switch } from '/@/shared/components/switch/switch';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { LyricsKind, LyricsOverride } from '/@/shared/types/domain-types';
 
 export type OverlayLayerToggle = {
     key: string;

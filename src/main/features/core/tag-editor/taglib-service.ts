@@ -1,9 +1,13 @@
-import type { ArtworkKind, ArtworkOp, BatchFileError, TagValue } from '/@/shared/types/tag-editor';
+import type {
+    ArtworkKind,
+    ArtworkOp,
+    BatchFileError,
+    TagValue,
+} from '@feishin/core/types/tag-editor';
 
+import { getImageMimeTypeFromPath } from '@feishin/core/utils/image-mime';
 import { constants, promises as fsPromises } from 'fs';
 import { PROPERTIES, TagLib } from 'taglib-wasm';
-
-import { getImageMimeTypeFromPath } from '/@/shared/utils/image-mime';
 
 let _taglib: null | TagLib = null;
 

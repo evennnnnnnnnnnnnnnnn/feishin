@@ -1,3 +1,4 @@
+import { Song } from '@feishin/core/types/domain-types';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { generatePath, Link } from 'react-router';
@@ -12,7 +13,6 @@ import {
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { AppRoute } from '/@/renderer/router/routes';
 import { Text } from '/@/shared/components/text/text';
-import { Song } from '/@/shared/types/domain-types';
 
 const AlbumColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

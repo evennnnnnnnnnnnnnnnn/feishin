@@ -1,3 +1,4 @@
+import { Played } from '@feishin/core/types/domain-types';
 import { useQuery } from '@tanstack/react-query';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,6 @@ import { Stack } from '/@/shared/components/stack/stack';
 import { TextInput } from '/@/shared/components/text-input/text-input';
 import { Text } from '/@/shared/components/text/text';
 import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
-import { Played } from '/@/shared/types/domain-types';
 
 interface PathSettingsProps {
     persistImmediately?: boolean;

@@ -1,3 +1,4 @@
+import { TableColumn } from '@feishin/core/types/types';
 import React, { type ReactNode } from 'react';
 
 import type { ItemDetailListCellProps } from './types';
@@ -37,8 +38,6 @@ import { TitleColumn } from './title-column';
 import { TitleCombinedColumn } from './title-combined-column';
 import { TrackNumberColumn } from './track-number-column';
 import { YearColumn } from './year-column';
-
-import { TableColumn } from '/@/shared/types/types';
 
 type CellComponent = (props: ItemDetailListCellProps) => ReactNode;
 

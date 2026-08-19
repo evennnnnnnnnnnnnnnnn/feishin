@@ -1,10 +1,9 @@
+import { InternetRadioStation } from '@feishin/core/types/domain-types';
 import merge from 'lodash/merge';
 import { nanoid } from 'nanoid/non-secure';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { createWithEqualityFn } from 'zustand/traditional';
-
-import { InternetRadioStation } from '/@/shared/types/domain-types';
 
 export interface RadioStoreSlice extends RadioStoreState {
     actions: {

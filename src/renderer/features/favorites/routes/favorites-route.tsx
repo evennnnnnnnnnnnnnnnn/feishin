@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -6,8 +8,6 @@ import { FavoritesContent } from '/@/renderer/features/favorites/components/favo
 import { FavoritesHeader } from '/@/renderer/features/favorites/components/favorites-header';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 const FavoritesRoute = () => {
     const [searchParams] = useSearchParams();

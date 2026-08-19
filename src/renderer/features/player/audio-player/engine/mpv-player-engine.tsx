@@ -1,5 +1,6 @@
 import type { RefObject } from 'react';
 
+import { PlayerStatus } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
@@ -16,7 +17,6 @@ import {
     usePlayerStore,
     useSettingsStore,
 } from '/@/renderer/store';
-import { PlayerStatus } from '/@/shared/types/types';
 
 export interface MpvPlayerEngineHandle extends AudioPlayer {}
 

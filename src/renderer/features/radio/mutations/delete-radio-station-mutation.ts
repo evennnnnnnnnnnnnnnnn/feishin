@@ -1,13 +1,13 @@
+import {
+    DeleteInternetRadioStationArgs,
+    DeleteInternetRadioStationResponse,
+} from '@feishin/core/types/domain-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
-import {
-    DeleteInternetRadioStationArgs,
-    DeleteInternetRadioStationResponse,
-} from '/@/shared/types/domain-types';
 
 export const useDeleteRadioStation = (args: MutationHookArgs) => {
     const { options } = args || {};

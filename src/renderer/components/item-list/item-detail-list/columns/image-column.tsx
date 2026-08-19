@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -11,8 +13,6 @@ import {
     PlayTooltip,
 } from '/@/renderer/features/shared/components/play-button-group';
 import { usePlayButtonBehavior } from '/@/renderer/store';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 export const ImageColumn = ({
     controls,

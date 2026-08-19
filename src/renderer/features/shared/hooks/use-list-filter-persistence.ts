@@ -1,5 +1,6 @@
+import { ItemListKey } from '@feishin/core/types/types';
+
 import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
-import { ItemListKey } from '/@/shared/types/types';
 
 export interface ListFilterPersistence {
     [listKey: string]: {

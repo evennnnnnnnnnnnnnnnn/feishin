@@ -1,4 +1,4 @@
-import type { TagValue } from '/@/shared/types/tag-editor';
+import type { TagValue } from '@feishin/core/types/tag-editor';
 
 import clsx from 'clsx';
 import { useState } from 'react';

@@ -1,3 +1,5 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { TableColumn } from '@feishin/core/types/types';
 import clsx from 'clsx';
 
 import styles from './row-index-column.module.css';
@@ -15,8 +17,6 @@ import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Flex } from '/@/shared/components/flex/flex';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { TableColumn } from '/@/shared/types/types';
 
 const RowIndexColumnBase = (props: ItemTableListInnerColumn) => {
     const { itemType } = props;

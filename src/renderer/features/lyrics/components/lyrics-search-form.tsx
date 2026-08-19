@@ -1,3 +1,9 @@
+import {
+    FullLyricsMetadata,
+    InternetProviderLyricSearchResponse,
+    LyricSource,
+    LyricsOverride,
+} from '@feishin/core/types/domain-types';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -33,12 +39,6 @@ import { TextInput } from '/@/shared/components/text-input/text-input';
 import { Text } from '/@/shared/components/text/text';
 import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
 import { useForm } from '/@/shared/hooks/use-form';
-import {
-    FullLyricsMetadata,
-    InternetProviderLyricSearchResponse,
-    LyricSource,
-    LyricsOverride,
-} from '/@/shared/types/domain-types';
 
 interface SearchResultProps {
     data: InternetProviderLyricSearchResponse;

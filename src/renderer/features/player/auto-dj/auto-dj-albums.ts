@@ -1,5 +1,12 @@
 import type { QueryClient } from '@tanstack/react-query';
 
+import {
+    AlbumListSort,
+    type QueueSong,
+    type ServerListItem,
+    SortOrder,
+} from '@feishin/core/types/domain-types';
+
 import { autoDjGenreIdsForSongGenre } from './auto-dj-utils';
 
 import { queryKeys } from '/@/renderer/api/query-keys';
@@ -7,12 +14,6 @@ import { albumQueries } from '/@/renderer/features/albums/api/album-api';
 import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
 import { AUTO_DJ_STRATEGY, type AutoDJStrategy } from '/@/renderer/store/settings.store';
 import { shuffle } from '/@/renderer/utils/shuffle';
-import {
-    AlbumListSort,
-    type QueueSong,
-    type ServerListItem,
-    SortOrder,
-} from '/@/shared/types/domain-types';
 
 export type AutoDjAlbumCollectArgs = {
     albumStrategy: AutoDJStrategy;

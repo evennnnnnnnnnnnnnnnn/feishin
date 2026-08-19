@@ -1,3 +1,8 @@
+import {
+    AuthenticationResponse,
+    ServerListItemWithCredential,
+} from '@feishin/core/types/domain-types';
+import { ServerType, toServerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { nanoid } from 'nanoid/non-secure';
 import { useState } from 'react';
@@ -39,8 +44,6 @@ import { TextTitle } from '/@/shared/components/text-title/text-title';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
 import { useForm } from '/@/shared/hooks/use-form';
-import { AuthenticationResponse, ServerListItemWithCredential } from '/@/shared/types/domain-types';
-import { ServerType, toServerType } from '/@/shared/types/types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

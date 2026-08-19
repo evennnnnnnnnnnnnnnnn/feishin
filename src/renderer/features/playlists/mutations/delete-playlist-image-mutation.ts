@@ -1,10 +1,13 @@
+import {
+    DeletePlaylistImageArgs,
+    DeletePlaylistImageResponse,
+} from '@feishin/core/types/domain-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
-import { DeletePlaylistImageArgs, DeletePlaylistImageResponse } from '/@/shared/types/domain-types';
 
 export const useDeletePlaylistImage = (args: MutationHookArgs) => {
     const { options } = args || {};

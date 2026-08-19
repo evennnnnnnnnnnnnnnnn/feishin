@@ -1,3 +1,5 @@
+import { SongListQuery } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -8,8 +10,6 @@ import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-e
 import { SongListContent } from '/@/renderer/features/songs/components/song-list-content';
 import { SongListHeader } from '/@/renderer/features/songs/components/song-list-header';
 import { usePageSidebar } from '/@/renderer/store/app.store';
-import { SongListQuery } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 const getPageKey = (options: { albumArtistId?: string; genreId?: string }) => {
     if (options.albumArtistId) {

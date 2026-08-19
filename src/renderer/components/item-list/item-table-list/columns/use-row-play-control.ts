@@ -1,3 +1,12 @@
+import {
+    Album,
+    AlbumArtist,
+    Artist,
+    LibraryItem,
+    QueueSong,
+    Song,
+} from '@feishin/core/types/domain-types';
+import { Play, PlayerStatus } from '@feishin/core/types/types';
 import { useCallback } from 'react';
 
 import {
@@ -9,15 +18,6 @@ import { ItemTableListInnerColumn } from '/@/renderer/components/item-list/item-
 import { useIsActiveRow } from '/@/renderer/components/item-list/item-table-list/item-table-list-context';
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { usePlayerSong, usePlayerStatus } from '/@/renderer/store';
-import {
-    Album,
-    AlbumArtist,
-    Artist,
-    LibraryItem,
-    QueueSong,
-    Song,
-} from '/@/shared/types/domain-types';
-import { Play, PlayerStatus } from '/@/shared/types/types';
 
 export const supportsRowPlayControls = (itemType: LibraryItem) =>
     itemType === LibraryItem.ALBUM ||

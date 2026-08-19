@@ -1,3 +1,4 @@
+import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
 import IcecastMetadataStats from 'icecast-metadata-stats';
 import isElectron from 'is-electron';
 import React, { useEffect } from 'react';
@@ -6,7 +7,6 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/use-player-events';
 import { usePlaybackType, usePlayerStoreBase, useSettingsStore } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { PlayerStatus, PlayerType } from '/@/shared/types/types';
 
 export type RadioCurrentStationArt = {
     id: string;

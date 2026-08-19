@@ -3,7 +3,7 @@ import type {
     ReadSongMetadataBatchResult,
     TagValue,
     WriteSongTagsBatchResult,
-} from '/@/shared/types/tag-editor';
+} from '@feishin/core/types/tag-editor';
 
 import { ipcMain, type IpcMainInvokeEvent } from 'electron';
 

@@ -15,12 +15,12 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { DragPreview } from '/@/renderer/components/drag-preview/drag-preview';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { dndUtils, DragData, DragOperation, DragTarget } from '/@/shared/types/drag-and-drop';
 
 interface UseDraggableProps {
     drag?: {

@@ -1,8 +1,8 @@
+import { JukeboxControlArgs, JukeboxControlResponse } from '@feishin/core/types/domain-types';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { api } from '/@/renderer/api';
-import { JukeboxControlArgs, JukeboxControlResponse } from '/@/shared/types/domain-types';
 
 export const useJukeboxControl = () => {
     return useMutation<JukeboxControlResponse, AxiosError, JukeboxControlArgs>({

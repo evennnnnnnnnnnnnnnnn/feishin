@@ -1,6 +1,5 @@
+import { TitleTheme } from '@feishin/core/types/types';
 import { ipcRenderer, OpenDialogOptions, webFrame } from 'electron';
-
-import { TitleTheme } from '/@/shared/types/types';
 
 const set = (
     property: string,

@@ -1,14 +1,12 @@
-import axios from 'axios';
-import { set } from 'idb-keyval';
-import orderBy from 'lodash/orderBy';
-
-import { ndApiClient } from '/@/renderer/api/navidrome/navidrome-api';
-import { ssApiClient } from '/@/renderer/api/subsonic/subsonic-api';
-import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller';
-import { ndNormalize } from '/@/shared/api/navidrome/navidrome-normalize';
-import { NDRadioListSort, NDSongListSort } from '/@/shared/api/navidrome/navidrome-types';
-import { ssNormalize } from '/@/shared/api/subsonic/subsonic-normalize';
-import { getFeatures, hasFeature, hasFeatureWithVersion, VersionInfo } from '/@/shared/api/utils';
+import { ndNormalize } from '@feishin/core/api/navidrome/navidrome-normalize';
+import { NDRadioListSort, NDSongListSort } from '@feishin/core/api/navidrome/navidrome-types';
+import { ssNormalize } from '@feishin/core/api/subsonic/subsonic-normalize';
+import {
+    getFeatures,
+    hasFeature,
+    hasFeatureWithVersion,
+    VersionInfo,
+} from '@feishin/core/api/utils';
 import {
     albumArtistListSortMap,
     albumListSortMap,
@@ -36,8 +34,15 @@ import {
     UploadPlaylistImageArgs,
     UploadPlaylistImageResponse,
     userListSortMap,
-} from '/@/shared/types/domain-types';
-import { ServerFeature } from '/@/shared/types/features-types';
+} from '@feishin/core/types/domain-types';
+import { ServerFeature } from '@feishin/core/types/features-types';
+import axios from 'axios';
+import { set } from 'idb-keyval';
+import orderBy from 'lodash/orderBy';
+
+import { ndApiClient } from '/@/renderer/api/navidrome/navidrome-api';
+import { ssApiClient } from '/@/renderer/api/subsonic/subsonic-api';
+import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller';
 
 const VERSION_INFO: VersionInfo = [
     // Why 2? Subsonic controller will return 1 for its own implementation

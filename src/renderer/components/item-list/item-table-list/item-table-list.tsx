@@ -1,5 +1,7 @@
 // Component adapted from https://github.com/bvaughn/react-window/issues/826
 
+import { LibraryItem } from '@feishin/core/types/domain-types';
+import { TableColumn } from '@feishin/core/types/types';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 import React, {
@@ -84,8 +86,6 @@ import {
 import { animationProps } from '/@/shared/components/animations/animation-props';
 import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
 import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
-import { LibraryItem } from '/@/shared/types/domain-types';
-import { TableColumn } from '/@/shared/types/types';
 
 /**
  * Type guard to check if an item has the required properties (id and serverId)

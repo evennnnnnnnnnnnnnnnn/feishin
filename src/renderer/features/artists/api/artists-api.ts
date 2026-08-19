@@ -1,10 +1,3 @@
-import { queryOptions } from '@tanstack/react-query';
-
-import { api } from '/@/renderer/api';
-import { controller } from '/@/renderer/api/controller';
-import { queryKeys } from '/@/renderer/api/query-keys';
-import { getOptimizedListCount } from '/@/renderer/api/utils-list-count';
-import { QueryHookArgs } from '/@/renderer/lib/react-query';
 import {
     AlbumArtistDetailQuery,
     AlbumArtistInfoQuery,
@@ -13,7 +6,14 @@ import {
     FavoriteSongListQuery,
     ListCountQuery,
     TopSongListQuery,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { queryOptions } from '@tanstack/react-query';
+
+import { api } from '/@/renderer/api';
+import { controller } from '/@/renderer/api/controller';
+import { queryKeys } from '/@/renderer/api/query-keys';
+import { getOptimizedListCount } from '/@/renderer/api/utils-list-count';
+import { QueryHookArgs } from '/@/renderer/lib/react-query';
 
 export const artistsQueries = {
     albumArtistDetail: (args: QueryHookArgs<AlbumArtistDetailQuery>) => {

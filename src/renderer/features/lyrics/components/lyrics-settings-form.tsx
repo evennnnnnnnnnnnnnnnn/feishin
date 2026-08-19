@@ -1,3 +1,4 @@
+import { LyricSource } from '@feishin/core/types/domain-types';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +21,6 @@ import { Select } from '/@/shared/components/select/select';
 import { Slider } from '/@/shared/components/slider/slider';
 import { Stack } from '/@/shared/components/stack/stack';
 import { TextInput } from '/@/shared/components/text-input/text-input';
-import { LyricSource } from '/@/shared/types/domain-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

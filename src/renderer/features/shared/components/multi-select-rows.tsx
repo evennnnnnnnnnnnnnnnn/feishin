@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RowComponentProps } from 'react-window-v2';
@@ -8,7 +9,6 @@ import { ItemImage } from '/@/renderer/components/item-image/item-image';
 import { Group } from '/@/shared/components/group/group';
 import { VirtualMultiSelectOption } from '/@/shared/components/multi-select/virtual-multi-select';
 import { Text } from '/@/shared/components/text/text';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 export function ArtistMultiSelectRow({
     disabled = false,

@@ -1,7 +1,4 @@
-import { z } from 'zod';
-
-import { sliceUtf8Bytes } from '/@/renderer/utils/utf8-byte-slice';
-import { ssType } from '/@/shared/api/subsonic/subsonic-types';
+import { ssType } from '@feishin/core/api/subsonic/subsonic-types';
 import {
     LyricAgent,
     LyricsKind,
@@ -9,7 +6,10 @@ import {
     SyncedCueLine,
     SyncedWordCue,
     SynchronizedLyricLine,
-} from '/@/shared/types/domain-types';
+} from '@feishin/core/types/domain-types';
+import { z } from 'zod';
+
+import { sliceUtf8Bytes } from '/@/renderer/utils/utf8-byte-slice';
 
 type ApiStructuredLyric = NonNullable<
     z.infer<typeof ssType._response.structuredLyrics>['lyricsList']

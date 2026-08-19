@@ -1,3 +1,8 @@
+import {
+    LyricsResponse,
+    SyncedCueLine,
+    SynchronizedLyrics,
+} from '@feishin/core/types/domain-types';
 import { useQuery } from '@tanstack/react-query';
 
 import * as lyricsApi from '/@/lyrics-conversion-api';
@@ -8,7 +13,6 @@ import {
     RomajiToken,
 } from '/@/renderer/features/lyrics/api/lyric-conversion';
 import { normalizeLyrics } from '/@/renderer/features/lyrics/api/lyrics-utils';
-import { LyricsResponse, SyncedCueLine, SynchronizedLyrics } from '/@/shared/types/domain-types';
 
 const convertSyncedLyricsFurigana = async (
     lyrics: SynchronizedLyrics,

@@ -1,3 +1,12 @@
+import {
+    AuthenticationResponse,
+    ControllerEndpoint,
+    InternalControllerEndpoint,
+    ServerType,
+    SetPlaylistSongsArgs,
+    SetPlaylistSongsResponse,
+} from '@feishin/core/types/domain-types';
+
 import i18n from '/@/i18n/i18n';
 import { JellyfinController } from '/@/renderer/api/jellyfin/jellyfin-controller';
 import { NavidromeController } from '/@/renderer/api/navidrome/navidrome-controller';
@@ -6,14 +15,6 @@ import { mergeMusicFolderId } from '/@/renderer/api/utils-music-folder';
 import { getServerById, useAuthStore, useSettingsStore } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
 import { toast } from '/@/shared/components/toast/toast';
-import {
-    AuthenticationResponse,
-    ControllerEndpoint,
-    InternalControllerEndpoint,
-    ServerType,
-    SetPlaylistSongsArgs,
-    SetPlaylistSongsResponse,
-} from '/@/shared/types/domain-types';
 
 type ApiController = {
     jellyfin: InternalControllerEndpoint;

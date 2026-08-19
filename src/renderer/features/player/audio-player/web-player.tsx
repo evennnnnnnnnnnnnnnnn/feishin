@@ -1,6 +1,8 @@
 import type { Dispatch } from 'react';
 import type ReactPlayer from 'react-player';
 
+import { QueueSong } from '@feishin/core/types/domain-types';
+import { CrossfadeStyle, PlayerRepeat, PlayerStatus, PlayerStyle } from '@feishin/core/types/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -26,8 +28,6 @@ import {
     usePlayerVolume,
 } from '/@/renderer/store';
 import { toast } from '/@/shared/components/toast/toast';
-import { QueueSong } from '/@/shared/types/domain-types';
-import { CrossfadeStyle, PlayerRepeat, PlayerStatus, PlayerStyle } from '/@/shared/types/types';
 
 const PLAY_PAUSE_FADE_DURATION = 300;
 const PLAY_PAUSE_FADE_INTERVAL = 10;

@@ -1,10 +1,10 @@
+import { SetPlaylistSongsArgs } from '@feishin/core/types/domain-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
-import { SetPlaylistSongsArgs } from '/@/shared/types/domain-types';
 
 export const useUpdatePlaylistTracks = (args: MutationHookArgs) => {
     const { options } = args || {};

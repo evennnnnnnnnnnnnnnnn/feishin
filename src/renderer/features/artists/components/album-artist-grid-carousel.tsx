@@ -1,3 +1,5 @@
+import { AlbumArtist, LibraryItem } from '@feishin/core/types/domain-types';
+import { ItemListKey } from '@feishin/core/types/types';
 import { useMemo } from 'react';
 
 import {
@@ -7,8 +9,6 @@ import {
 import { MemoizedItemCard } from '/@/renderer/components/item-card/item-card';
 import { useDefaultItemListControls } from '/@/renderer/components/item-list/helpers/item-list-controls';
 import { useGridRows } from '/@/renderer/components/item-list/helpers/use-grid-rows';
-import { AlbumArtist, LibraryItem } from '/@/shared/types/domain-types';
-import { ItemListKey } from '/@/shared/types/types';
 
 interface AlbumArtistGridCarouselProps {
     data: AlbumArtist[];

@@ -1,3 +1,4 @@
+import { SynchronizedLyrics } from '@feishin/core/types/domain-types';
 import { useCallback, useEffect, useRef } from 'react';
 
 import {
@@ -12,7 +13,6 @@ import {
     resumeLyricsAutoscroll,
     tickLyricsAnimation,
 } from '/@/renderer/features/lyrics/hooks/lyrics-animation-engine';
-import { SynchronizedLyrics } from '/@/shared/types/domain-types';
 
 export interface UseLyricsAnimationEngineOptions {
     animStateRef?: React.MutableRefObject<AnimEngineState>;

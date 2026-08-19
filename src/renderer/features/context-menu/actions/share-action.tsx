@@ -1,9 +1,9 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import { openContextModal } from '@mantine/modals';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface ShareActionProps {
     ids: string[];

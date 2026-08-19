@@ -1,3 +1,4 @@
+import { LibraryItem } from '@feishin/core/types/domain-types';
 import {
     RiAlbumFill,
     RiAlbumLine,
@@ -29,7 +30,6 @@ import { generatePath, useLocation } from 'react-router';
 import styles from './sidebar-icon.module.css';
 
 import { AppRoute } from '/@/renderer/router/routes';
-import { LibraryItem } from '/@/shared/types/domain-types';
 
 interface SidebarIconProps {
     active?: boolean;

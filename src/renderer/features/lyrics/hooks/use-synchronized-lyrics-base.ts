@@ -1,3 +1,5 @@
+import { SynchronizedLyrics } from '@feishin/core/types/domain-types';
+import { PlayerType } from '@feishin/core/types/types';
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
@@ -14,8 +16,6 @@ import {
     usePlaybackType,
     usePlayerActions,
 } from '/@/renderer/store';
-import { SynchronizedLyrics } from '/@/shared/types/domain-types';
-import { PlayerType } from '/@/shared/types/types';
 
 const mpvPlayer = isElectron() ? window.api.mpvPlayer : null;
 const utils = isElectron() ? window.api.utils : null;

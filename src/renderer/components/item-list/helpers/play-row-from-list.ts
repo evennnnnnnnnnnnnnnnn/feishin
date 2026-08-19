@@ -1,6 +1,7 @@
+import { Album, AlbumArtist, Artist, LibraryItem, Song } from '@feishin/core/types/domain-types';
+import { Play } from '@feishin/core/types/types';
+
 import { ItemListStateActions } from '/@/renderer/components/item-list/helpers/item-list-state';
-import { Album, AlbumArtist, Artist, LibraryItem, Song } from '/@/shared/types/domain-types';
-import { Play } from '/@/shared/types/types';
 
 type PlayableArtistItem = AlbumArtist | Artist;
 

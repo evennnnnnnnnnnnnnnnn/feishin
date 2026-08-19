@@ -1,6 +1,5 @@
+import { QueueSong } from '@feishin/core/types/domain-types';
 import isElectron from 'is-electron';
-
-import { QueueSong } from '/@/shared/types/domain-types';
 
 const remote = isElectron() ? window.api.remote : null;
 const mediaSession = navigator.mediaSession;
