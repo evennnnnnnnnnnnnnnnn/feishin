@@ -5,7 +5,7 @@ Process and build boundaries. Read when work crosses main / preload / renderer /
 ## Layout
 
 | Tree | Role |
-|------|------|
+| --- | --- |
 | `src/main` | Electron main: window lifecycle, OS features, core IPC (player, remote server, themes, lyrics, …) |
 | `src/preload` | `contextBridge` → `window.api` (`src/preload/index.ts`) |
 | `src/renderer` | Full app UI (Electron renderer + web build root) |
@@ -16,7 +16,7 @@ Process and build boundaries. Read when work crosses main / preload / renderer /
 ## Builds
 
 | Target | Command / config | Notes |
-|--------|------------------|--------|
+| --- | --- | --- |
 | Electron | `pnpm dev` / `build:electron` (`electron.vite.config.ts`) | main + preload + renderer |
 | Web | `pnpm build:web` (`web.vite.config.ts`) | `out/web`; Docker uses this |
 | Remote | `pnpm build:remote` (`remote.vite.config.ts`) | `out/remote` |
@@ -27,7 +27,7 @@ Desktop-only surfaces (custom themes, mpv, MPRIS, many `window.api.*` modules) m
 ## Aliases
 
 | Alias | → |
-|-------|---|
+| --- | --- |
 | `/@/main` | `src/main` (Electron main; not in web/remote vite) |
 | `/@/preload` | `src/preload` |
 | `/@/renderer` | `src/renderer` |

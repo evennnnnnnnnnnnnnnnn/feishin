@@ -5,7 +5,7 @@ Use the process logger for diagnosable failures and meaningful state transitions
 ## Which logger
 
 | Process | Import | API |
-|---------|--------|-----|
+| --- | --- | --- |
 | Renderer / remote | `import { logger } from '/@/renderer/utils/logger'` | `logger.debug\|info\|warn\|error(message, meta?)` |
 | Main | `import log from '/@/main/logger'` | `log.debug\|info\|warn\|error(...)` |
 
@@ -26,7 +26,7 @@ Skip: hot loops, every React render, expected empty states, data the user alread
 Configured threshold is `debug` | `info` (`LogLevel` in `@feishin/core/logger/types`). Message severity is `debug` | `info` | `warn` | `error`.
 
 | Severity | Use for |
-|----------|---------|
+| --- | --- |
 | `error` | Failed operation; include the error in `meta` or args |
 | `warn` | Degraded / unexpected but continuing |
 | `info` | Notable lifecycle (engine chosen, reconnect, update check) |

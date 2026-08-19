@@ -5,7 +5,7 @@ Server library data layer (Jellyfin / Navidrome / Subsonic). Read when adding or
 ## Layers
 
 | Layer | Path | Job |
-|-------|------|-----|
+| --- | --- | --- |
 | Feature queries / mutations | `src/renderer/features/<feature>/api/`, `.../mutations/` | `queryOptions` / `useMutation`; call `api.controller` |
 | Facade | `src/renderer/api` → `controller.ts` | Pick backend from current server (`ServerType`) |
 | Backend client + controller | `src/renderer/api/{jellyfin,navidrome,subsonic}/` | HTTP + map to controller endpoints |
@@ -40,10 +40,10 @@ Do **not** fetch these for ordinary API work. Prefer in-repo controllers, `@feis
 Fetch **only** when an endpoint, field, or auth detail is missing or contradictory in-repo and you cannot finish without the vendor contract:
 
 | Backend | Schema |
-|---------|--------|
-| OpenSubsonic (Subsonic / Navidrome-compatible) | https://opensubsonic.netlify.app/docs/openapi/openapi.json |
-| Navidrome native API | https://github.com/navidrome/navidrome/tree/master/server/nativeapi |
-| Jellyfin | https://api.jellyfin.org/openapi/jellyfin-openapi-stable.json |
+| --- | --- |
+| OpenSubsonic (Subsonic / Navidrome-compatible) | <https://opensubsonic.netlify.app/docs/openapi/openapi.json> |
+| Navidrome native API | <https://github.com/navidrome/navidrome/tree/master/server/nativeapi> |
+| Jellyfin | <https://api.jellyfin.org/openapi/jellyfin-openapi-stable.json> |
 
 When you must open one: pull **only the path/operation/schema (or Go handler file) you need**, not the whole spec or folder into context. Then encode the result in our types/normalize/controller — do not leave features depending on the remote source.
 
