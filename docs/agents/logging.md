@@ -23,7 +23,7 @@ Skip: hot loops, every React render, expected empty states, data the user alread
 
 ## Levels
 
-Configured threshold is `debug` | `info` (`LogLevel` in `/@/shared/logger/types`). Message severity is `debug` | `info` | `warn` | `error`.
+Configured threshold is `debug` | `info` (`LogLevel` in `@feishin/core/logger/types`). Message severity is `debug` | `info` | `warn` | `error`.
 
 | Severity | Use for |
 |----------|---------|
@@ -36,4 +36,4 @@ Configured threshold is `debug` | `info` (`LogLevel` in `/@/shared/logger/types`
 
 - First arg: short human message string.
 - Optional second arg (renderer): structured `meta` object — prefer `{ error, … }` over string-concatenating errors.
-- No secrets: passwords, tokens, full auth headers, or anything `sanitize-for-diagnostics` would strip from exports. Main diagnostic packaging uses `/@/shared/utils/sanitize-for-diagnostics` — keep ad-hoc logs equally clean.
+- No secrets: passwords, tokens, full auth headers, or anything `sanitize-for-diagnostics` would strip from exports. Main diagnostic packaging uses `@feishin/core/utils/sanitize-for-diagnostics` — keep ad-hoc logs equally clean.

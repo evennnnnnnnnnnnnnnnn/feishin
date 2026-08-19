@@ -9,8 +9,8 @@ Server library data layer (Jellyfin / Navidrome / Subsonic). Read when adding or
 | Feature queries / mutations | `src/renderer/features/<feature>/api/`, `.../mutations/` | `queryOptions` / `useMutation`; call `api.controller` |
 | Facade | `src/renderer/api` → `controller.ts` | Pick backend from current server (`ServerType`) |
 | Backend client + controller | `src/renderer/api/{jellyfin,navidrome,subsonic}/` | HTTP + map to controller endpoints |
-| Types + normalize | `src/shared/api/{jellyfin,navidrome,subsonic}/` | Zod/types + `*Normalize` → domain |
-| Domain contracts | `src/shared/types/domain-types.ts` | `ControllerEndpoint` shapes features rely on |
+| Types + normalize | `packages/core/src/api/{jellyfin,navidrome,subsonic}/` (import as `@feishin/core/api/...`) | Zod/types + `*Normalize` → domain |
+| Domain contracts | `packages/core/src/types/domain-types.ts` (`@feishin/core/types/domain-types`) | `ControllerEndpoint` shapes features rely on |
 | Query keys | `src/renderer/api/query-keys.ts` | `[serverId, resource, …]`; use `splitPaginatedQuery` for list/count |
 
 React Query client: `src/renderer/lib/react-query.ts`.
@@ -30,12 +30,12 @@ import { queryKeys } from '/@/renderer/api/query-keys';
 ## Normalize / new endpoint
 
 - Wire through the per-backend **controller**, not the feature component.
-- Parse/validate with shared types; map with `jfNormalize` / `ndNormalize` / `ssNormalize` in `src/shared/api/...`.
+- Parse/validate with core types; map with `jfNormalize` / `ndNormalize` / `ssNormalize` in `@feishin/core/api/...`.
 - Keep domain types stable for features; backend quirks stay in normalize/controller.
 
 ## Upstream OpenAPI (last resort)
 
-Do **not** fetch these for ordinary API work. Prefer in-repo controllers, `src/shared/api/*-types.ts`, normalize, and existing call sites.
+Do **not** fetch these for ordinary API work. Prefer in-repo controllers, `@feishin/core/api/*-types.ts`, normalize, and existing call sites.
 
 Fetch **only** when an endpoint, field, or auth detail is missing or contradictory in-repo and you cannot finish without the vendor contract:
 
