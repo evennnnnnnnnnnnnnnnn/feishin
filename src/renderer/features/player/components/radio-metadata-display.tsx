@@ -1,3 +1,4 @@
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import clsx from 'clsx';
 import React from 'react';
 import { Link } from 'react-router';
@@ -9,7 +10,6 @@ import { AppRoute } from '/@/renderer/router/routes';
 import { Group } from '/@/shared/components/group/group';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Text } from '/@/shared/components/text/text';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 
 interface RadioMetadataDisplayProps {
     onStopPropagation: (e?: React.MouseEvent) => void;

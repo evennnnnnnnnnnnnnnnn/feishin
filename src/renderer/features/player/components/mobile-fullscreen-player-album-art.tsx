@@ -1,3 +1,4 @@
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import clsx from 'clsx';
 import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'motion/react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -17,7 +18,6 @@ import {
 } from '/@/renderer/store';
 import { Center } from '/@/shared/components/center/center';
 import { Icon } from '/@/shared/components/icon/icon';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 import { useSetState } from '/@/shared/hooks/use-set-state';
 import { LibraryItem } from '/@/shared/types/domain-types';
 

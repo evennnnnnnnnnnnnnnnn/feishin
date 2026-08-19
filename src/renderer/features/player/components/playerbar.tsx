@@ -14,9 +14,10 @@ const MobilePlayerbar = lazy(() =>
         default: module.MobilePlayerbar,
     })),
 );
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
+
 import { useFullScreenPlayerStore, useSetFullScreenPlayerStore } from '/@/renderer/store';
 import { usePlayerbarOpenDrawer } from '/@/renderer/store';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 
 export const Playerbar = () => {
     const playerbarOpenDrawer = usePlayerbarOpenDrawer();

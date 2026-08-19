@@ -1,3 +1,4 @@
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import formatDuration from 'format-duration';
 import { lazy, memo, Suspense } from 'react';
 
@@ -8,7 +9,6 @@ import { usePlayerTimestamp } from '/@/renderer/store';
 import { PlayerbarSliderType, usePlayerbarSlider } from '/@/renderer/store/settings.store';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Text } from '/@/shared/components/text/text';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 import { QueueSong } from '/@/shared/types/domain-types';
 
 const PlayerbarWaveform = lazy(() =>

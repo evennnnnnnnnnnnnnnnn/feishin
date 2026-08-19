@@ -1,3 +1,4 @@
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import clsx from 'clsx';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { MouseEvent } from 'react';
@@ -35,7 +36,6 @@ import { Group } from '/@/shared/components/group/group';
 import { Icon } from '/@/shared/components/icon/icon';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 import { LibraryItem } from '/@/shared/types/domain-types';
 
 export const LeftControls = () => {

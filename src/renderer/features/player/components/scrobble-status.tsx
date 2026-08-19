@@ -1,3 +1,4 @@
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import formatDuration from 'format-duration';
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +19,6 @@ import { Icon } from '/@/shared/components/icon/icon';
 import { Progress } from '/@/shared/components/progress/progress';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 
 const scrobbleProgressProps = {
     'aria-hidden': true,

@@ -1,3 +1,4 @@
+import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import clsx from 'clsx';
 import { t } from 'i18next';
 import { forwardRef, ReactNode } from 'react';
@@ -6,7 +7,6 @@ import styles from './player-button.module.css';
 
 import { ActionIcon, ActionIconProps } from '/@/shared/components/action-icon/action-icon';
 import { Tooltip, TooltipProps } from '/@/shared/components/tooltip/tooltip';
-import { PlaybackSelectors } from '/@/shared/constants/playback-selectors';
 
 interface PlayerButtonProps extends Omit<ActionIconProps, 'icon' | 'variant'> {
     icon: ReactNode;
