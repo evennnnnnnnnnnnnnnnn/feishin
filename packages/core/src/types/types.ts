@@ -1,5 +1,6 @@
-import { LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
-import { ServerFeatures } from '@feishin/core/types/features-types';
+import type { ServerFeatures } from '@feishin/core/types/features-types';
+
+import { LibraryItem, type QueueSong } from '@feishin/core/types/domain-types';
 
 export enum ItemListKey {
     ALBUM = LibraryItem.ALBUM,

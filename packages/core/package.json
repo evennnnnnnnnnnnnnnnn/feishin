@@ -2,11 +2,11 @@
     "name": "@feishin/core",
     "version": "0.0.0",
     "private": true,
+    "sideEffects": false,
     "type": "module",
     "exports": {
         "./*": "./src/*.ts"
     },
-    "sideEffects": false,
     "dependencies": {
         "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.2.0",
         "axios": "^1.17.0",
