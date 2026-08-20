@@ -6,9 +6,8 @@ import type {
     UseQueryOptions,
 } from '@tanstack/react-query';
 
+import { toast } from '@feishin/ui/components/toast/toast';
 import { QueryCache, QueryClient } from '@tanstack/react-query';
-
-import { toast } from '/@/shared/components/toast/toast';
 
 const queryCache = new QueryCache({
     onError: (error: any, query) => {

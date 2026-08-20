@@ -1,4 +1,11 @@
 import { PlayerType } from '@feishin/core/types/types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Modal } from '@feishin/ui/components/modal/modal';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,13 +14,6 @@ import { useIsLocalVisualizerSurfaceVisible } from '/@/renderer/features/player/
 import { useVisualizerSystemAudio } from '/@/renderer/features/player/hooks/use-visualizer-system-audio';
 import { closeLocalVisualizerSurfaces } from '/@/renderer/features/player/utils/close-local-visualizer-surfaces';
 import { useMpvSettings, usePlaybackType } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { Modal } from '/@/shared/components/modal/modal';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 
 const CONSENT_GRANTED_KEY = 'visualizer_system_audio_consent_granted';
 

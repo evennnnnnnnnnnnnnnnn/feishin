@@ -1,3 +1,8 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { Code } from '@feishin/ui/components/code/code';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Text } from '@feishin/ui/components/text/text';
+import { Textarea } from '@feishin/ui/components/textarea/textarea';
 import isElectron from 'is-electron';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -5,11 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { SettingsOptions } from '/@/renderer/features/settings/components/settings-option';
 import { useCssSettings, useSettingsStoreActions } from '/@/renderer/store';
 import { sanitizeCss } from '/@/renderer/utils/sanitize';
-import { Button } from '/@/shared/components/button/button';
-import { Code } from '/@/shared/components/code/code';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Text } from '/@/shared/components/text/text';
-import { Textarea } from '/@/shared/components/textarea/textarea';
 
 export const StylesSettings = memo(() => {
     const [open, setOpen] = useState(false);

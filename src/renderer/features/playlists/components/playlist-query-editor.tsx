@@ -1,6 +1,18 @@
 import type { UseSuspenseQueryResult } from '@tanstack/react-query';
 
 import { SongListSort } from '@feishin/core/types/domain-types';
+import { Box } from '@feishin/ui/components/box/box';
+import { Button } from '@feishin/ui/components/button/button';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { JsonInput } from '@feishin/ui/components/json-input/json-input';
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,18 +24,6 @@ import {
 import { useUpdatePlaylist } from '/@/renderer/features/playlists/mutations/update-playlist-mutation';
 import { convertQueryGroupToNDQuery } from '/@/renderer/features/playlists/utils';
 import { JsonPreview } from '/@/renderer/features/shared/components/json-preview';
-import { Box } from '/@/shared/components/box/box';
-import { Button } from '/@/shared/components/button/button';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { JsonInput } from '/@/shared/components/json-input/json-input';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
 
 export interface PlaylistQueryEditorProps {
     detailQuery: UseSuspenseQueryResult<any, Error>;

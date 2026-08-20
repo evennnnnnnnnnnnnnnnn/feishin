@@ -1,4 +1,13 @@
 import { PlayerType } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { Textarea } from '@feishin/ui/components/textarea/textarea';
 import isElectron from 'is-electron';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,15 +25,6 @@ import {
     usePlaybackSettings,
     useSettingsStoreActions,
 } from '/@/renderer/store/settings.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { Textarea } from '/@/shared/components/textarea/textarea';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 const mpvPlayer = isElectron() ? window.api.mpvPlayer : null;

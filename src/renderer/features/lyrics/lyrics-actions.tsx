@@ -1,4 +1,15 @@
 import { LyricsKind, LyricsOverride } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Group } from '@feishin/ui/components/group/group';
+import { AppIcon } from '@feishin/ui/components/icon/icon';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Popover } from '@feishin/ui/components/popover/popover';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Text } from '@feishin/ui/components/text/text';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import isElectron from 'is-electron';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,17 +18,6 @@ import styles from './lyrics-actions.module.css';
 
 import { openLyricSearchModal } from '/@/renderer/features/lyrics/components/lyrics-search-form';
 import { useLyricsSettings, usePlayerSong } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Group } from '/@/shared/components/group/group';
-import { AppIcon } from '/@/shared/components/icon/icon';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Popover } from '/@/shared/components/popover/popover';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Text } from '/@/shared/components/text/text';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 export type OverlayLayerToggle = {
     key: string;

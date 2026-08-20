@@ -1,4 +1,6 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,8 +14,6 @@ import { ListSearchInput } from '/@/renderer/features/shared/components/list-sea
 import { SongListHeaderFilters } from '/@/renderer/features/songs/components/song-list-header-filters';
 import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-list-filters';
 import { GenreTarget, useGenreTarget } from '/@/renderer/store';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
 
 interface GenreDetailHeaderProps {
     title?: string;

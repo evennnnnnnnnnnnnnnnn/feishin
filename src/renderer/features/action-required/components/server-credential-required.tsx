@@ -1,5 +1,6 @@
+import { Text } from '@feishin/ui/components/text/text';
+
 import { useCurrentServer } from '/@/renderer/store';
-import { Text } from '/@/shared/components/text/text';
 
 export const ServerCredentialRequired = () => {
     const currentServer = useCurrentServer();

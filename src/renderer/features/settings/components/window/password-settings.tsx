@@ -1,3 +1,4 @@
+import { Select } from '@feishin/ui/components/select/select';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +8,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { useGeneralSettings, useSettingsStoreActions } from '/@/renderer/store';
-import { Select } from '/@/shared/components/select/select';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

@@ -1,4 +1,7 @@
 import { Platform } from '@feishin/core/types/types';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
+import { useTimeout } from '@feishin/ui/hooks/use-timeout';
 import { AnimatePresence, motion, Variants } from 'motion/react';
 import { useCallback } from 'react';
 import { useLocation } from 'react-router';
@@ -8,9 +11,6 @@ import styles from './side-drawer-queue.module.css';
 import { DrawerPlayQueue } from '/@/renderer/features/now-playing/components/drawer-play-queue';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useAppStore } from '/@/renderer/store';
-import { Icon } from '/@/shared/components/icon/icon';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
-import { useTimeout } from '/@/shared/hooks/use-timeout';
 
 const queueDrawerVariants: Variants = {
     closed: (windowBarStyle) => ({

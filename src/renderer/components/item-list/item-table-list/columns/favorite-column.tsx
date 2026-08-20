@@ -1,3 +1,5 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+
 import {
     ItemTableListInnerColumn,
     TableColumnContainer,
@@ -5,7 +7,6 @@ import {
 import { ItemListItem } from '/@/renderer/components/item-list/types';
 import { useIsMutatingCreateFavorite } from '/@/renderer/features/shared/mutations/create-favorite-mutation';
 import { useIsMutatingDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 
 export const FavoriteColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

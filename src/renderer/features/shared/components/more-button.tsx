@@ -1,4 +1,4 @@
-import { ActionIcon, ActionIconProps } from '/@/shared/components/action-icon/action-icon';
+import { ActionIcon, ActionIconProps } from '@feishin/ui/components/action-icon/action-icon';
 
 interface MoreButtonProps extends ActionIconProps {}
 

@@ -1,3 +1,4 @@
+import { Text } from '@feishin/ui/components/text/text';
 import { useWavesurfer } from '@wavesurfer/react';
 import formatDuration from 'format-duration';
 import { AnimatePresence, motion } from 'motion/react';
@@ -17,7 +18,6 @@ import {
     usePlayerTimestamp,
 } from '/@/renderer/store';
 import { useAppThemeColors, useColorScheme } from '/@/renderer/themes/use-app-theme';
-import { Text } from '/@/shared/components/text/text';
 
 export const PlayerbarWaveform = () => {
     const currentSong = usePlayerSong();

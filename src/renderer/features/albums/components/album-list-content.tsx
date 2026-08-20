@@ -1,5 +1,8 @@
 import { AlbumListQuery, LibraryItem } from '@feishin/core/types/domain-types';
 import { ItemListKey, ListDisplayType, ListPaginationType } from '@feishin/core/types/types';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { lazy, Suspense, useMemo } from 'react';
 
 import { useListContext } from '/@/renderer/context/list-context';
@@ -8,9 +11,6 @@ import { ListFilters, ListFiltersTitle } from '/@/renderer/features/shared/compo
 import { ListWithSidebarContainer } from '/@/renderer/features/shared/components/list-with-sidebar-container';
 import { SaveAsCollectionButton } from '/@/renderer/features/shared/components/save-as-collection-button';
 import { ItemListSettings, useCurrentServer, useListSettings } from '/@/renderer/store';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const AlbumListInfiniteGrid = lazy(() =>
     import('/@/renderer/features/albums/components/album-list-infinite-grid').then((module) => ({

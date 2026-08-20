@@ -13,6 +13,23 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { ItemListKey, ListDisplayType, Play } from '@feishin/core/types/types';
+import { ActionIcon, ActionIconGroup } from '@feishin/ui/components/action-icon/action-icon';
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Button } from '@feishin/ui/components/button/button';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Grid } from '@feishin/ui/components/grid/grid';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Skeleton } from '@feishin/ui/components/skeleton/skeleton';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Spoiler } from '@feishin/ui/components/spoiler/spoiler';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDebouncedValue } from '@feishin/ui/hooks/use-debounced-value';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import {
     useQuery,
     useQueryClient,
@@ -77,23 +94,6 @@ import {
     useSettingsStore,
 } from '/@/renderer/store/settings.store';
 import { sanitize } from '/@/renderer/utils/sanitize';
-import { ActionIcon, ActionIconGroup } from '/@/shared/components/action-icon/action-icon';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Button } from '/@/shared/components/button/button';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Grid } from '/@/shared/components/grid/grid';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Skeleton } from '/@/shared/components/skeleton/skeleton';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Spoiler } from '/@/shared/components/spoiler/spoiler';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Text } from '/@/shared/components/text/text';
-import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 interface AlbumArtistActionButtonsProps {
     artistDiscographyLink: string;

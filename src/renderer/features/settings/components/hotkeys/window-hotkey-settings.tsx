@@ -1,3 +1,4 @@
+import { Switch } from '@feishin/ui/components/switch/switch';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,6 @@ import {
 } from '/@/renderer/features/settings/components/settings-section';
 import { openRestartRequiredToast } from '/@/renderer/features/settings/restart-toast';
 import { useHotkeySettings, usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store';
-import { Switch } from '/@/shared/components/switch/switch';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

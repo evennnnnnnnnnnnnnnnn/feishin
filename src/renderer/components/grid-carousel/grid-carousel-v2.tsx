@@ -2,6 +2,9 @@ import type { Variants } from 'motion/react';
 import type { ReactNode } from 'react';
 
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -9,9 +12,6 @@ import styles from './grid-carousel.module.css';
 
 import { DataRow, MemoizedItemCard } from '/@/renderer/components/item-card/item-card';
 import { useContainerQuery } from '/@/renderer/hooks';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
 
 export const useGridCarouselContainerQuery = () => {
     return useContainerQuery({

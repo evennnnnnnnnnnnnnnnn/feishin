@@ -1,8 +1,7 @@
+import { Flex, FlexProps } from '@feishin/ui/components/flex/flex';
+import { Group, GroupProps } from '@feishin/ui/components/group/group';
+import { Stack, StackProps } from '@feishin/ui/components/stack/stack';
 import { motion } from 'motion/react';
-
-import { Flex, FlexProps } from '/@/shared/components/flex/flex';
-import { Group, GroupProps } from '/@/shared/components/group/group';
-import { Stack, StackProps } from '/@/shared/components/stack/stack';
 
 export const MotionFlex = motion.create<FlexProps>(Flex, { forwardMotionProps: true });
 

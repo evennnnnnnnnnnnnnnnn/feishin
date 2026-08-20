@@ -1,9 +1,9 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Rating } from '@feishin/ui/components/rating/rating';
 
 import { ItemDetailListCellProps } from './types';
 
 import { useIsMutatingRating } from '/@/renderer/features/shared/mutations/set-rating-mutation';
-import { Rating } from '/@/shared/components/rating/rating';
 
 export const RatingColumn = ({ controls, internalState, song }: ItemDetailListCellProps) => {
     const isMutatingRating = useIsMutatingRating();

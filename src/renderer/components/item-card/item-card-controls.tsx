@@ -9,6 +9,10 @@ import {
     Song,
 } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { animationVariants } from '@feishin/ui/components/animations/animation-variants';
+import { AppIcon, Icon, IconProps } from '@feishin/ui/components/icon/icon';
+import { Rating } from '@feishin/ui/components/rating/rating';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 import { memo, MouseEvent, useMemo } from 'react';
@@ -22,10 +26,6 @@ import { PlayTooltip } from '/@/renderer/features/shared/components/play-button-
 import { useIsMutatingCreateFavorite } from '/@/renderer/features/shared/mutations/create-favorite-mutation';
 import { useIsMutatingDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
 import { useIsMutatingRating } from '/@/renderer/features/shared/mutations/set-rating-mutation';
-import { animationVariants } from '/@/shared/components/animations/animation-variants';
-import { AppIcon, Icon, IconProps } from '/@/shared/components/icon/icon';
-import { Rating } from '/@/shared/components/rating/rating';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 interface ItemCardControlsProps {
     controls?: ItemControls;

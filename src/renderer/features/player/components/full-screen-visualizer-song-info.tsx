@@ -1,3 +1,6 @@
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
+import { Text } from '@feishin/ui/components/text/text';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -5,9 +8,6 @@ import styles from './full-screen-visualizer.module.css';
 
 import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/use-player-events';
 import { usePlayerSong } from '/@/renderer/store/player.store';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Text } from '/@/shared/components/text/text';
 
 export const FullScreenVisualizerSongInfo = () => {
     const currentSong = usePlayerSong();

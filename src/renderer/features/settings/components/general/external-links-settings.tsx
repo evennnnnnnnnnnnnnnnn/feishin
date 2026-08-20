@@ -1,3 +1,4 @@
+import { Switch } from '@feishin/ui/components/switch/switch';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { useGeneralSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { Switch } from '/@/shared/components/switch/switch';
 
 export const ExternalLinksSettings = memo(() => {
     const { t } = useTranslation();

@@ -1,9 +1,9 @@
 import { AuthState } from '@feishin/core/types/types';
+import { Center } from '@feishin/ui/components/center/center';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { Outlet } from 'react-router';
 
 import { useServerAuthenticated } from '/@/renderer/hooks/use-server-authenticated';
-import { Center } from '/@/shared/components/center/center';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 export const AuthenticationOutlet = () => {
     const authState = useServerAuthenticated();

@@ -1,10 +1,11 @@
+import { Rating } from '@feishin/ui/components/rating/rating';
+
 import {
     ItemTableListInnerColumn,
     TableColumnContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { ItemListItem } from '/@/renderer/components/item-list/types';
 import { useIsMutatingRating } from '/@/renderer/features/shared/mutations/set-rating-mutation';
-import { Rating } from '/@/shared/components/rating/rating';
 
 export const RatingColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

@@ -1,5 +1,11 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import clsx from 'clsx';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { MouseEvent } from 'react';
@@ -31,12 +37,6 @@ import {
     useSetFullScreenPlayerStore,
     useSidebarImageEnabled,
 } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 export const LeftControls = () => {
     const { t } = useTranslation();

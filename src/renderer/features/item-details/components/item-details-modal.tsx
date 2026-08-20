@@ -10,6 +10,13 @@ import {
     RelatedArtist,
     Song,
 } from '@feishin/core/types/domain-types';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Select } from '@feishin/ui/components/select/select';
+import { Separator } from '@feishin/ui/components/separator/separator';
+import { Spoiler } from '@feishin/ui/components/spoiler/spoiler';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Table } from '@feishin/ui/components/table/table';
+import { Text } from '@feishin/ui/components/text/text';
 import { TFunction } from 'i18next';
 import { ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,13 +33,6 @@ import {
 import { replaceURLWithHTMLLinks } from '/@/renderer/utils/linkify';
 import { normalizeReleaseTypes } from '/@/renderer/utils/normalize-release-types';
 import { sanitize } from '/@/renderer/utils/sanitize';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Select } from '/@/shared/components/select/select';
-import { Separator } from '/@/shared/components/separator/separator';
-import { Spoiler } from '/@/shared/components/spoiler/spoiler';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Table } from '/@/shared/components/table/table';
-import { Text } from '/@/shared/components/text/text';
 
 export type ItemDetailsModalProps = {
     item?: Album | AlbumArtist | Artist | Playlist | Song;

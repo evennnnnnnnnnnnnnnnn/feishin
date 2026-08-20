@@ -1,3 +1,7 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { DragDropZone } from '@feishin/ui/components/drag-drop-zone/drag-drop-zone';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { t } from 'i18next';
 import { useCallback, useState } from 'react';
 import { ZodError } from 'zod';
@@ -11,10 +15,6 @@ import {
     ValidationSettingsStateSchema,
     VersionedSettings,
 } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { DragDropZone } from '/@/shared/components/drag-drop-zone/drag-drop-zone';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 enum SCREENS {
     FILE_PICKER,

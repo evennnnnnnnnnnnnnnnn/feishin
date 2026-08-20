@@ -1,6 +1,11 @@
 import { Folder, LibraryItem, QueueSong, Song } from '@feishin/core/types/domain-types';
 import { DragTarget } from '@feishin/core/types/drag-and-drop';
 import { ItemListKey, Play } from '@feishin/core/types/types';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { LoadingOverlay } from '@feishin/ui/components/loading-overlay/loading-overlay';
+import { useDebouncedValue } from '@feishin/ui/hooks/use-debounced-value';
+import { useFocusWithin } from '@feishin/ui/hooks/use-focus-within';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import clsx from 'clsx';
 import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -30,11 +35,6 @@ import {
     usePlayerSong,
     usePlayerStore,
 } from '/@/renderer/store';
-import { Flex } from '/@/shared/components/flex/flex';
-import { LoadingOverlay } from '/@/shared/components/loading-overlay/loading-overlay';
-import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
-import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 type QueueProps = {
     enableScrollShadow?: boolean;

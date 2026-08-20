@@ -1,4 +1,6 @@
 import { PlayerType } from '@feishin/core/types/types';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import isElectron from 'is-electron';
 import { lazy, memo, Suspense, useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
@@ -9,8 +11,6 @@ import { EqSettings } from '/@/renderer/features/settings/components/playback/eq
 import { PlayerFilterSettings } from '/@/renderer/features/settings/components/playback/player-filter-settings';
 import { TranscodeSettings } from '/@/renderer/features/settings/components/playback/transcode-settings';
 import { useSettingsStore } from '/@/renderer/store';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const MpvSettings = lazy(() =>
     import('/@/renderer/features/settings/components/playback/mpv-settings').then((module) => {

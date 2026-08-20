@@ -1,4 +1,9 @@
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon, ActionIconProps } from '@feishin/ui/components/action-icon/action-icon';
+import { Button, ButtonProps } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { AppIcon, Icon } from '@feishin/ui/components/icon/icon';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import clsx from 'clsx';
 import { t } from 'i18next';
 import { forwardRef, memo } from 'react';
@@ -7,11 +12,6 @@ import styles from './play-button.module.css';
 
 import { PlayTooltip } from '/@/renderer/features/shared/components/play-button-group';
 import { usePlayButtonClick } from '/@/renderer/features/shared/hooks/use-play-button-click';
-import { ActionIcon, ActionIconProps } from '/@/shared/components/action-icon/action-icon';
-import { Button, ButtonProps } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { AppIcon, Icon } from '/@/shared/components/icon/icon';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 export interface DefaultPlayButtonProps extends ActionIconProps {
     size?: number | string;

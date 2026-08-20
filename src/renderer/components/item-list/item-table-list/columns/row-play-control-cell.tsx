@@ -1,4 +1,8 @@
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { HoverCard } from '@feishin/ui/components/hover-card/hover-card';
+import { Text } from '@feishin/ui/components/text/text';
 import clsx from 'clsx';
 import { ReactNode, useCallback } from 'react';
 
@@ -11,10 +15,6 @@ import {
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { ItemListItem } from '/@/renderer/components/item-list/types';
 import { ItemRowPlayControls } from '/@/renderer/features/shared/components/item-row-play-controls';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Flex } from '/@/shared/components/flex/flex';
-import { HoverCard } from '/@/shared/components/hover-card/hover-card';
-import { Text } from '/@/shared/components/text/text';
 
 export const RowPlayControlCell = (
     props: ItemTableListInnerColumn & {

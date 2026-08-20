@@ -1,3 +1,8 @@
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
 import isElectron from 'is-electron';
 import debounce from 'lodash/debounce';
 import { memo } from 'react';
@@ -5,11 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 import { SettingsSection } from '/@/renderer/features/settings/components/settings-section';
 import { useRemoteSettings, useSettingsStoreActions } from '/@/renderer/store';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
 
 const remote = isElectron() ? window.api.remote : null;
 

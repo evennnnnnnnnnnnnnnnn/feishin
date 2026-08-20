@@ -1,3 +1,4 @@
+import { Switch } from '@feishin/ui/components/switch/switch';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,7 +6,6 @@ import {
     SettingOption,
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
-import { Switch } from '/@/shared/components/switch/switch';
 
 export const AnalyticsSettings = memo(() => {
     const { t } = useTranslation();

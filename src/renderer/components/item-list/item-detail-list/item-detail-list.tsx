@@ -19,6 +19,11 @@ import {
 } from '@feishin/core/types/domain-types';
 import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { ItemListKey, Play, TableColumn } from '@feishin/core/types/types';
+import { ExplicitIndicator } from '@feishin/ui/components/explicit-indicator/explicit-indicator';
+import { Skeleton } from '@feishin/ui/components/skeleton/skeleton';
+import { useDoubleClick } from '@feishin/ui/hooks/use-double-click';
+import { useFocusWithin } from '@feishin/ui/hooks/use-focus-within';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import throttle from 'lodash/throttle';
@@ -79,11 +84,6 @@ import { useDragDrop } from '/@/renderer/hooks/use-drag-drop';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useSettingsStore, useShowFavorites, useShowRatings } from '/@/renderer/store';
 import { formatDurationString, formatPartialIsoDateUTC } from '/@/renderer/utils';
-import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
-import { Skeleton } from '/@/shared/components/skeleton/skeleton';
-import { useDoubleClick } from '/@/shared/hooks/use-double-click';
-import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 const DEFAULT_ROW_HEIGHT = 300;
 

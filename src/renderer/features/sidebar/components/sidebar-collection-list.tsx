@@ -1,4 +1,15 @@
 import { LibraryItem, SavedCollection } from '@feishin/core/types/domain-types';
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Group } from '@feishin/ui/components/group/group';
+import { Popover } from '@feishin/ui/components/popover/popover';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import clsx from 'clsx';
 import { MouseEvent, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,17 +21,6 @@ import { SidebarIcon } from '/@/renderer/features/sidebar/components/sidebar-ico
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCollections, useSettingsStoreActions } from '/@/renderer/store';
 import { getFilterQueryStringFromSearchParams } from '/@/renderer/utils/query-params';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Group } from '/@/shared/components/group/group';
-import { Popover } from '/@/shared/components/popover/popover';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
-import { useForm } from '/@/shared/hooks/use-form';
 
 export const getCollectionTo = (collection: SavedCollection) => {
     const pathname =

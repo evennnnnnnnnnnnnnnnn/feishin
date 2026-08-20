@@ -1,11 +1,11 @@
 import { ItemListKey } from '@feishin/core/types/types';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
 import { useQuery } from '@tanstack/react-query';
 
 import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { FolderButton } from '/@/renderer/features/shared/components/folder-button';
 import { useMusicFolderIdFilter } from '/@/renderer/features/shared/hooks/use-music-folder-id-filter';
 import { useCurrentServer } from '/@/renderer/store';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
 
 interface ListMusicFolderDropdownProps {
     listKey: ItemListKey;

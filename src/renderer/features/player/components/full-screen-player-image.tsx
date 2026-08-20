@@ -1,4 +1,9 @@
 import { ExplicitStatus, LibraryItem } from '@feishin/core/types/domain-types';
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Center } from '@feishin/ui/components/center/center';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { useSetState } from '@feishin/ui/hooks/use-set-state';
 import clsx from 'clsx';
 import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'motion/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -21,11 +26,6 @@ import {
     usePlayerSong,
 } from '/@/renderer/store';
 import { formatPartialIsoDateUTC } from '/@/renderer/utils';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Center } from '/@/shared/components/center/center';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Icon } from '/@/shared/components/icon/icon';
-import { useSetState } from '/@/shared/hooks/use-set-state';
 
 const imageVariants: Variants = {
     closed: {

@@ -1,12 +1,12 @@
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { closeAllModals, ContextModalProps } from '@mantine/modals';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useUpdatePlaylistTracks } from '/@/renderer/features/playlists/mutations/update-playlist-tracks-mutation';
 import { useCurrentServerId } from '/@/renderer/store';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
 
 export const SaveAndReplaceContextModal = ({
     innerProps,

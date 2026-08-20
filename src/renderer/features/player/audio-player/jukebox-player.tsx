@@ -1,3 +1,4 @@
+import { useDebouncedCallback } from '@feishin/ui/hooks/use-debounced-callback';
 import { useCallback, useRef } from 'react';
 
 import {
@@ -16,7 +17,6 @@ import {
     usePlayerStore,
     usePlayerVolume,
 } from '/@/renderer/store';
-import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
 
 export function JukeboxPlayer() {
     const playerRef = useRef<JukeboxPlayerEngineHandle>(null);

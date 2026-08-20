@@ -1,14 +1,13 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { Dialog } from '@feishin/ui/components/dialog/dialog';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import isElectron from 'is-electron';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Button } from '/@/shared/components/button/button';
-import { Dialog } from '/@/shared/components/dialog/dialog';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 export const UpdateAvailableDialog = () => {
     const [opened, setOpened] = useState(false);

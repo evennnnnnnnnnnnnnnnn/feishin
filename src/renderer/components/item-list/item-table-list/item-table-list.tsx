@@ -2,6 +2,9 @@
 
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { TableColumn } from '@feishin/core/types/types';
+import { animationProps } from '@feishin/ui/components/animations/animation-props';
+import { useFocusWithin } from '@feishin/ui/hooks/use-focus-within';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 import React, {
@@ -83,9 +86,6 @@ import {
     useAlbumGroupVerticalLayout,
     usePlayerStore,
 } from '/@/renderer/store';
-import { animationProps } from '/@/shared/components/animations/animation-props';
-import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 /**
  * Type guard to check if an item has the required properties (id and serverId)

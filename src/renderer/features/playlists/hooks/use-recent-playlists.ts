@@ -1,6 +1,5 @@
+import { useSessionStorage } from '@feishin/ui/hooks/use-session-storage';
 import { useCallback } from 'react';
-
-import { useSessionStorage } from '/@/shared/hooks/use-session-storage';
 
 interface RecentPlaylists {
     [serverId: string]: string;

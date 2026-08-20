@@ -1,3 +1,6 @@
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,9 +9,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 export const TranscodeSettings = memo(() => {
     const { t } = useTranslation();

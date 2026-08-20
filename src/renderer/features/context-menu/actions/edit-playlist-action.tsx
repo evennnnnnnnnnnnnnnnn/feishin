@@ -1,9 +1,9 @@
 import { Playlist } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { openUpdatePlaylistModal } from '/@/renderer/features/playlists/components/update-playlist-modal';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface EditPlaylistActionProps {
     disabled?: boolean;

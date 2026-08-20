@@ -1,6 +1,7 @@
 import { sortSongList } from '@feishin/core/api/utils';
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
@@ -26,7 +27,6 @@ import { usePlayerSong } from '/@/renderer/store';
 import { useAppStore } from '/@/renderer/store/app.store';
 import { useCurrentServer } from '/@/renderer/store/auth.store';
 import { useSettingsStore } from '/@/renderer/store/settings.store';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 const AlbumArtistDetailFavoriteSongsListRoute = () => {
     const { albumArtistId, artistId } = useParams() as {

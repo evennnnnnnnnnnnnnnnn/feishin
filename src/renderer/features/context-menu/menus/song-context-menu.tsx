@@ -1,4 +1,5 @@
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useMemo } from 'react';
 
 import { AddToPlaylistAction } from '/@/renderer/features/context-menu/actions/add-to-playlist-action';
@@ -13,7 +14,6 @@ import { SetRatingAction } from '/@/renderer/features/context-menu/actions/set-r
 import { ShareAction } from '/@/renderer/features/context-menu/actions/share-action';
 import { ShowInFileExplorerAction } from '/@/renderer/features/context-menu/actions/show-in-file-explorer-action';
 import { ContextMenuPreview } from '/@/renderer/features/context-menu/components/context-menu-preview';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface SongContextMenuProps {
     items: Song[];

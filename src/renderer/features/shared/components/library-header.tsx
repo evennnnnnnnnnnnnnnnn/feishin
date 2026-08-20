@@ -2,6 +2,16 @@ import type { KeyboardEvent } from 'react';
 
 import { ExplicitStatus, LibraryItem } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Center } from '@feishin/ui/components/center/center';
+import { DragDropZone } from '@feishin/ui/components/drag-drop-zone/drag-drop-zone';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { BaseImage } from '@feishin/ui/components/image/image';
+import { Rating } from '@feishin/ui/components/rating/rating';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Text } from '@feishin/ui/components/text/text';
 import { closeAllModals, openModal } from '@mantine/modals';
 import clsx from 'clsx';
 import { forwardRef, ReactNode, Ref, useCallback } from 'react';
@@ -23,16 +33,6 @@ import { useIsMutatingCreateFavorite } from '/@/renderer/features/shared/mutatio
 import { useIsMutatingDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
 import { useIsMutatingRating } from '/@/renderer/features/shared/mutations/set-rating-mutation';
 import { useGeneralSettings } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Center } from '/@/shared/components/center/center';
-import { DragDropZone } from '/@/shared/components/drag-drop-zone/drag-drop-zone';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { BaseImage } from '/@/shared/components/image/image';
-import { Rating } from '/@/shared/components/rating/rating';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Text } from '/@/shared/components/text/text';
 
 interface LibraryHeaderProps {
     children?: ReactNode;

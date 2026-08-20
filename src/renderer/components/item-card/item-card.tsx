@@ -9,6 +9,14 @@ import {
     Song,
 } from '@feishin/core/types/domain-types';
 import { DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import { ExplicitIndicator } from '@feishin/ui/components/explicit-indicator/explicit-indicator';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Separator } from '@feishin/ui/components/separator/separator';
+import { Skeleton } from '@feishin/ui/components/skeleton/skeleton';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDoubleClick } from '@feishin/ui/hooks/use-double-click';
+import { stringToColor } from '@feishin/ui/utils/string-to-color';
 import clsx from 'clsx';
 import { AnimatePresence } from 'motion/react';
 import { Fragment, memo, ReactNode, useCallback, useMemo, useState } from 'react';
@@ -38,14 +46,6 @@ import {
     formatPartialIsoDateUTC,
     formatRating,
 } from '/@/renderer/utils/format';
-import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Separator } from '/@/shared/components/separator/separator';
-import { Skeleton } from '/@/shared/components/skeleton/skeleton';
-import { Text } from '/@/shared/components/text/text';
-import { useDoubleClick } from '/@/shared/hooks/use-double-click';
-import { stringToColor } from '/@/shared/utils/string-to-color';
 
 export type DataRow = {
     align?: 'center' | 'end' | 'start';

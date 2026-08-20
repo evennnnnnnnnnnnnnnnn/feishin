@@ -1,9 +1,9 @@
 import { QueueSong } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface RemoveFromQueueActionProps {
     items: QueueSong[];

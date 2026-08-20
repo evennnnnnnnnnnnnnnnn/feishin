@@ -1,5 +1,8 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,9 +18,6 @@ import { ListSearchInput } from '/@/renderer/features/shared/components/list-sea
 import { SongListHeaderFilters } from '/@/renderer/features/songs/components/song-list-header-filters';
 import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-list-filters';
 import { useCurrentServerId } from '/@/renderer/store';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
 
 interface SongListHeaderProps {
     genreId?: string;

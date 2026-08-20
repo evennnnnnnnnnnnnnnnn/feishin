@@ -1,4 +1,14 @@
 import { CrossfadeStyle, PlayerStatus, PlayerStyle, PlayerType } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Paper } from '@feishin/ui/components/paper/paper';
+import { Popover } from '@feishin/ui/components/popover/popover';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import isElectron from 'is-electron';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,16 +41,6 @@ import {
     useShowQueueInSidebar,
     useShowVisualizerInSidebar,
 } from '/@/renderer/store/settings.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { Paper } from '/@/shared/components/paper/paper';
-import { Popover } from '/@/shared/components/popover/popover';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 const ipc = isElectron() ? window.api.ipc : null;
 

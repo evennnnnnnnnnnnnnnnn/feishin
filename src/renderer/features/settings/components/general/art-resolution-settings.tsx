@@ -1,13 +1,13 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Table } from '@feishin/ui/components/table/table';
+import { Text } from '@feishin/ui/components/text/text';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import i18n from '/@/i18n/i18n';
 import { SettingsOptions } from '/@/renderer/features/settings/components/settings-option';
 import { useGeneralSettings, useSettingsStoreActions } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Table } from '/@/shared/components/table/table';
-import { Text } from '/@/shared/components/text/text';
 
 const options = [
     {

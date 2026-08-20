@@ -1,3 +1,8 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { openModal } from '@mantine/modals';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router';
@@ -14,11 +19,6 @@ import { AnimatedPage } from '/@/renderer/features/shared/components/animated-pa
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServerWithCredential } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const ActionRequiredRoute = () => {
     const { t } = useTranslation();

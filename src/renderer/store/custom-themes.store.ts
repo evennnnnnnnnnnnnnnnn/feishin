@@ -1,9 +1,9 @@
+import { setCustomThemeRegistry } from '@feishin/ui/themes/app-theme';
+import { AppThemeConfiguration } from '@feishin/ui/themes/app-theme-types';
 import isElectron from 'is-electron';
 import { create } from 'zustand';
 
 import { logger } from '/@/renderer/utils/logger';
-import { setCustomThemeRegistry } from '/@/shared/themes/app-theme';
-import { AppThemeConfiguration } from '/@/shared/themes/app-theme-types';
 
 export interface CustomThemeMeta {
     error?: string;

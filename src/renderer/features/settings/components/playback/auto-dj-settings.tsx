@@ -1,3 +1,7 @@
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Switch } from '@feishin/ui/components/switch/switch';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,10 +16,6 @@ import {
     useAutoDJSettings,
     useSettingsStoreActions,
 } from '/@/renderer/store/settings.store';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Switch } from '/@/shared/components/switch/switch';
 
 export const AutoDJSettings = memo(() => {
     const { t } = useTranslation();

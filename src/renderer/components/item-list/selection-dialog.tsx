@@ -1,3 +1,11 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { animationProps } from '@feishin/ui/components/animations/animation-props';
+import { Group } from '@feishin/ui/components/group/group';
+import { HoverCard } from '@feishin/ui/components/hover-card/hover-card';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Kbd } from '@feishin/ui/components/kbd/kbd';
+import { Table } from '@feishin/ui/components/table/table';
+import { Text } from '@feishin/ui/components/text/text';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,14 +17,6 @@ import {
     useItemListStateSubscription,
 } from '/@/renderer/components/item-list/helpers/item-list-state';
 import { ContextMenuController } from '/@/renderer/features/context-menu/context-menu-controller';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { animationProps } from '/@/shared/components/animations/animation-props';
-import { Group } from '/@/shared/components/group/group';
-import { HoverCard } from '/@/shared/components/hover-card/hover-card';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Kbd } from '/@/shared/components/kbd/kbd';
-import { Table } from '/@/shared/components/table/table';
-import { Text } from '/@/shared/components/text/text';
 
 const controls = [
     {

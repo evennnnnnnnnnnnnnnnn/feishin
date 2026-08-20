@@ -1,3 +1,6 @@
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { AppShell, Flex, Grid, Image } from '@mantine/core';
 
 import { ImageButton } from '/@/remote/components/buttons/image-button';
@@ -5,9 +8,6 @@ import { ReconnectButton } from '/@/remote/components/buttons/reconnect-button';
 import { ThemeButton } from '/@/remote/components/buttons/theme-button';
 import { RemoteContainer } from '/@/remote/components/remote-container';
 import { useConnected } from '/@/remote/store';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 export const Shell = () => {
     const connected = useConnected();

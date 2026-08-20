@@ -1,5 +1,6 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { PlayerType } from '@feishin/core/types/types';
+import { toast } from '@feishin/ui/components/toast/toast';
 import isElectron from 'is-electron';
 import { useEffect } from 'react';
 
@@ -42,7 +43,6 @@ import {
     useSettingsStoreActions,
 } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { toast } from '/@/shared/components/toast/toast';
 const CODEC_PROBES = [
     { codec: 'mp3', container: 'mp3', mime: 'audio/mpeg' },
 

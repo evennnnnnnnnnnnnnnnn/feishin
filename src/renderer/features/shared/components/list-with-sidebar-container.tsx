@@ -1,11 +1,11 @@
+import { animationProps } from '@feishin/ui/components/animations/animation-props';
+import { Portal } from '@feishin/ui/components/portal/portal';
 import { motion } from 'motion/react';
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 import styles from './list-with-sidebar-container.module.css';
 
 import { useListContext } from '/@/renderer/context/list-context';
-import { animationProps } from '/@/shared/components/animations/animation-props';
-import { Portal } from '/@/shared/components/portal/portal';
 
 interface ListWithSidebarContainerContextValue {
     sidebarElement: HTMLDivElement | null;

@@ -1,3 +1,20 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { ColorInput } from '@feishin/ui/components/color-input/color-input';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Fieldset } from '@feishin/ui/components/fieldset/fieldset';
+import { Group } from '@feishin/ui/components/group/group';
+import { MultiSelect } from '@feishin/ui/components/multi-select/multi-select';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select, SelectProps } from '@feishin/ui/components/select/select';
+import { Slider, SliderProps } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { Textarea } from '@feishin/ui/components/textarea/textarea';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { nanoid } from 'nanoid';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,23 +27,6 @@ import {
     loadAllButterchurnPresets,
 } from '/@/renderer/features/visualizer/components/butternchurn/visualizer';
 import { useSettingsStoreActions, useVisualizerSettings } from '/@/renderer/store/settings.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { ColorInput } from '/@/shared/components/color-input/color-input';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Fieldset } from '/@/shared/components/fieldset/fieldset';
-import { Group } from '/@/shared/components/group/group';
-import { MultiSelect } from '/@/shared/components/multi-select/multi-select';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select, SelectProps } from '/@/shared/components/select/select';
-import { Slider, SliderProps } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { Textarea } from '/@/shared/components/textarea/textarea';
-import { toast } from '/@/shared/components/toast/toast';
 
 type ButterchurnPresetOption = { label: string; value: string };
 

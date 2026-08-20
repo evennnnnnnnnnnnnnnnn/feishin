@@ -4,6 +4,15 @@ import {
     LibraryItem,
     SortOrder,
 } from '@feishin/core/types/domain-types';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { VirtualMultiSelect } from '@feishin/ui/components/multi-select/virtual-multi-select';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDebouncedCallback } from '@feishin/ui/hooks/use-debounced-callback';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,15 +27,6 @@ import {
 } from '/@/renderer/features/shared/components/multi-select-rows';
 import { useCurrentServerId } from '/@/renderer/store';
 import { useAppStore, useAppStoreActions } from '/@/renderer/store/app.store';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { VirtualMultiSelect } from '/@/shared/components/multi-select/virtual-multi-select';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Text } from '/@/shared/components/text/text';
-import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
 
 interface SubsonicAlbumFiltersProps {
     disableArtistFilter?: boolean;

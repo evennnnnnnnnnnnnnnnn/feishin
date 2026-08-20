@@ -2,6 +2,11 @@ import type { MouseEvent } from 'react';
 
 import { Album, LibraryItem } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { generatePath, Link } from 'react-router';
@@ -15,11 +20,6 @@ import { PlayButtonGroup } from '/@/renderer/features/shared/components/play-but
 import { useContainerQuery, useFastAverageColor } from '/@/renderer/hooks';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 const containerVariants = {
     animate: {},

@@ -1,6 +1,13 @@
 import { hasFeature } from '@feishin/core/api/utils';
 import { ServerType } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import { Box } from '@feishin/ui/components/box/box';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
@@ -13,13 +20,6 @@ import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { useScanStatus } from '/@/renderer/features/shared/hooks/use-scan-status';
 import { ServerSelectorItems } from '/@/renderer/features/sidebar/components/server-selector-items';
 import { useCurrentServer } from '/@/renderer/store';
-import { Box } from '/@/shared/components/box/box';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 export const ServerSelector = () => {
     const { t } = useTranslation();

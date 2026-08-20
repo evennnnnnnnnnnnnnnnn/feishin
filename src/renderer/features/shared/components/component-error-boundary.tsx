@@ -1,13 +1,12 @@
+import { Box } from '@feishin/ui/components/box/box';
+import { Button } from '@feishin/ui/components/button/button';
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
-
-import { Box } from '/@/shared/components/box/box';
-import { Button } from '/@/shared/components/button/button';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
 
 interface ComponentErrorFallbackProps {
     error: Error;

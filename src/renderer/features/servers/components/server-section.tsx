@@ -1,6 +1,5 @@
+import { Text } from '@feishin/ui/components/text/text';
 import React, { Fragment } from 'react';
-
-import { Text } from '/@/shared/components/text/text';
 
 interface ServerSectionProps {
     children: React.ReactNode;

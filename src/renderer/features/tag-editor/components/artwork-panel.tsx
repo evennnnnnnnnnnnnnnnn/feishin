@@ -1,10 +1,10 @@
-import styles from './artwork-panel.module.css';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { DragDropZone } from '@feishin/ui/components/drag-drop-zone/drag-drop-zone';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { DragDropZone } from '/@/shared/components/drag-drop-zone/drag-drop-zone';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
+import styles from './artwork-panel.module.css';
 
 interface ArtworkPanelProps {
     artworkDisplayUrl: null | string;

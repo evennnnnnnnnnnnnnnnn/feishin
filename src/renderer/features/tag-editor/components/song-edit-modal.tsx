@@ -1,4 +1,14 @@
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Group } from '@feishin/ui/components/group/group';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Select } from '@feishin/ui/components/select/select';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Table } from '@feishin/ui/components/table/table';
+import { Tabs } from '@feishin/ui/components/tabs/tabs';
+import { Text } from '@feishin/ui/components/text/text';
 import { closeAllModals } from '@mantine/modals';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,16 +22,6 @@ import { TagFieldRow } from './tag-field-row';
 
 import { ItemImage } from '/@/renderer/components/item-image/item-image';
 import { PathSettings } from '/@/renderer/features/settings/components/general/path-settings';
-import { Button } from '/@/shared/components/button/button';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Group } from '/@/shared/components/group/group';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Select } from '/@/shared/components/select/select';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Table } from '/@/shared/components/table/table';
-import { Tabs } from '/@/shared/components/tabs/tabs';
-import { Text } from '/@/shared/components/text/text';
 
 export const SongEditModal = ({ songs }: { songs: Song[] }) => {
     const { t } = useTranslation();

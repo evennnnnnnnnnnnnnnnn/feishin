@@ -1,3 +1,4 @@
+import { Tabs } from '@feishin/ui/components/tabs/tabs';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +11,6 @@ import { PlaybackTab } from '/@/renderer/features/settings/components/playback/p
 import { WindowTab } from '/@/renderer/features/settings/components/window/window-tab';
 import { LibraryContainer } from '/@/renderer/features/shared/components/library-container';
 import { useSettingsStore, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { Tabs } from '/@/shared/components/tabs/tabs';
 
 export const SettingsContent = () => {
     const { t } = useTranslation();

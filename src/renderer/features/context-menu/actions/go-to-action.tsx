@@ -1,10 +1,10 @@
 import { Album, LibraryItem, QueueSong, Song } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generatePath, useNavigate } from 'react-router';
 
 import { AppRoute } from '/@/renderer/router/routes';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface GoToActionProps {
     items: Album[] | QueueSong[] | Song[];

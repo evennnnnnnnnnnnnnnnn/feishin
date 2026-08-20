@@ -1,5 +1,13 @@
 import { LibraryItem, SongListSort, SortOrder } from '@feishin/core/types/domain-types';
 import { ItemListKey, ListDisplayType } from '@feishin/core/types/types';
+import { Breadcrumb } from '@feishin/ui/components/breadcrumb/breadcrumb';
+import { Button } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,14 +22,6 @@ import { ListSortByDropdown } from '/@/renderer/features/shared/components/list-
 import { ListSortOrderToggleButton } from '/@/renderer/features/shared/components/list-sort-order-toggle-button';
 import { useContainerQuery } from '/@/renderer/hooks';
 import { truncateMiddle } from '/@/renderer/utils';
-import { Breadcrumb } from '/@/shared/components/breadcrumb/breadcrumb';
-import { Button } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const MAX_BREADCRUMB_TEXT_LENGTH = 26;
 

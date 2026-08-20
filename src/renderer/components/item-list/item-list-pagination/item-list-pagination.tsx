@@ -1,8 +1,7 @@
+import { Pagination } from '@feishin/ui/components/pagination/pagination';
 import { Fragment, ReactNode } from 'react';
 
 import styles from './item-list-pagination.module.css';
-
-import { Pagination } from '/@/shared/components/pagination/pagination';
 
 interface ItemListWithPaginationProps {
     children: ReactNode;

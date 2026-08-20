@@ -1,5 +1,10 @@
 import { LibraryItem, Playlist } from '@feishin/core/types/domain-types';
 import { DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 import {
@@ -33,11 +38,6 @@ import {
     useSidebarPlaylistFolderTreeLineColor,
     useSidebarPlaylistFolderView,
 } from '/@/renderer/store';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 const STORAGE_KEY_PREFIX = 'feishin:playlist-folder-state';
 

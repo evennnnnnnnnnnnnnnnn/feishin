@@ -1,3 +1,6 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import isElectron from 'is-electron';
@@ -8,9 +11,6 @@ import {
     SettingOption,
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
-import { Button } from '/@/shared/components/button/button';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { toast } from '/@/shared/components/toast/toast';
 
 const browser = isElectron() ? window.api.browser : null;
 

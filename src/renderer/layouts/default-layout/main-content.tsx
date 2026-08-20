@@ -1,3 +1,4 @@
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
@@ -20,7 +21,6 @@ import {
     useSideQueueType,
 } from '/@/renderer/store';
 import { constrainRightSidebarWidth, constrainSidebarWidth } from '/@/renderer/utils';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 const MINIMUM_SIDEBAR_WIDTH = 260;
 

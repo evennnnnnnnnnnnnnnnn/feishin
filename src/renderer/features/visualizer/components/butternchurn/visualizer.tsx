@@ -1,4 +1,7 @@
 import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
+import { Text } from '@feishin/ui/components/text/text';
 import { createRef, useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './visualizer.module.css';
@@ -19,9 +22,6 @@ import {
     useFullScreenPlayerStoreActions,
 } from '/@/renderer/store/full-screen-player.store';
 import { usePlayerStatus } from '/@/renderer/store/player.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
-import { Text } from '/@/shared/components/text/text';
 
 // Ignore presets that are erroring out
 const IGNORED_PRESETS = ['Flexi + Martin - astral projection'];

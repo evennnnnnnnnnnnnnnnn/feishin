@@ -1,9 +1,9 @@
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { ReactNode } from 'react';
 
 import styles from '/@/renderer/features/action-required/components/action-required-container.module.css';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 interface ActionRequiredContainerProps {
     children: ReactNode;

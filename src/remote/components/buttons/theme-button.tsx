@@ -1,6 +1,7 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Icon } from '@feishin/ui/components/icon/icon';
+
 import { useIsDark, useToggleDark } from '/@/remote/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Icon } from '/@/shared/components/icon/icon';
 
 export const ThemeButton = () => {
     const isDark = useIsDark();

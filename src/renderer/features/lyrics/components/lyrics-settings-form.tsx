@@ -1,4 +1,12 @@
 import { LyricSource } from '@feishin/core/types/domain-types';
+import { Fieldset } from '@feishin/ui/components/fieldset/fieldset';
+import { MultiSelect } from '@feishin/ui/components/multi-select/multi-select';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
@@ -13,14 +21,6 @@ import {
     useSettingsStore,
     useSettingsStoreActions,
 } from '/@/renderer/store';
-import { Fieldset } from '/@/shared/components/fieldset/fieldset';
-import { MultiSelect } from '/@/shared/components/multi-select/multi-select';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

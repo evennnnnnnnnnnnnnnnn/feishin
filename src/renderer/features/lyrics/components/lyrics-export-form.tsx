@@ -1,4 +1,12 @@
 import { FullLyricsMetadata } from '@feishin/core/types/domain-types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Code } from '@feishin/ui/components/code/code';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import { closeAllModals, openModal } from '@mantine/modals';
 import formatDuration from 'format-duration';
 import { useCallback, useMemo } from 'react';
@@ -6,14 +14,6 @@ import { useTranslation } from 'react-i18next';
 
 import i18n from '/@/i18n/i18n';
 import { normalizeLyrics } from '/@/renderer/features/lyrics/api/lyrics-utils';
-import { Button } from '/@/shared/components/button/button';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Code } from '/@/shared/components/code/code';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Stack } from '/@/shared/components/stack/stack';
-import { useForm } from '/@/shared/hooks/use-form';
 
 interface LyricsExportFormProps {
     lyrics: FullLyricsMetadata;

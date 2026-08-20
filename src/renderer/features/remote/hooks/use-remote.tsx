@@ -1,5 +1,6 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { PlayerShuffle } from '@feishin/core/types/types';
+import { toast } from '@feishin/ui/components/toast/toast';
 import isElectron from 'is-electron';
 import { useEffect, useRef } from 'react';
 
@@ -10,7 +11,6 @@ import { useCreateFavorite } from '/@/renderer/features/shared/mutations/create-
 import { useDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
 import { usePlayerActions, usePlayerStore, useRemoteSettings } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { toast } from '/@/shared/components/toast/toast';
 
 const remote = isElectron() ? window.api.remote : null;
 const ipc = isElectron() ? window.api.ipc : null;

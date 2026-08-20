@@ -1,4 +1,8 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { animationProps } from '@feishin/ui/components/animations/animation-props';
+import { useElementSize } from '@feishin/ui/hooks/use-element-size';
+import { useFocusWithin } from '@feishin/ui/hooks/use-focus-within';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import clsx from 'clsx';
 import throttle from 'lodash/throttle';
 import { motion } from 'motion/react';
@@ -41,10 +45,6 @@ import {
 } from '/@/renderer/components/item-list/helpers/item-list-state';
 import { useListHotkeys } from '/@/renderer/components/item-list/helpers/use-list-hotkeys';
 import { ItemControls, ItemListHandle } from '/@/renderer/components/item-list/types';
-import { animationProps } from '/@/shared/components/animations/animation-props';
-import { useElementSize } from '/@/shared/hooks/use-element-size';
-import { useFocusWithin } from '/@/shared/hooks/use-focus-within';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 interface VirtualizedGridListProps {
     _tableMetaVersion: number; // Used to trigger rerenders via React.memo comparison

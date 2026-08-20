@@ -1,5 +1,7 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,8 +17,6 @@ import { FilterBar } from '/@/renderer/features/shared/components/filter-bar';
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
 import { ListSearchInput } from '/@/renderer/features/shared/components/list-search-input';
 import { useCurrentServerId } from '/@/renderer/store';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
 
 interface AlbumListHeaderProps {
     title?: string;

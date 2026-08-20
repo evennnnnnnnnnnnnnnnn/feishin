@@ -1,5 +1,10 @@
 import { LibraryItem, SongListSort, SortOrder } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,11 +26,6 @@ import { ListSortOrderToggleButton } from '/@/renderer/features/shared/component
 import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
 import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-list-filters';
 import { GenreTarget, useGenreTarget, useSettingsStoreActions } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
 
 export const SongListHeaderFilters = ({ toggleGenreTarget }: { toggleGenreTarget?: boolean }) => {
     const { t } = useTranslation();

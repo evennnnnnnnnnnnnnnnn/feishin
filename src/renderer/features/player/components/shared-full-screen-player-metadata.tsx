@@ -1,3 +1,9 @@
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextScrolling } from '@feishin/ui/components/text-scrolling/text-scrolling';
+import { Text } from '@feishin/ui/components/text/text';
+import { useMediaQuery } from '@feishin/ui/hooks/use-media-query';
 import { t } from 'i18next';
 import { generatePath, Link } from 'react-router';
 import { Fragment } from 'react/jsx-runtime';
@@ -16,12 +22,6 @@ import {
     usePlayerSong,
 } from '/@/renderer/store';
 import { formatPartialIsoDateUTC } from '/@/renderer/utils';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextScrolling } from '/@/shared/components/text-scrolling/text-scrolling';
-import { Text } from '/@/shared/components/text/text';
-import { useMediaQuery } from '/@/shared/hooks/use-media-query';
 
 type SharedFullscreenPlayerMetadataProps = {
     imageContainerWidth?: null | number;

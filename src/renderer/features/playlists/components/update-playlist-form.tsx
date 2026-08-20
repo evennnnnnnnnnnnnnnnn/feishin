@@ -8,6 +8,20 @@ import {
     UserListSort,
 } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Box } from '@feishin/ui/components/box/box';
+import { DragDropZone } from '@feishin/ui/components/drag-drop-zone/drag-drop-zone';
+import { FileButton } from '@feishin/ui/components/file-button/file-button';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { ModalButton } from '@feishin/ui/components/modal/model-shared';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Textarea } from '@feishin/ui/components/textarea/textarea';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import { closeModal, ContextModalProps } from '@mantine/modals';
 import { useQuery } from '@tanstack/react-query';
 import { t } from 'i18next';
@@ -20,20 +34,6 @@ import { useUpdatePlaylist } from '/@/renderer/features/playlists/mutations/upda
 import { useUploadPlaylistImage } from '/@/renderer/features/playlists/mutations/upload-playlist-image-mutation';
 import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { useCurrentServer, useCurrentServerId, usePermissions } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Box } from '/@/shared/components/box/box';
-import { DragDropZone } from '/@/shared/components/drag-drop-zone/drag-drop-zone';
-import { FileButton } from '/@/shared/components/file-button/file-button';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { ModalButton } from '/@/shared/components/modal/model-shared';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Textarea } from '/@/shared/components/textarea/textarea';
-import { toast } from '/@/shared/components/toast/toast';
-import { useForm } from '/@/shared/hooks/use-form';
 
 type PlaylistImageProps = {
     imageId: null | string;

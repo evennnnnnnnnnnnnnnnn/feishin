@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 
+import { Group } from '@feishin/ui/components/group/group';
+
 import styles from './titlebar.module.css';
 
 import { WindowControls } from '/@/renderer/features/window-controls/components/window-controls';
-import { Group } from '/@/shared/components/group/group';
 
 interface TitlebarProps {
     children?: ReactNode;

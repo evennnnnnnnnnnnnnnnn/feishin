@@ -1,4 +1,5 @@
 import { FavoriteArgs, FavoriteResponse, LibraryItem } from '@feishin/core/types/domain-types';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { useIsMutating, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import isElectron from 'is-electron';
@@ -13,7 +14,6 @@ import {
     restoreFavoriteQueryData,
 } from '/@/renderer/features/shared/mutations/favorite-optimistic-updates';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
-import { toast } from '/@/shared/components/toast/toast';
 
 const remote = isElectron() ? window.api.remote : null;
 

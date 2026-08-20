@@ -1,11 +1,10 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Autocomplete } from '@feishin/ui/components/autocomplete/autocomplete';
+import { Group } from '@feishin/ui/components/group/group';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { KNOWN_TAG_MAP, resolveTagKey } from '../utils/known-tags';
-
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Autocomplete } from '/@/shared/components/autocomplete/autocomplete';
-import { Group } from '/@/shared/components/group/group';
 
 interface AddFieldInputProps {
     availableFields: Array<{ label: string; value: string }>;

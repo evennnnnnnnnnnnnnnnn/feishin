@@ -1,3 +1,6 @@
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Group } from '@feishin/ui/components/group/group';
+import { stringToColor } from '@feishin/ui/utils/string-to-color';
 import { useMemo } from 'react';
 import { generatePath, Link } from 'react-router';
 
@@ -5,9 +8,6 @@ import styles from './genre-badge-column.module.css';
 import { ItemDetailListCellProps } from './types';
 
 import { AppRoute } from '/@/renderer/router/routes';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Group } from '/@/shared/components/group/group';
-import { stringToColor } from '/@/shared/utils/string-to-color';
 
 const MAX_GENRES = 4;
 

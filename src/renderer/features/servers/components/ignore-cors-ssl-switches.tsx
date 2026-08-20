@@ -1,10 +1,9 @@
+import { Group } from '@feishin/ui/components/group/group';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import isElectron from 'is-electron';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Group } from '/@/shared/components/group/group';
-import { Switch } from '/@/shared/components/switch/switch';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

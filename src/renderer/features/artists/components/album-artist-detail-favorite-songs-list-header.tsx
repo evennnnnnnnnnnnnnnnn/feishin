@@ -1,10 +1,10 @@
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { SpinnerIcon } from '@feishin/ui/components/spinner/spinner';
 import { useTranslation } from 'react-i18next';
 
 import { PageHeader } from '/@/renderer/components/page-header/page-header';
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
-import { Badge } from '/@/shared/components/badge/badge';
-import { SpinnerIcon } from '/@/shared/components/spinner/spinner';
 
 interface AlbumArtistDetailFavoriteSongsListHeaderProps {
     data: Song[];

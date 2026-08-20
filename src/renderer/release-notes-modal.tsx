@@ -1,3 +1,13 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Select } from '@feishin/ui/components/select/select';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -16,16 +26,6 @@ import {
     useGithubReleasesList,
 } from '/@/renderer/hooks/use-github-releases';
 import { formatHrDateTime } from '/@/renderer/utils/format';
-import { Button } from '/@/shared/components/button/button';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Select } from '/@/shared/components/select/select';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 const GITHUB_COMPARE_URL = 'https://api.github.com/repos/jeffvli/feishin/compare';
 

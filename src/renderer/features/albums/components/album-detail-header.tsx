@@ -1,5 +1,9 @@
 import { LibraryItem, ServerType } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { Group } from '@feishin/ui/components/group/group';
+import { Separator } from '@feishin/ui/components/separator/separator';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { forwardRef, Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,10 +28,6 @@ import { useCurrentServer, useShowFavorites, useShowRatings } from '/@/renderer/
 import { useArtistRadioCount, usePlayButtonBehavior } from '/@/renderer/store/settings.store';
 import { formatDurationString, formatPartialIsoDateUTC, formatSizeString } from '/@/renderer/utils';
 import { normalizeReleaseTypes } from '/@/renderer/utils/normalize-release-types';
-import { Group } from '/@/shared/components/group/group';
-import { Separator } from '/@/shared/components/separator/separator';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 export const AlbumDetailHeader = forwardRef<HTMLDivElement>((_props, ref) => {
     const { albumId } = useParams() as { albumId: string };

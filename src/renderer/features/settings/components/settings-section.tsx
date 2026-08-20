@@ -1,9 +1,9 @@
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
 import { ReactNode } from 'react';
 
 import { SettingsOptions } from '/@/renderer/features/settings/components/settings-option';
 import { useSettingSearchContext } from '/@/renderer/features/settings/context/search-context';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
 
 export type SettingOption = {
     control: ReactNode;

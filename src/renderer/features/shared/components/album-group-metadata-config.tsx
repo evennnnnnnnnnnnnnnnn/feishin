@@ -1,3 +1,5 @@
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { Reorder } from 'motion/react';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +11,6 @@ import {
     useAlbumGroupItems,
     useSettingsStoreActions,
 } from '/@/renderer/store';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 const ALBUM_GROUP_ITEM_LABELS: Array<[AlbumGroupItem, string]> = [
     [AlbumGroupItem.ALBUM_ARTISTS, 'table.column.albumArtist'],

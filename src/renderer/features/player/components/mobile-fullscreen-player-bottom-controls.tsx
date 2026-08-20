@@ -1,12 +1,12 @@
 import { PlayerRepeat, PlayerShuffle } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
 import { memo, MouseEvent } from 'react';
 
 import styles from './mobile-fullscreen-player.module.css';
 
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { usePlayerRepeat, usePlayerShuffle } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
 
 interface MobileFullscreenPlayerBottomControlsProps {
     isLyricsActive: boolean;

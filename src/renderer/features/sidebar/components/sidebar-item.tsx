@@ -1,10 +1,9 @@
+import { Button, ButtonProps } from '@feishin/ui/components/button/button';
 import clsx from 'clsx';
 import { memo } from 'react';
 import { Link, LinkProps, useLocation } from 'react-router';
 
 import styles from './sidebar-item.module.css';
-
-import { Button, ButtonProps } from '/@/shared/components/button/button';
 
 interface SidebarItemProps extends Omit<ButtonProps, 'component' | 'ref'> {
     to: LinkProps['to'];

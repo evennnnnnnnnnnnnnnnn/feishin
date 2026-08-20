@@ -1,3 +1,7 @@
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { Group } from '@feishin/ui/components/group/group';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Text } from '@feishin/ui/components/text/text';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,10 +21,6 @@ import {
     useSidebarItems,
     useSidebarPlaylistList,
 } from '/@/renderer/store/settings.store';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { Group } from '/@/shared/components/group/group';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Text } from '/@/shared/components/text/text';
 
 const MobileSidebarPlaylistSection = () => {
     const isAddDragActive = useSidebarPlaylistAddDragMonitor();

@@ -1,5 +1,13 @@
 import type { TagValue } from '@feishin/core/types/tag-editor';
 
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Autocomplete } from '@feishin/ui/components/autocomplete/autocomplete';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Table } from '@feishin/ui/components/table/table';
+import { TagsInput } from '@feishin/ui/components/tags-input/tags-input';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Textarea } from '@feishin/ui/components/textarea/textarea';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,14 +18,6 @@ import { useTagAutocompleteSuggestions } from '../hooks/use-tag-autocomplete-sug
 import styles from './tag-field-row.module.css';
 
 import { type TagAutocompleteSource } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Autocomplete } from '/@/shared/components/autocomplete/autocomplete';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Table } from '/@/shared/components/table/table';
-import { TagsInput } from '/@/shared/components/tags-input/tags-input';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Textarea } from '/@/shared/components/textarea/textarea';
 
 interface CustomTagsInputProps {
     autocompleteSource: TagAutocompleteSource;

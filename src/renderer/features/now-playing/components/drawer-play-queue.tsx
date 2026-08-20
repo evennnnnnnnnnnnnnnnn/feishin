@@ -1,10 +1,10 @@
 import { ItemListKey } from '@feishin/core/types/types';
+import { Flex } from '@feishin/ui/components/flex/flex';
 import { useRef, useState } from 'react';
 
 import { ItemListHandle } from '/@/renderer/components/item-list/types';
 import { PlayQueue } from '/@/renderer/features/now-playing/components/play-queue';
 import { PlayQueueListControls } from '/@/renderer/features/now-playing/components/play-queue-list-controls';
-import { Flex } from '/@/shared/components/flex/flex';
 
 export const DrawerPlayQueue = () => {
     const queueRef = useRef<ItemListHandle | null>(null);

@@ -1,4 +1,10 @@
 import { AlbumArtistListSort, LibraryItem, SortOrder } from '@feishin/core/types/domain-types';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { VirtualMultiSelect } from '@feishin/ui/components/multi-select/virtual-multi-select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Text } from '@feishin/ui/components/text/text';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,12 +18,6 @@ import {
 } from '/@/renderer/features/shared/components/multi-select-rows';
 import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-list-filters';
 import { useCurrentServerId } from '/@/renderer/store';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { VirtualMultiSelect } from '/@/shared/components/multi-select/virtual-multi-select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Text } from '/@/shared/components/text/text';
 
 interface SubsonicSongFiltersProps {
     disableArtistFilter?: boolean;

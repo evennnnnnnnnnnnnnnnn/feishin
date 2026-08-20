@@ -1,3 +1,9 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,12 +12,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { useQueryBuilderSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 const QUERY_VALUE_INPUT_TYPES = [
     { label: 'Boolean', value: 'boolean' },

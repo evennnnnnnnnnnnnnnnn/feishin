@@ -1,7 +1,7 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { RiRestartLine } from 'react-icons/ri';
 
 import { useConnected, useReconnect } from '/@/remote/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 
 export const ReconnectButton = () => {
     const connected = useConnected();

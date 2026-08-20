@@ -1,8 +1,8 @@
+import { Button } from '@feishin/ui/components/button/button';
 import { useTranslation } from 'react-i18next';
 
 import { toTag } from '/@/renderer/hooks';
 import { useLatestVersion } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
 
 export const UpdateAvailableButton = () => {
     const { t } = useTranslation();

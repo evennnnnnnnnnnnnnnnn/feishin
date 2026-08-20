@@ -1,3 +1,13 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { ColorInput } from '@feishin/ui/components/color-input/color-input';
+import { Group } from '@feishin/ui/components/group/group';
+import { Select } from '@feishin/ui/components/select/select';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Text } from '@feishin/ui/components/text/text';
+import { getAppTheme } from '@feishin/ui/themes/app-theme';
+import { AppTheme } from '@feishin/ui/themes/app-theme-types';
 import isElectron from 'is-electron';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,16 +22,6 @@ import {
 import { useCustomThemes, useCustomThemesStore } from '/@/renderer/store/custom-themes.store';
 import { useGeneralSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
 import { THEME_DATA, useSetColorScheme } from '/@/renderer/themes/use-app-theme';
-import { Button } from '/@/shared/components/button/button';
-import { ColorInput } from '/@/shared/components/color-input/color-input';
-import { Group } from '/@/shared/components/group/group';
-import { Select } from '/@/shared/components/select/select';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Text } from '/@/shared/components/text/text';
-import { getAppTheme } from '/@/shared/themes/app-theme';
-import { AppTheme } from '/@/shared/themes/app-theme-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

@@ -1,5 +1,7 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import { QueueSong } from '@feishin/core/types/domain-types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Text } from '@feishin/ui/components/text/text';
 import formatDuration from 'format-duration';
 import { lazy, memo, Suspense } from 'react';
 
@@ -8,8 +10,6 @@ import styles from './mobile-fullscreen-player.module.css';
 import { PlayerbarSeekSlider } from '/@/renderer/features/player/components/playerbar-seek-slider';
 import { usePlayerTimestamp } from '/@/renderer/store';
 import { PlayerbarSliderType, usePlayerbarSlider } from '/@/renderer/store/settings.store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Text } from '/@/shared/components/text/text';
 
 const PlayerbarWaveform = lazy(() =>
     import('/@/renderer/features/player/components/playerbar-waveform').then((module) => ({

@@ -1,8 +1,7 @@
+import { Group } from '@feishin/ui/components/group/group';
+import { Text } from '@feishin/ui/components/text/text';
 import { rem, Slider, SliderProps } from '@mantine/core';
 import { ReactNode, useState } from 'react';
-
-import { Group } from '/@/shared/components/group/group';
-import { Text } from '/@/shared/components/text/text';
 
 const PlayerbarSlider = ({ ...props }: SliderProps) => {
     return (

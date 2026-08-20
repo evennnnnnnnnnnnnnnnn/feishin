@@ -1,4 +1,10 @@
 import { isLocalUrl } from '@feishin/core/utils/is-local-url';
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { ComboboxItem, ComboboxLikeRenderOptionInput } from '@mantine/core';
 import isElectron from 'is-electron';
 import { memo, useState } from 'react';
@@ -10,12 +16,6 @@ import {
 } from '/@/renderer/features/settings/components/settings-section';
 import { useCurrentServer, useSettingsStore } from '/@/renderer/store';
 import { logger, LogLevel, normalizeLogLevel } from '/@/renderer/utils/logger';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
 
 const DEFAULT_LOG_LEVEL: LogLevel = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
 const utils = isElectron() ? window.api.utils : null;

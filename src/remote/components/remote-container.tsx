@@ -1,4 +1,11 @@
 import { PlayerRepeat, PlayerStatus } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Rating } from '@feishin/ui/components/rating/rating';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import formatDuration from 'format-duration';
 import debounce from 'lodash/debounce';
 import { useCallback } from 'react';
@@ -7,13 +14,6 @@ import { RiPauseFill, RiPlayFill, RiVolumeUpFill } from 'react-icons/ri';
 import { PlayerImage } from '/@/remote/components/player-image';
 import { WrappedSlider } from '/@/remote/components/wrapped-slider';
 import { useInfo, useSend, useShowImage } from '/@/remote/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Rating } from '/@/shared/components/rating/rating';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 export const RemoteContainer = () => {
     const { position, repeat, shuffle, song, status, volume } = useInfo();

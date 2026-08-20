@@ -1,4 +1,7 @@
 import { ItemListKey } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
+import { AppIcon } from '@feishin/ui/components/icon/icon';
 import clsx from 'clsx';
 import { AnimatePresence, motion, Variants } from 'motion/react';
 import { lazy, Suspense, useMemo } from 'react';
@@ -14,9 +17,6 @@ import {
     useFullScreenPlayerStore,
     useFullScreenPlayerStoreActions,
 } from '/@/renderer/store/full-screen-player.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
-import { AppIcon } from '/@/shared/components/icon/icon';
 
 const AudioMotionAnalyzerVisualizer = lazy(() =>
     import('../../visualizer/components/audiomotionanalyzer/visualizer').then((module) => ({

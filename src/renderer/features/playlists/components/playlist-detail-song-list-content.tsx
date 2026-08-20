@@ -10,6 +10,7 @@ import {
     ListPaginationType,
     TableColumn,
 } from '@feishin/core/types/types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router';
@@ -22,7 +23,6 @@ import { playlistsQueries } from '/@/renderer/features/playlists/api/playlists-a
 import { PlaylistDetailAlbumView } from '/@/renderer/features/playlists/components/playlist-detail-album-view';
 import { usePlaylistTrackList } from '/@/renderer/features/playlists/hooks/use-playlist-track-list';
 import { useCurrentServer, useListSettings } from '/@/renderer/store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 const PlaylistDetailSongListTable = lazy(() =>
     import('/@/renderer/features/playlists/components/playlist-detail-song-list-table').then(

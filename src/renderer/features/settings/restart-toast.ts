@@ -1,7 +1,6 @@
+import { toast } from '@feishin/ui/components/toast/toast';
 import { t } from 'i18next';
 import isElectron from 'is-electron';
-
-import { toast } from '/@/shared/components/toast/toast';
 
 const ipc = isElectron() ? window.api.ipc : null;
 

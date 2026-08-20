@@ -1,5 +1,9 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { TableColumn } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
 import clsx from 'clsx';
 
 import styles from './row-index-column.module.css';
@@ -13,10 +17,6 @@ import {
     TableColumnTextContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { ItemListItem } from '/@/renderer/components/item-list/types';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
 
 const RowIndexColumnBase = (props: ItemTableListInnerColumn) => {
     const { itemType } = props;

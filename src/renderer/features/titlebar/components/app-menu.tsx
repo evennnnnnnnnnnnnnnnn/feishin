@@ -1,3 +1,9 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { DropdownMenu, MenuItemProps } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { toast } from '@feishin/ui/components/toast/toast';
 import isElectron from 'is-electron';
 import { Fragment, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,12 +24,6 @@ import {
     useLatestVersion,
     useSettingsStoreActions,
 } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { DropdownMenu, MenuItemProps } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { toast } from '/@/shared/components/toast/toast';
 
 const browser = isElectron() ? window.api.browser : null;
 
@@ -58,7 +58,7 @@ type MenuItem = ConditionalGroupItem | ConditionalItem | CustomItem | DividerIte
 interface RegularMenuItem extends BaseMenuItem {
     component?: 'a' | typeof Link;
     href?: string;
-    icon?: keyof typeof import('/@/shared/components/icon/icon').AppIcon;
+    icon?: keyof typeof import('@feishin/ui/components/icon/icon').AppIcon;
     iconColor?:
         | 'contrast'
         | 'default'

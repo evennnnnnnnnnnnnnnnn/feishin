@@ -1,10 +1,9 @@
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Paper } from '@feishin/ui/components/paper/paper';
 import { ReactNode, useCallback, useState } from 'react';
 
 import styles from './collapsible-command-group.module.css';
-
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Paper } from '/@/shared/components/paper/paper';
 
 interface CollapsibleCommandGroupProps {
     children: ReactNode;

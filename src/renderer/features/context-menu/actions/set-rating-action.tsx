@@ -1,12 +1,12 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { ServerType } from '@feishin/core/types/types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
+import { Rating } from '@feishin/ui/components/rating/rating';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useSetRating } from '/@/renderer/features/shared/hooks/use-set-rating';
 import { useCurrentServer, useCurrentServerId, useShowRatings } from '/@/renderer/store';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { Rating } from '/@/shared/components/rating/rating';
 
 interface SetRatingActionProps {
     ids: string[];

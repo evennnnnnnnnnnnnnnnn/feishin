@@ -1,4 +1,5 @@
 import { TableColumn } from '@feishin/core/types/types';
+import { Icon } from '@feishin/ui/components/icon/icon';
 
 import { ItemDetailRowPlayControlCell } from './row-play-control-cell';
 import styles from './row-play-control-cell.module.css';
@@ -6,7 +7,6 @@ import { ItemDetailListCellProps } from './types';
 import { useDetailRowPlayControl } from './use-detail-row-play-control';
 
 import { isRowPlayControlColumn } from '/@/renderer/components/item-list/helpers/get-row-play-control-column';
-import { Icon } from '/@/shared/components/icon/icon';
 
 const formatTrackNumber = (song: ItemDetailListCellProps['song']) => {
     const disc = song.discNumber ?? 1;

@@ -1,10 +1,10 @@
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import isElectron from 'is-electron';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { api } from '/@/renderer/api';
 import { useCurrentServer } from '/@/renderer/store';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface DownloadActionProps {
     ids: string[];

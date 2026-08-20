@@ -1,4 +1,6 @@
 import { TableColumn } from '@feishin/core/types/types';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Icon } from '@feishin/ui/components/icon/icon';
 
 import styles from './row-index-column.module.css';
 
@@ -10,8 +12,6 @@ import {
     useRowPlayControl,
 } from '/@/renderer/components/item-list/item-table-list/columns/use-row-play-control';
 import { ItemTableListInnerColumn } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Icon } from '/@/shared/components/icon/icon';
 
 export const TrackNumberColumn = (props: ItemTableListInnerColumn) => {
     if (

@@ -1,4 +1,11 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
+import { Text } from '@feishin/ui/components/text/text';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -14,13 +21,6 @@ import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library
 import { ListSearchInput } from '/@/renderer/features/shared/components/list-search-input';
 import { SongListHeaderFilters } from '/@/renderer/features/songs/components/song-list-header-filters';
 import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-list-filters';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Text } from '/@/shared/components/text/text';
 
 interface FavoritesHeaderProps {
     itemType: LibraryItem;

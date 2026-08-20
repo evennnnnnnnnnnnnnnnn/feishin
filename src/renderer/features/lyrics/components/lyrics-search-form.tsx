@@ -4,6 +4,18 @@ import {
     LyricSource,
     LyricsOverride,
 } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Center } from '@feishin/ui/components/center/center';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDebouncedValue } from '@feishin/ui/hooks/use-debounced-value';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -27,18 +39,6 @@ import {
     UnsynchronizedLyricsProps,
 } from '/@/renderer/features/lyrics/unsynchronized-lyrics';
 import { usePlayerSong } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Center } from '/@/shared/components/center/center';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
-import { useForm } from '/@/shared/hooks/use-form';
 
 interface SearchResultProps {
     data: InternetProviderLyricSearchResponse;

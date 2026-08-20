@@ -1,4 +1,7 @@
 import { Genre } from '@feishin/core/types/domain-types';
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Group } from '@feishin/ui/components/group/group';
+import { stringToColor } from '@feishin/ui/utils/string-to-color';
 import { useMemo } from 'react';
 import { generatePath, Link } from 'react-router';
 
@@ -11,9 +14,6 @@ import {
     TableColumnContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { AppRoute } from '/@/renderer/router/routes';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Group } from '/@/shared/components/group/group';
-import { stringToColor } from '/@/shared/utils/string-to-color';
 
 const MAX_GENRES = 4;
 

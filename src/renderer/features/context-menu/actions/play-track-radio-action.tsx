@@ -1,5 +1,6 @@
 import { Song } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,6 @@ import { queryKeys } from '/@/renderer/api/query-keys';
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
 import { useArtistRadioCount, useCurrentServerId, usePlayButtonBehavior } from '/@/renderer/store';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface PlayTrackRadioActionProps {
     disabled?: boolean;

@@ -1,3 +1,9 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Grid } from '@feishin/ui/components/grid/grid';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
@@ -6,12 +12,6 @@ import styles from './action-bar.module.css';
 import { useScanStatus } from '/@/renderer/features/shared/hooks/use-scan-status';
 import { AppMenu } from '/@/renderer/features/titlebar/components/app-menu';
 import { useCommandPalette } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Grid } from '/@/shared/components/grid/grid';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 export const ActionBar = () => {
     const { t } = useTranslation();

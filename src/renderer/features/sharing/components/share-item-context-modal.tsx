@@ -1,3 +1,16 @@
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { Button } from '@feishin/ui/components/button/button';
+import { DateTimePicker } from '@feishin/ui/components/date-time-picker/date-time-picker';
+import { Group } from '@feishin/ui/components/group/group';
+import { ModalButton } from '@feishin/ui/components/modal/model-shared';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Text } from '@feishin/ui/components/text/text';
+import { Textarea } from '@feishin/ui/components/textarea/textarea';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import { closeModal, ContextModalProps } from '@mantine/modals';
 import dayjs, { type ManipulateType } from 'dayjs';
 import { useMemo } from 'react';
@@ -11,19 +24,6 @@ import {
     useSettingsStoreActions,
 } from '/@/renderer/store/settings.store';
 import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { Button } from '/@/shared/components/button/button';
-import { DateTimePicker } from '/@/shared/components/date-time-picker/date-time-picker';
-import { Group } from '/@/shared/components/group/group';
-import { ModalButton } from '/@/shared/components/modal/model-shared';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Text } from '/@/shared/components/text/text';
-import { Textarea } from '/@/shared/components/textarea/textarea';
-import { toast } from '/@/shared/components/toast/toast';
-import { useForm } from '/@/shared/hooks/use-form';
 
 const EXPIRES_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 

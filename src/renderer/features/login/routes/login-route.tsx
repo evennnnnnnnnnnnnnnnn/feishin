@@ -3,6 +3,17 @@ import {
     ServerListItemWithCredential,
 } from '@feishin/core/types/domain-types';
 import { ServerType, toServerType } from '@feishin/core/types/types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Center } from '@feishin/ui/components/center/center';
+import { Code } from '@feishin/ui/components/code/code';
+import { Paper } from '@feishin/ui/components/paper/paper';
+import { PasswordInput } from '@feishin/ui/components/password-input/password-input';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import isElectron from 'is-electron';
 import { nanoid } from 'nanoid/non-secure';
 import { useState } from 'react';
@@ -33,17 +44,6 @@ import {
     useCurrentServer,
     useServerList,
 } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { Center } from '/@/shared/components/center/center';
-import { Code } from '/@/shared/components/code/code';
-import { Paper } from '/@/shared/components/paper/paper';
-import { PasswordInput } from '/@/shared/components/password-input/password-input';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
-import { useForm } from '/@/shared/hooks/use-form';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

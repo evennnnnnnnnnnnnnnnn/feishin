@@ -1,3 +1,4 @@
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { openModal } from '@mantine/modals';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +8,6 @@ import {
     ItemDetailsModalProps,
 } from '/@/renderer/features/item-details/components/item-details-modal';
 import { useCurrentServer } from '/@/renderer/store';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface GetInfoActionProps {
     disabled?: boolean;

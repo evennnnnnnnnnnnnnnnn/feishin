@@ -1,4 +1,8 @@
 import { Playlist } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,10 +11,6 @@ import { useNavigate } from 'react-router';
 import { useDeletePlaylist } from '/@/renderer/features/playlists/mutations/delete-playlist-mutation';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServerId } from '/@/renderer/store';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
 
 interface DeletePlaylistActionProps {
     disabled?: boolean;

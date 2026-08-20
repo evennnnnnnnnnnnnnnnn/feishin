@@ -1,5 +1,8 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Center } from '@feishin/ui/components/center/center';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { useSetState } from '@feishin/ui/hooks/use-set-state';
 import clsx from 'clsx';
 import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'motion/react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -17,9 +20,6 @@ import {
     usePlayerData,
     usePlayerSong,
 } from '/@/renderer/store';
-import { Center } from '/@/shared/components/center/center';
-import { Icon } from '/@/shared/components/icon/icon';
-import { useSetState } from '/@/shared/hooks/use-set-state';
 
 const imageVariants: Variants = {
     closed: {

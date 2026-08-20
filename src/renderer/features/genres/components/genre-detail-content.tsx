@@ -1,5 +1,8 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { Suspense, useMemo } from 'react';
 import { useParams } from 'react-router';
 
@@ -9,9 +12,6 @@ import { ListWithSidebarContainer } from '/@/renderer/features/shared/components
 import { SaveAsCollectionButton } from '/@/renderer/features/shared/components/save-as-collection-button';
 import { SongListView } from '/@/renderer/features/songs/components/song-list-content';
 import { GenreTarget, useGenreTarget, useListSettings } from '/@/renderer/store';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const GenreDetailFilters = () => {
     const genreTarget = useGenreTarget();

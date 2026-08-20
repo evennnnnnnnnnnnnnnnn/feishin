@@ -1,4 +1,6 @@
 import { PlayerStatus, PlayerType } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
 import { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './visualizer.module.css';
@@ -13,8 +15,6 @@ import {
     useFullScreenPlayerStoreActions,
 } from '/@/renderer/store/full-screen-player.store';
 import { usePlayerStatus } from '/@/renderer/store/player.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
 
 const VisualizerInner = () => {
     const { webAudio } = useWebAudio();

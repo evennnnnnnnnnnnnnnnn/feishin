@@ -1,6 +1,5 @@
+import { useTimeout } from '@feishin/ui/hooks/use-timeout';
 import { useEffect, useState } from 'react';
-
-import { useTimeout } from '/@/shared/hooks/use-timeout';
 
 export const useHideScrollbar = (timeout: number) => {
     const [hideScrollbar, setHideScrollbar] = useState(false);

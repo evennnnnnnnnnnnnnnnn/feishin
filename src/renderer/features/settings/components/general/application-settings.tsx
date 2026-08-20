@@ -1,4 +1,11 @@
 import { FontType } from '@feishin/core/types/types';
+import { FileInput } from '@feishin/ui/components/file-input/file-input';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { t } from 'i18next';
 import isElectron from 'is-electron';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -26,13 +33,6 @@ import {
     useSettingsStoreActions,
 } from '/@/renderer/store/settings.store';
 import { type Font, FONT_OPTIONS } from '/@/renderer/types/fonts';
-import { FileInput } from '/@/shared/components/file-input/file-input';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Switch } from '/@/shared/components/switch/switch';
-import { toast } from '/@/shared/components/toast/toast';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 const ipc = isElectron() ? window.api.ipc : null;

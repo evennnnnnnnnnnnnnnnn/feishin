@@ -1,4 +1,12 @@
 import { LibraryItem, PlaylistListSort, SortOrder } from '@feishin/core/types/domain-types';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { openContextModal } from '@mantine/modals';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
@@ -18,14 +26,6 @@ import { playlistsQueries } from '/@/renderer/features/playlists/api/playlists-a
 import { useRecentPlaylists } from '/@/renderer/features/playlists/hooks/use-recent-playlists';
 import { useAddToPlaylist } from '/@/renderer/features/playlists/mutations/add-to-playlist-mutation';
 import { useCurrentServer, useCurrentServerId } from '/@/renderer/store';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { toast } from '/@/shared/components/toast/toast';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 interface AddToPlaylistActionProps {
     items: string[];

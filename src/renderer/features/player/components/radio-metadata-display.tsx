@@ -1,4 +1,7 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
 import clsx from 'clsx';
 import React from 'react';
 import { Link } from 'react-router';
@@ -7,9 +10,6 @@ import styles from './left-controls.module.css';
 
 import { useIsRadioActive, useRadioStore } from '/@/renderer/features/radio/hooks/use-radio-player';
 import { AppRoute } from '/@/renderer/router/routes';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
 
 interface RadioMetadataDisplayProps {
     onStopPropagation: (e?: React.MouseEvent) => void;

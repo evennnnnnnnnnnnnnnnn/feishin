@@ -12,6 +12,12 @@ import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/elem
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { TableColumn } from '@feishin/core/types/types';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Skeleton } from '@feishin/ui/components/skeleton/skeleton';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDoubleClick } from '@feishin/ui/hooks/use-double-click';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import clsx from 'clsx';
 import React, {
     CSSProperties,
@@ -68,12 +74,6 @@ import {
 } from '/@/renderer/components/item-list/item-table-list/item-table-list';
 import { useItemTableListColumnResizeLive } from '/@/renderer/components/item-list/item-table-list/item-table-list-context';
 import { ItemControls, ItemListItem } from '/@/renderer/components/item-list/types';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Skeleton } from '/@/shared/components/skeleton/skeleton';
-import { Text } from '/@/shared/components/text/text';
-import { useDoubleClick } from '/@/shared/hooks/use-double-click';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 export interface ItemTableListColumn extends CellComponentProps<TableItemProps> {
     columnType?: TableColumn;

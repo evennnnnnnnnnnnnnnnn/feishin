@@ -1,12 +1,12 @@
 import { Song } from '@feishin/core/types/domain-types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { ContextModalProps } from '@mantine/modals';
 import { useEffect, useState } from 'react';
 
 import { controller } from '/@/renderer/api/controller';
 import { SongEditModal } from '/@/renderer/features/tag-editor/components/song-edit-modal';
 import { useCurrentServer } from '/@/renderer/store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
 
 type SongEditInnerProps = {
     albumIds?: string[];

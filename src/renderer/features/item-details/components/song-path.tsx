@@ -1,14 +1,14 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { CopyButton } from '@feishin/ui/components/copy-button/copy-button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
 import { useResolvedSongPath } from '/@/renderer/utils/resolve-song-path';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { CopyButton } from '/@/shared/components/copy-button/copy-button';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 const util = isElectron() ? window.api.utils : null;
 

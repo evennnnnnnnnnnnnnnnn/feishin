@@ -1,11 +1,11 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCreateFavorite } from '/@/renderer/features/shared/mutations/create-favorite-mutation';
 import { useDeleteFavorite } from '/@/renderer/features/shared/mutations/delete-favorite-mutation';
 import { useCurrentServerId, useShowFavorites } from '/@/renderer/store';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface SetFavoriteActionProps {
     ids: string[];

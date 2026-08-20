@@ -1,6 +1,6 @@
-import styles from './json-preview.module.css';
+import { Code } from '@feishin/ui/components/code/code';
 
-import { Code } from '/@/shared/components/code/code';
+import styles from './json-preview.module.css';
 
 interface JsonPreviewProps {
     value: Record<string, any> | string;

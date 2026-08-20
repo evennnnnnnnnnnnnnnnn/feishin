@@ -2,6 +2,13 @@ import { hasFeature } from '@feishin/core/api/utils';
 import { LibraryItem, Playlist, Song } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { FileButton } from '@feishin/ui/components/file-button/file-button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Spoiler } from '@feishin/ui/components/spoiler/spoiler';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,13 +38,6 @@ import {
 } from '/@/renderer/store';
 import { formatDurationString } from '/@/renderer/utils';
 import { replaceURLWithHTMLLinks } from '/@/renderer/utils/linkify';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { FileButton } from '/@/shared/components/file-button/file-button';
-import { Group } from '/@/shared/components/group/group';
-import { Spoiler } from '/@/shared/components/spoiler/spoiler';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 interface PlaylistDetailSongListHeaderProps {
     isSmartPlaylist?: boolean;

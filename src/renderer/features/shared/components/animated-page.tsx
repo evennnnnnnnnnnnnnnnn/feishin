@@ -1,11 +1,10 @@
 import type { ReactNode, Ref } from 'react';
 
+import { animationProps } from '@feishin/ui/components/animations/animation-props';
 import { motion } from 'motion/react';
 import { forwardRef } from 'react';
 
 import styles from './animated-page.module.css';
-
-import { animationProps } from '/@/shared/components/animations/animation-props';
 
 interface AnimatedPageProps {
     children: ReactNode;

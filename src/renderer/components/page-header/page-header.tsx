@@ -1,4 +1,5 @@
 import { Platform } from '@feishin/core/types/types';
+import { Flex, FlexProps } from '@feishin/ui/components/flex/flex';
 import clsx from 'clsx';
 import { useInView } from 'motion/react';
 import { AnimatePresence, motion, Variants } from 'motion/react';
@@ -9,7 +10,6 @@ import styles from './page-header.module.css';
 import { LibraryBackgroundOverlay } from '/@/renderer/features/shared/components/library-background-overlay';
 import { useShouldPadTitlebar } from '/@/renderer/hooks';
 import { useWindowSettings } from '/@/renderer/store/settings.store';
-import { Flex, FlexProps } from '/@/shared/components/flex/flex';
 
 export interface PageHeaderProps extends Omit<
     FlexProps,

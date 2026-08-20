@@ -4,6 +4,17 @@ import {
     ServerListItemWithCredential,
     ServerType,
 } from '@feishin/core/types/domain-types';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ModalButton } from '@feishin/ui/components/modal/model-shared';
+import { PasswordInput } from '@feishin/ui/components/password-input/password-input';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
+import { useFocusTrap } from '@feishin/ui/hooks/use-focus-trap';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import { closeAllModals } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useState } from 'react';
@@ -13,17 +24,6 @@ import i18n from '/@/i18n/i18n';
 import { api } from '/@/renderer/api';
 import { queryClient } from '/@/renderer/lib/react-query';
 import { getServerById, useAuthStoreActions } from '/@/renderer/store';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ModalButton } from '/@/shared/components/modal/model-shared';
-import { PasswordInput } from '/@/shared/components/password-input/password-input';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { toast } from '/@/shared/components/toast/toast';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { useFocusTrap } from '/@/shared/hooks/use-focus-trap';
-import { useForm } from '/@/shared/hooks/use-form';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

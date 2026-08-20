@@ -1,4 +1,5 @@
 import { LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useMemo } from 'react';
 
 import { AddToPlaylistAction } from '/@/renderer/features/context-menu/actions/add-to-playlist-action';
@@ -16,7 +17,6 @@ import { ShareAction } from '/@/renderer/features/context-menu/actions/share-act
 import { ShowInFileExplorerAction } from '/@/renderer/features/context-menu/actions/show-in-file-explorer-action';
 import { ShuffleItemsAction } from '/@/renderer/features/context-menu/actions/shuffle-items-action';
 import { ContextMenuPreview } from '/@/renderer/features/context-menu/components/context-menu-preview';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface QueueContextMenuProps {
     items: QueueSong[];

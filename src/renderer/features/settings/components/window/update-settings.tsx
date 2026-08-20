@@ -1,3 +1,5 @@
+import { Select } from '@feishin/ui/components/select/select';
+import { Switch } from '@feishin/ui/components/switch/switch';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,8 +9,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { useSettingsStoreActions, useWindowSettings } from '/@/renderer/store';
-import { Select } from '/@/shared/components/select/select';
-import { Switch } from '/@/shared/components/switch/switch';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 const utils = isElectron() ? window.api.utils : null;

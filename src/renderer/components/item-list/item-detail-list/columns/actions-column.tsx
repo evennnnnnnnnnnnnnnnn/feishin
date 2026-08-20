@@ -1,8 +1,7 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 
 import { ItemDetailListCellProps } from './types';
-
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 
 export const ActionsColumn = ({ controls, internalState, song }: ItemDetailListCellProps) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,3 +1,5 @@
+import { BaseContextModal, ModalsProvider } from '@feishin/ui/components/modal/modal';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { lazy, Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router';
 
@@ -9,8 +11,6 @@ import { ResponsiveLayout } from '/@/renderer/layouts/responsive-layout';
 import { AppOutlet } from '/@/renderer/router/app-outlet';
 import { AppRoute } from '/@/renderer/router/routes';
 import { TitlebarOutlet } from '/@/renderer/router/titlebar-outlet';
-import { BaseContextModal, ModalsProvider } from '/@/shared/components/modal/modal';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 const NowPlayingRoute = lazy(
     () => import('/@/renderer/features/now-playing/routes/now-playing-route'),

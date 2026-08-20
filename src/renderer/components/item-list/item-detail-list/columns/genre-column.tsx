@@ -1,9 +1,9 @@
+import { Text } from '@feishin/ui/components/text/text';
 import { Fragment } from 'react';
 import { generatePath, Link } from 'react-router';
 
 import { ItemDetailListCellProps } from '/@/renderer/components/item-list/item-detail-list/columns/types';
 import { AppRoute } from '/@/renderer/router/routes';
-import { Text } from '/@/shared/components/text/text';
 
 const TEXT_PROPS = { isMuted: true, isNoSelect: true, size: 'sm' as const } as const;
 

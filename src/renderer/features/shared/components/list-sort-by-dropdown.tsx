@@ -11,13 +11,13 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Button } from '@feishin/ui/components/button/button';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
 import { Dispatch, SetStateAction } from 'react';
 
 import i18n from '/@/i18n/i18n';
 import { useSortByFilter } from '/@/renderer/features/shared/hooks/use-sort-by-filter';
 import { useCurrentServer } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
 
 interface ListSortByDropdownProps {
     defaultSortByValue: string;

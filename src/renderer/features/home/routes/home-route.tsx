@@ -6,6 +6,8 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { Platform } from '@feishin/core/types/types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { Suspense, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -29,8 +31,6 @@ import {
     useHomeItems,
     useWindowSettings,
 } from '/@/renderer/store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const HomeRoute = () => {
     const { t } = useTranslation();

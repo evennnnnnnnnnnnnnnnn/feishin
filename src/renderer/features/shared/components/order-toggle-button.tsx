@@ -1,7 +1,6 @@
 import { SortOrder } from '@feishin/core/types/domain-types';
+import { ActionIcon, ActionIconProps } from '@feishin/ui/components/action-icon/action-icon';
 import { useTranslation } from 'react-i18next';
-
-import { ActionIcon, ActionIconProps } from '/@/shared/components/action-icon/action-icon';
 
 interface OrderToggleButtonProps {
     buttonProps?: Partial<ActionIconProps>;

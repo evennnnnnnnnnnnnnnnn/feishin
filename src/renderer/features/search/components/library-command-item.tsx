@@ -1,5 +1,9 @@
 import { ExplicitStatus, LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon, ActionIconGroup } from '@feishin/ui/components/action-icon/action-icon';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Text } from '@feishin/ui/components/text/text';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import { openContextModal } from '@mantine/modals';
 import { CSSProperties, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,10 +18,6 @@ import {
 } from '/@/renderer/features/shared/components/play-button-group';
 import { usePlayButtonClick } from '/@/renderer/features/shared/hooks/use-play-button-click';
 import { useCurrentServer } from '/@/renderer/store';
-import { ActionIcon, ActionIconGroup } from '/@/shared/components/action-icon/action-icon';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Text } from '/@/shared/components/text/text';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 const createPlayKeyDownHandler = (
     playType: Play,

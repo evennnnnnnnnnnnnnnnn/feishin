@@ -1,5 +1,8 @@
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { Badge, BadgeProps } from '@feishin/ui/components/badge/badge';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
 import { closeAllModals } from '@mantine/modals';
 import { AnimatePresence } from 'motion/react';
 import { CSSProperties, memo, ReactNode, useCallback, useRef, useState } from 'react';
@@ -10,9 +13,6 @@ import { useIsPlayerFetching, usePlayer } from '/@/renderer/features/player/cont
 import { DefaultPlayButton } from '/@/renderer/features/shared/components/play-button';
 import { PlayButtonGroupPopover } from '/@/renderer/features/shared/components/play-button-group';
 import { useCurrentServerId } from '/@/renderer/store';
-import { Badge, BadgeProps } from '/@/shared/components/badge/badge';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
 
 interface LibraryHeaderBarProps {
     children: ReactNode;

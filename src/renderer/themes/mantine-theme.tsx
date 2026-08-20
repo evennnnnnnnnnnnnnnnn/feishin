@@ -1,11 +1,10 @@
 import type { MantineColorsTuple, MantineThemeOverride } from '@mantine/core';
 
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { AppThemeConfiguration } from '@feishin/ui/themes/app-theme-types';
 import { generateColors } from '@mantine/colors-generator';
 import { createTheme, Loader, rem, Tooltip } from '@mantine/core';
 import merge from 'lodash/merge';
-
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { AppThemeConfiguration } from '/@/shared/themes/app-theme-types';
 
 // const lightColors: MantineColorsTuple = [
 //     '#f5f5f5',

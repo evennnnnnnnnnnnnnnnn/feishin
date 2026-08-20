@@ -1,4 +1,14 @@
 import { PlayerShuffle, PlayerStatus } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Grid } from '@feishin/ui/components/grid/grid';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Paper } from '@feishin/ui/components/paper/paper';
+import { Popover } from '@feishin/ui/components/popover/popover';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
+import { Text } from '@feishin/ui/components/text/text';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,16 +28,6 @@ import {
     useSleepTimerRemaining,
     useSleepTimerStore,
 } from '/@/renderer/store/sleep-timer.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Grid } from '/@/shared/components/grid/grid';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Paper } from '/@/shared/components/paper/paper';
-import { Popover } from '/@/shared/components/popover/popover';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Text } from '/@/shared/components/text/text';
 
 const PRESET_OPTIONS = [
     { minutes: 0, mode: 'endOfSong' as const },

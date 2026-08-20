@@ -30,6 +30,9 @@ importers:
       '@feishin/core':
         specifier: workspace:*
         version: link:packages/core
+      '@feishin/ui':
+        specifier: workspace:*
+        version: link:packages/ui
       '@mantine/colors-generator':
         specifier: ^9.3.0
         version: 9.3.1(chroma-js@3.2.0)
@@ -394,6 +397,75 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
+
+  packages/ui:
+    dependencies:
+      '@atlaskit/pragmatic-drag-and-drop':
+        specifier: 1.7.7
+        version: 1.7.7
+      '@atlaskit/pragmatic-drag-and-drop-auto-scroll':
+        specifier: ^2.1.5
+        version: 2.1.5
+      '@atlaskit/pragmatic-drag-and-drop-hitbox':
+        specifier: ^1.2.0
+        version: 1.2.0
+      '@feishin/core':
+        specifier: workspace:*
+        version: link:../core
+      '@mantine/core':
+        specifier: ^9.3.0
+        version: 9.3.1(@mantine/hooks@9.3.1(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@mantine/dates':
+        specifier: ^9.3.0
+        version: 9.3.1(@mantine/core@9.3.1(@mantine/hooks@9.3.1(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@mantine/hooks@9.3.1(react@19.2.7))(dayjs@1.11.21)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@mantine/form':
+        specifier: ^9.3.0
+        version: 9.3.1(react@19.2.7)
+      '@mantine/hooks':
+        specifier: ^9.3.0
+        version: 9.3.1(react@19.2.7)
+      '@mantine/modals':
+        specifier: ^9.3.0
+        version: 9.3.1(@mantine/core@9.3.1(@mantine/hooks@9.3.1(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@mantine/hooks@9.3.1(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@mantine/notifications':
+        specifier: ^9.3.0
+        version: 9.3.1(@mantine/core@9.3.1(@mantine/hooks@9.3.1(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@mantine/hooks@9.3.1(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@radix-ui/react-context-menu':
+        specifier: ^2.3.0
+        version: 2.3.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      i18next:
+        specifier: ^25.10.10
+        version: 25.10.10(typescript@5.9.3)
+      lodash:
+        specifier: ^4.18.1
+        version: 4.18.1
+      motion:
+        specifier: ^12.40.0
+        version: 12.40.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      overlayscrollbars-react:
+        specifier: ^0.5.6
+        version: 0.5.6(overlayscrollbars@2.16.0)(react@19.2.7)
+      react:
+        specifier: ^19.2.7
+        version: 19.2.7
+      react-i18next:
+        specifier: ^16.6.6
+        version: 16.6.6(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
+      react-icons:
+        specifier: ^5.6.0
+        version: 5.6.0(react@19.2.7)
+      react-router:
+        specifier: 7.14.0
+        version: 7.14.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react-window-v2:
+        specifier: npm:react-window@^2.2.7
+        version: react-window@2.2.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      string-to-color:
+        specifier: ^2.2.2
+        version: 2.2.2
 
 packages:
 

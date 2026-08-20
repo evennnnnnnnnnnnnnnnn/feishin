@@ -9,6 +9,7 @@ import {
     PlayerType,
     TableColumn,
 } from '@feishin/core/types/types';
+import { AppTheme } from '@feishin/ui/themes/app-theme-types';
 import isElectron from 'is-electron';
 import cloneDeep from 'lodash/cloneDeep';
 import mergeWith from 'lodash/mergeWith';
@@ -39,7 +40,6 @@ import { mergeOverridingColumns } from '/@/renderer/store/utils';
 import { FontValueSchema } from '/@/renderer/types/fonts';
 import { randomString } from '/@/renderer/utils';
 import { sanitizeCss } from '/@/renderer/utils/sanitize';
-import { AppTheme } from '/@/shared/themes/app-theme-types';
 
 const utils = isElectron() ? window.api.utils : null;
 

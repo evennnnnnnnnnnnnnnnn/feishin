@@ -7,6 +7,17 @@ import {
 } from '@feishin/core/types/domain-types';
 import { DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { Play } from '@feishin/core/types/types';
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { animationProps } from '@feishin/ui/components/animations/animation-props';
+import { animationVariants } from '@feishin/ui/components/animations/animation-variants';
+import { ButtonProps } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Image } from '@feishin/ui/components/image/image';
+import { LoadingOverlay } from '@feishin/ui/components/loading-overlay/loading-overlay';
+import { Text } from '@feishin/ui/components/text/text';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { openContextModal } from '@mantine/modals';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -46,17 +57,6 @@ import {
     useSidebarPlaylistSorting,
 } from '/@/renderer/store';
 import { formatDurationString } from '/@/renderer/utils';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { animationProps } from '/@/shared/components/animations/animation-props';
-import { animationVariants } from '/@/shared/components/animations/animation-variants';
-import { ButtonProps } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Image } from '/@/shared/components/image/image';
-import { LoadingOverlay } from '/@/shared/components/loading-overlay/loading-overlay';
-import { Text } from '/@/shared/components/text/text';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 const MotionLink = motion.create(Link);
 

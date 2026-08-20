@@ -1,6 +1,7 @@
+import { Box } from '@feishin/ui/components/box/box';
+import { Text } from '@feishin/ui/components/text/text';
+
 import { SettingsState } from '/@/renderer/store';
-import { Box } from '/@/shared/components/box/box';
-import { Text } from '/@/shared/components/text/text';
 
 interface DiffVisualiserProps {
     newSettings: Omit<SettingsState, 'actions'>;

@@ -1,3 +1,4 @@
+import { Button } from '@feishin/ui/components/button/button';
 import { openModal } from '@mantine/modals';
 import { t } from 'i18next';
 import { memo, useCallback } from 'react';
@@ -8,7 +9,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { useSettingsForExport } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
 
 export const ExportImportSettings = memo(() => {
     const settingForExport = useSettingsForExport();

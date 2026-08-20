@@ -1,5 +1,8 @@
 import { ArtistListSort, LibraryItem, SortOrder } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
 import { useQuery } from '@tanstack/react-query';
 
 import { ALBUM_ARTIST_TABLE_COLUMNS } from '/@/renderer/components/item-list/item-table-list/default-columns';
@@ -12,9 +15,6 @@ import { ListSortByDropdown } from '/@/renderer/features/shared/components/list-
 import { ListSortOrderToggleButton } from '/@/renderer/features/shared/components/list-sort-order-toggle-button';
 import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
 import { useCurrentServer } from '/@/renderer/store';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
 
 export const ArtistListHeaderFilters = () => {
     const server = useCurrentServer();

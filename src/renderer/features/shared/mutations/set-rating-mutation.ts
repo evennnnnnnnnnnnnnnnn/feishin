@@ -1,4 +1,5 @@
 import { LibraryItem, RatingResponse, SetRatingArgs } from '@feishin/core/types/domain-types';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { useIsMutating, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,6 @@ import {
     restoreRatingQueryData,
 } from '/@/renderer/features/shared/mutations/rating-optimistic-updates';
 import { MutationHookArgs } from '/@/renderer/lib/react-query';
-import { toast } from '/@/shared/components/toast/toast';
 
 const setRatingMutationKey = ['set-rating'];
 

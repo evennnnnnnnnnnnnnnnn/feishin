@@ -1,3 +1,5 @@
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { Fragment } from 'react/jsx-runtime';
@@ -6,8 +8,6 @@ import { DiscordSettings } from '/@/renderer/features/settings/components/window
 import { PasswordSettings } from '/@/renderer/features/settings/components/window/password-settings';
 import { RemoteSettings } from '/@/renderer/features/settings/components/window/remote-settings';
 import { WindowSettings } from '/@/renderer/features/settings/components/window/window-settings';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const utils = isElectron() ? window.api.utils : null;
 

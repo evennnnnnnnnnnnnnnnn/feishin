@@ -5,6 +5,9 @@ import {
     ServerType,
 } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import isElectron from 'is-electron';
@@ -22,9 +25,6 @@ import { sharedQueries } from '/@/renderer/features/shared/api/shared-api';
 import { startScanWatch, useScanStatus } from '/@/renderer/features/shared/hooks/use-scan-status';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useAuthStoreActions, useCurrentServer, useServerList } from '/@/renderer/store';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Icon } from '/@/shared/components/icon/icon';
-import { toast } from '/@/shared/components/toast/toast';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

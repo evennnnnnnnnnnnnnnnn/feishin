@@ -1,3 +1,15 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Breadcrumb } from '@feishin/ui/components/breadcrumb/breadcrumb';
+import { Button } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Kbd } from '@feishin/ui/components/kbd/kbd';
+import { Modal } from '@feishin/ui/components/modal/modal';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { useDebouncedValue } from '@feishin/ui/hooks/use-debounced-value';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
 import { useCallback, useDeferredValue, useRef, useState } from 'react';
 
 import { Command, CommandPalettePages } from '/@/renderer/features/search/components/command';
@@ -8,18 +20,6 @@ import { SearchAlbumsSection } from '/@/renderer/features/search/components/sear
 import { SearchSongsSection } from '/@/renderer/features/search/components/search-songs-section';
 import { ServerCommands } from '/@/renderer/features/search/components/server-commands';
 import { useAppStore } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Breadcrumb } from '/@/shared/components/breadcrumb/breadcrumb';
-import { Button } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Kbd } from '/@/shared/components/kbd/kbd';
-import { Modal } from '/@/shared/components/modal/modal';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 
 interface CommandPaletteProps {
     modalProps: (typeof useDisclosure)['arguments'];

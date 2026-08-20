@@ -2,6 +2,7 @@ import type { SetActivity } from '@xhayper/discord-rpc';
 
 import { LibraryItem, QueueSong, ServerType } from '@feishin/core/types/domain-types';
 import { PlayerStatus } from '@feishin/core/types/types';
+import { useDebouncedCallback } from '@feishin/ui/hooks/use-debounced-callback';
 import isElectron from 'is-electron';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -25,7 +26,6 @@ import {
 } from '/@/renderer/store';
 import { sentenceCase } from '/@/renderer/utils';
 import { logger } from '/@/renderer/utils/logger';
-import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
 
 const discordRpc = isElectron() ? window.api.discordRpc : null;
 

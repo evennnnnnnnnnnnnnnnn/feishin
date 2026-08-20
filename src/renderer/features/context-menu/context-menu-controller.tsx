@@ -9,6 +9,7 @@ import {
     QueueSong,
     Song,
 } from '@feishin/core/types/domain-types';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 import { createCallable } from 'react-call';
@@ -23,7 +24,6 @@ import { PlaylistContextMenu } from '/@/renderer/features/context-menu/menus/pla
 import { PlaylistSongContextMenu } from '/@/renderer/features/context-menu/menus/playlist-song-context-menu';
 import { QueueContextMenu } from '/@/renderer/features/context-menu/menus/queue-context-menu';
 import { SongContextMenu } from '/@/renderer/features/context-menu/menus/song-context-menu';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface ContextMenuControllerProps {
     cmd: ContextMenuCommand;

@@ -1,4 +1,14 @@
 import { PlayerType } from '@feishin/core/types/types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Select } from '@feishin/ui/components/select/select';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
 import { useMove } from '@mantine/hooks';
 import isElectron from 'is-electron';
 import { memo, useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -16,16 +26,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { Button } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Select } from '/@/shared/components/select/select';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
 
 const mpvPlayer = isElectron() ? window.api.mpvPlayer : null;
 

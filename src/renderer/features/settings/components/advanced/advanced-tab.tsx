@@ -1,3 +1,5 @@
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { memo } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
@@ -6,8 +8,6 @@ import { ExportImportSettings } from '/@/renderer/features/settings/components/a
 import { LoggerSettings } from '/@/renderer/features/settings/components/advanced/logger-settings';
 import { CacheSettings } from '/@/renderer/features/settings/components/window/cache-settngs';
 import { UpdateSettings } from '/@/renderer/features/settings/components/window/update-settings';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const sections = [
     { component: UpdateSettings, key: 'update' },

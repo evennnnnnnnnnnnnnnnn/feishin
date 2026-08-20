@@ -1,4 +1,12 @@
 import { ServerType } from '@feishin/core/types/domain-types';
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { Button } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ContextModalVars } from '@feishin/ui/components/modal/modal';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { openContextModal } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
@@ -11,14 +19,6 @@ import { AddServerForm } from '/@/renderer/features/servers/components/add-serve
 import { IgnoreCorsSslSwitches } from '/@/renderer/features/servers/components/ignore-cors-ssl-switches';
 import { ServerListItem } from '/@/renderer/features/servers/components/server-list-item';
 import { useCurrentServer, useServerList } from '/@/renderer/store';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { Button } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ContextModalVars } from '/@/shared/components/modal/modal';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 export const ServerList = () => {
     const { t } = useTranslation();

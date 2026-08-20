@@ -1,5 +1,14 @@
 import { NDSongQueryFieldsLabelMap } from '@feishin/core/api/navidrome/navidrome-types';
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Autocomplete } from '@feishin/ui/components/autocomplete/autocomplete';
+import { Group } from '@feishin/ui/components/group/group';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TagsInput } from '@feishin/ui/components/tags-input/tags-input';
+import { Text } from '@feishin/ui/components/text/text';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,15 +27,6 @@ import {
     useTagEditorSettings,
 } from '/@/renderer/store';
 import { titleCase } from '/@/renderer/utils';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Autocomplete } from '/@/shared/components/autocomplete/autocomplete';
-import { Group } from '/@/shared/components/group/group';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TagsInput } from '/@/shared/components/tags-input/tags-input';
-import { Text } from '/@/shared/components/text/text';
 
 const DEFAULT_TAG_CONFIG: TagConfig = {
     autocompleteSource: 'none',

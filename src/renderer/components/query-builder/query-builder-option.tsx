@@ -1,13 +1,13 @@
 import { QueryBuilderRule } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { DateInput } from '@feishin/ui/components/date-picker/date-picker';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Select } from '@feishin/ui/components/select/select';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Filters } from '/@/renderer/components/query-builder';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { DateInput } from '/@/shared/components/date-picker/date-picker';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Select } from '/@/shared/components/select/select';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 type DeleteArgs = {
     groupIndex: number[];

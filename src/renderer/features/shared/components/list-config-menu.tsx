@@ -1,4 +1,15 @@
 import { ItemListKey, ListDisplayType } from '@feishin/core/types/types';
+import { ActionIconProps } from '@feishin/ui/components/action-icon/action-icon';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Modal } from '@feishin/ui/components/modal/modal';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Table } from '@feishin/ui/components/table/table';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
 import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,17 +20,6 @@ import { GridConfig } from '/@/renderer/features/shared/components/grid-config';
 import { SettingsButton } from '/@/renderer/features/shared/components/settings-button';
 import { TableConfig } from '/@/renderer/features/shared/components/table-config';
 import { useSettingsStore, useSettingsStoreActions } from '/@/renderer/store';
-import { ActionIconProps } from '/@/shared/components/action-icon/action-icon';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Modal } from '/@/shared/components/modal/modal';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Table } from '/@/shared/components/table/table';
-import { Text } from '/@/shared/components/text/text';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 
 export const SONG_DISPLAY_TYPES: ListConfigMenuDisplayTypeConfig[] = [
     { hidden: true, value: ListDisplayType.DETAIL },

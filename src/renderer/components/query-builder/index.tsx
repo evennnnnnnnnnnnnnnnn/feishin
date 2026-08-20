@@ -1,15 +1,15 @@
 import { QueryBuilderGroup, QueryBuilderRule } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Box } from '@feishin/ui/components/box/box';
+import { DropdownMenu } from '@feishin/ui/components/dropdown-menu/dropdown-menu';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { QueryBuilderOption } from '/@/renderer/components/query-builder/query-builder-option';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Box } from '/@/shared/components/box/box';
-import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
 
 export type FilterGroup = { group: string; items: FilterItem[] };
 

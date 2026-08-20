@@ -1,4 +1,7 @@
 import { ItemListKey, Platform } from '@feishin/core/types/types';
+import { ActionIcon, ActionIconGroup } from '@feishin/ui/components/action-icon/action-icon';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import isElectron from 'is-electron';
@@ -28,9 +31,6 @@ import {
     useSidebarPanelOrder,
     useWindowSettings,
 } from '/@/renderer/store';
-import { ActionIcon, ActionIconGroup } from '/@/shared/components/action-icon/action-icon';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Stack } from '/@/shared/components/stack/stack';
 
 type SidebarPanelType = 'lyrics' | 'queue' | 'visualizer';
 

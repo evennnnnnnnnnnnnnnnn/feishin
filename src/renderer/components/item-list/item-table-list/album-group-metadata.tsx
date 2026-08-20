@@ -1,4 +1,5 @@
 import { Genre, Song } from '@feishin/core/types/domain-types';
+import { Text } from '@feishin/ui/components/text/text';
 import { TFunction } from 'i18next';
 import { Fragment, ReactNode } from 'react';
 import { generatePath, Link } from 'react-router';
@@ -13,7 +14,6 @@ import { AppRoute } from '/@/renderer/router/routes';
 import { AlbumGroupItem } from '/@/renderer/store';
 import { formatDurationString, formatPartialIsoDateUTC, formatSizeString } from '/@/renderer/utils';
 import { normalizeReleaseTypes } from '/@/renderer/utils/normalize-release-types';
-import { Text } from '/@/shared/components/text/text';
 
 export type AlbumGroupMetadata = {
     duration: number;

@@ -1,4 +1,10 @@
 import { Play } from '@feishin/core/types/types';
+import { AppIconSelection } from '@feishin/ui/components/icon/icon';
+import { Portal } from '@feishin/ui/components/portal/portal';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
+import { useClickOutside } from '@feishin/ui/hooks/use-click-outside';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -6,12 +12,6 @@ import styles from './play-button-group.module.css';
 
 import i18n from '/@/i18n/i18n';
 import { PlayButton } from '/@/renderer/features/shared/components/play-button';
-import { AppIconSelection } from '/@/shared/components/icon/icon';
-import { Portal } from '/@/shared/components/portal/portal';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { useClickOutside } from '/@/shared/hooks/use-click-outside';
 
 const playButtons: {
     icon: AppIconSelection;

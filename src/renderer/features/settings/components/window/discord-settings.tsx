@@ -1,3 +1,6 @@
+import { Select } from '@feishin/ui/components/select/select';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,9 +16,6 @@ import {
     useGeneralSettings,
     useSettingsStoreActions,
 } from '/@/renderer/store';
-import { Select } from '/@/shared/components/select/select';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 export const DiscordSettings = memo(() => {
     const { t } = useTranslation();

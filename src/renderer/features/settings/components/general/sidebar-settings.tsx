@@ -1,3 +1,9 @@
+import { ColorInput } from '@feishin/ui/components/color-input/color-input';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Select } from '@feishin/ui/components/select/select';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { useDebouncedCallback } from '@feishin/ui/hooks/use-debounced-callback';
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,12 +13,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { useGeneralSettings, useSettingsStoreActions } from '/@/renderer/store';
-import { ColorInput } from '/@/shared/components/color-input/color-input';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Select } from '/@/shared/components/select/select';
-import { Switch } from '/@/shared/components/switch/switch';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
 
 type FolderView = 'navigation' | 'single' | 'tree';
 type PlaylistMode = 'compact' | 'expanded';

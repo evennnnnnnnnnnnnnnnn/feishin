@@ -1,11 +1,11 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
 import { useTranslation } from 'react-i18next';
 
 import styles from './context-menu-preview.module.css';
 
 import { useItemImageUrl } from '/@/renderer/components/item-image/item-image';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
 
 interface ContextMenuPreviewProps {
     items: unknown[];

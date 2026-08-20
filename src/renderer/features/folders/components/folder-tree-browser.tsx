@@ -1,5 +1,8 @@
 import { Folder, LibraryItem } from '@feishin/core/types/domain-types';
 import { DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import { type UseQueryResult } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
@@ -11,9 +14,6 @@ import styles from './folder-tree-browser.module.css';
 import { ContextMenuController } from '/@/renderer/features/context-menu/context-menu-controller';
 import { useFolderListFilters } from '/@/renderer/features/folders/hooks/use-folder-list-filters';
 import { useDragDrop } from '/@/renderer/hooks/use-drag-drop';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 interface FlattenedNode {
     depth: number;

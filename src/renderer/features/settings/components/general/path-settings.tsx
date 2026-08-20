@@ -1,4 +1,11 @@
 import { Played } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Code } from '@feishin/ui/components/code/code';
+import { Group } from '@feishin/ui/components/group/group';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDebouncedCallback } from '@feishin/ui/hooks/use-debounced-callback';
 import { useQuery } from '@tanstack/react-query';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,13 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
 import { useCurrentServerId, useGeneralSettings, useSettingsStoreActions } from '/@/renderer/store';
 import { useResolvedSongPath } from '/@/renderer/utils/resolve-song-path';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Code } from '/@/shared/components/code/code';
-import { Group } from '/@/shared/components/group/group';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
 
 interface PathSettingsProps {
     persistImmediately?: boolean;

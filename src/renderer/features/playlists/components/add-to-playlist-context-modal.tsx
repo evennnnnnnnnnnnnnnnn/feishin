@@ -4,6 +4,24 @@ import {
     PlaylistListSort,
     SortOrder,
 } from '@feishin/core/types/domain-types';
+import { Box } from '@feishin/ui/components/box/box';
+import { Button } from '@feishin/ui/components/button/button';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Grid } from '@feishin/ui/components/grid/grid';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ModalButton } from '@feishin/ui/components/modal/model-shared';
+import { Pill } from '@feishin/ui/components/pill/pill';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { Table } from '@feishin/ui/components/table/table';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useForm } from '@feishin/ui/hooks/use-form';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { closeModal, ContextModalProps } from '@mantine/modals';
 import { useQuery } from '@tanstack/react-query';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
@@ -26,24 +44,6 @@ import { useAddToPlaylist } from '/@/renderer/features/playlists/mutations/add-t
 import { queryClient } from '/@/renderer/lib/react-query';
 import { useCurrentServerId } from '/@/renderer/store';
 import { formatDurationString } from '/@/renderer/utils';
-import { Box } from '/@/shared/components/box/box';
-import { Button } from '/@/shared/components/button/button';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Grid } from '/@/shared/components/grid/grid';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ModalButton } from '/@/shared/components/modal/model-shared';
-import { Pill } from '/@/shared/components/pill/pill';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Switch } from '/@/shared/components/switch/switch';
-import { Table } from '/@/shared/components/table/table';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
-import { useForm } from '/@/shared/hooks/use-form';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 export const AddToPlaylistContextModal = ({
     id,

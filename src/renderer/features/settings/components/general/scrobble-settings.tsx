@@ -1,3 +1,7 @@
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Switch } from '@feishin/ui/components/switch/switch';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,10 +10,6 @@ import {
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Switch } from '/@/shared/components/switch/switch';
-import { toast } from '/@/shared/components/toast/toast';
 
 export const ScrobbleSettings = memo(() => {
     const { t } = useTranslation();

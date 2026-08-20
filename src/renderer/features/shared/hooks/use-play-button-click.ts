@@ -1,7 +1,7 @@
+import { useLongPress } from '@feishin/ui/hooks/use-long-press';
 import { useCallback, useMemo, useState } from 'react';
 
 import { useIsPlayerFetching } from '/@/renderer/features/player/context/player-context';
-import { useLongPress } from '/@/shared/hooks/use-long-press';
 
 interface UsePlayButtonClickOptions {
     disabled?: boolean;

@@ -6,6 +6,14 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { VirtualMultiSelect } from '@feishin/ui/components/multi-select/virtual-multi-select';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDebouncedCallback } from '@feishin/ui/hooks/use-debounced-callback';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,14 +29,6 @@ import { TagFilters } from '/@/renderer/features/shared/components/tag-filter';
 import { useSongListFilters } from '/@/renderer/features/songs/hooks/use-song-list-filters';
 import { useCurrentServer } from '/@/renderer/store';
 import { useAppStore, useAppStoreActions } from '/@/renderer/store/app.store';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { VirtualMultiSelect } from '/@/shared/components/multi-select/virtual-multi-select';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { useDebouncedCallback } from '/@/shared/hooks/use-debounced-callback';
 
 interface NavidromeSongFiltersProps {
     disableArtistFilter?: boolean;

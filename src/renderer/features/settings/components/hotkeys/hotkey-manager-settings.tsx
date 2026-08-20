@@ -2,6 +2,11 @@ import {
     keyboardCodeToHotkeyKey,
     MODIFIER_KEY_CODES,
 } from '@feishin/core/utils/keyboard-code-to-hotkey';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Table } from '@feishin/ui/components/table/table';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
 import isElectron from 'is-electron';
 import debounce from 'lodash/debounce';
 import { ChangeEvent, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react';
@@ -17,11 +22,6 @@ import {
 } from '/@/renderer/features/settings/components/settings-section';
 import { useSettingSearchContext } from '/@/renderer/features/settings/context/search-context';
 import { BindingActions, useHotkeySettings, useSettingsStoreActions } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Table } from '/@/shared/components/table/table';
-import { TextInput } from '/@/shared/components/text-input/text-input';
 
 const ipc = isElectron() ? window.api.ipc : null;
 

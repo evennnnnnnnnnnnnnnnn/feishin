@@ -1,5 +1,7 @@
 import { hasFeature } from '@feishin/core/api/utils';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { memo, useMemo } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
@@ -12,8 +14,6 @@ import { ScrobbleSettings } from '/@/renderer/features/settings/components/gener
 import { SidebarSettings } from '/@/renderer/features/settings/components/general/sidebar-settings';
 import { ThemeSettings } from '/@/renderer/features/settings/components/general/theme-settings';
 import { useCurrentServer } from '/@/renderer/store';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Stack } from '/@/shared/components/stack/stack';
 
 export const GeneralTab = memo(() => {
     const server = useCurrentServer();

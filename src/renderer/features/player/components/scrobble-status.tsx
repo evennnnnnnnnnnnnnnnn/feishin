@@ -1,4 +1,11 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { HoverCard } from '@feishin/ui/components/hover-card/hover-card';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Progress } from '@feishin/ui/components/progress/progress';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import formatDuration from 'format-duration';
 import { useTranslation } from 'react-i18next';
 
@@ -12,13 +19,6 @@ import {
     useScrobbleDebugSnapshot,
     useSettingsStore,
 } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { HoverCard } from '/@/shared/components/hover-card/hover-card';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Progress } from '/@/shared/components/progress/progress';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 const scrobbleProgressProps = {
     'aria-hidden': true,

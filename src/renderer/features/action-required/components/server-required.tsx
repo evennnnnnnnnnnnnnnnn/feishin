@@ -3,6 +3,13 @@ import {
     ServerListItemWithCredential,
     ServerType,
 } from '@feishin/core/types/domain-types';
+import { Button } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { closeAllModals, openModal } from '@mantine/modals';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
@@ -17,13 +24,6 @@ import { AddServerForm } from '/@/renderer/features/servers/components/add-serve
 import { EditServerForm } from '/@/renderer/features/servers/components/edit-server-form';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useAuthStoreActions, useCurrentServer, useServerList } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

@@ -11,6 +11,17 @@ import {
 import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview';
 import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { ItemListKey, ListPaginationType } from '@feishin/core/types/types';
+import { ActionIcon, ActionIconGroup } from '@feishin/ui/components/action-icon/action-icon';
+import { Badge } from '@feishin/ui/components/badge/badge';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { TextInput } from '@feishin/ui/components/text-input/text-input';
+import { Text } from '@feishin/ui/components/text/text';
+import { useDebouncedState } from '@feishin/ui/hooks/use-debounced-state';
 import clsx from 'clsx';
 import Fuse, { FuseResultMatch } from 'fuse.js';
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -26,17 +37,6 @@ import {
     useSettingsStore,
     useSettingsStoreActions,
 } from '/@/renderer/store';
-import { ActionIcon, ActionIconGroup } from '/@/shared/components/action-icon/action-icon';
-import { Badge } from '/@/shared/components/badge/badge';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { TextInput } from '/@/shared/components/text-input/text-input';
-import { Text } from '/@/shared/components/text/text';
-import { useDebouncedState } from '/@/shared/hooks/use-debounced-state';
 
 type GridConfigProps = {
     extraOptions?: {

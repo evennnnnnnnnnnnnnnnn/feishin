@@ -1,10 +1,9 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Group } from '@feishin/ui/components/group/group';
+import { Text } from '@feishin/ui/components/text/text';
 import { DragControls, Reorder, useDragControls } from 'motion/react';
 import { CSSProperties } from 'react';
-
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Group } from '/@/shared/components/group/group';
-import { Text } from '/@/shared/components/text/text';
 
 const DragHandle = ({
     dragControls,

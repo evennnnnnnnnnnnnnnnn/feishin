@@ -1,5 +1,21 @@
 import { LibraryItem, QueueSong, ServerType } from '@feishin/core/types/domain-types';
 import { PlayerType } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { ContextMenu } from '@feishin/ui/components/context-menu/context-menu';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { Paper } from '@feishin/ui/components/paper/paper';
+import { Popover } from '@feishin/ui/components/popover/popover';
+import { Rating } from '@feishin/ui/components/rating/rating';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Slider } from '@feishin/ui/components/slider/slider';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { useMediaQuery } from '@feishin/ui/hooks/use-media-query';
+import { useThrottledCallback } from '@feishin/ui/hooks/use-throttled-callback';
+import { useThrottledValue } from '@feishin/ui/hooks/use-throttled-value';
 import { t } from 'i18next';
 import { useCallback, useEffect, useMemo, useState, WheelEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -43,22 +59,6 @@ import {
     useVolumeWidth,
 } from '/@/renderer/store';
 import { useFullScreenPlayerStoreActions } from '/@/renderer/store/full-screen-player.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { Paper } from '/@/shared/components/paper/paper';
-import { Popover } from '/@/shared/components/popover/popover';
-import { Rating } from '/@/shared/components/rating/rating';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Slider } from '/@/shared/components/slider/slider';
-import { Stack } from '/@/shared/components/stack/stack';
-import { useMediaQuery } from '/@/shared/hooks/use-media-query';
-import { useThrottledCallback } from '/@/shared/hooks/use-throttled-callback';
-import { useThrottledValue } from '/@/shared/hooks/use-throttled-value';
 
 const calculateVolumeUp = (volume: number, volumeWheelStep: number) => {
     let volumeToSet: number;

@@ -1,5 +1,14 @@
 import { LibraryItem, ServerType } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Button } from '@feishin/ui/components/button/button';
+import { Group } from '@feishin/ui/components/group/group';
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense, useMemo, useRef, useState } from 'react';
@@ -27,15 +36,6 @@ import {
     usePageSidebar,
     usePlaylistTarget,
 } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Button } from '/@/shared/components/button/button';
-import { Group } from '/@/shared/components/group/group';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
 
 const PlaylistSongListFiltersSidebar = () => {
     const { t } = useTranslation();

@@ -1,4 +1,10 @@
 import { LyricsOverride } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Text } from '@feishin/ui/components/text/text';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -43,12 +49,6 @@ import { useIsRadioActive } from '/@/renderer/features/radio/hooks/use-radio-pla
 import { ComponentErrorBoundary } from '/@/renderer/features/shared/components/component-error-boundary';
 import { queryClient } from '/@/renderer/lib/react-query';
 import { useLyricsSettings, usePlayerSong } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Text } from '/@/shared/components/text/text';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 type LyricsProps = {
     fadeOutNoLyricsMessage?: boolean;

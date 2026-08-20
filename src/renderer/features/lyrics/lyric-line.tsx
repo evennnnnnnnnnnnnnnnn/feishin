@@ -1,11 +1,11 @@
+import { Box } from '@feishin/ui/components/box/box';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import clsx from 'clsx';
 import { ComponentPropsWithoutRef, memo, useMemo } from 'react';
 
 import styles from './lyric-line.module.css';
 
 import { sanitize } from '/@/renderer/utils/sanitize';
-import { Box } from '/@/shared/components/box/box';
-import { Stack } from '/@/shared/components/stack/stack';
 
 interface LyricLineProps extends ComponentPropsWithoutRef<'div'> {
     alignment: 'center' | 'left' | 'right';

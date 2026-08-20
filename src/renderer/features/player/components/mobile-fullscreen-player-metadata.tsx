@@ -1,12 +1,12 @@
 import { QueueSong } from '@feishin/core/types/domain-types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
+import { Rating } from '@feishin/ui/components/rating/rating';
 import { memo, MouseEvent } from 'react';
 
 import styles from './mobile-fullscreen-player.module.css';
 
 import { SharedFullscreenPlayerMetadata } from '/@/renderer/features/player/components/shared-full-screen-player-metadata';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
-import { Rating } from '/@/shared/components/rating/rating';
 
 interface MobileFullscreenPlayerMetadataProps {
     currentSong?: QueueSong;

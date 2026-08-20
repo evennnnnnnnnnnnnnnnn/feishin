@@ -1,12 +1,11 @@
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Text } from '@feishin/ui/components/text/text';
+import { createPolymorphicComponent } from '@feishin/ui/utils/create-polymorphic-component';
 import clsx from 'clsx';
 import { forwardRef, ReactNode } from 'react';
 import { useMatch } from 'react-router';
 
 import styles from './collapsed-sidebar-item.module.css';
-
-import { Flex } from '/@/shared/components/flex/flex';
-import { Text } from '/@/shared/components/text/text';
-import { createPolymorphicComponent } from '/@/shared/utils/create-polymorphic-component';
 
 interface CollapsedSidebarItemProps {
     activeIcon: ReactNode;

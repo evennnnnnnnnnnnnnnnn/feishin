@@ -1,5 +1,8 @@
 import { Folder, LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { ExplicitIndicator } from '@feishin/ui/components/explicit-indicator/explicit-indicator';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
 import clsx from 'clsx';
 import { CSSProperties, useState } from 'react';
 import { Link } from 'react-router';
@@ -22,9 +25,6 @@ import {
     PlayTooltip,
 } from '/@/renderer/features/shared/components/play-button-group';
 import { usePlayButtonBehavior } from '/@/renderer/store';
-import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
 
 export const DefaultTitleCombinedColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

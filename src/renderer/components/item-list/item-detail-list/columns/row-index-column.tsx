@@ -1,4 +1,5 @@
 import { TableColumn } from '@feishin/core/types/types';
+import { Icon } from '@feishin/ui/components/icon/icon';
 
 import styles from './row-index-column.module.css';
 import { ItemDetailRowPlayControlCell } from './row-play-control-cell';
@@ -6,7 +7,6 @@ import { ItemDetailListCellProps } from './types';
 import { useDetailRowPlayControl } from './use-detail-row-play-control';
 
 import { isRowPlayControlColumn } from '/@/renderer/components/item-list/helpers/get-row-play-control-column';
-import { Icon } from '/@/shared/components/icon/icon';
 
 const DefaultRowIndexColumn = ({ rowIndex }: ItemDetailListCellProps) => {
     return <>{String((rowIndex ?? 0) + 1)}</>;

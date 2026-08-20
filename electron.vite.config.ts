@@ -33,7 +33,6 @@ const createConfig = (isDevelopment: boolean): UserConfig => ({
         resolve: {
             alias: {
                 '/@/main': resolve('src/main'),
-                '/@/shared': resolve('src/shared'),
             },
         },
     },
@@ -44,7 +43,6 @@ const createConfig = (isDevelopment: boolean): UserConfig => ({
         resolve: {
             alias: {
                 '/@/preload': resolve('src/preload'),
-                '/@/shared': resolve('src/shared'),
             },
         },
     },
@@ -79,7 +77,6 @@ const createConfig = (isDevelopment: boolean): UserConfig => ({
                 ),
                 '/@/remote': resolve('src/remote'),
                 '/@/renderer': resolve('src/renderer'),
-                '/@/shared': resolve('src/shared'),
                 ...(isDevelopment ? { path: resolve('src/renderer/shims/path.ts') } : {}),
             },
         },

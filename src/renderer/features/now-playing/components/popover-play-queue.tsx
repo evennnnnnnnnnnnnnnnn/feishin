@@ -1,14 +1,14 @@
 import { ItemListKey } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Popover } from '@feishin/ui/components/popover/popover';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
 import { t } from 'i18next';
 import { useRef, useState } from 'react';
 
 import { ItemListHandle } from '/@/renderer/components/item-list/types';
 import { PlayQueue } from '/@/renderer/features/now-playing/components/play-queue';
 import { PlayQueueListControls } from '/@/renderer/features/now-playing/components/play-queue-list-controls';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Popover } from '/@/shared/components/popover/popover';
-import { Stack } from '/@/shared/components/stack/stack';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 
 interface PopoverPlayQueueProps {
     onClose?: () => void;

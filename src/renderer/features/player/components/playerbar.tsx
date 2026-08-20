@@ -1,3 +1,4 @@
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import clsx from 'clsx';
 import { lazy, MouseEvent, Suspense } from 'react';
 
@@ -7,7 +8,6 @@ import { CenterControls } from '/@/renderer/features/player/components/center-co
 import { LeftControls } from '/@/renderer/features/player/components/left-controls';
 import { RightControls } from '/@/renderer/features/player/components/right-controls';
 import { useIsMobile } from '/@/renderer/hooks/use-is-mobile';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 const MobilePlayerbar = lazy(() =>
     import('./mobile-playerbar').then((module) => ({

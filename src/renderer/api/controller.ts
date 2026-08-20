@@ -6,6 +6,7 @@ import {
     SetPlaylistSongsArgs,
     SetPlaylistSongsResponse,
 } from '@feishin/core/types/domain-types';
+import { toast } from '@feishin/ui/components/toast/toast';
 
 import i18n from '/@/i18n/i18n';
 import { JellyfinController } from '/@/renderer/api/jellyfin/jellyfin-controller';
@@ -14,7 +15,6 @@ import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller
 import { mergeMusicFolderId } from '/@/renderer/api/utils-music-folder';
 import { getServerById, useAuthStore, useSettingsStore } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
-import { toast } from '/@/shared/components/toast/toast';
 
 type ApiController = {
     jellyfin: InternalControllerEndpoint;

@@ -8,6 +8,13 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import { closeAllModals, openContextModal } from '@mantine/modals';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import merge from 'lodash/merge';
@@ -25,13 +32,6 @@ import { useGenreList } from '/@/renderer/features/genres/api/genres-api';
 import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { PlayButtonGroup } from '/@/renderer/features/shared/components/play-button-group';
 import { useCurrentServer } from '/@/renderer/store';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
 
 interface ShuffleAllSlice extends RandomSongListQuery {
     actions: {

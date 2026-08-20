@@ -8,6 +8,15 @@ import {
 } from '@feishin/core/api/navidrome/navidrome-types';
 import { PlaylistListSort, SongListSort, SortOrder } from '@feishin/core/types/domain-types';
 import { QueryBuilderGroup, QueryBuilderRule } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { NumberInput } from '@feishin/ui/components/number-input/number-input';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
+import { Select } from '@feishin/ui/components/select/select';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { useForm } from '@feishin/ui/hooks/use-form';
 import { useQuery } from '@tanstack/react-query';
 import clone from 'lodash/clone';
 import get from 'lodash/get';
@@ -29,15 +38,6 @@ import { playlistsQueries } from '/@/renderer/features/playlists/api/playlists-a
 import { convertNDQueryToQueryGroup } from '/@/renderer/features/playlists/utils';
 import { useCurrentServer } from '/@/renderer/store';
 import { useQueryBuilderSettings } from '/@/renderer/store/settings.store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { NumberInput } from '/@/shared/components/number-input/number-input';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { SegmentedControl } from '/@/shared/components/segmented-control/segmented-control';
-import { Select } from '/@/shared/components/select/select';
-import { Stack } from '/@/shared/components/stack/stack';
-import { useForm } from '/@/shared/hooks/use-form';
 
 type AddArgs = {
     groupIndex: number[];

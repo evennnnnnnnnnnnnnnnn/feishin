@@ -1,3 +1,4 @@
+import { Button } from '@feishin/ui/components/button/button';
 import isEqual from 'lodash/isEqual';
 import { Reorder } from 'motion/react';
 import { useCallback, useMemo, useState } from 'react';
@@ -7,7 +8,6 @@ import { DraggableItem } from '/@/renderer/features/settings/components/general/
 import { SettingsOptions } from '/@/renderer/features/settings/components/settings-option';
 import { useSettingSearchContext } from '/@/renderer/features/settings/context/search-context';
 import { SortableItem } from '/@/renderer/store';
-import { Button } from '/@/shared/components/button/button';
 
 export type DraggableItemsProps<K, T> = {
     description: string;

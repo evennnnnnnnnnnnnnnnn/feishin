@@ -1,7 +1,7 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { CiImageOff, CiImageOn } from 'react-icons/ci';
 
 import { useShowImage, useToggleShowImage } from '/@/remote/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 
 export const ImageButton = () => {
     const showImage = useShowImage();

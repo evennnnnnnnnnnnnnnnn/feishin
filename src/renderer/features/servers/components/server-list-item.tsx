@@ -1,4 +1,11 @@
 import { ServerListItem as ServerItem } from '@feishin/core/types/domain-types';
+import { Button, TimeoutButton } from '@feishin/ui/components/button/button';
+import { Divider } from '@feishin/ui/components/divider/divider';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Table } from '@feishin/ui/components/table/table';
+import { useDisclosure } from '@feishin/ui/hooks/use-disclosure';
 import isElectron from 'is-electron';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,13 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { EditServerForm } from '/@/renderer/features/servers/components/edit-server-form';
 import { ServerSection } from '/@/renderer/features/servers/components/server-section';
 import { useAuthStoreActions } from '/@/renderer/store';
-import { Button, TimeoutButton } from '/@/shared/components/button/button';
-import { Divider } from '/@/shared/components/divider/divider';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Table } from '/@/shared/components/table/table';
-import { useDisclosure } from '/@/shared/hooks/use-disclosure';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
 

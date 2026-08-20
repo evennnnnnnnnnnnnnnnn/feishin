@@ -4,6 +4,7 @@ import {
     LibraryItem,
     SortOrder,
 } from '@feishin/core/types/domain-types';
+import { useDebouncedValue } from '@feishin/ui/hooks/use-debounced-value';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,6 @@ import {
     type TagAutocompleteSource,
     useCurrentServerId,
 } from '/@/renderer/store';
-import { useDebouncedValue } from '/@/shared/hooks/use-debounced-value';
 
 const SUGGESTION_LIMIT = 25;
 

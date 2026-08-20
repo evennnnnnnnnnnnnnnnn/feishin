@@ -1,6 +1,14 @@
 import { LibraryItem, RelatedArtist, Song } from '@feishin/core/types/domain-types';
 import { DragOperation, DragTarget, DragTargetMap } from '@feishin/core/types/drag-and-drop';
 import { Play } from '@feishin/core/types/types';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Group } from '@feishin/ui/components/group/group';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Separator } from '@feishin/ui/components/separator/separator';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { TextTitle } from '@feishin/ui/components/text-title/text-title';
+import { Text } from '@feishin/ui/components/text/text';
+import { useMergedRef } from '@feishin/ui/hooks/use-merged-ref';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import formatDuration from 'format-duration';
@@ -26,14 +34,6 @@ import { PlayButtonGroup } from '/@/renderer/features/shared/components/play-but
 import { useFastAverageColor } from '/@/renderer/hooks';
 import { useDragDrop } from '/@/renderer/hooks/use-drag-drop';
 import { useSetGlobalExpanded } from '/@/renderer/store';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Group } from '/@/shared/components/group/group';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Separator } from '/@/shared/components/separator/separator';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { TextTitle } from '/@/shared/components/text-title/text-title';
-import { Text } from '/@/shared/components/text/text';
-import { useMergedRef } from '/@/shared/hooks/use-merged-ref';
 
 export interface ExpandedAlbumData {
     _serverId: string;

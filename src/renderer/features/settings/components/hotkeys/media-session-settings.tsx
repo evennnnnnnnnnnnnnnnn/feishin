@@ -1,4 +1,5 @@
 import { PlayerType } from '@feishin/core/types/types';
+import { Switch } from '@feishin/ui/components/switch/switch';
 import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,6 @@ import {
 } from '/@/renderer/features/settings/components/settings-section';
 import { openRestartRequiredToast } from '/@/renderer/features/settings/restart-toast';
 import { usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { Switch } from '/@/shared/components/switch/switch';
 
 const isLinux = isElectron() ? window.api.utils.isLinux() : false;
 const isDesktop = isElectron();

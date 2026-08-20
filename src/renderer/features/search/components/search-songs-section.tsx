@@ -1,4 +1,8 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
+import { Box } from '@feishin/ui/components/box/box';
+import { Button } from '@feishin/ui/components/button/button';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Text } from '@feishin/ui/components/text/text';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { nanoid } from 'nanoid/non-secure';
 import { useCallback } from 'react';
@@ -12,10 +16,6 @@ import { LibraryCommandItem } from '/@/renderer/features/search/components/libra
 import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer } from '/@/renderer/store';
-import { Box } from '/@/shared/components/box/box';
-import { Button } from '/@/shared/components/button/button';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Text } from '/@/shared/components/text/text';
 
 interface SearchSongsSectionProps {
     debouncedQuery: string;

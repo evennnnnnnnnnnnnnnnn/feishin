@@ -1,5 +1,6 @@
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import { Text } from '@feishin/ui/components/text/text';
 import clsx from 'clsx';
 import { ReactElement, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +30,6 @@ import {
     useAlbumGroupVerticalLayout,
     usePlayButtonBehavior,
 } from '/@/renderer/store';
-import { Text } from '/@/shared/components/text/text';
 
 interface AlbumGroupHeaderProps {
     groupKey?: string;

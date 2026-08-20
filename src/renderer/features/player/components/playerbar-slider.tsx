@@ -1,4 +1,7 @@
 import { PlaybackSelectors } from '@feishin/core/constants/playback-selectors';
+import { Slider, SliderProps } from '@feishin/ui/components/slider/slider';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
+import { Text } from '@feishin/ui/components/text/text';
 import formatDuration from 'format-duration';
 import { lazy, Suspense } from 'react';
 
@@ -13,9 +16,6 @@ import {
     usePlayerTimestamp,
 } from '/@/renderer/store';
 import { PlayerbarSliderType, usePlayerbarSlider } from '/@/renderer/store/settings.store';
-import { Slider, SliderProps } from '/@/shared/components/slider/slider';
-import { Spinner } from '/@/shared/components/spinner/spinner';
-import { Text } from '/@/shared/components/text/text';
 
 const PlayerbarWaveform = lazy(() =>
     import('./playerbar-waveform').then((module) => ({

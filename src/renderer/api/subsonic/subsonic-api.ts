@@ -2,6 +2,7 @@ import { ssType } from '@feishin/core/api/subsonic/subsonic-types';
 import { hasFeature } from '@feishin/core/api/utils';
 import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import { toast } from '@feishin/ui/components/toast/toast';
 import { initClient, initContract } from '@ts-rest/core';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
 import qs from 'qs';
@@ -11,7 +12,6 @@ import i18n from '/@/i18n/i18n';
 import { authenticationFailure } from '/@/renderer/api/utils';
 import { useAuthStore } from '/@/renderer/store';
 import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
-import { toast } from '/@/shared/components/toast/toast';
 
 const SUBSONIC_AUTH_ERROR_CODE = 40;
 

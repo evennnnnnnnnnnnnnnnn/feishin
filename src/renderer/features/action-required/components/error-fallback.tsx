@@ -1,16 +1,15 @@
 import type { FallbackProps } from 'react-error-boundary';
 
+import { Button } from '@feishin/ui/components/button/button';
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
 import { useTranslation } from 'react-i18next';
 import { useRouteError } from 'react-router';
 
 import styles from './error-fallback.module.css';
-
-import { Button } from '/@/shared/components/button/button';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
 
 export const ErrorFallback = ({ resetErrorBoundary }: FallbackProps) => {
     const error = useRouteError() as any;

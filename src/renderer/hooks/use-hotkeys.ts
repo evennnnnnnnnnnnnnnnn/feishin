@@ -1,3 +1,4 @@
+import { withPhysicalKeys } from '@feishin/ui/utils/hotkeys';
 import {
     type HotkeyItem as MantineHotkeyItem,
     useHotkeys as useMantineHotkeys,
@@ -5,7 +6,6 @@ import {
 import { useMemo } from 'react';
 
 import { useAppStore } from '/@/renderer/store';
-import { withPhysicalKeys } from '/@/shared/utils/hotkeys';
 
 const EMPTY_HOTKEYS: MantineHotkeyItem[] = [];
 

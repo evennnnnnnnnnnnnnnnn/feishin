@@ -1,9 +1,10 @@
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+
 import {
     ItemTableListInnerColumn,
     TableColumnContainer,
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { ItemListItem } from '/@/renderer/components/item-list/types';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 
 export const ActionsColumn = (props: ItemTableListInnerColumn) => {
     const row: any = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

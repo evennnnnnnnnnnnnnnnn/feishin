@@ -6,6 +6,7 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { ItemListKey, ListDisplayType, Play } from '@feishin/core/types/types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense, useCallback, useEffect, useMemo } from 'react';
 
@@ -23,7 +24,6 @@ import { usePlayer } from '/@/renderer/features/player/context/player-context';
 import { ListWithSidebarContainer } from '/@/renderer/features/shared/components/list-with-sidebar-container';
 import { FILTER_KEYS } from '/@/renderer/features/shared/utils';
 import { useCurrentServerId, useListSettings, usePlayerSong } from '/@/renderer/store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 export const FolderListContent = () => {
     return (

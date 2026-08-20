@@ -1,5 +1,14 @@
 import { ExplicitStatus, LibraryItem } from '@feishin/core/types/domain-types';
 import { Platform } from '@feishin/core/types/types';
+import { Accordion } from '@feishin/ui/components/accordion/accordion';
+import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
+import { Center } from '@feishin/ui/components/center/center';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ImageUnloader } from '@feishin/ui/components/image/image';
+import { ScrollArea } from '@feishin/ui/components/scroll-area/scroll-area';
+import { Text } from '@feishin/ui/components/text/text';
+import { Tooltip } from '@feishin/ui/components/tooltip/tooltip';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
 import { MouseEvent, useMemo } from 'react';
@@ -38,15 +47,6 @@ import {
     useSidebarPlaylistList,
     useWindowSettings,
 } from '/@/renderer/store/settings.store';
-import { Accordion } from '/@/shared/components/accordion/accordion';
-import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
-import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ImageUnloader } from '/@/shared/components/image/image';
-import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
-import { Text } from '/@/shared/components/text/text';
-import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 
 const SidebarPlaylistSection = () => {
     const isAddDragActive = useSidebarPlaylistAddDragMonitor();

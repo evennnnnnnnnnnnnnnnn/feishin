@@ -1,4 +1,6 @@
 import { LyricAgent, SyncedCueLine } from '@feishin/core/types/domain-types';
+import { Box } from '@feishin/ui/components/box/box';
+import { Stack } from '@feishin/ui/components/stack/stack';
 import clsx from 'clsx';
 import { ComponentPropsWithoutRef, memo, useMemo } from 'react';
 
@@ -7,8 +9,6 @@ import styles from './karaoke-lyric-line.module.css';
 import { testRtl } from '/@/renderer/features/lyrics/api/lyrics-rtl';
 import { splitWordCues } from '/@/renderer/features/lyrics/api/split-word-cue';
 import { sanitize } from '/@/renderer/utils/sanitize';
-import { Box } from '/@/shared/components/box/box';
-import { Stack } from '/@/shared/components/stack/stack';
 
 const LONG_WORD_THRESHOLD_MS = 1500;
 const FURIGANA_HTML_RE = /<ruby[\s>]/i;

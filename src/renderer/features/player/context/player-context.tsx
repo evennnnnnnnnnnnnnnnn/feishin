@@ -8,6 +8,12 @@ import {
     Song,
 } from '@feishin/core/types/domain-types';
 import { Play, PlayerRepeat, PlayerShuffle } from '@feishin/core/types/types';
+import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { toast } from '@feishin/ui/components/toast/toast';
+import { useLocalStorage } from '@feishin/ui/hooks/use-local-storage';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { QueryClient, useIsFetching, useQueryClient } from '@tanstack/react-query';
 import { nanoid } from 'nanoid/non-secure';
@@ -35,12 +41,6 @@ import {
 } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';
 import { shuffle as shuffleArray } from '/@/renderer/utils/shuffle';
-import { Checkbox } from '/@/shared/components/checkbox/checkbox';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { toast } from '/@/shared/components/toast/toast';
-import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 
 export interface PlayerContext {
     addToQueueByData: (

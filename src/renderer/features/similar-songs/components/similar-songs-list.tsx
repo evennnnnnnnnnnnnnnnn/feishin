@@ -1,5 +1,6 @@
 import { LibraryItem, Song } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -11,7 +12,6 @@ import { ItemTableListColumn } from '/@/renderer/components/item-list/item-table
 import { ErrorFallback } from '/@/renderer/features/action-required/components/error-fallback';
 import { songsQueries } from '/@/renderer/features/songs/api/songs-api';
 import { useListSettings } from '/@/renderer/store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 export type SimilarSongsListProps = {
     count?: number;

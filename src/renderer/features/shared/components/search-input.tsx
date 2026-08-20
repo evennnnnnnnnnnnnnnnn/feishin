@@ -1,3 +1,7 @@
+import { ActionIcon, ActionIconProps } from '@feishin/ui/components/action-icon/action-icon';
+import { Box } from '@feishin/ui/components/box/box';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { TextInput, TextInputProps } from '@feishin/ui/components/text-input/text-input';
 import {
     ChangeEvent,
     CSSProperties,
@@ -11,10 +15,6 @@ import { shallow } from 'zustand/shallow';
 
 import { useHotkeys } from '/@/renderer/hooks/use-hotkeys';
 import { useSettingsStore } from '/@/renderer/store';
-import { ActionIcon, ActionIconProps } from '/@/shared/components/action-icon/action-icon';
-import { Box } from '/@/shared/components/box/box';
-import { Icon } from '/@/shared/components/icon/icon';
-import { TextInput, TextInputProps } from '/@/shared/components/text-input/text-input';
 
 interface SearchInputProps extends TextInputProps {
     buttonProps?: Partial<ActionIconProps>;

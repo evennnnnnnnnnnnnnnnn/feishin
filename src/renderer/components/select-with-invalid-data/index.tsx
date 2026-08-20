@@ -1,8 +1,7 @@
+import { MultiSelect, MultiSelectProps } from '@feishin/ui/components/multi-select/multi-select';
+import { Select, SelectProps } from '@feishin/ui/components/select/select';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { MultiSelect, MultiSelectProps } from '/@/shared/components/multi-select/multi-select';
-import { Select, SelectProps } from '/@/shared/components/select/select';
 
 export const SelectWithInvalidData = ({ data, defaultValue, ...props }: SelectProps) => {
     const { t } = useTranslation();

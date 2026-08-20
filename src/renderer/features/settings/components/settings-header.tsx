@@ -1,3 +1,9 @@
+import { Button } from '@feishin/ui/components/button/button';
+import { Flex } from '@feishin/ui/components/flex/flex';
+import { Group } from '@feishin/ui/components/group/group';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { ConfirmModal } from '@feishin/ui/components/modal/modal';
+import { Text } from '@feishin/ui/components/text/text';
 import { closeAllModals, openModal } from '@mantine/modals';
 import { useTranslation } from 'react-i18next';
 
@@ -6,12 +12,6 @@ import { useSettingSearchContext } from '/@/renderer/features/settings/context/s
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
 import { SearchInput } from '/@/renderer/features/shared/components/search-input';
 import { useSettingsStoreActions } from '/@/renderer/store/settings.store';
-import { Button } from '/@/shared/components/button/button';
-import { Flex } from '/@/shared/components/flex/flex';
-import { Group } from '/@/shared/components/group/group';
-import { Icon } from '/@/shared/components/icon/icon';
-import { ConfirmModal } from '/@/shared/components/modal/modal';
-import { Text } from '/@/shared/components/text/text';
 
 export type SettingsHeaderProps = {
     setSearch: (search: string) => void;

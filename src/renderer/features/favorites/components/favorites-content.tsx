@@ -1,5 +1,6 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import { Spinner } from '@feishin/ui/components/spinner/spinner';
 import { Suspense } from 'react';
 
 import { useListContext } from '/@/renderer/context/list-context';
@@ -17,7 +18,6 @@ import {
     SongListView,
 } from '/@/renderer/features/songs/components/song-list-content';
 import { useListSettings } from '/@/renderer/store';
-import { Spinner } from '/@/shared/components/spinner/spinner';
 
 interface FavoritesContentProps {
     itemType: LibraryItem;

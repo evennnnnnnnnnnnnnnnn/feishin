@@ -1,4 +1,7 @@
 import { Folder, LibraryItem, QueueSong } from '@feishin/core/types/domain-types';
+import { ExplicitIndicator } from '@feishin/ui/components/explicit-indicator/explicit-indicator';
+import { Icon } from '@feishin/ui/components/icon/icon';
+import { Text } from '@feishin/ui/components/text/text';
 import clsx from 'clsx';
 import { CSSProperties } from 'react';
 import { Link } from 'react-router';
@@ -14,9 +17,6 @@ import {
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { useIsActiveRow } from '/@/renderer/components/item-list/item-table-list/item-table-list-context';
 import { JoinedArtists } from '/@/renderer/features/albums/components/joined-artists';
-import { ExplicitIndicator } from '/@/shared/components/explicit-indicator/explicit-indicator';
-import { Icon } from '/@/shared/components/icon/icon';
-import { Text } from '/@/shared/components/text/text';
 
 export const DefaultTitleArtistColumn = (props: ItemTableListInnerColumn) => {
     const rowItem = props.getRowItem?.(props.rowIndex) ?? (props.data as any[])[props.rowIndex];

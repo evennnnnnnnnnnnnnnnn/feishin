@@ -1,5 +1,9 @@
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { DragOperation, DragTarget, DragTargetMap } from '@feishin/core/types/drag-and-drop';
+import { ActionIcon, ActionIconGroup } from '@feishin/ui/components/action-icon/action-icon';
+import { Stack } from '@feishin/ui/components/stack/stack';
+import { Text } from '@feishin/ui/components/text/text';
+import { useLongPress } from '@feishin/ui/hooks/use-long-press';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
@@ -14,10 +18,6 @@ import {
 } from '/@/renderer/components/item-list/item-table-list/item-table-list-column';
 import { eventEmitter } from '/@/renderer/events/event-emitter';
 import { useDragDrop } from '/@/renderer/hooks/use-drag-drop';
-import { ActionIcon, ActionIconGroup } from '/@/shared/components/action-icon/action-icon';
-import { Stack } from '/@/shared/components/stack/stack';
-import { Text } from '/@/shared/components/text/text';
-import { useLongPress } from '/@/shared/hooks/use-long-press';
 
 const PlaylistReorderColumnBase = (props: ItemTableListInnerColumn) => {
     const { t } = useTranslation();
