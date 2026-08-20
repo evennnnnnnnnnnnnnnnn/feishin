@@ -10,7 +10,7 @@ Process and build boundaries. Read when work crosses main / preload / renderer /
 | `src/preload` | `contextBridge` → `window.api` (`src/preload/index.ts`) |
 | `src/renderer` | Full app UI (Electron renderer + web build root) |
 | `src/remote` | Remote-control SPA, served by the Electron remote feature |
-| `src/shared` | Cross-process UI, types, normalize, themes, utils — no process-specific imports |
+| `packages/core`, `packages/ui` | Workspace packages: framework-free core (api/types/constants/logger/utils) and React+Mantine ui (components/hooks/themes/styles) — no app imports |
 | `src/i18n` | Locales + i18n setup |
 
 ## Builds
@@ -31,8 +31,8 @@ Desktop-only surfaces (custom themes, mpv, MPRIS, many `window.api.*` modules) m
 | `/@/main` | `src/main` (Electron main; not in web/remote vite) |
 | `/@/preload` | `src/preload` |
 | `/@/renderer` | `src/renderer` |
-| `/@/shared` | `src/shared` (UI only: components/hooks/themes/styles; core code moved to `@feishin/core`) |
 | `@feishin/core` | `packages/core/src` (workspace package, raw TS via its `exports` map - no build step) |
+| `@feishin/ui` | `packages/ui/src` (workspace package, raw TS; typecheck reaches it via tsconfig `paths`) |
 | `/@/i18n` | `src/i18n` |
 | `/@/remote` | `src/remote` |
 
@@ -41,9 +41,9 @@ Desktop-only surfaces (custom themes, mpv, MPRIS, many `window.api.*` modules) m
 - **main** → `/@/main`, `@feishin/core` only.
 - **preload** → preload + `@feishin/core` (plus the existing relative main env exception).
 - **core** (`packages/core`) → framework-free: no react/Mantine, no app imports.
-- **shared** (`src/shared`, ui) → no `/@/renderer`, `/@/main`, `/@/remote`, `/@/preload`; may import `@feishin/core`.
-- **renderer** → `/@/renderer`, `@feishin/core`, `/@/shared`, `/@/i18n` — not `/@/main`.
-- **remote** → `/@/remote`, `@feishin/core`, `/@/shared`; may reuse selected `/@/renderer` utilities (theme, logger) — do not grow that into a full renderer dependency.
+- **ui** (`packages/ui`) → no `/@/renderer`, `/@/main`, `/@/remote`, `/@/preload`; may import `@feishin/core` (one-way: core never imports ui).
+- **renderer** → `/@/renderer`, `@feishin/core`, `@feishin/ui`, `/@/i18n` — not `/@/main`.
+- **remote** → `/@/remote`, `@feishin/core`, `@feishin/ui`; may reuse selected `/@/renderer` utilities (theme, logger) — do not grow that into a full renderer dependency.
 
 Electron capabilities from the UI: `window.api.*` (typed in `src/preload/index.d.ts`), never direct main imports.
 

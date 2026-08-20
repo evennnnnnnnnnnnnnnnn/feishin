@@ -27,7 +27,7 @@ Server library data layer (controller, query keys, normalize): read `docs/agents
 
 ### Mantine
 
-Wrapped UI lives under `/@/shared/components` and `/@/shared/hooks`. Read `docs/agents/mantine.md` only when debugging those wrappers or adding a new wrapped component/hook.
+Wrapped UI lives in the `@feishin/ui` package (`packages/ui/src/{components,hooks}`). Read `docs/agents/mantine.md` only when debugging those wrappers or adding a new wrapped component/hook.
 
 ### Frontend
 
