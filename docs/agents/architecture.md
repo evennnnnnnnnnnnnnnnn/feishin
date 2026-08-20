@@ -43,7 +43,7 @@ Desktop-only surfaces (custom themes, mpv, MPRIS, many `window.api.*` modules) m
 - **core** (`packages/core`) → framework-free: no react/Mantine, no app imports.
 - **ui** (`packages/ui`) → no `/@/renderer`, `/@/main`, `/@/remote`, `/@/preload`; may import `@feishin/core` (one-way: core never imports ui).
 - **renderer** → `/@/renderer`, `@feishin/core`, `@feishin/ui`, `@feishin/i18n`, `@feishin/lyrics-conversion` (electron builds alias the last to IPC) - not `/@/main`.
-- **remote** → `/@/remote`, `@feishin/core`, `@feishin/ui`; may reuse selected `/@/renderer` utilities (theme, logger) — do not grow that into a full renderer dependency.
+- **remote** → `/@/remote`, `@feishin/core`, `@feishin/ui`; may reuse selected `/@/renderer` utilities (theme) — do not grow that into a full renderer dependency.
 
 Electron capabilities from the UI: `window.api.*` (typed in `src/preload/index.d.ts`), never direct main imports.
 

@@ -5,7 +5,7 @@ import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-import { logger } from '/@/renderer/utils/logger';
+import { logger } from '/@/remote/utils/logger';
 
 export interface SettingsSlice extends SettingsState {
     actions: {

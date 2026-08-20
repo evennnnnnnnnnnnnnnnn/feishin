@@ -6,7 +6,8 @@ Use the process logger for diagnosable failures and meaningful state transitions
 
 | Process | Import | API |
 | --- | --- | --- |
-| Renderer / remote | `import { logger } from '/@/renderer/utils/logger'` | `logger.debug\|info\|warn\|error(message, meta?)` |
+| Renderer | `import { logger } from '/@/renderer/utils/logger'` | `logger.debug\|info\|warn\|error(message, meta?)` |
+| Remote | `import { logger } from '/@/remote/utils/logger'` | `logger.debug\|info\|warn\|error(message, meta?)` |
 | Main | `import log from '/@/main/logger'` | `log.debug\|info\|warn\|error(...)` |
 
 Do not use bare `console.*` for new logging in app code — the loggers format, debounce (renderer), forward to electron-log / files, and respect the configured level.
