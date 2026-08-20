@@ -27,11 +27,11 @@ Then:
 
 Install from [mantinedev/skills](https://github.com/mantinedev/skills) only when scaffolding a matching new wrapper:
 
-| New wrapper kind | Skill |
-| ------------------ | -------- |
-| `@mantine/form` / validation / form context | `mantine-form` |
-| Custom select via `Combobox` | `mantine-combobox` |
-| Factory + Styles API component | `mantine-custom-components` |
+| New wrapper kind                            | Skill                       |
+| ------------------------------------------- | --------------------------- |
+| `@mantine/form` / validation / form context | `mantine-form`              |
+| Custom select via `Combobox`                | `mantine-combobox`          |
+| Factory + Styles API component              | `mantine-custom-components` |
 
 ## Repo theme notes
 
