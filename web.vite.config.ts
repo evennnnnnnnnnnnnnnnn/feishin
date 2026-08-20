@@ -144,6 +144,10 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
+            '/@/lyrics-conversion-api': path.resolve(
+                __dirname,
+                './src/main/features/core/lyrics/furigana.ts',
+            ),
             '/@/remote': path.resolve(__dirname, './src/remote'),
             '/@/renderer': path.resolve(__dirname, './src/renderer'),
             path: path.resolve(__dirname, './src/renderer/shims/path.ts'),

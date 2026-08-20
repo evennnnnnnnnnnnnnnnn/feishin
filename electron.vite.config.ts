@@ -4,6 +4,7 @@ import conditionalImportPlugin from 'vite-plugin-conditional-import';
 import dynamicImportPlugin from 'vite-plugin-dynamic-import';
 import { ViteEjsPlugin } from 'vite-plugin-ejs';
 
+import { kuromojiDictionaryPlugin } from './vite.kuromoji-plugin';
 import { createReactPlugin } from './vite.react-plugin';
 
 const currentOSEnv = process.platform;
@@ -65,22 +66,22 @@ const createConfig = (isDevelopment: boolean): UserConfig => ({
                 localsConvention: 'camelCase',
             },
         },
-        plugins: [createReactPlugin(), ViteEjsPlugin({ web: false })],
+        plugins: [
+            createReactPlugin(),
+            ...(isDevelopment ? [kuromojiDictionaryPlugin({ emitDictionary: false })] : []),
+            ViteEjsPlugin({ web: false }),
+        ],
         resolve: {
-            alias: [
-                { find: '/@/remote', replacement: resolve('src/remote') },
-                { find: '/@/renderer', replacement: resolve('src/renderer') },
-                // Desktop runs kuroshiro in the main process (IPC); swap the package for the IPC shim.
-                {
-                    find: /^@feishin\/lyrics-conversion(\/index)?$/,
-                    replacement: resolve(
-                        'src/renderer/features/lyrics/api/electron-lyrics-conversion-api.ts',
-                    ),
-                },
-                ...(isDevelopment
-                    ? [{ find: 'path', replacement: resolve('src/renderer/shims/path.ts') }]
-                    : []),
-            ],
+            alias: {
+                '/@/lyrics-conversion-api': resolve(
+                    isDevelopment
+                        ? 'src/renderer/features/lyrics/api/development-lyrics-conversion-api.ts'
+                        : 'src/renderer/features/lyrics/api/electron-lyrics-conversion-api.ts',
+                ),
+                '/@/remote': resolve('src/remote'),
+                '/@/renderer': resolve('src/renderer'),
+                ...(isDevelopment ? { path: resolve('src/renderer/shims/path.ts') } : {}),
+            },
         },
     },
 });
