@@ -12,6 +12,9 @@ const electronRendererTarget = 'chrome87';
 const createConfig = (isDevelopment: boolean): UserConfig => ({
     main: {
         build: {
+            externalizeDeps: {
+                exclude: ['@feishin/core'],
+            },
             rollupOptions: {
                 external: ['source-map-support'],
             },
@@ -37,6 +40,7 @@ const createConfig = (isDevelopment: boolean): UserConfig => ({
     },
     preload: {
         build: {
+            externalizeDeps: { exclude: ['@feishin/core'] },
             sourcemap: true,
         },
         resolve: {
