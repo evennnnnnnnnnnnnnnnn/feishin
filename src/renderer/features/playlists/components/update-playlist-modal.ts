@@ -1,9 +1,9 @@
 import { hasFeature } from '@feishin/core/api/utils';
 import { Playlist } from '@feishin/core/types/domain-types';
 import { ServerFeature } from '@feishin/core/types/features-types';
+import i18n from '@feishin/i18n/i18n';
 import { openContextModal } from '@mantine/modals';
 
-import i18n from '/@/i18n/i18n';
 import { useAuthStore } from '/@/renderer/store';
 
 export const openUpdatePlaylistModal = async (args: { playlist: Playlist }) => {

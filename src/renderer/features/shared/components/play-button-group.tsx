@@ -1,4 +1,5 @@
 import { Play } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { AppIconSelection } from '@feishin/ui/components/icon/icon';
 import { Portal } from '@feishin/ui/components/portal/portal';
 import { Stack } from '@feishin/ui/components/stack/stack';
@@ -10,7 +11,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import styles from './play-button-group.module.css';
 
-import i18n from '/@/i18n/i18n';
 import { PlayButton } from '/@/renderer/features/shared/components/play-button';
 
 const playButtons: {

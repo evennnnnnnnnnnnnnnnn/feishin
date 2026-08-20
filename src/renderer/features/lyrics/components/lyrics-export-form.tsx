@@ -1,4 +1,5 @@
 import { FullLyricsMetadata } from '@feishin/core/types/domain-types';
+import i18n from '@feishin/i18n/i18n';
 import { Button } from '@feishin/ui/components/button/button';
 import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
 import { Code } from '@feishin/ui/components/code/code';
@@ -12,7 +13,6 @@ import formatDuration from 'format-duration';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import i18n from '/@/i18n/i18n';
 import { normalizeLyrics } from '/@/renderer/features/lyrics/api/lyrics-utils';
 
 interface LyricsExportFormProps {

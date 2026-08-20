@@ -9,6 +9,7 @@ import {
     Song,
 } from '@feishin/core/types/domain-types';
 import { DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
+import i18n from '@feishin/i18n/i18n';
 import { ExplicitIndicator } from '@feishin/ui/components/explicit-indicator/explicit-indicator';
 import { Group } from '@feishin/ui/components/group/group';
 import { Icon } from '@feishin/ui/components/icon/icon';
@@ -24,7 +25,6 @@ import { generatePath, Link } from 'react-router';
 
 import styles from './item-card.module.css';
 
-import i18n from '/@/i18n/i18n';
 import { ItemCardControls } from '/@/renderer/components/item-card/item-card-controls';
 import { ItemImage } from '/@/renderer/components/item-image/item-image';
 import { getDraggedItems } from '/@/renderer/components/item-list/helpers/get-dragged-items';

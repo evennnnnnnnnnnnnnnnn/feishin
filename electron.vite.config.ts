@@ -69,7 +69,6 @@ const createConfig = (isDevelopment: boolean): UserConfig => ({
         ],
         resolve: {
             alias: {
-                '/@/i18n': resolve('src/i18n'),
                 '/@/lyrics-conversion-api': resolve(
                     isDevelopment
                         ? 'src/renderer/features/lyrics/api/development-lyrics-conversion-api.ts'

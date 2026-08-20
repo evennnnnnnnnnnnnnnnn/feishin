@@ -1,4 +1,5 @@
 import { LyricSource } from '@feishin/core/types/domain-types';
+import { languages } from '@feishin/i18n/i18n';
 import { MultiSelect } from '@feishin/ui/components/multi-select/multi-select';
 import { NumberInput } from '@feishin/ui/components/number-input/number-input';
 import { Select } from '@feishin/ui/components/select/select';
@@ -8,7 +9,6 @@ import isElectron from 'is-electron';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { languages } from '/@/i18n/i18n';
 import {
     SettingOption,
     SettingsSection,

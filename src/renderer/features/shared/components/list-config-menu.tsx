@@ -1,4 +1,5 @@
 import { ItemListKey, ListDisplayType } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { ActionIconProps } from '@feishin/ui/components/action-icon/action-icon';
 import { Divider } from '@feishin/ui/components/divider/divider';
 import { Group } from '@feishin/ui/components/group/group';
@@ -15,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './list-config-menu.module.css';
 
-import i18n from '/@/i18n/i18n';
 import { GridConfig } from '/@/renderer/features/shared/components/grid-config';
 import { SettingsButton } from '/@/renderer/features/shared/components/settings-button';
 import { TableConfig } from '/@/renderer/features/shared/components/table-config';

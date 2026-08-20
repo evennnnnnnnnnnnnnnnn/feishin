@@ -6,7 +6,6 @@
     "vite.react-plugin.ts",
     "src/main/**/*",
     "src/preload/**/*",
-    "src/i18n/**/*",
     "src/types/**/*"
   ],
   "compilerOptions": {

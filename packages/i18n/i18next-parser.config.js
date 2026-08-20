@@ -1,6 +1,6 @@
 // Reference: https://github.com/i18next/i18next-parser#options
 
-module.exports = {
+export default {
     contextSeparator: '_',
     createOldCatalogs: true,
     customValueTemplate: null,
@@ -13,11 +13,11 @@ module.exports = {
     i18nextOptions: null,
     indentation: 4,
     input: [
-        '../renderer/components/**/*.{js,jsx,ts,tsx}',
-        '../renderer/features/**/*.{js,jsx,ts,tsx}',
-        '../renderer/layouts/**/*.{js,jsx,ts,tsx}',
-        '!../src/node_modules/**',
-        '!../src/**/*.prod.js',
+        '../../src/renderer/components/**/*.{js,jsx,ts,tsx}',
+        '../../src/renderer/features/**/*.{js,jsx,ts,tsx}',
+        '../../src/renderer/layouts/**/*.{js,jsx,ts,tsx}',
+        '!../../src/node_modules/**',
+        '!../../src/**/*.prod.js',
     ],
     keepRemoved: false,
     keySeparator: '.',
@@ -36,7 +36,7 @@ module.exports = {
     lineEnding: 'auto',
     locales: ['en'],
     namespaceSeparator: false,
-    output: 'src/renderer/i18n/locales/$LOCALE.json',
+    output: 'packages/i18n/src/locales/$LOCALE.json',
     pluralSeparator: '_',
     resetDefaultValueLocale: 'en',
     sort: true,

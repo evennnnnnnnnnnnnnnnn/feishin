@@ -1,7 +1,7 @@
+import i18n from '@feishin/i18n/i18n';
 import isElectron from 'is-electron';
 import { useEffect, useRef } from 'react';
 
-import i18n from '/@/i18n/i18n';
 import { openRestartRequiredToast } from '/@/renderer/features/settings/restart-toast';
 import { useSettingsStore } from '/@/renderer/store/settings.store';
 import { logger } from '/@/renderer/utils/logger';

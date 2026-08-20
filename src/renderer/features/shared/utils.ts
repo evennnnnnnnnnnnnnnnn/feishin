@@ -10,10 +10,9 @@ import {
     Song,
 } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import Fuse from 'fuse.js';
 import z from 'zod';
-
-import i18n from '/@/i18n/i18n';
 
 export const PLAY_TYPES = [
     {

@@ -5,7 +5,6 @@
     "src/renderer/**/*",
     "src/renderer/**/*.tsx",
     "src/preload/*.d.ts",
-    "src/i18n/**/*",
     "src/main/features/core/lyrics/furigana.ts",
     "packages/ui/src/types/css-modules.d.ts",
     "packages/ui/src/types/assets.d.ts",
@@ -28,9 +27,6 @@
       ],
       "/@/main/*": [
         "src/main/*"
-      ],
-      "/@/i18n/*": [
-        "src/i18n/*"
       ],
       "/@/remote/*": [
         "src/remote/*"

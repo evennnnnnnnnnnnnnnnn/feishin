@@ -9,6 +9,7 @@ import {
     PlayerType,
     TableColumn,
 } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { AppTheme } from '@feishin/ui/themes/app-theme-types';
 import isElectron from 'is-electron';
 import cloneDeep from 'lodash/cloneDeep';
@@ -22,7 +23,6 @@ import { immer } from 'zustand/middleware/immer';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-import i18n from '/@/i18n/i18n';
 import {
     ALBUM_ARTIST_TABLE_COLUMNS,
     ALBUM_TABLE_COLUMNS,

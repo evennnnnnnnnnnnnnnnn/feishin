@@ -10,8 +10,7 @@ Process and build boundaries. Read when work crosses main / preload / renderer /
 | `src/preload` | `contextBridge` → `window.api` (`src/preload/index.ts`) |
 | `src/renderer` | Full app UI (Electron renderer + web build root) |
 | `src/remote` | Remote-control SPA, served by the Electron remote feature |
-| `packages/core`, `packages/ui` | Workspace packages: framework-free core (api/types/constants/logger/utils) and React+Mantine ui (components/hooks/themes/styles) — no app imports |
-| `src/i18n` | Locales + i18n setup |
+| `packages/core`, `packages/ui`, `packages/i18n` | Workspace packages: framework-free core (api/types/constants/logger/utils), React+Mantine ui (components/hooks/themes/styles), locales + i18next setup - no app imports |
 
 ## Builds
 
@@ -33,7 +32,7 @@ Desktop-only surfaces (custom themes, mpv, MPRIS, many `window.api.*` modules) m
 | `/@/renderer` | `src/renderer` |
 | `@feishin/core` | `packages/core/src` (workspace package, raw TS via its `exports` map - no build step) |
 | `@feishin/ui` | `packages/ui/src` (workspace package, raw TS; typecheck reaches it via tsconfig `paths`) |
-| `/@/i18n` | `src/i18n` |
+| `@feishin/i18n` | `packages/i18n/src` (workspace package, raw TS via its `exports` map - no build step) |
 | `/@/remote` | `src/remote` |
 
 ## Import boundaries (culture — not ESLint)
@@ -42,7 +41,7 @@ Desktop-only surfaces (custom themes, mpv, MPRIS, many `window.api.*` modules) m
 - **preload** → preload + `@feishin/core` (plus the existing relative main env exception).
 - **core** (`packages/core`) → framework-free: no react/Mantine, no app imports.
 - **ui** (`packages/ui`) → no `/@/renderer`, `/@/main`, `/@/remote`, `/@/preload`; may import `@feishin/core` (one-way: core never imports ui).
-- **renderer** → `/@/renderer`, `@feishin/core`, `@feishin/ui`, `/@/i18n` — not `/@/main`.
+- **renderer** → `/@/renderer`, `@feishin/core`, `@feishin/ui`, `@feishin/i18n` - not `/@/main`.
 - **remote** → `/@/remote`, `@feishin/core`, `@feishin/ui`; may reuse selected `/@/renderer` utilities (theme, logger) — do not grow that into a full renderer dependency.
 
 Electron capabilities from the UI: `window.api.*` (typed in `src/preload/index.d.ts`), never direct main imports.

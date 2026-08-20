@@ -6,9 +6,9 @@ import {
     SetPlaylistSongsArgs,
     SetPlaylistSongsResponse,
 } from '@feishin/core/types/domain-types';
+import i18n from '@feishin/i18n/i18n';
 import { toast } from '@feishin/ui/components/toast/toast';
 
-import i18n from '/@/i18n/i18n';
 import { JellyfinController } from '/@/renderer/api/jellyfin/jellyfin-controller';
 import { NavidromeController } from '/@/renderer/api/navidrome/navidrome-controller';
 import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller';

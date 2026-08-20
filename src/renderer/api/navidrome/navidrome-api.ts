@@ -1,6 +1,7 @@
 import { ndType } from '@feishin/core/api/navidrome/navidrome-types';
 import { resultWithHeaders } from '@feishin/core/api/utils';
 import { ServerListItemWithCredential } from '@feishin/core/types/domain-types';
+import i18n from '@feishin/i18n/i18n';
 import { toast } from '@feishin/ui/components/toast/toast';
 import { initClient, initContract } from '@ts-rest/core';
 import axios, { AxiosError, AxiosResponse, isAxiosError, Method } from 'axios';
@@ -9,7 +10,6 @@ import debounce from 'lodash/debounce';
 import omitBy from 'lodash/omitBy';
 import qs from 'qs';
 
-import i18n from '/@/i18n/i18n';
 import { authenticationFailure } from '/@/renderer/api/utils';
 import { useAuthStore } from '/@/renderer/store';
 import { logger } from '/@/renderer/utils/logger';

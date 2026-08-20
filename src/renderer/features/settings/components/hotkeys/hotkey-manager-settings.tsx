@@ -2,6 +2,7 @@ import {
     keyboardCodeToHotkeyKey,
     MODIFIER_KEY_CODES,
 } from '@feishin/core/utils/keyboard-code-to-hotkey';
+import i18n from '@feishin/i18n/i18n';
 import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
 import { Icon } from '@feishin/ui/components/icon/icon';
@@ -14,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './hotkeys-manager-settings.module.css';
 
-import i18n from '/@/i18n/i18n';
 import { SettingsOptions } from '/@/renderer/features/settings/components/settings-option';
 import {
     SettingOption,

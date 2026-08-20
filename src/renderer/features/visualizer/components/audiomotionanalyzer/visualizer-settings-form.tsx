@@ -1,3 +1,4 @@
+import i18n from '@feishin/i18n/i18n';
 import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { Button } from '@feishin/ui/components/button/button';
 import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
@@ -21,7 +22,6 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './visualizer-settings-form.module.css';
 
-import i18n from '/@/i18n/i18n';
 import {
     getButterchurnPresetOptions,
     loadAllButterchurnPresets,

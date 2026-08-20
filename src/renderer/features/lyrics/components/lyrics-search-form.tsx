@@ -4,6 +4,7 @@ import {
     LyricSource,
     LyricsOverride,
 } from '@feishin/core/types/domain-types';
+import i18n from '@feishin/i18n/i18n';
 import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { Button } from '@feishin/ui/components/button/button';
 import { Center } from '@feishin/ui/components/center/center';
@@ -25,7 +26,6 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './lyrics-search-form.module.css';
 
-import i18n from '/@/i18n/i18n';
 import { lyricsQueries } from '/@/renderer/features/lyrics/api/lyrics-api';
 import { lyricsHasWordCues } from '/@/renderer/features/lyrics/api/lyrics-utils';
 import { openLyricsExportModal } from '/@/renderer/features/lyrics/components/lyrics-export-form';

@@ -1,4 +1,5 @@
 import { FontType } from '@feishin/core/types/types';
+import i18n, { languages } from '@feishin/i18n/i18n';
 import { FileInput } from '@feishin/ui/components/file-input/file-input';
 import { NumberInput } from '@feishin/ui/components/number-input/number-input';
 import { SegmentedControl } from '@feishin/ui/components/segmented-control/segmented-control';
@@ -11,7 +12,6 @@ import isElectron from 'is-electron';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import i18n, { languages } from '/@/i18n/i18n';
 import { ImageResolutionSettings } from '/@/renderer/features/settings/components/general/art-resolution-settings';
 import {
     ArtistReleaseTypeSettings,

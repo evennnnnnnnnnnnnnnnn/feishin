@@ -144,7 +144,6 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '/@/i18n': path.resolve(__dirname, './src/i18n'),
             '/@/lyrics-conversion-api': path.resolve(
                 __dirname,
                 './src/main/features/core/lyrics/furigana.ts',

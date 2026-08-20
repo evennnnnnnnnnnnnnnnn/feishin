@@ -1,3 +1,4 @@
+import i18n from '@feishin/i18n/i18n';
 import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { animationProps } from '@feishin/ui/components/animations/animation-props';
 import { Group } from '@feishin/ui/components/group/group';
@@ -11,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './selection-dialog.module.css';
 
-import i18n from '/@/i18n/i18n';
 import {
     ItemListStateActions,
     useItemListStateSubscription,

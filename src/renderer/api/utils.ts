@@ -1,8 +1,8 @@
 import { ServerListItem } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { toast } from '@feishin/ui/components/toast/toast';
 import isElectron from 'is-electron';
 
-import i18n from '/@/i18n/i18n';
 import { useAuthStore } from '/@/renderer/store';
 
 const localSettings = isElectron() ? window.api.localSettings : null;

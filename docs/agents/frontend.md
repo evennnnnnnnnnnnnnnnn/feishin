@@ -4,11 +4,11 @@ Conventions for UI in the renderer: imports, composition, CSS Modules, theme tok
 
 ## Imports
 
-| Use | Path |
-| ----- | ------ |
-| Shared UI / hooks / theme | `@feishin/ui/...` (workspace package, source in `packages/ui/src`) |
-| Features / layouts / stores | `/@/renderer/...` → `src/renderer/...` |
-| i18n | `/@/i18n/...` or `react-i18next` / `i18next` as nearby files do |
+| Use                         | Path                                                               |
+| --------------------------- | ------------------------------------------------------------------ |
+| Shared UI / hooks / theme   | `@feishin/ui/...` (workspace package, source in `packages/ui/src`) |
+| Features / layouts / stores | `/@/renderer/...` → `src/renderer/...`                             |
+| i18n                        | `@feishin/i18n/i18n` (workspace package) or `react-i18next` / `i18next` as nearby files do |
 
 Deep imports only — no component barrels. Example: `@feishin/ui/components/button/button`.
 
@@ -38,19 +38,19 @@ Global CSS is rare (`packages/ui/src/styles/global.css` and third-party/theme ov
 
 ## Theme tokens
 
-| Layer | Source |
-| ------- | -------- |
-| Types / shape | `packages/ui/src/themes/app-theme-types.ts` |
-| Built-in themes | `packages/ui/src/themes/*`, registry `app-theme.ts` |
-| Runtime CSS variables | injected as `--theme-*` / `--theme-colors-*` (see `use-app-theme`) |
-| Mantine theme object | `src/renderer/themes/mantine-theme.tsx` |
-| Bridge to Mantine vars | `packages/ui/src/styles/global.css` |
+| Layer                  | Source                                                             |
+| ---------------------- | ------------------------------------------------------------------ |
+| Types / shape          | `packages/ui/src/themes/app-theme-types.ts`                        |
+| Built-in themes        | `packages/ui/src/themes/*`, registry `app-theme.ts`                |
+| Runtime CSS variables  | injected as `--theme-*` / `--theme-colors-*` (see `use-app-theme`) |
+| Mantine theme object   | `src/renderer/themes/mantine-theme.tsx`                            |
+| Bridge to Mantine vars | `packages/ui/src/styles/global.css`                                |
 
 User-loadable desktop theme JSON (`colors` / `app` / `mantineOverride` / `stylesheets`): `docs/CUSTOM_THEMES.md` — only when changing that surface.
 
 ## i18n, icons, toasts, modals
 
-- **Copy:** `useTranslation` / `t`; keys in `src/i18n/locales/en.json` (`common.*`, `form.*`, `error.*`, `page.*`, `entity.*`, …). Add keys next to existing namespaces.
+- **Copy:** `useTranslation` / `t`; the i18next instance is imported from `@feishin/i18n/i18n`. Keys live in `packages/i18n/src/locales/en.json` (`common.*`, `form.*`, `error.*`, `page.*`, `entity.*`, …). Add keys next to existing namespaces.
 - **Icons:** `<Icon icon="…" />` from `@feishin/ui/components/icon/icon`. New glyphs go on the `AppIcon` map there — don’t import `react-icons` / Lucide directly in features.
 - **Toasts:** `toast.success|error|info|warn({ message, title? })` from `@feishin/ui/components/toast/toast`.
 - **Modals:** open/close via `@mantine/modals`; render with shared `Modal` / `ModalButton` / provider patterns already in tree. Controlled visibility often uses `@feishin/ui/hooks/use-disclosure`.
@@ -58,7 +58,7 @@ User-loadable desktop theme JSON (`colors` / `app` / `mantineOverride` / `styles
 ## State (Zustand)
 
 | Scope | Where |
-| ------- | -------- |
+| --- | --- |
 | App-wide | `src/renderer/store/` — auth, settings, player, app chrome, etc. Prefer the barrel `src/renderer/store` when the store is re-exported; otherwise deep-import the `*.store.ts` file (e.g. `custom-themes.store.ts`). |
 | Feature | `src/renderer/features/<feature>/store/` (or a hook-colocated store) when state is feature-owned |
 | Remote SPA | `src/remote/store` — remote session / WebSocket only; not the library `api.controller` |

@@ -1,6 +1,6 @@
 import type { Album, AlbumArtist, Song } from '@feishin/core/types/domain-types';
 
-import { Rating } from '@feishin/ui/components/rating/rating';
+import i18n from '@feishin/i18n/i18n';
 import 'dayjs/locale/ar';
 import 'dayjs/locale/ca';
 import 'dayjs/locale/cs';
@@ -29,13 +29,12 @@ import 'dayjs/locale/ta';
 import 'dayjs/locale/tr';
 import 'dayjs/locale/zh-cn';
 import 'dayjs/locale/zh-tw';
+import { Rating } from '@feishin/ui/components/rating/rating';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import formatDuration from 'format-duration';
-
-import i18n from '/@/i18n/i18n';
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);

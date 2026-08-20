@@ -8,6 +8,7 @@ import {
     SortOrder,
 } from '@feishin/core/types/domain-types';
 import { Play } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
 import { Divider } from '@feishin/ui/components/divider/divider';
 import { Group } from '@feishin/ui/components/group/group';
@@ -24,7 +25,6 @@ import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-import i18n from '/@/i18n/i18n';
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
 import { albumQueries } from '/@/renderer/features/albums/api/album-api';

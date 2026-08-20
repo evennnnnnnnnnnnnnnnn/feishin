@@ -1,9 +1,9 @@
 import { PlayerType, WebAudio } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { toast } from '@feishin/ui/components/toast/toast';
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useRef } from 'react';
 
-import i18n from '/@/i18n/i18n';
 import { useWebAudio } from '/@/renderer/features/player/hooks/use-webaudio';
 import { usePlaybackType } from '/@/renderer/store/settings.store';
 

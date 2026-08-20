@@ -1,0 +1,16 @@
+{
+    "name": "@feishin/i18n",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "exports": {
+        "./*": "./src/*.ts"
+    },
+    "dependencies": {
+        "i18next": "^25.10.10",
+        "react-i18next": "^16.6.6"
+    },
+    "peerDependencies": {
+        "react": "^19.2.7"
+    }
+}

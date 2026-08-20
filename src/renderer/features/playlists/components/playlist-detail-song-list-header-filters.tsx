@@ -1,5 +1,6 @@
 import { LibraryItem, Song, SongListSort, SortOrder } from '@feishin/core/types/domain-types';
 import { ItemListKey } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { ActionIcon } from '@feishin/ui/components/action-icon/action-icon';
 import { Button } from '@feishin/ui/components/button/button';
 import { Divider } from '@feishin/ui/components/divider/divider';
@@ -16,7 +17,6 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
-import i18n from '/@/i18n/i18n';
 import {
     ALBUM_TABLE_COLUMNS,
     PLAYLIST_SONG_TABLE_COLUMNS,

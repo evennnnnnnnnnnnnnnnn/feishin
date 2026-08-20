@@ -1,3 +1,4 @@
+import i18n from '@feishin/i18n/i18n';
 import { Button } from '@feishin/ui/components/button/button';
 import { ColorInput } from '@feishin/ui/components/color-input/color-input';
 import { Group } from '@feishin/ui/components/group/group';
@@ -12,7 +13,6 @@ import isElectron from 'is-electron';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import i18n from '/@/i18n/i18n';
 import { StylesSettings } from '/@/renderer/features/settings/components/advanced/styles-settings';
 import { SettingsOptions } from '/@/renderer/features/settings/components/settings-option';
 import {

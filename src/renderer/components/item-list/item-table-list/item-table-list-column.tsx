@@ -12,6 +12,7 @@ import { disableNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/elem
 import { LibraryItem } from '@feishin/core/types/domain-types';
 import { dndUtils, DragData, DragOperation, DragTarget } from '@feishin/core/types/drag-and-drop';
 import { TableColumn } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 import { Flex } from '@feishin/ui/components/flex/flex';
 import { Icon } from '@feishin/ui/components/icon/icon';
 import { Skeleton } from '@feishin/ui/components/skeleton/skeleton';
@@ -32,7 +33,6 @@ import { CellComponentProps } from 'react-window-v2';
 
 import styles from './item-table-list-column.module.css';
 
-import i18n from '/@/i18n/i18n';
 import { useItemSelectionState } from '/@/renderer/components/item-list/helpers/item-list-state';
 import { isNoHorizontalPaddingColumn } from '/@/renderer/components/item-list/item-detail-list/utils';
 import { ActionsColumn } from '/@/renderer/components/item-list/item-table-list/columns/actions-column';

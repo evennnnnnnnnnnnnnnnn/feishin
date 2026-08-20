@@ -4,6 +4,7 @@ import {
     ServerListItemWithCredential,
     ServerType,
 } from '@feishin/core/types/domain-types';
+import i18n from '@feishin/i18n/i18n';
 import { Checkbox } from '@feishin/ui/components/checkbox/checkbox';
 import { Group } from '@feishin/ui/components/group/group';
 import { Icon } from '@feishin/ui/components/icon/icon';
@@ -20,7 +21,6 @@ import isElectron from 'is-electron';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import i18n from '/@/i18n/i18n';
 import { api } from '/@/renderer/api';
 import { queryClient } from '/@/renderer/lib/react-query';
 import { getServerById, useAuthStoreActions } from '/@/renderer/store';

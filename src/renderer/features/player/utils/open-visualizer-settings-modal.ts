@@ -1,6 +1,5 @@
+import i18n from '@feishin/i18n/i18n';
 import { openContextModal } from '@mantine/modals';
-
-import i18n from '/@/i18n/i18n';
 
 export const openVisualizerSettingsModal = () => {
     openContextModal({

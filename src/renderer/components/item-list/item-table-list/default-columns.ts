@@ -1,6 +1,6 @@
 import { TableColumn } from '@feishin/core/types/types';
+import i18n from '@feishin/i18n/i18n';
 
-import i18n from '/@/i18n/i18n';
 import { ItemGridListRowConfig, ItemTableListColumnConfig } from '/@/renderer/store';
 
 export type DefaultTableColumn = {

@@ -44,7 +44,6 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '/@/i18n': path.resolve(__dirname, './src/i18n'),
             '/@/remote': path.resolve(__dirname, './src/remote'),
             '/@/renderer': path.resolve(__dirname, './src/renderer'),
         },
