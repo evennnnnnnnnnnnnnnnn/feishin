@@ -3,6 +3,7 @@ import type { MantineThemeOverride } from '@mantine/core';
 import { FontType } from '@feishin/core/types/types';
 import { getAppTheme } from '@feishin/ui/themes/app-theme';
 import { AppTheme, AppThemeConfiguration } from '@feishin/ui/themes/app-theme-types';
+import { createMantineTheme } from '@feishin/ui/themes/mantine-theme';
 import { generateColors } from '@mantine/colors-generator';
 import { useMantineColorScheme } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -14,7 +15,6 @@ import {
     useNativeAspectRatio,
     useThemeSettings,
 } from '/@/renderer/store/settings.store';
-import { createMantineTheme } from '/@/renderer/themes/mantine-theme';
 
 export const THEME_DATA = [
     { label: 'Default Dark', type: 'dark', value: AppTheme.DEFAULT_DARK },

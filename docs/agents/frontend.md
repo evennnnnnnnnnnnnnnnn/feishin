@@ -43,7 +43,8 @@ Global CSS is rare (`packages/ui/src/styles/global.css` and third-party/theme ov
 | Types / shape          | `packages/ui/src/themes/app-theme-types.ts`                        |
 | Built-in themes        | `packages/ui/src/themes/*`, registry `app-theme.ts`                |
 | Runtime CSS variables  | injected as `--theme-*` / `--theme-colors-*` (see `use-app-theme`) |
-| Mantine theme object   | `src/renderer/themes/mantine-theme.tsx`                            |
+| Mantine theme object   | `packages/ui/src/themes/mantine-theme.ts`                          |
+| Store-free theme hook  | `packages/ui/src/themes/use-app-theme.ts` (explicit inputs, no stores) |
 | Bridge to Mantine vars | `packages/ui/src/styles/global.css`                                |
 
 User-loadable desktop theme JSON (`colors` / `app` / `mantineOverride` / `stylesheets`): `docs/CUSTOM_THEMES.md` — only when changing that surface.
