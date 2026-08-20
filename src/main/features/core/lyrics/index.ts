@@ -1,14 +1,14 @@
 import { Song } from '@feishin/core/types/domain-types';
-import { ipcMain } from 'electron';
-
-import { store } from '../settings';
 import {
     convertFurigana,
     convertFuriganaFragment,
     convertRomaji,
     convertRomajiTokens,
     parseLyricsTextTokens,
-} from './furigana';
+} from '@feishin/lyrics-conversion';
+import { ipcMain } from 'electron';
+
+import { store } from '../settings';
 import { getLyricsBySongId as getGenius, getSearchResults as searchGenius } from './genius';
 import { getLyricsBySongId as getLrcLib, getSearchResults as searchLrcLib } from './lrclib';
 import { getLyricsBySongId as getNetease, getSearchResults as searchNetease } from './netease';

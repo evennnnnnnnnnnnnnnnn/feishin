@@ -33,6 +33,9 @@ importers:
       '@feishin/i18n':
         specifier: workspace:*
         version: link:packages/i18n
+      '@feishin/lyrics-conversion':
+        specifier: workspace:*
+        version: link:packages/lyrics-conversion
       '@feishin/ui':
         specifier: workspace:*
         version: link:packages/ui
@@ -147,12 +150,6 @@ importers:
       is-electron:
         specifier: ^2.2.2
         version: 2.2.2
-      kuroshiro:
-        specifier: ^1.2.0
-        version: 1.2.0
-      kuroshiro-analyzer-kuromoji:
-        specifier: ^1.1.0
-        version: 1.1.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -412,6 +409,15 @@ importers:
       react-i18next:
         specifier: ^16.6.6
         version: 16.6.6(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
+
+  packages/lyrics-conversion:
+    dependencies:
+      kuroshiro:
+        specifier: ^1.2.0
+        version: 1.2.0
+      kuroshiro-analyzer-kuromoji:
+        specifier: ^1.1.0
+        version: 1.1.0
 
   packages/ui:
     dependencies:

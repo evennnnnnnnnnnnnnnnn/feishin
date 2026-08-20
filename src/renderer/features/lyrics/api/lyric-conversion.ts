@@ -1,14 +1,8 @@
+import type { LyricTextToken, RomajiToken } from '@feishin/lyrics-conversion';
+
 import { SyncedWordCue } from '@feishin/core/types/domain-types';
 
-export type LyricTextToken = {
-    endChar: number;
-    startChar: number;
-    text: string;
-};
-
-export type RomajiToken = LyricTextToken & {
-    romaji: string;
-};
+export type { LyricTextToken, RomajiToken };
 
 const rangesOverlap = (aStart: number, aEnd: number, bStart: number, bEnd: number): boolean =>
     aStart < bEnd && bStart < aEnd;

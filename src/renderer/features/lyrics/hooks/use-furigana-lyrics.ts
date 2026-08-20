@@ -3,9 +3,9 @@ import {
     SyncedCueLine,
     SynchronizedLyrics,
 } from '@feishin/core/types/domain-types';
+import * as lyricsApi from '@feishin/lyrics-conversion';
 import { useQuery } from '@tanstack/react-query';
 
-import * as lyricsApi from '/@/lyrics-conversion-api';
 import {
     alignFuriganaToWordCues,
     alignRomajiTokensToWordCues,

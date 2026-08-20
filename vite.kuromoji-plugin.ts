@@ -4,8 +4,12 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
-const require = createRequire(import.meta.url);
-const analyzerRequire = createRequire(require.resolve('kuroshiro-analyzer-kuromoji/package.json'));
+// The kuromoji dictionary ships with kuroshiro-analyzer-kuromoji, a dependency of @feishin/lyrics-conversion.
+const lyricsConversionPackageJson = new URL(
+    './packages/lyrics-conversion/package.json',
+    import.meta.url,
+);
+const analyzerRequire = createRequire(lyricsConversionPackageJson.href);
 const dictionaryDirectory = path.join(
     path.dirname(analyzerRequire.resolve('kuromoji/package.json')),
     'dict',
