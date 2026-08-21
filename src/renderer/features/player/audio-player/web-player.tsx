@@ -390,6 +390,46 @@ export function WebPlayer() {
         };
     }, []);
 
+    // Safari/WebKit can restore both dual-player <audio> elements after display
+    // sleep or app focus return. Re-assert a single active stream on wake.
+    useEffect(() => {
+        const ua = navigator.userAgent;
+        const isSafari =
+            ua.includes('Safari') && !ua.includes('Chrome') && !ua.includes('Chromium');
+
+        if (!isSafari) {
+            return;
+        }
+
+        const reassertSinglePlayback = () => {
+            if (document.visibilityState === 'hidden') {
+                return;
+            }
+
+            setIsTransitioning(false);
+
+            if (webAudio && webAudio.context.state !== 'running') {
+                void webAudio.context.resume().catch(() => {});
+            }
+
+            const status = usePlayerStoreBase.getState().player.status;
+            if (status === PlayerStatus.PLAYING) {
+                playerRef.current?.setVolume(volume);
+                playerRef.current?.play();
+            } else {
+                playerRef.current?.pause();
+            }
+        };
+
+        document.addEventListener('visibilitychange', reassertSinglePlayback);
+        window.addEventListener('pageshow', reassertSinglePlayback);
+
+        return () => {
+            document.removeEventListener('visibilitychange', reassertSinglePlayback);
+            window.removeEventListener('pageshow', reassertSinglePlayback);
+        };
+    }, [volume, webAudio]);
+
     useEffect(() => {
         if (localPlayerStatus !== PlayerStatus.PLAYING) {
             return;
