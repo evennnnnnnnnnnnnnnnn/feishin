@@ -8,6 +8,10 @@ import styles from './app-menu.module.css';
 import { UpdateAvailableButton } from '/@/renderer/features/settings/components/update-available-button';
 import { openSettingsModal } from '/@/renderer/features/settings/utils/open-settings-modal';
 import { ServerSelector } from '/@/renderer/features/sidebar/components/server-selector';
+import {
+    openYoutubeImportModal,
+    useCanYoutubeImport,
+} from '/@/renderer/features/youtube-import/components/youtube-import-form';
 import { openReleaseNotesModal } from '/@/renderer/release-notes-modal';
 import {
     useAppStore,
@@ -87,6 +91,7 @@ export const AppMenu = () => {
     const { setSettings } = useSettingsStoreActions();
     const settings = useGeneralSettings();
     const currentServer = useCurrentServer();
+    const canYoutubeImport = useCanYoutubeImport();
     const { open: openCommandPalette } = useCommandPalette();
 
     const handleBrowserDevTools = () => {
@@ -211,6 +216,18 @@ export const AppMenu = () => {
         {
             id: 'divider-2',
             type: 'divider',
+        },
+        {
+            condition: canYoutubeImport,
+            id: 'youtube-import',
+            item: {
+                icon: 'download',
+                id: 'youtube-import-item',
+                label: t('form.youtubeImport.title', { defaultValue: 'Import from YouTube' }),
+                onClick: () => openYoutubeImportModal(),
+                type: 'item',
+            },
+            type: 'conditional-item',
         },
         {
             icon: 'settings',
