@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './lyrics.module.css';
 
+import * as lyricsApi from '/@/lyrics-conversion-api';
 import { queryKeys } from '/@/renderer/api/query-keys';
+import {
+    FuriganaBinding,
+    getSpanSuggestedReading,
+} from '/@/renderer/features/lyrics/api/furigana-render-model';
 import { translateLyrics } from '/@/renderer/features/lyrics/api/lyric-translate';
 import {
     computeSelectedFromResult,
@@ -20,12 +25,22 @@ import {
     getOverlayLayerKey,
     lyricsHasWordCues,
 } from '/@/renderer/features/lyrics/api/lyrics-utils';
+import {
+    KanjiPicker,
+    KanjiPickerTarget,
+} from '/@/renderer/features/lyrics/components/kanji-picker';
 import { openLyricsExportModal } from '/@/renderer/features/lyrics/components/lyrics-export-form';
+import {
+    useDeleteFuriganaBindingMutation,
+    useFuriganaBindings,
+    useUpsertFuriganaBindingMutation,
+} from '/@/renderer/features/lyrics/hooks/use-furigana-bindings';
 import {
     useFuriganaLyrics,
     useRomajiLyrics,
     useSyncedRomajiLyrics,
 } from '/@/renderer/features/lyrics/hooks/use-furigana-lyrics';
+import { KanjiSpanClickDetail } from '/@/renderer/features/lyrics/lyric-line';
 import { LyricsActions } from '/@/renderer/features/lyrics/lyrics-actions';
 import { SynchronizedKaraokeLyrics } from '/@/renderer/features/lyrics/synchronized-karaoke-lyrics';
 import {
@@ -41,14 +56,14 @@ import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/
 import { useIsRadioActive } from '/@/renderer/features/radio/hooks/use-radio-player';
 import { ComponentErrorBoundary } from '/@/renderer/features/shared/components/component-error-boundary';
 import { queryClient } from '/@/renderer/lib/react-query';
-import { useLyricsSettings, usePlayerSong } from '/@/renderer/store';
+import { useCurrentServer, useLyricsSettings, usePlayerSong } from '/@/renderer/store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Center } from '/@/shared/components/center/center';
 import { Group } from '/@/shared/components/group/group';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Text } from '/@/shared/components/text/text';
 import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
-import { LyricsOverride } from '/@/shared/types/domain-types';
+import { LyricsOverride, ServerType } from '/@/shared/types/domain-types';
 
 type LyricsProps = {
     fadeOutNoLyricsMessage?: boolean;
@@ -65,12 +80,14 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         enableAutoTranslation,
         enableFurigana,
         enableRomaji,
+        furiganaBindingsVisible,
         preferLocalLyrics,
         translationApiKey,
         translationApiProvider,
         translationTargetLanguage,
     } = useLyricsSettings();
     const { t } = useTranslation();
+    const currentServerType = useCurrentServer()?.type;
     const [index, setIndexState] = useState(0);
     const [translatedLyrics, setTranslatedLyrics] = useState<null | string>(null);
     const [showTranslation, setShowTranslation] = useState(false);
@@ -139,7 +156,26 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         return computeSelectedFromResult(data, preferLocalLyrics, indexToUse);
     }, [data, indexToUse, preferLocalLyrics]);
 
-    const { data: furiganaConvertedLyrics } = useFuriganaLyrics(lyrics?.lyrics, !!enableFurigana);
+    const { data: furiganaBindings } = useFuriganaBindings(
+        currentSong?._serverId,
+        currentServerType,
+        currentSong?.id,
+    );
+    const upsertFuriganaBinding = useUpsertFuriganaBindingMutation(
+        currentSong?._serverId,
+        currentSong?.id,
+    );
+    const deleteFuriganaBinding = useDeleteFuriganaBindingMutation(
+        currentSong?._serverId,
+        currentSong?.id,
+    );
+
+    const { data: furiganaConvertedLyrics } = useFuriganaLyrics(
+        lyrics?.lyrics,
+        !!enableFurigana,
+        furiganaBindings,
+        furiganaBindingsVisible ?? true,
+    );
     const { data: romajiConvertedLyrics, isFetching: isFetchingRomaji } = useRomajiLyrics(
         lyrics?.lyrics,
         !!enableRomaji,
@@ -152,6 +188,153 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
 
         return lyrics.lyrics;
     }, [lyrics, synced]);
+
+    const isNavidromeServer = currentServerType === ServerType.NAVIDROME;
+
+    const [pickerTarget, setPickerTarget] = useState<KanjiPickerTarget | null>(null);
+
+    const findFuriganaBinding = useCallback(
+        (lineIndex: number, charOffset: number): FuriganaBinding | null =>
+            furiganaBindings?.find(
+                (binding) => binding.line_index === lineIndex && binding.char_offset === charOffset,
+            ) ?? null,
+        [furiganaBindings],
+    );
+
+    const handleKanjiClick = useCallback(
+        (detail: KanjiSpanClickDetail) => {
+            if (!isNavidromeServer) return;
+
+            // Shift-click while a picker is open on the same line extends the
+            // open span to cover both kanji runs (Museeks span-extension model)
+            if (detail.shiftKey && pickerTarget && pickerTarget.lineIndex === detail.lineIndex) {
+                const mergedOffset = Math.min(pickerTarget.charOffset, detail.charOffset);
+                const mergedEnd = Math.max(
+                    pickerTarget.charOffset + pickerTarget.spanLength,
+                    detail.charOffset + detail.spanLength,
+                );
+                const mergedSpanLength = mergedEnd - mergedOffset;
+                const lineText = rawSyncedLyrics?.[detail.lineIndex]
+                    ? getLyricLineText(rawSyncedLyrics[detail.lineIndex])
+                    : null;
+
+                if (!lineText) return;
+
+                const mergedText = Array.from(lineText).slice(mergedOffset, mergedEnd).join('');
+
+                lyricsApi.analyzeLyricsLines([lineText]).then(([tokens = []]) => {
+                    setPickerTarget({
+                        binding: findFuriganaBinding(detail.lineIndex, mergedOffset),
+                        charOffset: mergedOffset,
+                        lineIndex: detail.lineIndex,
+                        spanLength: mergedSpanLength,
+                        suggestedReading: getSpanSuggestedReading(
+                            tokens,
+                            mergedOffset,
+                            mergedSpanLength,
+                        ),
+                        text: mergedText,
+                        x: detail.x,
+                        y: detail.y,
+                    });
+                });
+                return;
+            }
+
+            setPickerTarget({
+                binding: findFuriganaBinding(detail.lineIndex, detail.charOffset),
+                charOffset: detail.charOffset,
+                lineIndex: detail.lineIndex,
+                spanLength: detail.spanLength,
+                suggestedReading: detail.suggestedReading,
+                text: detail.text,
+                x: detail.x,
+                y: detail.y,
+            });
+        },
+        [findFuriganaBinding, isNavidromeServer, pickerTarget, rawSyncedLyrics],
+    );
+
+    const handleClosePicker = useCallback(() => setPickerTarget(null), []);
+
+    const handleBindFurigana = useCallback(
+        (reading: string) => {
+            if (!pickerTarget) return;
+
+            upsertFuriganaBinding.mutate(
+                {
+                    charOffset: pickerTarget.charOffset,
+                    display: pickerTarget.binding?.display ?? true,
+                    kanjiText: pickerTarget.text,
+                    lineIndex: pickerTarget.lineIndex,
+                    reading,
+                    spanLength: pickerTarget.spanLength,
+                },
+                {
+                    onSuccess: (saved) =>
+                        setPickerTarget((prev) => (prev ? { ...prev, binding: saved } : prev)),
+                },
+            );
+        },
+        [pickerTarget, upsertFuriganaBinding],
+    );
+
+    const handleUnbindFurigana = useCallback(() => {
+        if (!pickerTarget?.binding) return;
+
+        deleteFuriganaBinding.mutate(
+            {
+                charOffset: pickerTarget.charOffset,
+                id: pickerTarget.binding.id,
+                lineIndex: pickerTarget.lineIndex,
+            },
+            { onSuccess: () => setPickerTarget(null) },
+        );
+    }, [deleteFuriganaBinding, pickerTarget]);
+
+    const handleToggleFuriganaDisplay = useCallback(() => {
+        if (!pickerTarget?.binding) return;
+
+        upsertFuriganaBinding.mutate(
+            {
+                charOffset: pickerTarget.charOffset,
+                display: !pickerTarget.binding.display,
+                kanjiText: pickerTarget.text,
+                lineIndex: pickerTarget.lineIndex,
+                reading: pickerTarget.binding.reading,
+                spanLength: pickerTarget.spanLength,
+            },
+            {
+                onSuccess: (saved) =>
+                    setPickerTarget((prev) => (prev ? { ...prev, binding: saved } : prev)),
+            },
+        );
+    }, [pickerTarget, upsertFuriganaBinding]);
+
+    const handleApplyFuriganaToIdentical = useCallback(() => {
+        if (!pickerTarget?.binding || !rawSyncedLyrics) return;
+
+        const { display, reading } = pickerTarget.binding;
+        const targetChars = Array.from(pickerTarget.text);
+
+        rawSyncedLyrics.forEach((line, lineIndex) => {
+            const chars = Array.from(getLyricLineText(line));
+
+            for (let offset = 0; offset <= chars.length - targetChars.length; offset += 1) {
+                const isMatch = targetChars.every((char, i) => chars[offset + i] === char);
+                if (!isMatch) continue;
+
+                upsertFuriganaBinding.mutate({
+                    charOffset: offset,
+                    display,
+                    kanjiText: pickerTarget.text,
+                    lineIndex,
+                    reading,
+                    spanLength: targetChars.length,
+                });
+            }
+        });
+    }, [pickerTarget, rawSyncedLyrics, upsertFuriganaBinding]);
 
     const displayLyrics = useMemo(() => {
         if (isLyricsDisabled || !lyrics) return null;
@@ -266,6 +449,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             ...(displayLyrics as SynchronizedLyricsProps),
             extraOverlayLyrics: isKaraoke ? extraOverlayLyrics : undefined,
             offsetMs: displayOffsetMs,
+            onKanjiClick: enableFurigana ? handleKanjiClick : undefined,
             pronunciationLyrics: pronunciationLyricsOverlay,
             rawLyrics: rawSyncedLyrics ?? undefined,
             romajiLyrics:
@@ -281,8 +465,10 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     }, [
         displayLyrics,
         displayOffsetMs,
+        enableFurigana,
         enableRomaji,
         extraOverlayLyrics,
+        handleKanjiClick,
         isKaraoke,
         pronunciationLyricsOverlay,
         rawSyncedLyrics,
@@ -491,6 +677,17 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     return (
         <ComponentErrorBoundary>
             <div className={styles.lyricsContainer}>
+                {pickerTarget && (
+                    <KanjiPicker
+                        key={`${pickerTarget.lineIndex}-${pickerTarget.charOffset}-${pickerTarget.spanLength}`}
+                        onApplyToIdentical={handleApplyFuriganaToIdentical}
+                        onBind={handleBindFurigana}
+                        onClose={handleClosePicker}
+                        onToggleDisplay={handleToggleFuriganaDisplay}
+                        onUnbind={handleUnbindFurigana}
+                        target={pickerTarget}
+                    />
+                )}
                 <ActionIcon
                     className={styles.settingsIcon}
                     icon="settings2"

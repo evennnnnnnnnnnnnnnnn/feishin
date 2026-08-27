@@ -56,6 +56,15 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    deleteFuriganaBinding: {
+        body: null,
+        method: 'DELETE',
+        path: 'furiganabinding/:id',
+        responses: {
+            200: resultWithHeaders(ndType._response.deleteFuriganaBinding),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
     deleteInternetRadioStation: {
         body: null,
         method: 'DELETE',
@@ -133,6 +142,15 @@ export const contract = c.router({
         query: ndType._parameters.albumList,
         responses: {
             200: resultWithHeaders(ndType._response.albumList),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    getFuriganaBindingList: {
+        method: 'GET',
+        path: 'furiganabinding',
+        query: ndType._parameters.furiganaBindingList,
+        responses: {
+            200: resultWithHeaders(ndType._response.furiganaBindingList),
             500: resultWithHeaders(ndType._response.error),
         },
     },
@@ -322,6 +340,15 @@ export const contract = c.router({
         path: 'playlist/:id/image',
         responses: {
             200: resultWithHeaders(ndType._response.uploadPlaylistImage),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    upsertFuriganaBinding: {
+        body: ndType._parameters.upsertFuriganaBinding,
+        method: 'POST',
+        path: 'furiganabinding',
+        responses: {
+            200: resultWithHeaders(ndType._response.furiganaBinding),
             500: resultWithHeaders(ndType._response.error),
         },
     },

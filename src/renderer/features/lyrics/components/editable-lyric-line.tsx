@@ -5,7 +5,7 @@ import styles from './editable-lyric-line.module.css';
 
 import { LyricTextEditor } from '/@/renderer/features/lyrics/components/lyric-text-editor';
 import { LyricTimeEditor } from '/@/renderer/features/lyrics/components/lyric-time-editor';
-import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
+import { KanjiSpanClickDetail, LyricLine } from '/@/renderer/features/lyrics/lyric-line';
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface EditableLyricLineProps {
@@ -13,12 +13,18 @@ interface EditableLyricLineProps {
     editing: 'text' | 'time' | null;
     fontSize: number;
     lineId: string;
+    lineIndex?: number;
     onCancelEdit: () => void;
     onCommitText: (text: string) => void;
     onCommitTime: (ms: number) => void;
+    onKanjiClick?: (detail: KanjiSpanClickDetail) => void;
     onPreview: (ms: number) => void;
     onSetCurrentTime: () => void;
     onStartEdit: (field: 'text' | 'time') => void;
+    /** Pre-furigana/romaji-transform text; seeds the text editor so a commit
+     * never persists rendered markup into the shared lyrics_override row.
+     * Falls back to `text` when the caller has no raw source (e.g. preview). */
+    rawText?: string;
     romajiText?: null | string;
     startMs: number;
     text: string;
@@ -34,12 +40,15 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
         editing,
         fontSize,
         lineId,
+        lineIndex,
         onCancelEdit,
         onCommitText,
         onCommitTime,
+        onKanjiClick,
         onPreview,
         onSetCurrentTime,
         onStartEdit,
+        rawText,
         romajiText,
         startMs,
         text,
@@ -64,7 +73,7 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
         return (
             <div className={styles.editingRow} data-lyric-time={startMs}>
                 <LyricTextEditor
-                    initialValue={text}
+                    initialValue={rawText ?? text}
                     onCancel={onCancelEdit}
                     onSubmit={onCommitText}
                 />
@@ -84,6 +93,8 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
                         data-lyric-time={startMs}
                         fontSize={fontSize}
                         id={lineId}
+                        lineIndex={lineIndex}
+                        onKanjiClick={onKanjiClick}
                         romajiText={romajiText}
                         text={text}
                         translatedText={translatedText}

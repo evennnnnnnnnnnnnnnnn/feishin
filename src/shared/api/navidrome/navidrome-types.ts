@@ -713,6 +713,8 @@ const deletePlaylist = z.null();
 
 const deleteInternetRadioStation = deletePlaylist;
 
+const deleteFuriganaBinding = deletePlaylist;
+
 const addToPlaylist = z.object({
     added: z.number(),
 });
@@ -777,6 +779,42 @@ const saveQueueParameters = z.object({
 });
 
 const saveQueue = z.null();
+
+// Wire shape (snake_case, codepoint offsets) mirrors navidrome's
+// model.FuriganaBinding exactly - see server/nativeapi/native_api.go +
+// model/furigana_binding.go.
+const furiganaBinding = z.object({
+    char_offset: z.number(),
+    created_at: z.string(),
+    display: z.boolean(),
+    id: z.string(),
+    kanji_text: z.string(),
+    line_index: z.number(),
+    media_file_id: z.string(),
+    reading: z.string(),
+    span_length: z.number(),
+    updated_at: z.string(),
+    user_id: z.string(),
+});
+
+const furiganaBindingList = z.array(furiganaBinding);
+
+const furiganaBindingListParameters = z.object({
+    media_file_id: z.string(),
+});
+
+// PUT/Save upserts by the (user, song, line, char offset) natural key, so
+// POSTing an existing binding replaces it in place - see
+// persistence/furigana_binding_repository.go.
+const upsertFuriganaBindingParameters = z.object({
+    char_offset: z.number(),
+    display: z.boolean(),
+    kanji_text: z.string(),
+    line_index: z.number(),
+    media_file_id: z.string(),
+    reading: z.string(),
+    span_length: z.number(),
+});
 
 const queue = z.object({
     changedBy: z.string(),
@@ -882,6 +920,7 @@ export const ndType = {
         albumList: albumListParameters,
         authenticate: authenticateParameters,
         createPlaylist: createPlaylistParameters,
+        furiganaBindingList: furiganaBindingListParameters,
         genreList: genreListParameters,
         moveItem: moveItemParameters,
         playlistList: playlistListParameters,
@@ -897,6 +936,7 @@ export const ndType = {
         uploadArtistImage: uploadArtistImageParameters,
         uploadInternetRadioStationImage: uploadInternetRadioStationImageParameters,
         uploadPlaylistImage: uploadPlaylistImageParameters,
+        upsertFuriganaBinding: upsertFuriganaBindingParameters,
         userList: userListParameters,
         youtubeImport: youtubeImportParameters,
     },
@@ -909,12 +949,15 @@ export const ndType = {
         authenticate,
         createPlaylist,
         deleteArtistImage,
+        deleteFuriganaBinding,
         deleteInternetRadioStation,
         deleteInternetRadioStationImage,
         deleteLyricsOverride,
         deletePlaylist,
         deletePlaylistImage,
         error,
+        furiganaBinding,
+        furiganaBindingList,
         genre,
         genreList,
         lyricsOverride,

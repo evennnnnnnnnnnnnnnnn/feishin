@@ -21,7 +21,7 @@ import {
     LYRICS_SCROLL_CONTAINER_ID,
     useSynchronizedLyricsBase,
 } from '/@/renderer/features/lyrics/hooks/use-synchronized-lyrics-base';
-import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
+import { KanjiSpanClickDetail, LyricLine } from '/@/renderer/features/lyrics/lyric-line';
 import {
     subscribePlayerStatus,
     useCurrentServer,
@@ -44,6 +44,7 @@ export interface SynchronizedLyricsProps extends Omit<FullLyricsMetadata, 'lyric
     extraOverlayLyrics?: SynchronizedLyricsData[];
     lyrics: SynchronizedLyricsData;
     offsetMs?: number;
+    onKanjiClick?: (detail: KanjiSpanClickDetail) => void;
     preview?: boolean;
     pronunciationLyrics?: null | SynchronizedLyricsData;
     /** Pre-furigana/romaji-transform lines, used as the edit/save source of
@@ -66,6 +67,7 @@ export const SynchronizedLyrics = ({
     lyrics,
     name,
     offsetMs,
+    onKanjiClick,
     preview = false,
     pronunciationLyrics,
     rawLyrics,
@@ -197,6 +199,13 @@ export const SynchronizedLyrics = ({
     const effectivePaddingRight = preview ? 0 : settings.paddingRight;
 
     const normalizedLyrics = useMemo(() => normalizeLyrics(lyrics), [lyrics]);
+    // Raw (pre-furigana/romaji-transform) lines, indexed in parallel with
+    // normalizedLyrics, so the text editor seeds from the untransformed
+    // source instead of rendered <ruby>/romaji markup.
+    const normalizedRawLyrics = useMemo(
+        () => (rawLyrics ? normalizeLyrics(rawLyrics) : null),
+        [rawLyrics],
+    );
     const rafRef = useRef<null | number>(null);
     const statusRef = useRef(usePlayerStoreBase.getState().player.status);
     const lastSyncedTimeRef = useRef(0);
@@ -403,6 +412,9 @@ export const SynchronizedLyrics = ({
                 {normalizedLyrics.map((rawLine, idx) => {
                     const lineStartMs = getLyricLineStartMs(rawLine);
                     const lineText = getLyricLineText(rawLine);
+                    const rawLineText = normalizedRawLyrics?.[idx]
+                        ? getLyricLineText(normalizedRawLyrics[idx])
+                        : lineText;
                     const pronunciationText = getOverlayText(
                         pronunciationLyrics,
                         lineStartMs,
@@ -424,12 +436,15 @@ export const SynchronizedLyrics = ({
                                 fontSize={effectiveFontSize}
                                 key={idx}
                                 lineId={`lyric-${idx}`}
+                                lineIndex={idx}
                                 onCancelEdit={() => setEditingLine(null)}
                                 onCommitText={(text) => handleCommitLine(idx, { text })}
                                 onCommitTime={(ms) => handleCommitLine(idx, { startMs: ms })}
+                                onKanjiClick={onKanjiClick}
                                 onPreview={handlePreview}
                                 onSetCurrentTime={() => handleSetCurrentTime(idx)}
                                 onStartEdit={(field) => setEditingLine({ field, index: idx })}
+                                rawText={rawLineText}
                                 romajiText={pronunciationText}
                                 startMs={lineStartMs}
                                 text={lineText}
@@ -446,6 +461,8 @@ export const SynchronizedLyrics = ({
                             fontSize={effectiveFontSize}
                             id={`lyric-${idx}`}
                             key={idx}
+                            lineIndex={idx}
+                            onKanjiClick={onKanjiClick}
                             romajiText={pronunciationText}
                             text={lineText}
                             translatedText={translationText}

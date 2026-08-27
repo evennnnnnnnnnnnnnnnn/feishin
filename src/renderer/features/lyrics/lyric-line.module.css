@@ -37,3 +37,38 @@
     font-size: 0.8em;
     font-weight: 600;
 }
+
+/* Binding-aware furigana kanji spans (raw HTML injected via
+   dangerouslySetInnerHTML, styled by attribute selector since the sanitizer
+   allowlist does not include `class`) */
+.lyric-line [data-kanji-offset] {
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.15s ease;
+}
+
+.lyric-line [data-kanji-offset]:hover {
+    background-color: var(--theme-colors-background-alternate);
+}
+
+.lyric-line [data-kanji-offset][data-bound='false'] {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--theme-colors-foreground-muted);
+    text-underline-offset: 4px;
+}
+
+.lyric-line [data-kanji-offset] rt {
+    font-size: 0.5em;
+    font-weight: normal;
+    color: var(--theme-colors-foreground-muted);
+    user-select: none;
+}
+
+.lyric-line [data-kanji-offset][data-hidden='true'] rt {
+    visibility: hidden;
+}
+
+.lyric-line [data-kanji-offset][data-hidden='true']:hover rt {
+    visibility: visible;
+}

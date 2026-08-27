@@ -295,6 +295,18 @@ export const controller: GeneralController = {
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
+    deleteFuriganaBinding(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: deleteFuriganaBinding`);
+        }
+
+        return apiController(
+            'deleteFuriganaBinding',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
     deleteInternetRadioStation(args) {
         const server = getServerById(args.apiClientProps.serverId);
 
@@ -576,6 +588,18 @@ export const controller: GeneralController = {
                 query: mergeMusicFolderId(args.query, server),
             }),
         );
+    },
+    getFuriganaBindings(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: getFuriganaBindings`);
+        }
+
+        return apiController(
+            'getFuriganaBindings',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
     getGenreList(args) {
         const server = getServerById(args.apiClientProps.serverId);
@@ -1163,6 +1187,18 @@ export const controller: GeneralController = {
 
         return apiController(
             'uploadPlaylistImage',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    upsertFuriganaBinding(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: upsertFuriganaBinding`);
+        }
+
+        return apiController(
+            'upsertFuriganaBinding',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },

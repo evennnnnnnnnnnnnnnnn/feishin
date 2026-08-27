@@ -2,44 +2,66 @@ import { useQuery } from '@tanstack/react-query';
 
 import * as lyricsApi from '/@/lyrics-conversion-api';
 import {
+    buildLinePieces,
+    FuriganaBinding,
+    getLineBindings,
+} from '/@/renderer/features/lyrics/api/furigana-render-model';
+import {
     alignFuriganaToWordCues,
     alignRomajiTokensToWordCues,
+    buildBindingAwareLineHtml,
     LyricTextToken,
     RomajiToken,
 } from '/@/renderer/features/lyrics/api/lyric-conversion';
 import { normalizeLyrics } from '/@/renderer/features/lyrics/api/lyrics-utils';
 import { LyricsResponse, SyncedCueLine, SynchronizedLyrics } from '/@/shared/types/domain-types';
 
+// Line-level text (line.text) is the primary interactive lyrics view
+// (SynchronizedLyrics/UnsynchronizedLyrics -> LyricLine) and is made
+// binding-aware and click-to-bind here. cueLines (word-cue/karaoke display)
+// keep the pre-existing auto-furigana-only conversion: karaoke click-to-bind
+// is out of scope for this pass (see Task 006 Task Log).
 const convertSyncedLyricsFurigana = async (
     lyrics: SynchronizedLyrics,
+    bindings: FuriganaBinding[],
+    bindingsVisible: boolean,
 ): Promise<SynchronizedLyrics> => {
+    const normalized = normalizeLyrics(lyrics);
+
     return Promise.all(
-        normalizeLyrics(lyrics).map(async (line) => ({
-            ...line,
-            cueLines: line.cueLines
-                ? await Promise.all(
-                      line.cueLines.map(async (cueLine) => {
-                          const tokens = (await lyricsApi.parseLyricsTextTokens(
-                              cueLine.value,
-                          )) as LyricTextToken[];
-                          const alignedWords = cueLine.words.length
-                              ? await alignFuriganaToWordCues(
-                                    cueLine.value,
-                                    cueLine.words,
-                                    tokens,
-                                    (text) => lyricsApi.convertFuriganaFragment(text),
-                                )
-                              : cueLine.words;
-                          return {
-                              ...cueLine,
-                              value: await lyricsApi.convertFurigana(cueLine.value),
-                              words: alignedWords ?? cueLine.words,
-                          };
-                      }),
-                  )
-                : undefined,
-            text: await lyricsApi.convertFurigana(line.text),
-        })),
+        normalized.map(async (line, lineIndex) => {
+            const lineText = line.text;
+            const [lineTokens = []] = await lyricsApi.analyzeLyricsLines([lineText]);
+            const lineBindings = getLineBindings(bindings, lineIndex, lineText);
+            const linePieces = buildLinePieces(lineText, lineTokens, lineBindings);
+
+            return {
+                ...line,
+                cueLines: line.cueLines
+                    ? await Promise.all(
+                          line.cueLines.map(async (cueLine) => {
+                              const tokens = (await lyricsApi.parseLyricsTextTokens(
+                                  cueLine.value,
+                              )) as LyricTextToken[];
+                              const alignedWords = cueLine.words.length
+                                  ? await alignFuriganaToWordCues(
+                                        cueLine.value,
+                                        cueLine.words,
+                                        tokens,
+                                        (text) => lyricsApi.convertFuriganaFragment(text),
+                                    )
+                                  : cueLine.words;
+                              return {
+                                  ...cueLine,
+                                  value: await lyricsApi.convertFurigana(cueLine.value),
+                                  words: alignedWords ?? cueLine.words,
+                              };
+                          }),
+                      )
+                    : undefined,
+                text: buildBindingAwareLineHtml(linePieces, bindingsVisible),
+            };
+        }),
     );
 };
 
@@ -68,7 +90,12 @@ const convertSyncedLyricsRomaji = async (
         })),
     );
 
-export const useFuriganaLyrics = (lyrics: LyricsResponse | null | undefined, enabled: boolean) => {
+export const useFuriganaLyrics = (
+    lyrics: LyricsResponse | null | undefined,
+    enabled: boolean,
+    bindings: FuriganaBinding[] = [],
+    bindingsVisible = true,
+) => {
     return useQuery({
         enabled: enabled && !!lyrics,
         queryFn: async () => {
@@ -79,12 +106,12 @@ export const useFuriganaLyrics = (lyrics: LyricsResponse | null | undefined, ena
             }
 
             if (Array.isArray(lyrics)) {
-                return convertSyncedLyricsFurigana(lyrics);
+                return convertSyncedLyricsFurigana(lyrics, bindings, bindingsVisible);
             }
 
             return lyrics;
         },
-        queryKey: ['furigana', lyrics],
+        queryKey: ['furigana', lyrics, bindings, bindingsVisible],
         staleTime: Infinity,
     });
 };

@@ -1,7 +1,18 @@
 import DomPurify, { Config } from 'dompurify';
 
 const SANITIZE_OPTIONS: Config = {
-    ALLOWED_ATTR: ['href'],
+    ALLOWED_ATTR: [
+        'href',
+        'role',
+        'tabindex',
+        // Furigana kanji-span click targets (binding-aware furigana render)
+        'data-kanji-offset',
+        'data-span-length',
+        'data-suggested-reading',
+        'data-text',
+        'data-hidden',
+        'data-bound',
+    ],
     ALLOWED_TAGS: ['a', 'b', 'div', 'em', 'i', 'p', 'span', 'strong', 'ruby', 'rt', 'rp'],
     // allow http://, https://, and // (mapped to https)
     ALLOWED_URI_REGEXP: /^(http(s?):)?\/\/.+/i,

@@ -1,4 +1,5 @@
 import type { LyricTextToken, RomajiToken } from '../../../../main/features/core/lyrics/furigana';
+import type { LinePiece } from './furigana-render-model';
 
 import { SyncedWordCue } from '/@/shared/types/domain-types';
 
@@ -254,6 +255,50 @@ export const alignRomajiTokensToWordCues = (
 
     return aligned;
 };
+
+const escapeHtml = (text: string): string =>
+    text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
+const wrapKanjiSpan = (
+    piece: Extract<LinePiece, { kind: 'kanji' }>,
+    bindingsVisible: boolean,
+): string => {
+    const attrs = [
+        `data-kanji-offset="${piece.charOffset}"`,
+        `data-span-length="${piece.spanLength}"`,
+        `data-text="${escapeHtml(piece.text)}"`,
+        `data-suggested-reading="${piece.suggestedReading ? escapeHtml(piece.suggestedReading) : ''}"`,
+        `data-bound="${piece.binding !== null}"`,
+        'role="button"',
+        'tabindex="0"',
+    ];
+
+    if (piece.binding !== null) {
+        const hidden = !bindingsVisible || !piece.binding.display;
+        if (hidden) {
+            attrs.push('data-hidden="true"');
+        }
+
+        return `<span ${attrs.join(' ')}><ruby>${escapeHtml(piece.text)}<rp>(</rp><rt>${escapeHtml(piece.binding.reading)}</rt><rp>)</rp></ruby></span>`;
+    }
+
+    return `<span ${attrs.join(' ')}>${escapeHtml(piece.text)}</span>`;
+};
+
+/**
+ * Serializes the render model (bindings win over analyzer runs, ported in
+ * furigana-render-model.ts) into the same kind of ruby-HTML string the
+ * existing furigana transform already produces, so it keeps flowing through
+ * the sanitized dangerouslySetInnerHTML pipeline. Kanji spans (bound or not)
+ * carry data-kanji-offset/data-span-length click targets for
+ * event-delegated click-to-bind handling.
+ */
+export const buildBindingAwareLineHtml = (pieces: LinePiece[], bindingsVisible: boolean): string =>
+    pieces
+        .map((piece) =>
+            piece.kind === 'plain' ? escapeHtml(piece.text) : wrapKanjiSpan(piece, bindingsVisible),
+        )
+        .join('');
 
 export const alignFuriganaToWordCues = async (
     cueValue: string,

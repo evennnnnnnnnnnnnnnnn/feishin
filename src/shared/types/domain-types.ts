@@ -1564,6 +1564,9 @@ export type ControllerEndpoint = {
     createPlaylist: (args: CreatePlaylistArgs) => Promise<CreatePlaylistResponse>;
     deleteArtistImage?: (args: DeleteArtistImageArgs) => Promise<DeleteArtistImageResponse>;
     deleteFavorite: (args: FavoriteArgs) => Promise<FavoriteResponse>;
+    deleteFuriganaBinding?: (
+        args: DeleteFuriganaBindingArgs,
+    ) => Promise<DeleteFuriganaBindingResponse>;
     deleteInternetRadioStation: (
         args: DeleteInternetRadioStationArgs,
     ) => Promise<DeleteInternetRadioStationResponse>;
@@ -1590,6 +1593,7 @@ export type ControllerEndpoint = {
     getDownloadUrl: (args: DownloadArgs) => string;
     getFavoriteSongs: (args: FavoriteSongListArgs) => Promise<FavoriteSongListResponse>;
     getFolder: (args: FolderArgs) => Promise<FolderResponse>;
+    getFuriganaBindings?: (args: FuriganaBindingListArgs) => Promise<FuriganaBindingListResponse>;
     getGenreList: (args: GenreListArgs) => Promise<GenreListResponse>;
     getImageRequest: (args: ImageArgs) => ImageRequest | null;
     getImageUrl: (args: ImageArgs) => null | string;
@@ -1641,8 +1645,15 @@ export type ControllerEndpoint = {
         args: UploadInternetRadioStationImageArgs,
     ) => Promise<UploadInternetRadioStationImageResponse>;
     uploadPlaylistImage?: (args: UploadPlaylistImageArgs) => Promise<UploadPlaylistImageResponse>;
+    upsertFuriganaBinding?: (
+        args: UpsertFuriganaBindingArgs,
+    ) => Promise<UpsertFuriganaBindingResponse>;
     youtubeImport?: (args: YoutubeImportArgs) => Promise<YoutubeImportResponse>;
 };
+
+export type DeleteFuriganaBindingArgs = BaseEndpointArgs & { query: { id: string } };
+
+export type DeleteFuriganaBindingResponse = null;
 
 export type DeleteLyricsOverrideArgs = BaseEndpointArgs & { query: { songId: string } };
 
@@ -1664,6 +1675,29 @@ export type FontData = {
     postscriptName: string;
     style: string;
 };
+
+// Per-user reading binding for a kanji span in a song's lyrics. Wire shape
+// (snake_case, codepoint offsets) mirrors navidrome's model.FuriganaBinding
+// exactly (see server/nativeapi/native_api.go + model/furigana_binding.go) -
+// itself ported from the Museeks sidecar schema so client render/align logic
+// (furigana-render-model.ts) needs no field translation.
+export type FuriganaBindingDto = {
+    char_offset: number;
+    created_at: string;
+    display: boolean;
+    id: string;
+    kanji_text: string;
+    line_index: number;
+    media_file_id: string;
+    reading: string;
+    span_length: number;
+    updated_at: string;
+    user_id: string;
+};
+
+export type FuriganaBindingListArgs = BaseEndpointArgs & { query: { mediaFileId: string } };
+
+export type FuriganaBindingListResponse = FuriganaBindingDto[];
 
 export type GetQueueArgs = BaseEndpointArgs;
 
@@ -1715,6 +1749,9 @@ export type InternalControllerEndpoint = {
         args: ReplaceApiClientProps<DeleteArtistImageArgs>,
     ) => Promise<DeleteArtistImageResponse>;
     deleteFavorite: (args: ReplaceApiClientProps<FavoriteArgs>) => Promise<FavoriteResponse>;
+    deleteFuriganaBinding?: (
+        args: ReplaceApiClientProps<DeleteFuriganaBindingArgs>,
+    ) => Promise<DeleteFuriganaBindingResponse>;
     deleteInternetRadioStation: (
         args: ReplaceApiClientProps<DeleteInternetRadioStationArgs>,
     ) => Promise<DeleteInternetRadioStationResponse>;
@@ -1756,6 +1793,9 @@ export type InternalControllerEndpoint = {
         args: ReplaceApiClientProps<FavoriteSongListArgs>,
     ) => Promise<FavoriteSongListResponse>;
     getFolder: (args: ReplaceApiClientProps<FolderArgs>) => Promise<FolderResponse>;
+    getFuriganaBindings?: (
+        args: ReplaceApiClientProps<FuriganaBindingListArgs>,
+    ) => Promise<FuriganaBindingListResponse>;
     getGenreList: (args: ReplaceApiClientProps<GenreListArgs>) => Promise<GenreListResponse>;
     getImageRequest: (args: ReplaceApiClientProps<ImageArgs>) => ImageRequest | null;
     getImageUrl: (args: ReplaceApiClientProps<ImageArgs>) => null | string;
@@ -1845,6 +1885,9 @@ export type InternalControllerEndpoint = {
     uploadPlaylistImage?: (
         args: ReplaceApiClientProps<UploadPlaylistImageArgs>,
     ) => Promise<UploadPlaylistImageResponse>;
+    upsertFuriganaBinding?: (
+        args: ReplaceApiClientProps<UpsertFuriganaBindingArgs>,
+    ) => Promise<UpsertFuriganaBindingResponse>;
     youtubeImport?: (
         args: ReplaceApiClientProps<YoutubeImportArgs>,
     ) => Promise<YoutubeImportResponse>;
@@ -1952,6 +1995,7 @@ export type LyricsOverrideLine = {
 };
 
 export type LyricsOverrideList = LyricsOverrideEntry[];
+
 export type LyricsOverrideResponse = LyricsOverrideList | null;
 
 export type MoveItemArgs = BaseEndpointArgs & {
@@ -1971,7 +2015,6 @@ export type SaveLyricsOverrideArgs = BaseEndpointArgs & {
 };
 
 export type SaveLyricsOverrideResponse = null;
-
 export type SaveQueueArgs = BaseEndpointArgs & {
     query: SaveQueueQuery;
 };
@@ -2109,6 +2152,20 @@ export type TranscodeDecisionResponse = {
     decision: 'direct' | 'transcode';
     transcodeParams?: string;
 };
+
+export type UpsertFuriganaBindingArgs = BaseEndpointArgs & {
+    body: {
+        charOffset: number;
+        display: boolean;
+        kanjiText: string;
+        lineIndex: number;
+        mediaFileId: string;
+        reading: string;
+        spanLength: number;
+    };
+};
+
+export type UpsertFuriganaBindingResponse = FuriganaBindingDto;
 
 export type UserInfoArgs = BaseEndpointArgs & { query: UserInfoQuery };
 

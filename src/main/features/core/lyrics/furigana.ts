@@ -7,6 +7,7 @@ import { FuriganaSegment, FuriganaToken, isKana, kataToHira, toSegments } from '
 // doc: https://kuroshiro.org
 
 export type { FuriganaSegment, FuriganaToken };
+export { kataToHira };
 
 export type LyricTextToken = {
     /** Dictionary base (plain) form, null when the analyzer has none */

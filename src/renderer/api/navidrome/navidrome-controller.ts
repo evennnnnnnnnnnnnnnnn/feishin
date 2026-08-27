@@ -203,6 +203,21 @@ export const NavidromeController: InternalControllerEndpoint = {
         return res.body.data.status === 'ok';
     },
     deleteFavorite: SubsonicController.deleteFavorite,
+    deleteFuriganaBinding: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteFuriganaBinding({
+            params: {
+                id: query.id,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to delete furigana binding');
+        }
+
+        return null;
+    },
     deleteInternetRadioStation: async (args) => {
         const { apiClientProps, query } = args;
 
@@ -624,6 +639,19 @@ export const NavidromeController: InternalControllerEndpoint = {
         };
     },
     getFolder: SubsonicController.getFolder,
+    getFuriganaBindings: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).getFuriganaBindingList({
+            query: { media_file_id: query.mediaFileId },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to get furigana bindings');
+        }
+
+        return res.body.data;
+    },
     getGenreList: async (args) => {
         const { apiClientProps, query } = args;
 
@@ -1438,6 +1466,27 @@ export const NavidromeController: InternalControllerEndpoint = {
         }
 
         return res.data?.status === 'ok';
+    },
+    upsertFuriganaBinding: async (args) => {
+        const { apiClientProps, body } = args;
+
+        const res = await ndApiClient(apiClientProps).upsertFuriganaBinding({
+            body: {
+                char_offset: body.charOffset,
+                display: body.display,
+                kanji_text: body.kanjiText,
+                line_index: body.lineIndex,
+                media_file_id: body.mediaFileId,
+                reading: body.reading,
+                span_length: body.spanLength,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to save furigana binding');
+        }
+
+        return res.body.data;
     },
     youtubeImport: async (args) => {
         const { apiClientProps, body } = args;

@@ -2,6 +2,7 @@ import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
 import { languages } from '/@/i18n/i18n';
+import '/@/renderer/features/lyrics/i18n-furigana';
 import {
     ListConfigBooleanControl,
     ListConfigTable,
@@ -20,6 +21,7 @@ import { Select } from '/@/shared/components/select/select';
 import { Slider } from '/@/shared/components/slider/slider';
 import { Stack } from '/@/shared/components/stack/stack';
 import { TextInput } from '/@/shared/components/text-input/text-input';
+import { Text } from '/@/shared/components/text/text';
 import { LyricSource } from '/@/shared/types/domain-types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
@@ -464,6 +466,20 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
         {
             component: (
                 <ListConfigBooleanControl
+                    onChange={(value) => updateLyricsSetting({ furiganaBindingsVisible: value })}
+                    value={lyricsSettings.furiganaBindingsVisible ?? true}
+                />
+            ),
+            description: t('setting.furiganaBindingsVisible', {
+                context: 'description',
+            }),
+            id: 'furiganaBindingsVisible',
+            isHidden: !lyricsSettings.enableFurigana,
+            label: t('setting.furiganaBindingsVisible'),
+        },
+        {
+            component: (
+                <ListConfigBooleanControl
                     onChange={(value) => {
                         updateLyricsSetting({ enableNeteaseTranslation: value });
                         localSettings?.set('enableNeteaseTranslation', value);
@@ -555,6 +571,11 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
         <Stack gap="sm">
             <Fieldset legend={t('page.setting.lyrics')}>
                 <ListConfigTable options={lyricOptions} />
+                {lyricsSettings.enableFurigana && (
+                    <Text isMuted size="xs">
+                        {t('setting.furiganaBindingsAttribution')}
+                    </Text>
+                )}
             </Fieldset>
             <Fieldset legend={t('page.setting.lyricsDisplay')}>
                 <ListConfigTable options={displayOptions} />
