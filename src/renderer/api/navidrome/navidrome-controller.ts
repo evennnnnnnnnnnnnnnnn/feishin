@@ -235,6 +235,21 @@ export const NavidromeController: InternalControllerEndpoint = {
 
         return res.body.data.status === 'ok';
     },
+    deleteLyricsOverride: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteLyricsOverride({
+            params: {
+                id: query.songId,
+            },
+        });
+
+        if (res.status !== 204) {
+            throw new Error('Failed to delete lyrics override');
+        }
+
+        return null;
+    },
     deletePlaylist: async (args) => {
         const { apiClientProps, query } = args;
 
@@ -669,6 +684,25 @@ export const NavidromeController: InternalControllerEndpoint = {
         return res.body.data.map((station) => ndNormalize.internetRadioStation(station));
     },
     getLyrics: SubsonicController.getLyrics,
+    getLyricsOverride: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).getLyricsOverride({
+            params: {
+                id: query.songId,
+            },
+        });
+
+        if (res.status === 404) {
+            return null;
+        }
+
+        if (res.status !== 200) {
+            throw new Error('Failed to get lyrics override');
+        }
+
+        return res.body.data;
+    },
     getMusicFolderList: SubsonicController.getMusicFolderList,
     getPlaylistDetail: async (args) => {
         const { apiClientProps, query } = args;
@@ -1184,6 +1218,22 @@ export const NavidromeController: InternalControllerEndpoint = {
             if (addRes.status !== 200) {
                 throw new Error('Failed to add songs to playlist');
             }
+        }
+
+        return null;
+    },
+    saveLyricsOverride: async (args) => {
+        const { apiClientProps, body, query } = args;
+
+        const res = await ndApiClient(apiClientProps).saveLyricsOverride({
+            body,
+            params: {
+                id: query.songId,
+            },
+        });
+
+        if (res.status !== 204) {
+            throw new Error('Failed to save lyrics override');
         }
 
         return null;

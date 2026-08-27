@@ -1,15 +1,20 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './synchronized-lyrics.module.css';
 
 import '/@/renderer/features/lyrics/styles/synchronized-lyrics-animation.css';
+import {
+    buildLyricsOverridePayload,
+    useSaveLyricsOverrideMutation,
+} from '/@/renderer/features/lyrics/api/lyrics-override-api';
 import {
     findOverlayLineByTime,
     getLyricLineStartMs,
     getLyricLineText,
     normalizeLyrics,
 } from '/@/renderer/features/lyrics/api/lyrics-utils';
+import { EditableLyricLine } from '/@/renderer/features/lyrics/components/editable-lyric-line';
 import { LyricsScrollContent } from '/@/renderer/features/lyrics/components/lyrics-scroll-content';
 import { useLyricsAnimationEngine } from '/@/renderer/features/lyrics/hooks/use-lyrics-animation-engine';
 import {
@@ -17,13 +22,23 @@ import {
     useSynchronizedLyricsBase,
 } from '/@/renderer/features/lyrics/hooks/use-synchronized-lyrics-base';
 import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
-import { subscribePlayerStatus, usePlayerStoreBase } from '/@/renderer/store';
+import {
+    subscribePlayerStatus,
+    useCurrentServer,
+    useIsAdmin,
+    usePlayerActions,
+    usePlayerSong,
+    usePlayerStoreBase,
+} from '/@/renderer/store';
 import { subscribePlayerProgress, useTimestampStoreBase } from '/@/renderer/store/timestamp.store';
 import {
     FullLyricsMetadata,
+    ServerType,
     SynchronizedLyrics as SynchronizedLyricsData,
 } from '/@/shared/types/domain-types';
 import { PlayerStatus } from '/@/shared/types/types';
+
+const PREVIEW_DURATION_MS = 1000;
 
 export interface SynchronizedLyricsProps extends Omit<FullLyricsMetadata, 'lyrics'> {
     extraOverlayLyrics?: SynchronizedLyricsData[];
@@ -31,6 +46,10 @@ export interface SynchronizedLyricsProps extends Omit<FullLyricsMetadata, 'lyric
     offsetMs?: number;
     preview?: boolean;
     pronunciationLyrics?: null | SynchronizedLyricsData;
+    /** Pre-furigana/romaji-transform lines, used as the edit/save source of
+     * truth so an admin edit never persists rendered furigana markup as the
+     * canonical lyric text. Defaults to `lyrics` when not provided. */
+    rawLyrics?: SynchronizedLyricsData;
     romajiLyrics?: null | SynchronizedLyricsData;
     settingsKey?: string;
     style?: React.CSSProperties;
@@ -49,6 +68,7 @@ export const SynchronizedLyrics = ({
     offsetMs,
     preview = false,
     pronunciationLyrics,
+    rawLyrics,
     romajiLyrics,
     settingsKey = 'default',
     source,
@@ -63,6 +83,7 @@ export const SynchronizedLyrics = ({
         followRef,
         followScrollAlignmentRef,
         handleLineClick,
+        handleSeek,
         hideScrollbar,
         lineLeadTimeMsRef,
         lyricRef,
@@ -70,7 +91,105 @@ export const SynchronizedLyrics = ({
         scrollAnimStateRef,
         settings,
         showScrollbar,
+        userScrollingRef,
     } = useSynchronizedLyricsBase(settingsKey, offsetMs);
+
+    const { isAdmin } = useIsAdmin();
+    const currentServerType = useCurrentServer()?.type;
+    const currentSong = usePlayerSong();
+    const { mediaPause, mediaPlay } = usePlayerActions();
+    const saveLyricsOverride = useSaveLyricsOverrideMutation();
+    const canEditLyrics = !preview && isAdmin && currentServerType === ServerType.NAVIDROME;
+
+    const [editingLine, setEditingLine] = useState<null | {
+        field: 'text' | 'time';
+        index: number;
+    }>(null);
+    const previewRestoreRef = useRef<null | {
+        timeoutId: ReturnType<typeof setTimeout>;
+        wasPaused: boolean;
+    }>(null);
+
+    useEffect(() => {
+        if (editingLine) {
+            userScrollingRef.current = true;
+        } else {
+            resumeAutoscroll();
+        }
+    }, [editingLine, resumeAutoscroll, userScrollingRef]);
+
+    useEffect(() => {
+        return () => {
+            if (previewRestoreRef.current) {
+                clearTimeout(previewRestoreRef.current.timeoutId);
+            }
+        };
+    }, []);
+
+    const handlePreview = useCallback(
+        (previewMs: number) => {
+            if (previewRestoreRef.current) {
+                clearTimeout(previewRestoreRef.current.timeoutId);
+                previewRestoreRef.current = null;
+            }
+
+            const wasPaused = usePlayerStoreBase.getState().player.status !== PlayerStatus.PLAYING;
+            const previousTimestamp = useTimestampStoreBase.getState().timestamp;
+
+            handleSeek(previewMs / 1000);
+            if (wasPaused) {
+                mediaPlay();
+            }
+
+            previewRestoreRef.current = {
+                timeoutId: setTimeout(() => {
+                    if (wasPaused) {
+                        mediaPause();
+                        handleSeek(previousTimestamp);
+                    }
+                    previewRestoreRef.current = null;
+                }, PREVIEW_DURATION_MS),
+                wasPaused,
+            };
+        },
+        [handleSeek, mediaPause, mediaPlay],
+    );
+
+    const handleCommitLine = useCallback(
+        (index: number, updates: { startMs?: number; text?: string }) => {
+            setEditingLine(null);
+
+            if (!currentSong?._serverId || !currentSong?.id) {
+                return;
+            }
+
+            const baseLines = normalizeLyrics(rawLyrics ?? lyrics);
+            const nextLines = baseLines.map((line, i) =>
+                i === index
+                    ? {
+                          ...line,
+                          startMs: updates.startMs ?? line.startMs,
+                          text: updates.text ?? line.text,
+                      }
+                    : line,
+            );
+
+            saveLyricsOverride.mutate({
+                payload: buildLyricsOverridePayload({ artist, name }, nextLines),
+                serverId: currentSong._serverId,
+                songId: currentSong.id,
+            });
+        },
+        [artist, currentSong, lyrics, name, rawLyrics, saveLyricsOverride],
+    );
+
+    const handleSetCurrentTime = useCallback(
+        (index: number) => {
+            const currentMs = Math.round(useTimestampStoreBase.getState().timestamp * 1000);
+            handleCommitLine(index, { startMs: currentMs });
+        },
+        [handleCommitLine],
+    );
 
     const effectiveFontSize = preview ? PREVIEW_FONT_SIZE : settings.fontSize;
     const effectiveGap = preview ? PREVIEW_GAP : settings.gap;
@@ -296,6 +415,28 @@ export const SynchronizedLyrics = ({
                         idx,
                         translatedLyrics?.split('\n')[idx],
                     );
+
+                    if (canEditLyrics) {
+                        return (
+                            <EditableLyricLine
+                                alignment={settings.alignment}
+                                editing={editingLine?.index === idx ? editingLine.field : null}
+                                fontSize={effectiveFontSize}
+                                key={idx}
+                                lineId={`lyric-${idx}`}
+                                onCancelEdit={() => setEditingLine(null)}
+                                onCommitText={(text) => handleCommitLine(idx, { text })}
+                                onCommitTime={(ms) => handleCommitLine(idx, { startMs: ms })}
+                                onPreview={handlePreview}
+                                onSetCurrentTime={() => handleSetCurrentTime(idx)}
+                                onStartEdit={(field) => setEditingLine({ field, index: idx })}
+                                romajiText={pronunciationText}
+                                startMs={lineStartMs}
+                                text={lineText}
+                                translatedText={translationText}
+                            />
+                        );
+                    }
 
                     return (
                         <LyricLine

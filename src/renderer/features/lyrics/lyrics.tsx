@@ -267,6 +267,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             extraOverlayLyrics: isKaraoke ? extraOverlayLyrics : undefined,
             offsetMs: displayOffsetMs,
             pronunciationLyrics: pronunciationLyricsOverlay,
+            rawLyrics: rawSyncedLyrics ?? undefined,
             romajiLyrics:
                 enableRomaji && !useServerPronunciation && !shouldGenerateSyncedRomaji
                     ? (romajiConvertedLyrics as SynchronizedLyricsProps['romajiLyrics'])
@@ -284,6 +285,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         extraOverlayLyrics,
         isKaraoke,
         pronunciationLyricsOverlay,
+        rawSyncedLyrics,
         romajiConvertedLyrics,
         shouldGenerateSyncedRomaji,
         syncedRomajiLyrics,

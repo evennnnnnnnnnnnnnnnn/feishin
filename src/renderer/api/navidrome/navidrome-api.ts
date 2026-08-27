@@ -74,6 +74,16 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    deleteLyricsOverride: {
+        body: null,
+        method: 'DELETE',
+        path: 'lyricsoverride/:id',
+        responses: {
+            204: resultWithHeaders(ndType._response.deleteLyricsOverride),
+            403: resultWithHeaders(ndType._response.error),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
     deletePlaylist: {
         body: null,
         method: 'DELETE',
@@ -132,6 +142,15 @@ export const contract = c.router({
         query: ndType._parameters.genreList,
         responses: {
             200: resultWithHeaders(ndType._response.genreList),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    getLyricsOverride: {
+        method: 'GET',
+        path: 'lyricsoverride/:id',
+        responses: {
+            200: resultWithHeaders(ndType._response.lyricsOverride),
+            404: resultWithHeaders(ndType._response.error),
             500: resultWithHeaders(ndType._response.error),
         },
     },
@@ -229,6 +248,16 @@ export const contract = c.router({
         query: ndType._parameters.removeFromPlaylist,
         responses: {
             200: resultWithHeaders(ndType._response.removeFromPlaylist),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    saveLyricsOverride: {
+        body: ndType._parameters.saveLyricsOverride,
+        method: 'PUT',
+        path: 'lyricsoverride/:id',
+        responses: {
+            204: resultWithHeaders(ndType._response.deleteLyricsOverride),
+            403: resultWithHeaders(ndType._response.error),
             500: resultWithHeaders(ndType._response.error),
         },
     },

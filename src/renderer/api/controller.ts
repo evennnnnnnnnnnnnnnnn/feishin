@@ -319,6 +319,18 @@ export const controller: GeneralController = {
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
+    deleteLyricsOverride(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: deleteLyricsOverride`);
+        }
+
+        return apiController(
+            'deleteLyricsOverride',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
     deletePlaylist(args) {
         const server = getServerById(args.apiClientProps.serverId);
 
@@ -641,6 +653,18 @@ export const controller: GeneralController = {
 
         return apiController(
             'getLyrics',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    getLyricsOverride(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: getLyricsOverride`);
+        }
+
+        return apiController(
+            'getLyricsOverride',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
@@ -977,6 +1001,18 @@ export const controller: GeneralController = {
 
         return apiController(
             'replacePlaylist',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    saveLyricsOverride(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: saveLyricsOverride`);
+        }
+
+        return apiController(
+            'saveLyricsOverride',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },

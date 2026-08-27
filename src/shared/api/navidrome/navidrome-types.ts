@@ -811,6 +811,45 @@ const radioListParameters = optionalPaginationParameters.extend({
     _sort: z.nativeEnum(NDRadioListSort).optional(),
 });
 
+// Admin-edited shared lyrics (lyrics_override). Mirrors navidrome's
+// model.LyricList/Lyrics/Line/Cue/Agent wire shape exactly.
+const ndLyricsOverrideCue = z.object({
+    agentId: z.string().optional(),
+    byteEnd: z.number(),
+    byteStart: z.number(),
+    end: z.number().nullish(),
+    start: z.number().nullish(),
+    value: z.string(),
+});
+
+const ndLyricsOverrideLine = z.object({
+    cue: z.array(ndLyricsOverrideCue).optional(),
+    end: z.number().nullish(),
+    start: z.number().nullish(),
+    value: z.string(),
+});
+
+const ndLyricsOverrideAgent = z.object({
+    id: z.string(),
+    name: z.string().optional(),
+    role: z.string(),
+});
+
+const ndLyricsOverrideEntry = z.object({
+    agents: z.array(ndLyricsOverrideAgent).optional(),
+    displayArtist: z.string().optional(),
+    displayTitle: z.string().optional(),
+    kind: z.string().optional(),
+    lang: z.string(),
+    line: z.array(ndLyricsOverrideLine),
+    offset: z.number().nullish(),
+    synced: z.boolean(),
+});
+
+const lyricsOverride = z.array(ndLyricsOverrideEntry);
+
+const deleteLyricsOverride = z.null();
+
 export const ndType = {
     _enum: {
         albumArtistList: NDAlbumArtistListSort,
@@ -833,6 +872,7 @@ export const ndType = {
         playlistList: playlistListParameters,
         radioList: radioListParameters,
         removeFromPlaylist: removeFromPlaylistParameters,
+        saveLyricsOverride: lyricsOverride,
         saveQueue: saveQueueParameters,
         shareItem: shareItemParameters,
         songList: songListParameters,
@@ -855,11 +895,13 @@ export const ndType = {
         deleteArtistImage,
         deleteInternetRadioStation,
         deleteInternetRadioStationImage,
+        deleteLyricsOverride,
         deletePlaylist,
         deletePlaylistImage,
         error,
         genre,
         genreList,
+        lyricsOverride,
         moveItem,
         playlist,
         playlistList,

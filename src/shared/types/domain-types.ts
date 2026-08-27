@@ -1570,6 +1570,9 @@ export type ControllerEndpoint = {
     deleteInternetRadioStationImage?: (
         args: DeleteInternetRadioStationImageArgs,
     ) => Promise<DeleteInternetRadioStationImageResponse>;
+    deleteLyricsOverride?: (
+        args: DeleteLyricsOverrideArgs,
+    ) => Promise<DeleteLyricsOverrideResponse>;
     deletePlaylist: (args: DeletePlaylistArgs) => Promise<DeletePlaylistResponse>;
     deletePlaylistImage?: (args: DeletePlaylistImageArgs) => Promise<DeletePlaylistImageResponse>;
     getAlbumArtistDetail: (args: AlbumArtistDetailArgs) => Promise<AlbumArtistDetailResponse>;
@@ -1594,6 +1597,7 @@ export type ControllerEndpoint = {
         args: GetInternetRadioStationsArgs,
     ) => Promise<GetInternetRadioStationsResponse>;
     getLyrics?: (args: LyricsArgs) => Promise<LyricsResponse>;
+    getLyricsOverride?: (args: LyricsOverrideArgs) => Promise<LyricsOverrideResponse>;
     getMusicFolderList: (args: MusicFolderListArgs) => Promise<MusicFolderListResponse>;
     getPlaylistDetail: (args: PlaylistDetailArgs) => Promise<PlaylistDetailResponse>;
     getPlaylistList: (args: PlaylistListArgs) => Promise<PlaylistListResponse>;
@@ -1620,6 +1624,7 @@ export type ControllerEndpoint = {
     refreshItems: (args: RefreshItemsArgs) => Promise<RefreshItemsResponse>;
     removeFromPlaylist: (args: RemoveFromPlaylistArgs) => Promise<RemoveFromPlaylistResponse>;
     replacePlaylist: (args: ReplacePlaylistArgs) => Promise<ReplacePlaylistResponse>;
+    saveLyricsOverride?: (args: SaveLyricsOverrideArgs) => Promise<SaveLyricsOverrideResponse>;
     savePlayQueue: (args: SaveQueueArgs) => Promise<void>;
     scrobble: (args: ScrobbleArgs) => Promise<ScrobbleResponse>;
     search: (args: SearchArgs) => Promise<SearchResponse>;
@@ -1637,6 +1642,10 @@ export type ControllerEndpoint = {
     ) => Promise<UploadInternetRadioStationImageResponse>;
     uploadPlaylistImage?: (args: UploadPlaylistImageArgs) => Promise<UploadPlaylistImageResponse>;
 };
+
+export type DeleteLyricsOverrideArgs = BaseEndpointArgs & { query: { songId: string } };
+
+export type DeleteLyricsOverrideResponse = null;
 
 export type DownloadArgs = BaseEndpointArgs & {
     query: DownloadQuery;
@@ -1711,6 +1720,9 @@ export type InternalControllerEndpoint = {
     deleteInternetRadioStationImage?: (
         args: ReplaceApiClientProps<DeleteInternetRadioStationImageArgs>,
     ) => Promise<DeleteInternetRadioStationImageResponse>;
+    deleteLyricsOverride?: (
+        args: ReplaceApiClientProps<DeleteLyricsOverrideArgs>,
+    ) => Promise<DeleteLyricsOverrideResponse>;
     deletePlaylist: (
         args: ReplaceApiClientProps<DeletePlaylistArgs>,
     ) => Promise<DeletePlaylistResponse>;
@@ -1750,6 +1762,9 @@ export type InternalControllerEndpoint = {
         args: ReplaceApiClientProps<GetInternetRadioStationsArgs>,
     ) => Promise<GetInternetRadioStationsResponse>;
     getLyrics?: (args: ReplaceApiClientProps<LyricsArgs>) => Promise<LyricsResponse>;
+    getLyricsOverride?: (
+        args: ReplaceApiClientProps<LyricsOverrideArgs>,
+    ) => Promise<LyricsOverrideResponse>;
     getMusicFolderList: (
         args: ReplaceApiClientProps<MusicFolderListArgs>,
     ) => Promise<MusicFolderListResponse>;
@@ -1800,6 +1815,9 @@ export type InternalControllerEndpoint = {
     replacePlaylist: (
         args: ReplaceApiClientProps<ReplacePlaylistArgs>,
     ) => Promise<ReplacePlaylistResponse>;
+    saveLyricsOverride?: (
+        args: ReplaceApiClientProps<SaveLyricsOverrideArgs>,
+    ) => Promise<SaveLyricsOverrideResponse>;
     savePlayQueue: (args: ReplaceApiClientProps<SaveQueueArgs>) => Promise<void>;
     scrobble: (args: ReplaceApiClientProps<ScrobbleArgs>) => Promise<ScrobbleResponse>;
     search: (args: ReplaceApiClientProps<SearchArgs>) => Promise<SearchResponse>;
@@ -1891,10 +1909,49 @@ export type LyricSearchQuery = {
 
 export type LyricsOverride = Omit<FullLyricsMetadata, 'lyrics'> & { id: string };
 
+export type LyricsOverrideAgent = {
+    id: string;
+    name?: string;
+    role: string;
+};
+
+export type LyricsOverrideArgs = BaseEndpointArgs & { query: { songId: string } };
+
+// Admin-edited shared lyrics saved to the Navidrome lyrics_override table. Wire
+// shape mirrors navidrome's model.LyricList/Lyrics/Line/Cue/Agent exactly (see
+// server/nativeapi/lyrics_override.go + model/lyrics_override.go).
+export type LyricsOverrideCue = {
+    agentId?: string;
+    byteEnd: number;
+    byteStart: number;
+    end?: null | number;
+    start?: null | number;
+    value: string;
+};
+
+export type LyricsOverrideEntry = {
+    agents?: LyricsOverrideAgent[];
+    displayArtist?: string;
+    displayTitle?: string;
+    kind?: string;
+    lang: string;
+    line: LyricsOverrideLine[];
+    offset?: null | number;
+    synced: boolean;
+};
+export type LyricsOverrideLine = {
+    cue?: LyricsOverrideCue[];
+    end?: null | number;
+    start?: null | number;
+    value: string;
+};
+
+export type LyricsOverrideList = LyricsOverrideEntry[];
+export type LyricsOverrideResponse = LyricsOverrideList | null;
+
 export type MoveItemArgs = BaseEndpointArgs & {
     query: MoveItemQuery;
 };
-
 export type MoveItemQuery = {
     endingIndex: number;
     playlistId: string;
@@ -1903,6 +1960,13 @@ export type MoveItemQuery = {
 };
 
 export type ReplaceApiClientProps<T> = BaseEndpointArgsWithServer & Omit<T, 'apiClientProps'>;
+
+export type SaveLyricsOverrideArgs = BaseEndpointArgs & {
+    body: LyricsOverrideList;
+    query: { songId: string };
+};
+
+export type SaveLyricsOverrideResponse = null;
 
 export type SaveQueueArgs = BaseEndpointArgs & {
     query: SaveQueueQuery;
