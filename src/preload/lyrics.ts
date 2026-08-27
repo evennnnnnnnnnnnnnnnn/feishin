@@ -46,7 +46,12 @@ const convertRomajiTokens = (text: string) => {
     return ipcRenderer.invoke('lyric-convert-romaji-tokens', text);
 };
 
+const analyzeLyricsLines = (lines: string[]) => {
+    return ipcRenderer.invoke('lyric-analyze-lines', lines);
+};
+
 export const lyrics = {
+    analyzeLyricsLines,
     convertFurigana,
     convertFuriganaFragment,
     convertRomaji,

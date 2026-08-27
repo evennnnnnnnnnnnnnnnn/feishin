@@ -5,6 +5,7 @@ import * as browserLyricsApi from '../../../../main/features/core/lyrics/furigan
 const lyricsApi = isElectron() ? window.api.lyrics : browserLyricsApi;
 
 export const {
+    analyzeLyricsLines,
     convertFurigana,
     convertFuriganaFragment,
     convertRomaji,

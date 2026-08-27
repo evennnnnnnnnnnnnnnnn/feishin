@@ -2,6 +2,7 @@ import { ipcMain } from 'electron';
 
 import { store } from '../settings';
 import {
+    analyzeLyricsLines,
     convertFurigana,
     convertFuriganaFragment,
     convertRomaji,
@@ -258,4 +259,8 @@ ipcMain.handle('lyric-convert-romaji', async (_event, text: string) => {
 
 ipcMain.handle('lyric-convert-romaji-tokens', async (_event, text: string) => {
     return await convertRomajiTokens(text);
+});
+
+ipcMain.handle('lyric-analyze-lines', async (_event, lines: string[]) => {
+    return await analyzeLyricsLines(lines);
 });

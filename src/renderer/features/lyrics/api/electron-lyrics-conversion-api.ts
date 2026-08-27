@@ -1,4 +1,5 @@
 export const {
+    analyzeLyricsLines,
     convertFurigana,
     convertFuriganaFragment,
     convertRomaji,
