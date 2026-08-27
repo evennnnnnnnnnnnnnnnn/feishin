@@ -850,6 +850,21 @@ const lyricsOverride = z.array(ndLyricsOverrideEntry);
 
 const deleteLyricsOverride = z.null();
 
+const youtubeImportParameters = z.object({
+    libraryId: z.number().optional(),
+    url: z.string(),
+});
+
+const youtubeImport = z.object({
+    artist: z.string(),
+    duration: z.number(),
+    lyricsFound: z.boolean(),
+    lyricsSynced: z.boolean(),
+    path: z.string(),
+    scanTriggered: z.boolean(),
+    title: z.string(),
+});
+
 export const ndType = {
     _enum: {
         albumArtistList: NDAlbumArtistListSort,
@@ -883,6 +898,7 @@ export const ndType = {
         uploadInternetRadioStationImage: uploadInternetRadioStationImageParameters,
         uploadPlaylistImage: uploadPlaylistImageParameters,
         userList: userListParameters,
+        youtubeImport: youtubeImportParameters,
     },
     _response: {
         addToPlaylist,
@@ -923,5 +939,6 @@ export const ndType = {
         uploadPlaylistImage,
         user,
         userList,
+        youtubeImport,
     },
 };

@@ -325,6 +325,18 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    youtubeImport: {
+        body: ndType._parameters.youtubeImport,
+        method: 'POST',
+        path: 'youtubeimport',
+        responses: {
+            200: resultWithHeaders(ndType._response.youtubeImport),
+            403: resultWithHeaders(ndType._response.error),
+            422: resultWithHeaders(ndType._response.error),
+            500: resultWithHeaders(ndType._response.error),
+            503: resultWithHeaders(ndType._response.error),
+        },
+    },
 });
 
 const axiosClient = axios.create({});

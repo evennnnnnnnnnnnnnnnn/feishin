@@ -1439,4 +1439,20 @@ export const NavidromeController: InternalControllerEndpoint = {
 
         return res.data?.status === 'ok';
     },
+    youtubeImport: async (args) => {
+        const { apiClientProps, body } = args;
+
+        const res = await ndApiClient(apiClientProps).youtubeImport({
+            body: {
+                libraryId: body.libraryId,
+                url: body.url,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to import from YouTube');
+        }
+
+        return res.body.data;
+    },
 };

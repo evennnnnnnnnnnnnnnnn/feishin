@@ -1641,6 +1641,7 @@ export type ControllerEndpoint = {
         args: UploadInternetRadioStationImageArgs,
     ) => Promise<UploadInternetRadioStationImageResponse>;
     uploadPlaylistImage?: (args: UploadPlaylistImageArgs) => Promise<UploadPlaylistImageResponse>;
+    youtubeImport?: (args: YoutubeImportArgs) => Promise<YoutubeImportResponse>;
 };
 
 export type DeleteLyricsOverrideArgs = BaseEndpointArgs & { query: { songId: string } };
@@ -1844,6 +1845,9 @@ export type InternalControllerEndpoint = {
     uploadPlaylistImage?: (
         args: ReplaceApiClientProps<UploadPlaylistImageArgs>,
     ) => Promise<UploadPlaylistImageResponse>;
+    youtubeImport?: (
+        args: ReplaceApiClientProps<YoutubeImportArgs>,
+    ) => Promise<YoutubeImportResponse>;
 };
 
 export type JukeboxControlAction =
@@ -1939,6 +1943,7 @@ export type LyricsOverrideEntry = {
     offset?: null | number;
     synced: boolean;
 };
+
 export type LyricsOverrideLine = {
     cue?: LyricsOverrideCue[];
     end?: null | number;
@@ -1960,7 +1965,6 @@ export type MoveItemQuery = {
 };
 
 export type ReplaceApiClientProps<T> = BaseEndpointArgsWithServer & Omit<T, 'apiClientProps'>;
-
 export type SaveLyricsOverrideArgs = BaseEndpointArgs & {
     body: LyricsOverrideList;
     query: { songId: string };
@@ -2117,6 +2121,20 @@ export type UserInfoResponse = {
     id: string;
     isAdmin: boolean;
     name: string;
+};
+
+export type YoutubeImportArgs = BaseEndpointArgs & {
+    body: { libraryId?: number; url: string };
+};
+
+export type YoutubeImportResponse = {
+    artist: string;
+    duration: number;
+    lyricsFound: boolean;
+    lyricsSynced: boolean;
+    path: string;
+    scanTriggered: boolean;
+    title: string;
 };
 
 type BaseEndpointArgsWithServer = {
