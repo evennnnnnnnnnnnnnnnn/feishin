@@ -803,6 +803,13 @@ const furiganaBindingListParameters = z.object({
     media_file_id: z.string(),
 });
 
+// deluan/rest's generic Post() handler only ever responds {id} - see
+// controller.go - never the full saved entity, regardless of what the
+// repository's Save() returns. Same shape as createPlaylist below.
+const upsertFuriganaBindingResult = furiganaBinding.pick({
+    id: true,
+});
+
 // PUT/Save upserts by the (user, song, line, char offset) natural key, so
 // POSTing an existing binding replaces it in place - see
 // persistence/furigana_binding_repository.go.
@@ -980,6 +987,7 @@ export const ndType = {
         uploadArtistImage,
         uploadInternetRadioStationImage,
         uploadPlaylistImage,
+        upsertFuriganaBindingResult,
         user,
         userList,
         youtubeImport,

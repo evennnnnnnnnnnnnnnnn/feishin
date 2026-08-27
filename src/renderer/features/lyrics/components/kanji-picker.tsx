@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import styles from './kanji-picker.module.css';
-
 import { kataToHira } from '../../../../main/features/core/lyrics/furigana';
+import styles from './kanji-picker.module.css';
 
 import '/@/renderer/features/lyrics/i18n-furigana';
 import { FuriganaBinding } from '/@/renderer/features/lyrics/api/furigana-render-model';

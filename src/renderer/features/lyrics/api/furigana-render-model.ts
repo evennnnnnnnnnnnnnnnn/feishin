@@ -196,3 +196,39 @@ export const removeBindingFromList = (
     bindings.filter(
         (binding) => binding.line_index !== lineIndex || binding.char_offset !== charOffset,
     );
+
+export type FuriganaBindingMergeInput = {
+    charOffset: number;
+    display: boolean;
+    kanjiText: string;
+    lineIndex: number;
+    mediaFileId: string;
+    reading: string;
+    spanLength: number;
+};
+
+/**
+ * The server's generic REST-resource upsert only ever returns { id }, never
+ * the saved entity - build the full binding from the known mutation input
+ * instead of trusting the response body as a full DTO. Preserves
+ * created_at/user_id from an existing binding at the same anchor (update
+ * case) rather than fabricating them.
+ */
+export const mergeUpsertedBinding = (
+    input: FuriganaBindingMergeInput,
+    result: { id: string },
+    now: string,
+    existing?: FuriganaBinding,
+): FuriganaBinding => ({
+    char_offset: input.charOffset,
+    created_at: existing?.created_at ?? now,
+    display: input.display,
+    id: result.id,
+    kanji_text: input.kanjiText,
+    line_index: input.lineIndex,
+    media_file_id: input.mediaFileId,
+    reading: input.reading,
+    span_length: input.spanLength,
+    updated_at: now,
+    user_id: existing?.user_id ?? '',
+});

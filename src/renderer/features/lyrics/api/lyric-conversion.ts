@@ -257,7 +257,12 @@ export const alignRomajiTokensToWordCues = (
 };
 
 const escapeHtml = (text: string): string =>
-    text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    text
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
 
 const wrapKanjiSpan = (
     piece: Extract<LinePiece, { kind: 'kanji' }>,

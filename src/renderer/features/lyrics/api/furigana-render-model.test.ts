@@ -8,6 +8,7 @@ import {
     getLineBindings,
     getSpanSuggestedReading,
     isBindingValid,
+    mergeUpsertedBinding,
     removeBindingFromList,
     upsertBindingInList,
 } from './furigana-render-model';
@@ -205,5 +206,67 @@ describe('upsertBindingInList / removeBindingFromList', () => {
         ];
         const result = removeBindingFromList(existing, 0, 0);
         expect(result.map((b) => b.id)).toEqual(['b']);
+    });
+});
+
+describe('mergeUpsertedBinding', () => {
+    const mergeInput = {
+        charOffset: 1,
+        display: true,
+        kanjiText: '生',
+        lineIndex: 0,
+        mediaFileId: 'song1',
+        reading: 'せい',
+        spanLength: 1,
+    };
+
+    it('builds a full binding from an {id}-only response, not the id alone (regression: server upsert only ever returns {id})', () => {
+        const merged = mergeUpsertedBinding(mergeInput, { id: 'new-id' }, '2026-08-28T00:00:00Z');
+
+        expect(merged).toEqual(
+            makeBinding({
+                char_offset: 1,
+                created_at: '2026-08-28T00:00:00Z',
+                id: 'new-id',
+                kanji_text: '生',
+                line_index: 0,
+                media_file_id: 'song1',
+                reading: 'せい',
+                span_length: 1,
+                updated_at: '2026-08-28T00:00:00Z',
+                user_id: '',
+            }),
+        );
+
+        // The corrupted cache bug: getLineBindings filters by line_index, which is
+        // always false against `undefined` - so an {id}-only object silently
+        // never renders as bound. A correctly merged binding must be found.
+        expect(getLineBindings([merged], 0, 'a生b')).toEqual([merged]);
+    });
+
+    it('preserves created_at/user_id from the existing binding on an update, refreshing updated_at', () => {
+        const existing = makeBinding({
+            char_offset: 1,
+            created_at: '2020-01-01T00:00:00Z',
+            display: false,
+            id: 'existing-id',
+            kanji_text: '生',
+            line_index: 0,
+            reading: 'なま',
+            user_id: 'user1',
+        });
+
+        const merged = mergeUpsertedBinding(
+            mergeInput,
+            { id: 'existing-id' },
+            '2026-08-28T00:00:00Z',
+            existing,
+        );
+
+        expect(merged.created_at).toBe('2020-01-01T00:00:00Z');
+        expect(merged.user_id).toBe('user1');
+        expect(merged.updated_at).toBe('2026-08-28T00:00:00Z');
+        expect(merged.reading).toBe('せい');
+        expect(merged.display).toBe(true);
     });
 });

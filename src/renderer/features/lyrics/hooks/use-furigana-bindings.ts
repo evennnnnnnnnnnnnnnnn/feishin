@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '/@/renderer/api';
 import {
     FuriganaBinding,
+    mergeUpsertedBinding,
     removeBindingFromList,
     upsertBindingInList,
 } from '/@/renderer/features/lyrics/api/furigana-render-model';
@@ -46,12 +47,14 @@ export const useUpsertFuriganaBindingMutation = (
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (input: FuriganaBindingUpsertInput) => {
+        mutationFn: async (
+            input: FuriganaBindingUpsertInput,
+        ): Promise<FuriganaBinding | undefined> => {
             if (!serverId || !mediaFileId) {
                 return Promise.reject(new Error('No server or song to bind furigana to'));
             }
 
-            return api.controller.upsertFuriganaBinding?.({
+            const result = await api.controller.upsertFuriganaBinding?.({
                 apiClientProps: { serverId },
                 body: {
                     charOffset: input.charOffset,
@@ -63,13 +66,30 @@ export const useUpsertFuriganaBindingMutation = (
                     spanLength: input.spanLength,
                 },
             });
+
+            if (!result) return undefined;
+
+            const existing = queryClient
+                .getQueryData<FuriganaBinding[]>(bindingsQueryKey(serverId, mediaFileId))
+                ?.find(
+                    (binding) =>
+                        binding.line_index === input.lineIndex &&
+                        binding.char_offset === input.charOffset,
+                );
+
+            return mergeUpsertedBinding(
+                { ...input, mediaFileId },
+                result,
+                new Date().toISOString(),
+                existing,
+            );
         },
-        onSuccess: (saved) => {
-            if (!serverId || !mediaFileId || !saved) return;
+        onSuccess: (merged) => {
+            if (!serverId || !mediaFileId || !merged) return;
 
             queryClient.setQueryData<FuriganaBinding[]>(
                 bindingsQueryKey(serverId, mediaFileId),
-                (prev) => upsertBindingInList(prev ?? [], saved),
+                (prev) => upsertBindingInList(prev ?? [], merged),
             );
         },
     });

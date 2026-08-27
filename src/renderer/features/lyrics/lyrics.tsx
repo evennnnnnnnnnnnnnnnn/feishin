@@ -272,7 +272,9 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 },
                 {
                     onSuccess: (saved) =>
-                        setPickerTarget((prev) => (prev ? { ...prev, binding: saved } : prev)),
+                        setPickerTarget((prev) =>
+                            prev ? { ...prev, binding: saved ?? null } : prev,
+                        ),
                 },
             );
         },
@@ -306,7 +308,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             },
             {
                 onSuccess: (saved) =>
-                    setPickerTarget((prev) => (prev ? { ...prev, binding: saved } : prev)),
+                    setPickerTarget((prev) => (prev ? { ...prev, binding: saved ?? null } : prev)),
             },
         );
     }, [pickerTarget, upsertFuriganaBinding]);

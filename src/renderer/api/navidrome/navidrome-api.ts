@@ -348,7 +348,7 @@ export const contract = c.router({
         method: 'POST',
         path: 'furiganabinding',
         responses: {
-            200: resultWithHeaders(ndType._response.furiganaBinding),
+            200: resultWithHeaders(ndType._response.upsertFuriganaBindingResult),
             500: resultWithHeaders(ndType._response.error),
         },
     },

@@ -2165,7 +2165,10 @@ export type UpsertFuriganaBindingArgs = BaseEndpointArgs & {
     };
 };
 
-export type UpsertFuriganaBindingResponse = FuriganaBindingDto;
+// deluan/rest's generic create/update handler only ever responds {id} for
+// this resource, never the full saved entity - callers must merge the known
+// mutation input with this id rather than trust the response as a full DTO.
+export type UpsertFuriganaBindingResponse = { id: string };
 
 export type UserInfoArgs = BaseEndpointArgs & { query: UserInfoQuery };
 
