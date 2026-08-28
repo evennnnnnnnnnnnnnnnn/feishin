@@ -31,8 +31,10 @@ type MusicCardReviewSessionProps = {
 /**
  * One flip-to-reveal review pass over the due queue. The queue is fixed at
  * session start (grades refresh the review query, and the deck must not
- * reshuffle underneath the operator); a card answered "again" is re-queued at
- * the end of the session, matching its server-side 10-minute relearn delay.
+ * reshuffle underneath the operator). A card answered "again" is not shown
+ * again within the pass - the server schedules it for a 10-minute relearn
+ * delay, and the due queue refetches it into a later session once that due
+ * time arrives.
  */
 export const MusicCardReviewSession = ({
     initialQueue,
@@ -43,12 +45,11 @@ export const MusicCardReviewSession = ({
 }: MusicCardReviewSessionProps) => {
     const { t } = useTranslation();
     const gradeCard = useGradeMusicCard();
-    const [queue, setQueue] = useState(initialQueue);
     const [position, setPosition] = useState(0);
     const [revealed, setRevealed] = useState(false);
     const [gradedCount, setGradedCount] = useState(0);
 
-    const card = queue[position];
+    const card = initialQueue[position];
     const snippet = card?.snippets[0];
 
     const handleGrade = useCallback(
@@ -60,10 +61,6 @@ export const MusicCardReviewSession = ({
             } catch {
                 toast.error({ message: t('page.musicCards.gradeError') });
                 return;
-            }
-
-            if (grade === 'again') {
-                setQueue((current) => [...current, card]);
             }
 
             setGradedCount((count) => count + 1);
@@ -98,7 +95,7 @@ export const MusicCardReviewSession = ({
                     <Text isMuted>
                         {t('page.musicCards.reviewProgress', {
                             current: position + 1,
-                            total: queue.length,
+                            total: initialQueue.length,
                         })}
                     </Text>
                     {isNew && <Badge>{t('page.musicCards.newCard')}</Badge>}

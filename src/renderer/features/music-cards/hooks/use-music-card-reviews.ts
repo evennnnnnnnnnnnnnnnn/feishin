@@ -33,15 +33,37 @@ export const useMusicCardReviews = (): {
 
     const query = useQuery({
         enabled,
-        queryFn: async () => ({
-            fetchedAt: Date.now(),
-            reviews:
+        queryFn: async () => {
+            const reviews =
                 (await api.controller.getMusicCardReviews?.({
                     apiClientProps: { serverId: serverId as string },
                     query: {},
-                })) ?? [],
-        }),
+                })) ?? [];
+
+            // Clock reading taken after the response so slow requests are not
+            // already stale on arrival.
+            return { fetchedAt: Date.now(), reviews };
+        },
         queryKey: musicCardReviewsQueryKey(serverId ?? ''),
+        // Refetch when the nearest future due_at arrives (bounded to stay
+        // responsive to schedule changes without hammering the server), so a
+        // card that becomes due while the route stays open enters the queue
+        // without needing a focus event or mutation.
+        refetchInterval: (activeQuery) => {
+            const data = activeQuery.state.data;
+
+            if (!data) return false;
+
+            const dueTimes = data.reviews
+                .map((review) => new Date(review.due_at).getTime())
+                .filter((dueTime) => dueTime > data.fetchedAt);
+
+            if (dueTimes.length === 0) return false;
+
+            const wait = Math.min(...dueTimes) - data.fetchedAt;
+
+            return Math.min(Math.max(wait, 30_000), 15 * 60_000);
+        },
         staleTime: 0,
     });
 
