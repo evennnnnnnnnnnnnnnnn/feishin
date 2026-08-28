@@ -378,14 +378,17 @@ export const LyricsActions = ({
                     variant="subtle"
                 />
                 {onSyncLyrics && hasLyrics ? (
-                    <Button
+                    <ActionIcon
+                        aria-label={t('lyricsEditor.syncTitle')}
                         disabled={isActionsDisabled}
+                        icon="duration"
                         onClick={onSyncLyrics}
-                        uppercase
+                        tooltip={{
+                            label: t('lyricsEditor.syncTitle'),
+                            openDelay: 0,
+                        }}
                         variant="subtle"
-                    >
-                        {t('lyricsEditor.syncTitle')}
-                    </Button>
+                    />
                 ) : null}
                 {isDesktop && sources.length ? (
                     <Button
