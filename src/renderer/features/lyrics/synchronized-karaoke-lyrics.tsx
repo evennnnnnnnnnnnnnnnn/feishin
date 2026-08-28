@@ -11,9 +11,12 @@ import {
     getOverlayCueLinesForLine,
     normalizeLyrics,
 } from '/@/renderer/features/lyrics/api/lyrics-utils';
+import { resolveLyricsSeekTargetMs } from '/@/renderer/features/lyrics/api/practice-region';
 import { LyricsScrollContent } from '/@/renderer/features/lyrics/components/lyrics-scroll-content';
+import { PracticeLineMenu } from '/@/renderer/features/lyrics/components/practice-line-menu';
 import { SyncedRomajiLyrics } from '/@/renderer/features/lyrics/hooks/use-furigana-lyrics';
 import { useLyricsAnimationEngine } from '/@/renderer/features/lyrics/hooks/use-lyrics-animation-engine';
+import { useLyricsPracticeControls } from '/@/renderer/features/lyrics/hooks/use-lyrics-practice-controls';
 import {
     LYRICS_SCROLL_CONTAINER_ID,
     useSynchronizedLyricsBase,
@@ -89,6 +92,9 @@ export const SynchronizedKaraokeLyrics = ({
     const effectivePaddingRight = preview ? 0 : settings.paddingRight;
 
     const normalizedLyrics = useMemo(() => normalizeLyrics(lyrics), [lyrics]);
+    const practiceEnabled = !preview;
+    const { handleReplayLine, handleSetLoopEnd, handleSetLoopStart, isLineInLoop } =
+        useLyricsPracticeControls(normalizedLyrics, handleSeek);
     const rafRef = useRef<null | number>(null);
     const statusRef = useRef(usePlayerStoreBase.getState().player.status);
     const lastSyncedTimeRef = useRef(0);
@@ -120,27 +126,18 @@ export const SynchronizedKaraokeLyrics = ({
 
     const handleContainerClick = useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {
-            const wordTarget = (event.target as HTMLElement).closest('[data-word-start]');
-            if (wordTarget) {
-                const wordStart = Number((wordTarget as HTMLElement).dataset.wordStart);
-                if (Number.isFinite(wordStart)) {
-                    resumeAutoscroll();
-                    resumeEngineAutoscroll();
-                    handleSeek(wordStart / 1000);
-                }
-                return;
-            }
+            const node = event.target as HTMLElement;
+            const wordTarget = node.closest<HTMLElement>('[data-word-start]');
+            const lineTarget = node.closest<HTMLElement>('[data-lyric-time]');
+            const seekMs = resolveLyricsSeekTargetMs(
+                wordTarget?.dataset.wordStart,
+                lineTarget?.dataset.lyricTime,
+            );
 
-            const target = (event.target as HTMLElement).closest('[data-lyric-time]');
-            if (!target) {
-                return;
-            }
-
-            const time = Number((target as HTMLElement).dataset.lyricTime);
-            if (time >= 0 && Number.isFinite(time)) {
+            if (seekMs !== null) {
                 resumeAutoscroll();
                 resumeEngineAutoscroll();
-                handleSeek(time / 1000);
+                handleSeek(seekMs / 1000);
             }
         },
         [handleSeek, resumeAutoscroll, resumeEngineAutoscroll],
@@ -404,35 +401,34 @@ export const SynchronizedKaraokeLyrics = ({
                         text: getOverlayText(overlayLyrics, lineStartMs, idx),
                     }));
 
-                    if (!rawLine.cueLines?.length) {
-                        return (
-                            <LyricLine
-                                alignment={settings.alignment}
-                                className="lyric-line synchronized"
-                                data-lyric-time={lineStartMs}
-                                fontSize={effectiveFontSize}
-                                id={`karaoke-line-${idx}`}
-                                key={idx}
-                                lineIndex={idx}
-                                onWordClick={onWordClick}
-                                romajiText={pronunciationText}
-                                text={getLyricLineText(rawLine)}
-                                translatedText={translationText}
-                            />
-                        );
-                    }
+                    const loopLineClassName =
+                        practiceEnabled && isLineInLoop(idx) ? 'practice-loop-line' : undefined;
 
-                    return (
+                    const lyricLine = !rawLine.cueLines?.length ? (
+                        <LyricLine
+                            alignment={settings.alignment}
+                            className={clsx('lyric-line synchronized', loopLineClassName)}
+                            data-lyric-time={lineStartMs}
+                            fontSize={effectiveFontSize}
+                            id={`karaoke-line-${idx}`}
+                            key={practiceEnabled ? undefined : idx}
+                            lineIndex={idx}
+                            onWordClick={onWordClick}
+                            romajiText={pronunciationText}
+                            text={getLyricLineText(rawLine)}
+                            translatedText={translationText}
+                        />
+                    ) : (
                         <KaraokeLyricLine
                             agents={agents}
                             alignment={settings.alignment}
-                            className="synchronized"
+                            className={clsx('synchronized', loopLineClassName)}
                             cueLines={rawLine.cueLines}
                             data-lyric-time={lineStartMs}
                             extraOverlays={extraOverlays}
                             fontSize={effectiveFontSize}
                             id={`karaoke-line-${idx}`}
-                            key={idx}
+                            key={practiceEnabled ? undefined : idx}
                             lineIndex={idx}
                             pronunciationCueLines={pronunciationCueLines}
                             pronunciationText={pronunciationText}
@@ -445,6 +441,22 @@ export const SynchronizedKaraokeLyrics = ({
                             translatedText={translationText}
                             translationCueLines={translationCueLines}
                         />
+                    );
+
+                    if (!practiceEnabled) {
+                        return lyricLine;
+                    }
+
+                    return (
+                        <PracticeLineMenu
+                            key={idx}
+                            lineIndex={idx}
+                            onReplay={handleReplayLine}
+                            onSetLoopEnd={handleSetLoopEnd}
+                            onSetLoopStart={handleSetLoopStart}
+                        >
+                            {lyricLine}
+                        </PracticeLineMenu>
                     );
                 })}
             </LyricsScrollContent>

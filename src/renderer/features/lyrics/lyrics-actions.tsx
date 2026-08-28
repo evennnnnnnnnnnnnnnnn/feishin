@@ -5,12 +5,22 @@ import { useTranslation } from 'react-i18next';
 import styles from './lyrics-actions.module.css';
 
 import { openLyricSearchModal } from '/@/renderer/features/lyrics/components/lyrics-search-form';
-import { useLyricsSettings, usePlayerSong } from '/@/renderer/store';
+import {
+    useLyricsSettings,
+    usePlayerActions,
+    usePlayerSong,
+    usePlayerSpeed,
+} from '/@/renderer/store';
+import {
+    useLyricsPracticeActions,
+    useLyricsPracticeLoop,
+    useLyricsPracticeLoopDraft,
+} from '/@/renderer/store/lyrics-practice.store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Button } from '/@/shared/components/button/button';
 import { DropdownMenu } from '/@/shared/components/dropdown-menu/dropdown-menu';
 import { Group } from '/@/shared/components/group/group';
-import { AppIcon } from '/@/shared/components/icon/icon';
+import { AppIcon, Icon } from '/@/shared/components/icon/icon';
 import { NumberInput } from '/@/shared/components/number-input/number-input';
 import { Popover } from '/@/shared/components/popover/popover';
 import { Stack } from '/@/shared/components/stack/stack';
@@ -48,6 +58,10 @@ const OVERLAY_KIND_ICONS: Partial<Record<LyricsKind, keyof typeof AppIcon>> = {
     translation: 'languages',
 };
 
+// Practice speeds only; the full 0.5-2 range lives in the player config
+// slider (player.playbackSpeed). 1 doubles as the explicit reset.
+const PRACTICE_SPEEDS = [0.5, 0.75, 0.9, 1];
+
 const getOverlayTooltip = (
     layer: OverlayLayerToggle,
     t: (key: string) => string,
@@ -84,6 +98,11 @@ export const LyricsActions = ({
     const { t } = useTranslation();
     const currentSong = usePlayerSong();
     const { sources } = useLyricsSettings();
+    const speed = usePlayerSpeed();
+    const { setSpeed } = usePlayerActions();
+    const practiceLoop = useLyricsPracticeLoop();
+    const practiceLoopDraft = useLyricsPracticeLoopDraft();
+    const { clearLoop } = useLyricsPracticeActions();
 
     const handleLyricOffset = (e: number | string) => {
         onUpdateOffset(Number(e));
@@ -229,6 +248,54 @@ export const LyricsActions = ({
             </Popover>
         ) : null;
 
+    const isPracticeSpeedActive = speed !== 1;
+    const practiceSpeedMenu = (
+        <DropdownMenu position="top">
+            <DropdownMenu.Target>
+                <ActionIcon
+                    aria-label={t('page.fullscreenPlayer.practiceSpeed')}
+                    className={isPracticeSpeedActive ? styles.overlayToggleActive : undefined}
+                    disabled={isActionsDisabled}
+                    icon="mediaSpeed"
+                    iconProps={
+                        isPracticeSpeedActive ? { color: 'primary', size: 'lg' } : { size: 'lg' }
+                    }
+                    size="sm"
+                    tooltip={{
+                        label: `${t('page.fullscreenPlayer.practiceSpeed')}: ${speed}x`,
+                        openDelay: 0,
+                    }}
+                    variant="subtle"
+                />
+            </DropdownMenu.Target>
+            <DropdownMenu.Dropdown>
+                {PRACTICE_SPEEDS.map((value) => (
+                    <DropdownMenu.Item
+                        isSelected={speed === value}
+                        key={value}
+                        onClick={() => setSpeed(value)}
+                    >
+                        {`${value}x`}
+                    </DropdownMenu.Item>
+                ))}
+            </DropdownMenu.Dropdown>
+        </DropdownMenu>
+    );
+
+    const hasPracticeLoop = !!practiceLoop || !!practiceLoopDraft;
+    const practiceLoopChip = hasPracticeLoop ? (
+        <Button
+            leftSection={<Icon icon="remove" />}
+            onClick={clearLoop}
+            size="compact-sm"
+            tooltip={{ label: t('page.fullscreenPlayer.practiceLoopClear'), openDelay: 0 }}
+            uppercase
+            variant="subtle"
+        >
+            {practiceLoop ? 'A-B' : 'A-?'}
+        </Button>
+    ) : null;
+
     return (
         <div className={styles.root}>
             {showTopRow ? (
@@ -249,6 +316,8 @@ export const LyricsActions = ({
                 </Group>
             ) : null}
             <Group className={styles.controlsRow} gap="xs" justify="center">
+                {practiceLoopChip}
+                {practiceSpeedMenu}
                 {isDesktop && sources.length ? (
                     <Button
                         disabled={isActionsDisabled}

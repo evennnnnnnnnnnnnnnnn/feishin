@@ -1,6 +1,7 @@
 import isElectron from 'is-electron';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
+import { resolveLyricsSeekTargetMs } from '/@/renderer/features/lyrics/api/practice-region';
 import {
     animateLyricsScrollTo,
     createAnimEngineState,
@@ -77,13 +78,13 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
 
     const handleLineClick = useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {
-            const target = (event.target as HTMLElement).closest('[data-lyric-time]');
+            const target = (event.target as HTMLElement).closest<HTMLElement>('[data-lyric-time]');
             if (!target) {
                 return;
             }
 
-            const time = Number((target as HTMLElement).dataset.lyricTime);
-            if (time >= 0 && Number.isFinite(time)) {
+            const time = resolveLyricsSeekTargetMs(undefined, target.dataset.lyricTime);
+            if (time !== null) {
                 handleSeek(time / 1000);
             }
         },

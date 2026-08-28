@@ -16,7 +16,12 @@ import {
 } from '/@/renderer/features/lyrics/api/lyrics-utils';
 import { EditableLyricLine } from '/@/renderer/features/lyrics/components/editable-lyric-line';
 import { LyricsScrollContent } from '/@/renderer/features/lyrics/components/lyrics-scroll-content';
+import {
+    PracticeLineMenu,
+    PracticeMenuItems,
+} from '/@/renderer/features/lyrics/components/practice-line-menu';
 import { useLyricsAnimationEngine } from '/@/renderer/features/lyrics/hooks/use-lyrics-animation-engine';
+import { useLyricsPracticeControls } from '/@/renderer/features/lyrics/hooks/use-lyrics-practice-controls';
 import {
     LYRICS_SCROLL_CONTAINER_ID,
     useSynchronizedLyricsBase,
@@ -205,6 +210,9 @@ export const SynchronizedLyrics = ({
     const effectivePaddingRight = preview ? 0 : settings.paddingRight;
 
     const normalizedLyrics = useMemo(() => normalizeLyrics(lyrics), [lyrics]);
+    const practiceEnabled = !preview;
+    const { handleReplayLine, handleSetLoopEnd, handleSetLoopStart, isLineInLoop } =
+        useLyricsPracticeControls(normalizedLyrics, handleSeek);
     // Raw (pre-furigana/romaji-transform) lines, indexed in parallel with
     // normalizedLyrics, so the text editor seeds from the untransformed
     // source instead of rendered <ruby>/romaji markup.
@@ -434,11 +442,27 @@ export const SynchronizedLyrics = ({
                         translatedLyrics?.split('\n')[idx],
                     );
 
+                    const lineClassName = clsx(
+                        'lyric-line synchronized',
+                        practiceEnabled && isLineInLoop(idx) && 'practice-loop-line',
+                    );
+
                     if (canEditLyrics) {
                         return (
                             <EditableLyricLine
                                 alignment={settings.alignment}
+                                className={lineClassName}
                                 editing={editingLine?.index === idx ? editingLine.field : null}
+                                extraMenuItems={
+                                    practiceEnabled ? (
+                                        <PracticeMenuItems
+                                            lineIndex={idx}
+                                            onReplay={handleReplayLine}
+                                            onSetLoopEnd={handleSetLoopEnd}
+                                            onSetLoopStart={handleSetLoopStart}
+                                        />
+                                    ) : undefined
+                                }
                                 fontSize={effectiveFontSize}
                                 key={idx}
                                 lineId={`lyric-${idx}`}
@@ -460,14 +484,14 @@ export const SynchronizedLyrics = ({
                         );
                     }
 
-                    return (
+                    const lyricLine = (
                         <LyricLine
                             alignment={settings.alignment}
-                            className="lyric-line synchronized"
+                            className={lineClassName}
                             data-lyric-time={lineStartMs}
                             fontSize={effectiveFontSize}
                             id={`lyric-${idx}`}
-                            key={idx}
+                            key={practiceEnabled ? undefined : idx}
                             lineIndex={idx}
                             onKanjiClick={onKanjiClick}
                             onWordClick={onWordClick}
@@ -475,6 +499,22 @@ export const SynchronizedLyrics = ({
                             text={lineText}
                             translatedText={translationText}
                         />
+                    );
+
+                    if (!practiceEnabled) {
+                        return lyricLine;
+                    }
+
+                    return (
+                        <PracticeLineMenu
+                            key={idx}
+                            lineIndex={idx}
+                            onReplay={handleReplayLine}
+                            onSetLoopEnd={handleSetLoopEnd}
+                            onSetLoopStart={handleSetLoopStart}
+                        >
+                            {lyricLine}
+                        </PracticeLineMenu>
                     );
                 })}
             </LyricsScrollContent>

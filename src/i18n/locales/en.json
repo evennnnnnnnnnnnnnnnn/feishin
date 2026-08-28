@@ -683,7 +683,12 @@
             "related": "Related",
             "upNext": "Up next",
             "visualizer": "Visualizer",
-            "noLyrics": "No lyrics found"
+            "noLyrics": "No lyrics found",
+            "practiceLoopClear": "Clear A-B loop",
+            "practiceLoopEnd": "Loop to this line (B)",
+            "practiceLoopStart": "Loop from this line (A)",
+            "practiceReplayLine": "Replay this line",
+            "practiceSpeed": "Practice speed"
         },
         "genreList": {
             "showAlbums": "Show $t(entity.genre, {\"count\": 1}) $t(entity.album, {\"count\": 2})",

@@ -15,3 +15,11 @@
     overflow: visible;
     transform: none;
 }
+
+/* A-B practice loop range marker (Task 013): applied per line via the
+   practice-loop-line global class from the synced views */
+.container :global(.practice-loop-line) {
+    background-color: alpha(var(--theme-colors-primary), 0.08);
+    border-left: 2px solid var(--theme-colors-primary);
+    border-radius: 6px;
+}

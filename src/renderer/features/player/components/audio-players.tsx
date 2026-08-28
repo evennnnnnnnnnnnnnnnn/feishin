@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { eventEmitter } from '/@/renderer/events/event-emitter';
 import { UserFavoriteEventPayload, UserRatingEventPayload } from '/@/renderer/events/events';
 import { DiscordRpcHook } from '/@/renderer/features/discord-rpc/use-discord-rpc';
+import { LyricsPracticePlaybackHook } from '/@/renderer/features/lyrics/hooks/use-lyrics-practice-playback';
 import { MainPlayerListenerHook } from '/@/renderer/features/player/audio-player/hooks/use-main-player-listener';
 import { JukeboxPlayer } from '/@/renderer/features/player/audio-player/jukebox-player';
 import { MpvPlayer } from '/@/renderer/features/player/audio-player/mpv-player';
@@ -143,6 +144,7 @@ export const AudioPlayers = () => {
             <RadioAudioInstanceHook />
             <RadioMetadataHook />
             <VisualizerSystemAudioBridgeHook />
+            <LyricsPracticePlaybackHook />
             <AutosaveHook />
             <AudioPlayersContent
                 audioContext={audioContext}

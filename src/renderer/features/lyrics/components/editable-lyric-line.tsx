@@ -14,7 +14,11 @@ import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface EditableLyricLineProps {
     alignment: 'center' | 'left' | 'right';
+    className?: string;
     editing: 'text' | 'time' | null;
+    /** Practice actions (Task 013) appended below the edit items so admins
+     * keep one context menu per line. */
+    extraMenuItems?: React.ReactNode;
     fontSize: number;
     lineId: string;
     lineIndex?: number;
@@ -42,7 +46,9 @@ interface EditableLyricLineProps {
 export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
     const {
         alignment,
+        className,
         editing,
+        extraMenuItems,
         fontSize,
         lineId,
         lineIndex,
@@ -108,7 +114,7 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
                 <div>
                     <LyricLine
                         alignment={alignment}
-                        className="lyric-line synchronized"
+                        className={className ?? 'lyric-line synchronized'}
                         data-lyric-time={startMs}
                         fontSize={fontSize}
                         id={lineId}
@@ -131,6 +137,7 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
                 <ContextMenu.Item leftIcon="edit" onSelect={() => onStartEdit('text')}>
                     {t('lyricsEditor.editText')}
                 </ContextMenu.Item>
+                {extraMenuItems}
             </ContextMenu.Content>
         </ContextMenu>
     );
