@@ -38,6 +38,15 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    createMusicCardSnippet: {
+        body: ndType._parameters.createMusicCardSnippet,
+        method: 'POST',
+        path: 'musiccardsnippet',
+        responses: {
+            200: resultWithHeaders(ndType._response.createMusicCardSnippetResult),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
     createPlaylist: {
         body: ndType._parameters.createPlaylist,
         method: 'POST',
@@ -90,6 +99,24 @@ export const contract = c.router({
         responses: {
             204: resultWithHeaders(ndType._response.deleteLyricsOverride),
             403: resultWithHeaders(ndType._response.error),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    deleteMusicCard: {
+        body: null,
+        method: 'DELETE',
+        path: 'musiccard/:id',
+        responses: {
+            200: resultWithHeaders(ndType._response.deleteMusicCard),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    deleteMusicCardSnippet: {
+        body: null,
+        method: 'DELETE',
+        path: 'musiccardsnippet/:id',
+        responses: {
+            200: resultWithHeaders(ndType._response.deleteMusicCardSnippet),
             500: resultWithHeaders(ndType._response.error),
         },
     },
@@ -169,6 +196,24 @@ export const contract = c.router({
         responses: {
             200: resultWithHeaders(ndType._response.lyricsOverride),
             404: resultWithHeaders(ndType._response.error),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    getMusicCardList: {
+        method: 'GET',
+        path: 'musiccard',
+        query: ndType._parameters.musicCardList,
+        responses: {
+            200: resultWithHeaders(ndType._response.musicCardList),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    getMusicCardSnippetList: {
+        method: 'GET',
+        path: 'musiccardsnippet',
+        query: ndType._parameters.musicCardSnippetList,
+        responses: {
+            200: resultWithHeaders(ndType._response.musicCardSnippetList),
             500: resultWithHeaders(ndType._response.error),
         },
     },
@@ -349,6 +394,15 @@ export const contract = c.router({
         path: 'furiganabinding',
         responses: {
             200: resultWithHeaders(ndType._response.upsertFuriganaBindingResult),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    upsertMusicCard: {
+        body: ndType._parameters.upsertMusicCard,
+        method: 'POST',
+        path: 'musiccard',
+        responses: {
+            200: resultWithHeaders(ndType._response.upsertMusicCardResult),
             500: resultWithHeaders(ndType._response.error),
         },
     },
@@ -604,4 +658,47 @@ export const ndApiClient = (args: {
         baseUrl: '',
         jsonQuery: false,
     });
+};
+
+/**
+ * GET /api/musiccard/clip - an ffmpeg-cut audio/mpeg clip of [start_ms, end_ms].
+ *
+ * Outside the ts-rest contract on purpose: the contract's zod responses model
+ * JSON bodies, and this route returns binary. It goes through the same
+ * axiosClient so the 401 re-authentication interceptor still applies.
+ */
+export const ndGetMusicCardClip = async (args: {
+    forceRemoteUrl?: boolean;
+    query: { endMs: number; mediaFileId: string; startMs: number };
+    server: null | ServerListItemWithCredential;
+    signal?: AbortSignal;
+}): Promise<Blob> => {
+    const { forceRemoteUrl, query, server, signal } = args;
+
+    const serverUrl = server ? getServerUrl(server, forceRemoteUrl) : undefined;
+
+    if (!serverUrl) {
+        throw new Error('No server to fetch a music card clip from');
+    }
+
+    const token = server?.ndCredential;
+
+    if (shouldDelay) await waitForResult();
+
+    const result = await axiosClient.request<Blob>({
+        headers: {
+            ...(token && { 'x-nd-authorization': `Bearer ${token}` }),
+        },
+        method: 'GET',
+        params: {
+            end_ms: query.endMs,
+            media_file_id: query.mediaFileId,
+            start_ms: query.startMs,
+        },
+        responseType: 'blob',
+        signal,
+        url: `${serverUrl}/api/musiccard/clip`,
+    });
+
+    return result.data;
 };

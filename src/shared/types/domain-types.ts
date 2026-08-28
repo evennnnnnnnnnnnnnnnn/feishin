@@ -1561,6 +1561,9 @@ export type ControllerEndpoint = {
     createInternetRadioStation: (
         args: CreateInternetRadioStationArgs,
     ) => Promise<CreateInternetRadioStationResponse>;
+    createMusicCardSnippet?: (
+        args: CreateMusicCardSnippetArgs,
+    ) => Promise<CreateMusicCardSnippetResponse>;
     createPlaylist: (args: CreatePlaylistArgs) => Promise<CreatePlaylistResponse>;
     deleteArtistImage?: (args: DeleteArtistImageArgs) => Promise<DeleteArtistImageResponse>;
     deleteFavorite: (args: FavoriteArgs) => Promise<FavoriteResponse>;
@@ -1576,6 +1579,10 @@ export type ControllerEndpoint = {
     deleteLyricsOverride?: (
         args: DeleteLyricsOverrideArgs,
     ) => Promise<DeleteLyricsOverrideResponse>;
+    deleteMusicCard?: (args: DeleteMusicCardArgs) => Promise<DeleteMusicCardResponse>;
+    deleteMusicCardSnippet?: (
+        args: DeleteMusicCardSnippetArgs,
+    ) => Promise<DeleteMusicCardSnippetResponse>;
     deletePlaylist: (args: DeletePlaylistArgs) => Promise<DeletePlaylistResponse>;
     deletePlaylistImage?: (args: DeletePlaylistImageArgs) => Promise<DeletePlaylistImageResponse>;
     getAlbumArtistDetail: (args: AlbumArtistDetailArgs) => Promise<AlbumArtistDetailResponse>;
@@ -1602,6 +1609,8 @@ export type ControllerEndpoint = {
     ) => Promise<GetInternetRadioStationsResponse>;
     getLyrics?: (args: LyricsArgs) => Promise<LyricsResponse>;
     getLyricsOverride?: (args: LyricsOverrideArgs) => Promise<LyricsOverrideResponse>;
+    getMusicCardClip?: (args: MusicCardClipArgs) => Promise<MusicCardClipResponse>;
+    getMusicCards?: (args: MusicCardListArgs) => Promise<MusicCardListResponse>;
     getMusicFolderList: (args: MusicFolderListArgs) => Promise<MusicFolderListResponse>;
     getPlaylistDetail: (args: PlaylistDetailArgs) => Promise<PlaylistDetailResponse>;
     getPlaylistList: (args: PlaylistListArgs) => Promise<PlaylistListResponse>;
@@ -1648,8 +1657,16 @@ export type ControllerEndpoint = {
     upsertFuriganaBinding?: (
         args: UpsertFuriganaBindingArgs,
     ) => Promise<UpsertFuriganaBindingResponse>;
+    upsertMusicCard?: (args: UpsertMusicCardArgs) => Promise<UpsertMusicCardResponse>;
     youtubeImport?: (args: YoutubeImportArgs) => Promise<YoutubeImportResponse>;
 };
+
+export type CreateMusicCardSnippetArgs = BaseEndpointArgs & {
+    body: Omit<MusicCardSnippetDto, 'created_at' | 'id' | 'updated_at'>;
+};
+
+// Same generic-REST caveat as furigana bindings: only {id} comes back.
+export type CreateMusicCardSnippetResponse = { id: string };
 
 export type DeleteFuriganaBindingArgs = BaseEndpointArgs & { query: { id: string } };
 
@@ -1658,6 +1675,14 @@ export type DeleteFuriganaBindingResponse = null;
 export type DeleteLyricsOverrideArgs = BaseEndpointArgs & { query: { songId: string } };
 
 export type DeleteLyricsOverrideResponse = null;
+
+export type DeleteMusicCardArgs = BaseEndpointArgs & { query: { id: string } };
+
+export type DeleteMusicCardResponse = null;
+
+export type DeleteMusicCardSnippetArgs = BaseEndpointArgs & { query: { id: string } };
+
+export type DeleteMusicCardSnippetResponse = null;
 
 export type DownloadArgs = BaseEndpointArgs & {
     query: DownloadQuery;
@@ -1742,6 +1767,9 @@ export type InternalControllerEndpoint = {
     createInternetRadioStation: (
         args: ReplaceApiClientProps<CreateInternetRadioStationArgs>,
     ) => Promise<CreateInternetRadioStationResponse>;
+    createMusicCardSnippet?: (
+        args: ReplaceApiClientProps<CreateMusicCardSnippetArgs>,
+    ) => Promise<CreateMusicCardSnippetResponse>;
     createPlaylist: (
         args: ReplaceApiClientProps<CreatePlaylistArgs>,
     ) => Promise<CreatePlaylistResponse>;
@@ -1761,6 +1789,12 @@ export type InternalControllerEndpoint = {
     deleteLyricsOverride?: (
         args: ReplaceApiClientProps<DeleteLyricsOverrideArgs>,
     ) => Promise<DeleteLyricsOverrideResponse>;
+    deleteMusicCard?: (
+        args: ReplaceApiClientProps<DeleteMusicCardArgs>,
+    ) => Promise<DeleteMusicCardResponse>;
+    deleteMusicCardSnippet?: (
+        args: ReplaceApiClientProps<DeleteMusicCardSnippetArgs>,
+    ) => Promise<DeleteMusicCardSnippetResponse>;
     deletePlaylist: (
         args: ReplaceApiClientProps<DeletePlaylistArgs>,
     ) => Promise<DeletePlaylistResponse>;
@@ -1806,6 +1840,12 @@ export type InternalControllerEndpoint = {
     getLyricsOverride?: (
         args: ReplaceApiClientProps<LyricsOverrideArgs>,
     ) => Promise<LyricsOverrideResponse>;
+    getMusicCardClip?: (
+        args: ReplaceApiClientProps<MusicCardClipArgs>,
+    ) => Promise<MusicCardClipResponse>;
+    getMusicCards?: (
+        args: ReplaceApiClientProps<MusicCardListArgs>,
+    ) => Promise<MusicCardListResponse>;
     getMusicFolderList: (
         args: ReplaceApiClientProps<MusicFolderListArgs>,
     ) => Promise<MusicFolderListResponse>;
@@ -1888,6 +1928,9 @@ export type InternalControllerEndpoint = {
     upsertFuriganaBinding?: (
         args: ReplaceApiClientProps<UpsertFuriganaBindingArgs>,
     ) => Promise<UpsertFuriganaBindingResponse>;
+    upsertMusicCard?: (
+        args: ReplaceApiClientProps<UpsertMusicCardArgs>,
+    ) => Promise<UpsertMusicCardResponse>;
     youtubeImport?: (
         args: ReplaceApiClientProps<YoutubeImportArgs>,
     ) => Promise<YoutubeImportResponse>;
@@ -1963,7 +2006,6 @@ export type LyricsOverrideAgent = {
 };
 
 export type LyricsOverrideArgs = BaseEndpointArgs & { query: { songId: string } };
-
 // Admin-edited shared lyrics saved to the Navidrome lyrics_override table. Wire
 // shape mirrors navidrome's model.LyricList/Lyrics/Line/Cue/Agent exactly (see
 // server/nativeapi/lyrics_override.go + model/lyrics_override.go).
@@ -2001,6 +2043,7 @@ export type LyricsOverrideResponse = LyricsOverrideList | null;
 export type MoveItemArgs = BaseEndpointArgs & {
     query: MoveItemQuery;
 };
+
 export type MoveItemQuery = {
     endingIndex: number;
     playlistId: string;
@@ -2008,7 +2051,56 @@ export type MoveItemQuery = {
     trackId: string;
 };
 
+// A card's clip is cut server-side by ffmpeg; the server applies its own
+// lead-in/lead-out padding and clamps to the track bounds.
+export type MusicCardClipArgs = BaseEndpointArgs & {
+    query: { endMs: number; mediaFileId: string; startMs: number };
+};
+
+export type MusicCardClipResponse = Blob;
+
+// Per-user revision card keyed on a kanji run (one kanji, or an adjacent pair
+// captured with the KanjiPicker's shift-click span extension). Wire shape
+// (snake_case) mirrors navidrome's model.MusicCard exactly.
+export type MusicCardDto = {
+    created_at: string;
+    id: string;
+    kanji_text: string;
+    updated_at: string;
+    user_id: string;
+};
+
+// The adapter joins /musiccard and /musiccardsnippet into this shape - the
+// deck always wants a card together with its saved contexts.
+export type MusicCardListArgs = BaseEndpointArgs & { query: { kanjiText?: string } };
+
+export type MusicCardListResponse = MusicCardWithSnippetsDto[];
+
+// Everything the deck needs to render a snippet is snapshotted here (line
+// text, reading, song metadata, full lyrics), so a card stays readable after
+// its media file - and with it the server row - is gone.
+export type MusicCardSnippetDto = {
+    card_id: string;
+    char_offset: number;
+    created_at: string;
+    end_ms: number;
+    full_lyrics: string;
+    id: string;
+    line_index: number;
+    media_file_id: string;
+    reading: string;
+    snippet_text: string;
+    song_artist: string;
+    song_title: string;
+    span_length: number;
+    start_ms: number;
+    updated_at: string;
+};
+
+export type MusicCardWithSnippetsDto = MusicCardDto & { snippets: MusicCardSnippetDto[] };
+
 export type ReplaceApiClientProps<T> = BaseEndpointArgsWithServer & Omit<T, 'apiClientProps'>;
+
 export type SaveLyricsOverrideArgs = BaseEndpointArgs & {
     body: LyricsOverrideList;
     query: { songId: string };
@@ -2024,7 +2116,6 @@ export type SaveQueueQuery = {
     positionMs?: number;
     songs: string[];
 };
-
 export type ServerInfo = {
     features: ServerFeatures;
     id?: string;
@@ -2169,6 +2260,13 @@ export type UpsertFuriganaBindingArgs = BaseEndpointArgs & {
 // this resource, never the full saved entity - callers must merge the known
 // mutation input with this id rather than trust the response as a full DTO.
 export type UpsertFuriganaBindingResponse = { id: string };
+
+// POST routes through the (user_id, kanji_text) natural-key upsert, so saving
+// a kanji that already has a card returns that card's id and the new snippet
+// is appended to it.
+export type UpsertMusicCardArgs = BaseEndpointArgs & { body: { kanjiText: string } };
+
+export type UpsertMusicCardResponse = { id: string };
 
 export type UserInfoArgs = BaseEndpointArgs & { query: UserInfoQuery };
 

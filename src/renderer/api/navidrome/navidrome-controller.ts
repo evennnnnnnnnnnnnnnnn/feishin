@@ -2,7 +2,7 @@ import axios from 'axios';
 import { set } from 'idb-keyval';
 import orderBy from 'lodash/orderBy';
 
-import { ndApiClient } from '/@/renderer/api/navidrome/navidrome-api';
+import { ndApiClient, ndGetMusicCardClip } from '/@/renderer/api/navidrome/navidrome-api';
 import { ssApiClient } from '/@/renderer/api/subsonic/subsonic-api';
 import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller';
 import { ndNormalize } from '/@/shared/api/navidrome/navidrome-normalize';
@@ -20,6 +20,7 @@ import {
     DeletePlaylistImageArgs,
     DeletePlaylistImageResponse,
     InternalControllerEndpoint,
+    MusicCardSnippetDto,
     playlistListSortMap,
     PlaylistSongListArgs,
     PlaylistSongListResponse,
@@ -165,6 +166,19 @@ export const NavidromeController: InternalControllerEndpoint = {
     },
     createFavorite: SubsonicController.createFavorite,
     createInternetRadioStation: SubsonicController.createInternetRadioStation,
+    createMusicCardSnippet: async (args) => {
+        const { apiClientProps, body } = args;
+
+        const res = await ndApiClient(apiClientProps).createMusicCardSnippet({
+            body,
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to create music card snippet');
+        }
+
+        return res.body.data;
+    },
     createPlaylist: async (args) => {
         const { apiClientProps, body } = args;
 
@@ -261,6 +275,36 @@ export const NavidromeController: InternalControllerEndpoint = {
 
         if (res.status !== 204) {
             throw new Error('Failed to delete lyrics override');
+        }
+
+        return null;
+    },
+    deleteMusicCard: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteMusicCard({
+            params: {
+                id: query.id,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to delete music card');
+        }
+
+        return null;
+    },
+    deleteMusicCardSnippet: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteMusicCardSnippet({
+            params: {
+                id: query.id,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to delete music card snippet');
         }
 
         return null;
@@ -730,6 +774,52 @@ export const NavidromeController: InternalControllerEndpoint = {
         }
 
         return res.body.data;
+    },
+    getMusicCardClip: async (args) => {
+        const { apiClientProps, query } = args;
+
+        return ndGetMusicCardClip({
+            query,
+            server: apiClientProps.server,
+            signal: apiClientProps.signal,
+        });
+    },
+    // Cards and snippets are separate generic-REST resources; the deck always
+    // wants them together, so the join happens here rather than in every hook.
+    getMusicCards: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const [cardsRes, snippetsRes] = await Promise.all([
+            ndApiClient(apiClientProps).getMusicCardList({
+                query: { kanji_text: query.kanjiText },
+            }),
+            ndApiClient(apiClientProps).getMusicCardSnippetList({ query: {} }),
+        ]);
+
+        if (cardsRes.status !== 200) {
+            throw new Error('Failed to get music cards');
+        }
+
+        if (snippetsRes.status !== 200) {
+            throw new Error('Failed to get music card snippets');
+        }
+
+        const snippetsByCard = new Map<string, MusicCardSnippetDto[]>();
+
+        for (const snippet of snippetsRes.body.data) {
+            const existing = snippetsByCard.get(snippet.card_id);
+
+            if (existing) {
+                existing.push(snippet);
+            } else {
+                snippetsByCard.set(snippet.card_id, [snippet]);
+            }
+        }
+
+        return cardsRes.body.data.map((card) => ({
+            ...card,
+            snippets: snippetsByCard.get(card.id) ?? [],
+        }));
     },
     getMusicFolderList: SubsonicController.getMusicFolderList,
     getPlaylistDetail: async (args) => {
@@ -1484,6 +1574,24 @@ export const NavidromeController: InternalControllerEndpoint = {
 
         if (res.status !== 200) {
             throw new Error('Failed to save furigana binding');
+        }
+
+        return res.body.data;
+    },
+    // POST routes through the (user_id, kanji_text) upsert, so re-saving a
+    // known kanji returns the existing card's id and the caller just appends
+    // another snippet to it.
+    upsertMusicCard: async (args) => {
+        const { apiClientProps, body } = args;
+
+        const res = await ndApiClient(apiClientProps).upsertMusicCard({
+            body: {
+                kanji_text: body.kanjiText,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to save music card');
         }
 
         return res.body.data;

@@ -823,6 +823,76 @@ const upsertFuriganaBindingParameters = z.object({
     span_length: z.number(),
 });
 
+// Wire shape (snake_case) mirrors navidrome's model.MusicCard exactly - see
+// server/nativeapi/native_api.go + model/music_card.go. One card per
+// (user, kanji run); the snippets below are its saved contexts.
+const musicCard = z.object({
+    created_at: z.string(),
+    id: z.string(),
+    kanji_text: z.string(),
+    updated_at: z.string(),
+    user_id: z.string(),
+});
+
+const musicCardList = z.array(musicCard);
+
+const musicCardListParameters = z.object({
+    kanji_text: z.string().optional(),
+});
+
+// Same generic-REST caveat as furigana bindings: Post() only ever responds
+// {id}, and POST routes through the (user_id, kanji_text) natural-key upsert
+// so re-saving a known kanji returns the existing card's id.
+const upsertMusicCardResult = musicCard.pick({
+    id: true,
+});
+
+const upsertMusicCardParameters = z.object({
+    kanji_text: z.string(),
+});
+
+// Wire shape mirrors navidrome's model.MusicCardSnippet. Every field the deck
+// needs to render a card is snapshotted here so a card survives its song being
+// deleted from the library.
+const musicCardSnippet = z.object({
+    card_id: z.string(),
+    char_offset: z.number(),
+    created_at: z.string(),
+    end_ms: z.number(),
+    full_lyrics: z.string(),
+    id: z.string(),
+    line_index: z.number(),
+    media_file_id: z.string(),
+    reading: z.string(),
+    snippet_text: z.string(),
+    song_artist: z.string(),
+    song_title: z.string(),
+    span_length: z.number(),
+    start_ms: z.number(),
+    updated_at: z.string(),
+});
+
+const musicCardSnippetList = z.array(musicCardSnippet);
+
+const musicCardSnippetListParameters = z.object({
+    card_id: z.string().optional(),
+    media_file_id: z.string().optional(),
+});
+
+const createMusicCardSnippetResult = musicCardSnippet.pick({
+    id: true,
+});
+
+const createMusicCardSnippetParameters = musicCardSnippet.omit({
+    created_at: true,
+    id: true,
+    updated_at: true,
+});
+
+const deleteMusicCard = deletePlaylist;
+
+const deleteMusicCardSnippet = deletePlaylist;
+
 const queue = z.object({
     changedBy: z.string(),
     createdAt: z.string(),
@@ -926,10 +996,13 @@ export const ndType = {
         albumArtistList: albumArtistListParameters,
         albumList: albumListParameters,
         authenticate: authenticateParameters,
+        createMusicCardSnippet: createMusicCardSnippetParameters,
         createPlaylist: createPlaylistParameters,
         furiganaBindingList: furiganaBindingListParameters,
         genreList: genreListParameters,
         moveItem: moveItemParameters,
+        musicCardList: musicCardListParameters,
+        musicCardSnippetList: musicCardSnippetListParameters,
         playlistList: playlistListParameters,
         radioList: radioListParameters,
         removeFromPlaylist: removeFromPlaylistParameters,
@@ -944,6 +1017,7 @@ export const ndType = {
         uploadInternetRadioStationImage: uploadInternetRadioStationImageParameters,
         uploadPlaylistImage: uploadPlaylistImageParameters,
         upsertFuriganaBinding: upsertFuriganaBindingParameters,
+        upsertMusicCard: upsertMusicCardParameters,
         userList: userListParameters,
         youtubeImport: youtubeImportParameters,
     },
@@ -954,12 +1028,15 @@ export const ndType = {
         albumArtistList,
         albumList,
         authenticate,
+        createMusicCardSnippetResult,
         createPlaylist,
         deleteArtistImage,
         deleteFuriganaBinding,
         deleteInternetRadioStation,
         deleteInternetRadioStationImage,
         deleteLyricsOverride,
+        deleteMusicCard,
+        deleteMusicCardSnippet,
         deletePlaylist,
         deletePlaylistImage,
         error,
@@ -969,6 +1046,10 @@ export const ndType = {
         genreList,
         lyricsOverride,
         moveItem,
+        musicCard,
+        musicCardList,
+        musicCardSnippet,
+        musicCardSnippetList,
         playlist,
         playlistList,
         playlistSong,
@@ -988,6 +1069,7 @@ export const ndType = {
         uploadInternetRadioStationImage,
         uploadPlaylistImage,
         upsertFuriganaBindingResult,
+        upsertMusicCardResult,
         user,
         userList,
         youtubeImport,

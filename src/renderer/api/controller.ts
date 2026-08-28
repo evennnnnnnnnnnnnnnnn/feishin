@@ -259,6 +259,18 @@ export const controller: GeneralController = {
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
+    createMusicCardSnippet(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: createMusicCardSnippet`);
+        }
+
+        return apiController(
+            'createMusicCardSnippet',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
     createPlaylist(args) {
         const server = getServerById(args.apiClientProps.serverId);
 
@@ -340,6 +352,30 @@ export const controller: GeneralController = {
 
         return apiController(
             'deleteLyricsOverride',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    deleteMusicCard(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: deleteMusicCard`);
+        }
+
+        return apiController(
+            'deleteMusicCard',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    deleteMusicCardSnippet(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: deleteMusicCardSnippet`);
+        }
+
+        return apiController(
+            'deleteMusicCardSnippet',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
@@ -689,6 +725,30 @@ export const controller: GeneralController = {
 
         return apiController(
             'getLyricsOverride',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    getMusicCardClip(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: getMusicCardClip`);
+        }
+
+        return apiController(
+            'getMusicCardClip',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    getMusicCards(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: getMusicCards`);
+        }
+
+        return apiController(
+            'getMusicCards',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
@@ -1199,6 +1259,18 @@ export const controller: GeneralController = {
 
         return apiController(
             'upsertFuriganaBinding',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    upsertMusicCard(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: upsertMusicCard`);
+        }
+
+        return apiController(
+            'upsertMusicCard',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
