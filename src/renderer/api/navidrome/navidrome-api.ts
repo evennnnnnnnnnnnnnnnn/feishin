@@ -208,6 +208,15 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    getMusicCardReviewList: {
+        method: 'GET',
+        path: 'musiccardreview',
+        query: ndType._parameters.musicCardReviewList,
+        responses: {
+            200: resultWithHeaders(ndType._response.musicCardReviewList),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
     getMusicCardSnippetList: {
         method: 'GET',
         path: 'musiccardsnippet',
@@ -292,6 +301,17 @@ export const contract = c.router({
         query: ndType._parameters.userList,
         responses: {
             200: resultWithHeaders(ndType._response.userList),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    gradeMusicCardReview: {
+        body: ndType._parameters.gradeMusicCardReview,
+        method: 'POST',
+        path: 'musiccardreview/grade',
+        responses: {
+            200: resultWithHeaders(ndType._response.musicCardReview),
+            400: resultWithHeaders(ndType._response.error),
+            404: resultWithHeaders(ndType._response.error),
             500: resultWithHeaders(ndType._response.error),
         },
     },

@@ -6,19 +6,24 @@ import styles from './music-cards-route.module.css';
 
 import { api } from '/@/renderer/api';
 import { PageHeader } from '/@/renderer/components/page-header/page-header';
-import { useKanjiInfo } from '/@/renderer/features/lyrics/hooks/use-kanji-info';
 import { MusicCard, MusicCardSnippet } from '/@/renderer/features/music-cards/api/music-card-model';
+import {
+    CardKanjiReadings,
+    FuriganaSnippet,
+} from '/@/renderer/features/music-cards/components/music-card-display';
+import { MusicCardReviewSession } from '/@/renderer/features/music-cards/components/music-card-review-session';
 import {
     useDeleteMusicCard,
     useDeleteMusicCardSnippet,
 } from '/@/renderer/features/music-cards/hooks/use-delete-music-card';
+import { useMusicCardReviews } from '/@/renderer/features/music-cards/hooks/use-music-card-reviews';
 import { useMusicCards } from '/@/renderer/features/music-cards/hooks/use-music-cards';
 import { useSnippetClipUrl } from '/@/renderer/features/music-cards/hooks/use-snippet-clip-url';
 import { convertToLogVolume } from '/@/renderer/features/player/audio-player/utils/player-utils';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { useLyricsSettings, usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
+import { useCurrentServer, usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
 import { Accordion } from '/@/shared/components/accordion/accordion';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Badge } from '/@/shared/components/badge/badge';
@@ -32,110 +37,21 @@ import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
-
-const FuriganaSnippet = ({ snippet }: { snippet: MusicCardSnippet }) => {
-    const characters = Array.from(snippet.snippetText);
-    const start = Math.min(snippet.charOffset, characters.length);
-    const end = Math.min(start + snippet.spanLength, characters.length);
-
-    return (
-        <Text className={styles.snippetText}>
-            {characters.slice(0, start).join('')}
-            <ruby>
-                {characters.slice(start, end).join('')}
-                <rp>(</rp>
-                <rt>{snippet.reading}</rt>
-                <rp>)</rp>
-            </ruby>
-            {characters.slice(end).join('')}
-        </Text>
-    );
-};
-
-// Kun'yomi readings carry KANJIDIC2 okurigana markers ("た.べる", "-がた");
-// shown verbatim, exactly as the KanjiPicker's readings section does.
-const CardKanjiReadings = ({ kanjiText }: { kanjiText: string }) => {
-    const { t } = useTranslation();
-    const kanjiChars = useMemo(() => Array.from(kanjiText), [kanjiText]);
-    const { data: kanjiInfo } = useKanjiInfo(kanjiChars);
-    const lyricsSettings = useLyricsSettings();
-    const showMeanings = lyricsSettings.kanjiPickerShowMeanings ?? true;
-
-    if (!kanjiInfo || kanjiChars.every((char) => kanjiInfo[char] == null)) {
-        return null;
-    }
-
-    return (
-        <Paper p="md">
-            <Stack gap="sm">
-                {kanjiChars.map((char) => {
-                    const info = kanjiInfo[char];
-                    if (info == null) {
-                        return null;
-                    }
-
-                    return (
-                        <Stack gap={4} key={char}>
-                            {kanjiChars.length > 1 && <Text fw={700}>{char}</Text>}
-                            {info.on.length > 0 && (
-                                <>
-                                    <Text
-                                        fw={600}
-                                        isMuted
-                                        style={{ fontSize: '0.7em', letterSpacing: '0.06em' }}
-                                        tt="uppercase"
-                                    >
-                                        {t('setting.furiganaOnyomi')}
-                                    </Text>
-                                    <Group gap={4}>
-                                        {info.on.map((reading) => (
-                                            <Badge key={reading} variant="default">
-                                                {reading}
-                                            </Badge>
-                                        ))}
-                                    </Group>
-                                </>
-                            )}
-                            {info.kun.length > 0 && (
-                                <>
-                                    <Text
-                                        fw={600}
-                                        isMuted
-                                        style={{ fontSize: '0.7em', letterSpacing: '0.06em' }}
-                                        tt="uppercase"
-                                    >
-                                        {t('setting.furiganaKunyomi')}
-                                    </Text>
-                                    <Group gap={4}>
-                                        {info.kun.map((reading) => (
-                                            <Badge key={reading} variant="default">
-                                                {reading}
-                                            </Badge>
-                                        ))}
-                                    </Group>
-                                </>
-                            )}
-                            {showMeanings && info.meanings.length > 0 && (
-                                <Text isMuted style={{ fontSize: '0.8em' }}>
-                                    {info.meanings.join(', ')}
-                                </Text>
-                            )}
-                        </Stack>
-                    );
-                })}
-            </Stack>
-        </Paper>
-    );
-};
+import { ServerType } from '/@/shared/types/domain-types';
 
 const MusicCardsRoute = () => {
     const { t } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
     const mediaFileId = searchParams.get('mediaFileId');
     const { cards, error, isError, isLoading } = useMusicCards();
+    const server = useCurrentServer();
+    const serverId = server?.id;
+    const reviewsEnabled = !!serverId && server?.type === ServerType.NAVIDROME;
+    const { fetchedAt, isError: reviewsUnavailable, reviewsByCardId } = useMusicCardReviews();
     const deleteCard = useDeleteMusicCard();
     const deleteSnippet = useDeleteMusicCardSnippet();
     const [selectedCardId, setSelectedCardId] = useState<null | string>(null);
+    const [reviewQueue, setReviewQueue] = useState<MusicCard[] | null>(null);
     const [playingSnippetId, setPlayingSnippetId] = useState<string>();
     const clipUrl = useSnippetClipUrl(playingSnippetId);
     const audioRef = useRef<HTMLAudioElement | undefined>(undefined);
@@ -185,6 +101,42 @@ const MusicCardsRoute = () => {
         [cards, mediaFileId],
     );
     const selectedCard = filteredCards.find((card) => card.id === selectedCardId) ?? null;
+
+    // Due cards first (most overdue leading), then never-graded cards as new,
+    // oldest saved first. Review state is server-side, so only cards belonging
+    // to the current server can be reviewed; when the reviews query is
+    // unavailable (offline, serverless) the queue is empty and the deck simply
+    // has no review affordance. Due-ness is judged against the clock reading
+    // taken when the review data was fetched, keeping this computation pure.
+    const dueQueue = useMemo(() => {
+        if (!reviewsEnabled || reviewsUnavailable || fetchedAt === null) {
+            return [];
+        }
+
+        const due: { card: MusicCard; dueTime: number }[] = [];
+        const fresh: MusicCard[] = [];
+
+        for (const card of cards) {
+            if (card.serverId !== serverId) continue;
+
+            const review = reviewsByCardId.get(card.id);
+
+            if (!review) {
+                fresh.push(card);
+            } else {
+                const dueTime = new Date(review.due_at).getTime();
+
+                if (dueTime <= fetchedAt) {
+                    due.push({ card, dueTime });
+                }
+            }
+        }
+
+        due.sort((a, b) => a.dueTime - b.dueTime);
+        fresh.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+
+        return [...due.map((entry) => entry.card), ...fresh];
+    }, [cards, fetchedAt, reviewsByCardId, reviewsEnabled, reviewsUnavailable, serverId]);
 
     const stopReplay = useCallback(() => {
         clearTimeout(fallbackTimerRef.current);
@@ -370,10 +322,33 @@ const MusicCardsRoute = () => {
                             {t('page.musicCards.allCards')}
                         </Button>
                     )}
+                    {!reviewQueue && dueQueue.length > 0 && (
+                        <Button
+                            onClick={() => {
+                                stopReplay();
+                                setSelectedCardId(null);
+                                setReviewQueue(dueQueue);
+                            }}
+                            variant="filled"
+                        >
+                            {t('page.musicCards.startReview', { count: dueQueue.length })}
+                        </Button>
+                    )}
                 </PageHeader>
                 <ScrollArea className={styles.content}>
                     {isLoading ? (
                         <Spinner container />
+                    ) : reviewQueue ? (
+                        <MusicCardReviewSession
+                            initialQueue={reviewQueue}
+                            onExit={() => {
+                                stopReplay();
+                                setReviewQueue(null);
+                            }}
+                            playingSnippetId={playingSnippetId}
+                            reviewsByCardId={reviewsByCardId}
+                            toggleReplay={toggleReplay}
+                        />
                     ) : selectedCard ? (
                         <Stack gap="lg" p="md">
                             <Group justify="space-between" wrap="nowrap">

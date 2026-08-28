@@ -893,6 +893,37 @@ const deleteMusicCard = deletePlaylist;
 
 const deleteMusicCardSnippet = deletePlaylist;
 
+// Wire shape (snake_case) mirrors navidrome's model.MusicCardReview - per-card
+// SRS scheduling state. The generic REST resource is read-only: the only write
+// path is the grade endpoint, which applies the SM-2 transition server-side
+// and returns the full updated row.
+const musicCardReview = z.object({
+    card_id: z.string(),
+    created_at: z.string(),
+    due_at: z.string(),
+    ease_factor: z.number(),
+    id: z.string(),
+    interval_days: z.number(),
+    lapse_count: z.number(),
+    last_reviewed_at: z.string(),
+    repetition_count: z.number(),
+    updated_at: z.string(),
+});
+
+const musicCardReviewList = z.array(musicCardReview);
+
+const musicCardReviewListParameters = z.object({
+    card_id: z.string().optional(),
+    due_before: z.string().optional(),
+});
+
+const musicCardReviewGrade = z.enum(['again', 'easy', 'good', 'hard']);
+
+const gradeMusicCardReviewParameters = z.object({
+    card_id: z.string(),
+    grade: musicCardReviewGrade,
+});
+
 const queue = z.object({
     changedBy: z.string(),
     createdAt: z.string(),
@@ -1000,8 +1031,10 @@ export const ndType = {
         createPlaylist: createPlaylistParameters,
         furiganaBindingList: furiganaBindingListParameters,
         genreList: genreListParameters,
+        gradeMusicCardReview: gradeMusicCardReviewParameters,
         moveItem: moveItemParameters,
         musicCardList: musicCardListParameters,
+        musicCardReviewList: musicCardReviewListParameters,
         musicCardSnippetList: musicCardSnippetListParameters,
         playlistList: playlistListParameters,
         radioList: radioListParameters,
@@ -1048,6 +1081,8 @@ export const ndType = {
         moveItem,
         musicCard,
         musicCardList,
+        musicCardReview,
+        musicCardReviewList,
         musicCardSnippet,
         musicCardSnippetList,
         playlist,

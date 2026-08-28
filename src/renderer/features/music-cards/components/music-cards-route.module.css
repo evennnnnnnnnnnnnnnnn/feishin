@@ -100,3 +100,17 @@
     line-height: 1.7;
     white-space: pre-wrap;
 }
+
+.review-session {
+    max-width: 40rem;
+    margin: 0 auto;
+}
+
+.review-card {
+    border: 1px solid var(--theme-colors-border);
+}
+
+.review-kanji {
+    font-size: 4rem;
+    line-height: 1;
+}

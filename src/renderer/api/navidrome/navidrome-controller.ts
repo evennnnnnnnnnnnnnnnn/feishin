@@ -784,6 +784,22 @@ export const NavidromeController: InternalControllerEndpoint = {
             signal: apiClientProps.signal,
         });
     },
+    getMusicCardReviews: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).getMusicCardReviewList({
+            query: {
+                card_id: query.cardId,
+                due_before: query.dueBefore,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to get music card reviews');
+        }
+
+        return res.body.data;
+    },
     // Cards and snippets are separate generic-REST resources; the deck always
     // wants them together, so the join happens here rather than in every hook.
     getMusicCards: async (args) => {
@@ -1212,6 +1228,22 @@ export const NavidromeController: InternalControllerEndpoint = {
             startIndex: query?.startIndex || 0,
             totalRecordCount: Number(res.body.headers.get('x-total-count') || 0),
         };
+    },
+    gradeMusicCardReview: async (args) => {
+        const { apiClientProps, body } = args;
+
+        const res = await ndApiClient(apiClientProps).gradeMusicCardReview({
+            body: {
+                card_id: body.cardId,
+                grade: body.grade,
+            },
+        });
+
+        if (res.status !== 200) {
+            throw new Error('Failed to grade music card review');
+        }
+
+        return res.body.data;
     },
     jukeboxControl: SubsonicController.jukeboxControl,
     movePlaylistItem: async (args) => {

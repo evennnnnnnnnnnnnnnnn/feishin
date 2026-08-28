@@ -740,6 +740,18 @@ export const controller: GeneralController = {
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
+    getMusicCardReviews(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: getMusicCardReviews`);
+        }
+
+        return apiController(
+            'getMusicCardReviews',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
     getMusicCards(args) {
         const server = getServerById(args.apiClientProps.serverId);
 
@@ -1025,6 +1037,18 @@ export const controller: GeneralController = {
 
         return apiController(
             'getUserList',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    gradeMusicCardReview(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: gradeMusicCardReview`);
+        }
+
+        return apiController(
+            'gradeMusicCardReview',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },

@@ -1610,6 +1610,7 @@ export type ControllerEndpoint = {
     getLyrics?: (args: LyricsArgs) => Promise<LyricsResponse>;
     getLyricsOverride?: (args: LyricsOverrideArgs) => Promise<LyricsOverrideResponse>;
     getMusicCardClip?: (args: MusicCardClipArgs) => Promise<MusicCardClipResponse>;
+    getMusicCardReviews?: (args: MusicCardReviewListArgs) => Promise<MusicCardReviewListResponse>;
     getMusicCards?: (args: MusicCardListArgs) => Promise<MusicCardListResponse>;
     getMusicFolderList: (args: MusicFolderListArgs) => Promise<MusicFolderListResponse>;
     getPlaylistDetail: (args: PlaylistDetailArgs) => Promise<PlaylistDetailResponse>;
@@ -1632,6 +1633,9 @@ export type ControllerEndpoint = {
     getTopSongs: (args: TopSongListArgs) => Promise<TopSongListResponse>;
     getUserInfo: (args: UserInfoArgs) => Promise<UserInfoResponse>;
     getUserList?: (args: UserListArgs) => Promise<UserListResponse>;
+    gradeMusicCardReview?: (
+        args: GradeMusicCardReviewArgs,
+    ) => Promise<GradeMusicCardReviewResponse>;
     jukeboxControl?: (args: JukeboxControlArgs) => Promise<JukeboxControlResponse>;
     movePlaylistItem?: (args: MoveItemArgs) => Promise<void>;
     refreshItems: (args: RefreshItemsArgs) => Promise<RefreshItemsResponse>;
@@ -1736,6 +1740,14 @@ export type GetQueueResponse = {
     positionMs: number;
     username: string;
 };
+
+// Grading routes through the server's SM-2 transition endpoint rather than a
+// generic REST write, so every client sees the same schedule.
+export type GradeMusicCardReviewArgs = BaseEndpointArgs & {
+    body: { cardId: string; grade: MusicCardReviewGrade };
+};
+
+export type GradeMusicCardReviewResponse = MusicCardReviewDto;
 
 export type ImageArgs = BaseEndpointArgs & {
     baseUrl?: string;
@@ -1843,6 +1855,9 @@ export type InternalControllerEndpoint = {
     getMusicCardClip?: (
         args: ReplaceApiClientProps<MusicCardClipArgs>,
     ) => Promise<MusicCardClipResponse>;
+    getMusicCardReviews?: (
+        args: ReplaceApiClientProps<MusicCardReviewListArgs>,
+    ) => Promise<MusicCardReviewListResponse>;
     getMusicCards?: (
         args: ReplaceApiClientProps<MusicCardListArgs>,
     ) => Promise<MusicCardListResponse>;
@@ -1885,6 +1900,9 @@ export type InternalControllerEndpoint = {
     getTopSongs: (args: ReplaceApiClientProps<TopSongListArgs>) => Promise<TopSongListResponse>;
     getUserInfo: (args: ReplaceApiClientProps<UserInfoArgs>) => Promise<UserInfoResponse>;
     getUserList?: (args: ReplaceApiClientProps<UserListArgs>) => Promise<UserListResponse>;
+    gradeMusicCardReview?: (
+        args: ReplaceApiClientProps<GradeMusicCardReviewArgs>,
+    ) => Promise<GradeMusicCardReviewResponse>;
     jukeboxControl?: (
         args: ReplaceApiClientProps<JukeboxControlArgs>,
     ) => Promise<JukeboxControlResponse>;
@@ -2075,6 +2093,30 @@ export type MusicCardDto = {
 export type MusicCardListArgs = BaseEndpointArgs & { query: { kanjiText?: string } };
 
 export type MusicCardListResponse = MusicCardWithSnippetsDto[];
+
+// Per-card SRS scheduling state. Wire shape (snake_case) mirrors navidrome's
+// model.MusicCardReview. A card with no review row is "new" - the row is
+// created server-side by the first grade.
+export type MusicCardReviewDto = {
+    card_id: string;
+    created_at: string;
+    due_at: string;
+    ease_factor: number;
+    id: string;
+    interval_days: number;
+    lapse_count: number;
+    last_reviewed_at: string;
+    repetition_count: number;
+    updated_at: string;
+};
+
+export type MusicCardReviewGrade = 'again' | 'easy' | 'good' | 'hard';
+
+export type MusicCardReviewListArgs = BaseEndpointArgs & {
+    query: { cardId?: string; dueBefore?: string };
+};
+
+export type MusicCardReviewListResponse = MusicCardReviewDto[];
 
 // Everything the deck needs to render a snippet is snapshotted here (line
 // text, reading, song metadata, full lyrics), so a card stays readable after
