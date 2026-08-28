@@ -516,7 +516,10 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             ...(displayLyrics as SynchronizedLyricsProps),
             extraOverlayLyrics: isKaraoke ? extraOverlayLyrics : undefined,
             offsetMs: displayOffsetMs,
-            onKanjiClick: enableFurigana ? handleKanjiClick : undefined,
+            // Only installed where it can act (Navidrome binding API); when
+            // absent, kanji clicks fall through to the enclosing word span
+            // (JMdict lookup) or the line's click-to-seek
+            onKanjiClick: enableFurigana && isNavidromeServer ? handleKanjiClick : undefined,
             onWordClick: enableWordLookup ? handleWordClick : undefined,
             pronunciationLyrics: pronunciationLyricsOverlay,
             rawLyrics: rawSyncedLyrics ?? undefined,
@@ -540,6 +543,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         handleKanjiClick,
         handleWordClick,
         isKaraoke,
+        isNavidromeServer,
         pronunciationLyricsOverlay,
         rawSyncedLyrics,
         romajiConvertedLyrics,

@@ -112,10 +112,12 @@ export const LyricLine = memo(
         // Innermost target wins: kanji spans (nested inside word spans) go to
         // the KanjiPicker flow, the surrounding word span goes to the JMdict
         // word lookup, anything else falls through to the line's click-to-seek.
-        // Alt/Ctrl-clicks on word spans are left unconsumed on purpose (word
-        // click-to-seek claims them).
+        // Alt/Ctrl-clicks are left unconsumed on the whole word, kanji glyphs
+        // included, so word click-to-seek can claim the modifier across the
+        // entire hit area (shift stays with kanji span extension).
         const handleClick = (event: React.MouseEvent<HTMLSpanElement>) => {
             if (lineIndex === undefined) return;
+            if (event.altKey || event.ctrlKey) return;
 
             const node = event.target as HTMLElement;
 
@@ -138,7 +140,7 @@ export const LyricLine = memo(
                 }
             }
 
-            if (!onWordClick || event.altKey || event.ctrlKey) return;
+            if (!onWordClick) return;
 
             const wordTarget = node.closest<HTMLElement>(WORD_SPAN_SELECTOR);
             if (!wordTarget) return;

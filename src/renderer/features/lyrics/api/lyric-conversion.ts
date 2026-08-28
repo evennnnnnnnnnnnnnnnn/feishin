@@ -342,6 +342,11 @@ const getWordRanges = (wordTokens: LyricTextToken[]): WordRange[] => {
     return ranges;
 };
 
+// Word spans are click/tap targets only (no role/tabindex): making every
+// particle and kana token focusable would multiply the tab stops per song far
+// beyond the existing kanji-span precedent. Keyboard access remains via the
+// focusable kanji spans, whose key events fall through to the enclosing word
+// span when no kanji handler is active.
 const wordSpanOpenTag = (range: WordRange): string => {
     const attrs = [
         `data-word-offset="${range.start}"`,
@@ -350,14 +355,13 @@ const wordSpanOpenTag = (range: WordRange): string => {
         `data-word-base="${range.token.basicForm ? escapeHtml(range.token.basicForm) : ''}"`,
         `data-word-reading="${range.token.reading ? escapeHtml(range.token.reading) : ''}"`,
         `data-word-pos="${range.token.pos ? escapeHtml(range.token.pos) : ''}"`,
-        'role="button"',
-        'tabindex="0"',
     ];
 
     return `<span ${attrs.join(' ')}>`;
 };
 
 type LineAtom = {
+    end: number;
     html: string;
     start: number;
 };
@@ -366,10 +370,11 @@ type LineAtom = {
  * Same serialization as buildBindingAwareLineHtml, additionally wrapping every
  * Japanese analyzer token in a word span (JMdict word-tap lookup target).
  * Kanji spans stay nested inside their word span; a binding span that crosses
- * token boundaries is attached whole to the word containing its start. With
- * `pieces` null (word lookup without furigana) the text stays plain inside the
- * word spans; with `wordTokens` null the output is identical to
- * buildBindingAwareLineHtml.
+ * token boundaries belongs to no word span (its glyphs are KanjiPicker
+ * territory, and attributing them to either word would return the wrong
+ * entry). With `pieces` null (word lookup without furigana) the text stays
+ * plain inside the word spans; with `wordTokens` null the output is identical
+ * to buildBindingAwareLineHtml.
  */
 export const buildWordAwareLineHtml = (
     lineText: string,
@@ -389,13 +394,17 @@ export const buildWordAwareLineHtml = (
 
     for (const piece of effectivePieces) {
         if (piece.kind === 'kanji') {
-            atoms.push({ html: wrapKanjiSpan(piece, bindingsVisible), start: piece.charOffset });
+            atoms.push({
+                end: piece.charOffset + piece.spanLength,
+                html: wrapKanjiSpan(piece, bindingsVisible),
+                start: piece.charOffset,
+            });
             cursor = piece.charOffset + piece.spanLength;
             continue;
         }
 
         for (const char of piece.text) {
-            atoms.push({ html: escapeHtml(char), start: cursor });
+            atoms.push({ end: cursor + 1, html: escapeHtml(char), start: cursor });
             cursor += 1;
         }
     }
@@ -409,10 +418,13 @@ export const buildWordAwareLineHtml = (
             rangeIdx += 1;
         }
 
-        const range =
+        const covering =
             rangeIdx < wordRanges.length && wordRanges[rangeIdx].start <= atom.start
                 ? wordRanges[rangeIdx]
                 : null;
+        // An atom overhanging its word (a binding crossing token boundaries)
+        // stays outside any word span
+        const range = covering && atom.end <= covering.end ? covering : null;
 
         if (openRange !== range) {
             if (openRange) {

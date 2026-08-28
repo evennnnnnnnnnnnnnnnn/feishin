@@ -81,7 +81,7 @@ describe('buildWordAwareLineHtml', () => {
         const html = buildWordAwareLineHtml(lineText, null, tokens, true);
 
         expect(html).toContain(
-            '<span data-word-offset="0" data-word-length="1" data-word-text="猫" data-word-base="猫" data-word-reading="ねこ" data-word-pos="名詞" role="button" tabindex="0">猫</span>',
+            '<span data-word-offset="0" data-word-length="1" data-word-text="猫" data-word-base="猫" data-word-reading="ねこ" data-word-pos="名詞">猫</span>',
         );
         expect(html).toContain('data-word-base="食べる"');
         expect(html).toContain('data-word-pos="助詞"');
@@ -112,6 +112,35 @@ describe('buildWordAwareLineHtml', () => {
 
         expect(html.match(/data-word-offset/g)).toHaveLength(1);
         expect(html).toContain('</span>、ABC');
+    });
+
+    it('keeps a binding that crosses token boundaries outside any word span', () => {
+        // Binding spans 食 (end of token 食べ... shifted) across into the next
+        // token: 猫[は][食べ]  binding over は食 (offset 1, length 2)
+        const crossingPieces: LinePiece[] = [
+            { kind: 'plain', text: '猫' },
+            {
+                binding: null,
+                charOffset: 1,
+                kind: 'kanji',
+                spanLength: 2,
+                suggestedReading: null,
+                text: 'は食',
+            },
+            { kind: 'plain', text: 'べた' },
+        ];
+
+        const html = buildWordAwareLineHtml(lineText, crossingPieces, tokens, true);
+
+        // The crossing kanji span sits between word spans, not inside one
+        const kanjiIdx = html.indexOf('data-kanji-offset="1"');
+        const before = html.slice(0, kanjiIdx);
+        expect(kanjiIdx).toBeGreaterThan(-1);
+        expect((before.match(/<span data-word-offset/g) ?? []).length).toBe(
+            (before.match(/<\/span>/g) ?? []).length,
+        );
+        // The remainder of 食べ (べ at offset 3) still gets its word span
+        expect(html).toContain('data-word-offset="2"');
     });
 
     it('computes word offsets in code points for astral characters', () => {

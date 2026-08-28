@@ -19,7 +19,7 @@ import {
     useSynchronizedLyricsBase,
 } from '/@/renderer/features/lyrics/hooks/use-synchronized-lyrics-base';
 import { KaraokeLyricLine } from '/@/renderer/features/lyrics/karaoke-lyric-line';
-import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
+import { LyricLine, WordSpanClickDetail } from '/@/renderer/features/lyrics/lyric-line';
 import { subscribePlayerStatus, usePlayerStoreBase } from '/@/renderer/store';
 import { subscribePlayerProgress, useTimestampStoreBase } from '/@/renderer/store/timestamp.store';
 import {
@@ -34,6 +34,7 @@ export interface SynchronizedKaraokeLyricsProps extends Omit<FullLyricsMetadata,
     extraOverlayLyrics?: SynchronizedLyricsData[];
     lyrics: SynchronizedLyricsData;
     offsetMs?: number;
+    onWordClick?: (detail: WordSpanClickDetail) => void;
     preview?: boolean;
     pronunciationLyrics?: null | SynchronizedLyricsData;
     romajiLyrics?: null | SynchronizedLyricsData;
@@ -55,6 +56,7 @@ export const SynchronizedKaraokeLyrics = ({
     lyrics,
     name,
     offsetMs,
+    onWordClick,
     preview = false,
     pronunciationLyrics,
     romajiLyrics,
@@ -411,6 +413,8 @@ export const SynchronizedKaraokeLyrics = ({
                                 fontSize={effectiveFontSize}
                                 id={`karaoke-line-${idx}`}
                                 key={idx}
+                                lineIndex={idx}
+                                onWordClick={onWordClick}
                                 romajiText={pronunciationText}
                                 text={getLyricLineText(rawLine)}
                                 translatedText={translationText}

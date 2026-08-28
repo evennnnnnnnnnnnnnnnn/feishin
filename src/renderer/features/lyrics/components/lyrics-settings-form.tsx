@@ -680,11 +680,12 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
                         {t('setting.furiganaBindingsAttribution')}
                     </Text>
                 )}
-                {lyricsSettings.enableWordLookup && (
-                    <Text isMuted size="xs">
-                        {t('setting.wordLookupAttribution')}
-                    </Text>
-                )}
+                {/* Unconditional: the JMdict-derived asset ships with every
+                    build, so its CC BY-SA attribution must not depend on the
+                    lookup toggle */}
+                <Text isMuted size="xs">
+                    {t('setting.wordLookupAttribution')}
+                </Text>
             </Fieldset>
             <Fieldset legend={t('page.setting.lyricsDisplay')}>
                 <ListConfigTable options={displayOptions} />
