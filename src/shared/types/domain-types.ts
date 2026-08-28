@@ -1642,6 +1642,7 @@ export type ControllerEndpoint = {
     removeFromPlaylist: (args: RemoveFromPlaylistArgs) => Promise<RemoveFromPlaylistResponse>;
     replacePlaylist: (args: ReplacePlaylistArgs) => Promise<ReplacePlaylistResponse>;
     saveLyricsOverride?: (args: SaveLyricsOverrideArgs) => Promise<SaveLyricsOverrideResponse>;
+    saveLyricsSidecar?: (args: SaveLyricsSidecarArgs) => Promise<SaveLyricsSidecarResponse>;
     savePlayQueue: (args: SaveQueueArgs) => Promise<void>;
     scrobble: (args: ScrobbleArgs) => Promise<ScrobbleResponse>;
     search: (args: SearchArgs) => Promise<SearchResponse>;
@@ -1917,6 +1918,9 @@ export type InternalControllerEndpoint = {
     saveLyricsOverride?: (
         args: ReplaceApiClientProps<SaveLyricsOverrideArgs>,
     ) => Promise<SaveLyricsOverrideResponse>;
+    saveLyricsSidecar?: (
+        args: ReplaceApiClientProps<SaveLyricsSidecarArgs>,
+    ) => Promise<SaveLyricsSidecarResponse>;
     savePlayQueue: (args: ReplaceApiClientProps<SaveQueueArgs>) => Promise<void>;
     scrobble: (args: ReplaceApiClientProps<ScrobbleArgs>) => Promise<ScrobbleResponse>;
     search: (args: ReplaceApiClientProps<SearchArgs>) => Promise<SearchResponse>;
@@ -2149,6 +2153,16 @@ export type SaveLyricsOverrideArgs = BaseEndpointArgs & {
 };
 
 export type SaveLyricsOverrideResponse = null;
+
+// Writes a .lrc sidecar next to the song's audio file. Only the song id and the
+// raw text travel; the server derives the destination path from its own record.
+export type SaveLyricsSidecarArgs = BaseEndpointArgs & {
+    body: { content: string };
+    query: { songId: string };
+};
+
+export type SaveLyricsSidecarResponse = null;
+
 export type SaveQueueArgs = BaseEndpointArgs & {
     query: SaveQueueQuery;
 };

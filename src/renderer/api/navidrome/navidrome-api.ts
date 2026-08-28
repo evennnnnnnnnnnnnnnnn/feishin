@@ -344,6 +344,18 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    saveLyricsSidecar: {
+        body: ndType._parameters.saveLyricsSidecar,
+        method: 'POST',
+        path: 'lyricssidecar/:id',
+        responses: {
+            204: resultWithHeaders(ndType._response.saveLyricsSidecar),
+            400: resultWithHeaders(ndType._response.error),
+            403: resultWithHeaders(ndType._response.error),
+            404: resultWithHeaders(ndType._response.error),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
     saveQueue: {
         body: ndType._parameters.saveQueue,
         method: 'POST',

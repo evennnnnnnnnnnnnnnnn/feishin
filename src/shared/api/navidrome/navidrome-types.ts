@@ -996,6 +996,14 @@ const lyricsOverride = z.array(ndLyricsOverrideEntry);
 
 const deleteLyricsOverride = z.null();
 
+// Raw .lrc text. The server derives the destination path from the song's own
+// record, so the client never sends a path.
+const saveLyricsSidecarParameters = z.object({
+    content: z.string(),
+});
+
+const saveLyricsSidecar = z.null();
+
 const youtubeImportParameters = z.object({
     libraryId: z.number().optional(),
     url: z.string(),
@@ -1040,6 +1048,7 @@ export const ndType = {
         radioList: radioListParameters,
         removeFromPlaylist: removeFromPlaylistParameters,
         saveLyricsOverride: lyricsOverride,
+        saveLyricsSidecar: saveLyricsSidecarParameters,
         saveQueue: saveQueueParameters,
         shareItem: shareItemParameters,
         songList: songListParameters,
@@ -1093,6 +1102,7 @@ export const ndType = {
         radioList,
         radioStation,
         removeFromPlaylist,
+        saveLyricsSidecar,
         saveQueue,
         shareItem,
         song,

@@ -1124,6 +1124,18 @@ export const controller: GeneralController = {
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
+    saveLyricsSidecar(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: saveLyricsSidecar`);
+        }
+
+        return apiController(
+            'saveLyricsSidecar',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
     savePlayQueue(args) {
         const server = getServerById(args.apiClientProps.serverId);
 

@@ -501,6 +501,15 @@
         "syncTitle": "Sync lyrics",
         "timePlaceholder": "mm:ss.xx"
     },
+    "lyricsUpload": {
+        "action": "add lyrics",
+        "chooseFile": "choose .lrc file",
+        "description": "pick an .lrc file or paste its contents. it is saved as a lyrics file next to the song on the server.",
+        "readFailed": "could not read that file",
+        "saveFailed": "could not save the lyrics",
+        "saved": "lyrics saved",
+        "title": "add lyrics"
+    },
     "page": {
         "albumArtistDetail": {
             "about": "About {{artist}}",

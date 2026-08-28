@@ -59,6 +59,7 @@ import {
 } from '/@/renderer/features/lyrics/unsynchronized-lyrics';
 import { openLyricSyncModal } from '/@/renderer/features/lyrics/utils/open-lyric-sync-modal';
 import { openLyricsSettingsModal } from '/@/renderer/features/lyrics/utils/open-lyrics-settings-modal';
+import { openLyricsUploadModal } from '/@/renderer/features/lyrics/utils/open-lyrics-upload-modal';
 import { deriveMusicCardSnippetWindow } from '/@/renderer/features/music-cards/api/music-card-snippet-window';
 import { useSaveMusicCard } from '/@/renderer/features/music-cards/hooks/use-save-music-card';
 import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/use-player-events';
@@ -69,9 +70,10 @@ import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer, useLyricsSettings, usePlayerSong } from '/@/renderer/store';
 import { useIsAdmin } from '/@/renderer/store/auth.store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
+import { Button } from '/@/shared/components/button/button';
 import { Center } from '/@/shared/components/center/center';
-import { Group } from '/@/shared/components/group/group';
 import { Spinner } from '/@/shared/components/spinner/spinner';
+import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
 import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
@@ -242,6 +244,9 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     // per-line editor needs. Timed lyrics qualify too: syncing them again is a
     // re-sync, which is why this does not test `lyricsAreTimed`.
     const canSyncLyrics = isAdmin && isNavidromeServer && !!lyricLineTexts?.length;
+    // Writing a .lrc sidecar puts a file in the library folder, so the endpoint
+    // is admin-only server-side. Hide the affordance rather than let it 403.
+    const canUploadLyrics = isAdmin && isNavidromeServer;
 
     const [pickerTarget, setPickerTarget] = useState<KanjiPickerTarget | null>(null);
     const [wordTarget, setWordTarget] = useState<null | WordInfoTarget>(null);
@@ -881,11 +886,27 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                                     initial={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
                                 >
-                                    <Group>
+                                    <Stack align="center" gap="sm">
                                         <Text fw={500} isMuted isNoSelect>
                                             {t('page.fullscreenPlayer.noLyrics')}
                                         </Text>
-                                    </Group>
+                                        {canUploadLyrics && currentSong?.id ? (
+                                            <Button
+                                                onClick={() =>
+                                                    openLyricsUploadModal({
+                                                        serverId: currentSong._serverId,
+                                                        songId: currentSong.id,
+                                                    })
+                                                }
+                                                size="compact-sm"
+                                                variant="default"
+                                            >
+                                                {t('lyricsUpload.action', {
+                                                    postProcess: 'sentenceCase',
+                                                })}
+                                            </Button>
+                                        ) : null}
+                                    </Stack>
                                 </motion.div>
                             </Center>
                         ) : (

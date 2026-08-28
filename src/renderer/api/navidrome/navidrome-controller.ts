@@ -1388,6 +1388,25 @@ export const NavidromeController: InternalControllerEndpoint = {
 
         return null;
     },
+    saveLyricsSidecar: async (args) => {
+        const { apiClientProps, body, query } = args;
+
+        const res = await ndApiClient(apiClientProps).saveLyricsSidecar({
+            body,
+            params: {
+                id: query.songId,
+            },
+        });
+
+        if (res.status !== 204) {
+            // The server explains why it refused (unparseable text, not admin,
+            // unknown song), so surface that instead of a generic failure.
+            const detail = typeof res.body === 'string' ? res.body.trim() : '';
+            throw new Error(detail || 'Failed to save the lyrics file');
+        }
+
+        return null;
+    },
     savePlayQueue: async (args) => {
         const { apiClientProps, query } = args;
 
