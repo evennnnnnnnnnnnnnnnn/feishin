@@ -1,0 +1,85 @@
+# Fork-local release pipeline. Not from upstream.
+#
+# Pushing to `main` cuts a Linux release on THIS fork when, and only when, the
+# version in package.json has moved. That makes the version bump the deliberate
+# "ship it" act, and keeps ordinary pushes to main from republishing the same build.
+#
+# The installed app picks the release up on its own: electron-updater is already
+# wired (AppImageUpdater in src/main/index.ts, checkForUpdatesAndNotify on startup)
+# and electron-builder.yml points `publish` at this fork.
+#
+# VERSIONING: this fork uses CalVer (major = year), currently 2026.1.x. Upstream is
+# on 1.x and its tags (v1.15.0, v1.15.1, ...) are inherited by the fork, so any 1.x
+# version here would collide with an existing tag pointing at an upstream commit.
+# A year-major version can never collide and always sorts above upstream.
+# Bump the patch to ship: 2026.1.0 -> 2026.1.1 -> 2026.1.2.
+name: 'Release (jml)'
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+concurrency:
+    group: release-jml-${{ github.ref }}
+    cancel-in-progress: false
+
+jobs:
+    check:
+        name: Check whether this version is already released
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.v.outputs.version }}
+            should_release: ${{ steps.v.outputs.should_release }}
+        steps:
+            - name: Check out git repo
+              uses: actions/checkout@v6
+
+            - name: Read version and look for an existing release
+              id: v
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  VERSION=$(node -p "require('./package.json').version")
+                  echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                  if gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+                    echo "v$VERSION is already released - nothing to do."
+                    echo "should_release=false" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "v$VERSION is not released yet - building."
+                    echo "should_release=true" >> "$GITHUB_OUTPUT"
+                  fi
+
+    publish:
+        name: Build and publish Linux release
+        needs: check
+        if: needs.check.outputs.should_release == 'true'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Check out git repo
+              uses: actions/checkout@v6
+
+            - name: Install Node and PNPM
+              uses: pnpm/action-setup@v4
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build and publish release
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              uses: nick-invision/retry@v3.0.2
+              with:
+                  timeout_minutes: 30
+                  max_attempts: 3
+                  retry_on: error
+                  command: pnpm run publish:linux
+                  on_retry_command: pnpm cache delete
+
+            - name: Report what was published
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: gh release view "v${{ needs.check.outputs.version }}" --repo "$GITHUB_REPOSITORY"

@@ -67,9 +67,12 @@ toolsets:
 
 npmRebuild: false
 afterAllArtifactBuild: scripts/after-all-artifact-build.mjs
+# Fork-local: releases go to this fork, not upstream.
+# releaseType MUST be `release`, not `draft`. electron-updater cannot see draft
+# releases, so a draft build succeeds and then silently never reaches the app.
 publish:
     provider: github
-    owner: jeffvli
+    owner: evennnnnnnnnnnnnnnnn
     repo: feishin
     channel: latest
-    releaseType: draft
+    releaseType: release
