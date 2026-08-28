@@ -17,17 +17,17 @@ export type PracticeRegion = {
 };
 
 // Shared resolver for the lyrics click-to-seek dataset attributes: a cue-word
-// span (data-word-start) wins over its enclosing line (data-lyric-time).
-// Times are raw lyric milliseconds, consistent with the existing line seek.
+// span (data-word-start) wins over its enclosing line (data-lyric-time), and
+// an invalid word cue swallows the click rather than falling back to the line
+// (exact pre-existing karaoke handler behaviour). Times are raw lyric
+// milliseconds, consistent with the existing line seek.
 export const resolveLyricsSeekTargetMs = (
     wordStart: string | undefined,
     lyricTime: string | undefined,
 ): null | number => {
     if (wordStart !== undefined) {
         const wordMs = Number(wordStart);
-        if (Number.isFinite(wordMs)) {
-            return wordMs;
-        }
+        return Number.isFinite(wordMs) ? wordMs : null;
     }
 
     if (lyricTime !== undefined) {
@@ -100,6 +100,29 @@ export const derivePracticeLoop = (
         endMs: endRegion.endMs,
         startMs: startRegion.startMs,
     };
+};
+
+export type PracticeAnchor = {
+    /** Wall-clock ms (performance.now) when timeMs was observed */
+    at: number;
+    /** Playback position in lyric ms at the anchor moment */
+    timeMs: number;
+};
+
+// Interpolated playback position between progress events: wall-clock elapsed
+// scaled by the playback rate.
+export const interpolateAnchorMs = (anchor: PracticeAnchor, nowMs: number, speed: number): number =>
+    anchor.timeMs + (nowMs - anchor.at) * speed;
+
+export const MAX_SETTLE_MS = 500;
+export const MIN_SETTLE_MS = 100;
+
+// How long to ignore boundary checks after a watcher-issued loop seek, so
+// stale progress events cannot fire a seek storm. Capped at half the loop
+// length so very short loops still enforce their B boundary every cycle.
+export const loopSettleMs = (loop: PracticeRegion): number => {
+    const half = (loop.endMs - loop.startMs) / 2;
+    return Math.max(MIN_SETTLE_MS, Math.min(MAX_SETTLE_MS, half));
 };
 
 export type PracticeTickAction = null | { type: 'loop-seek' } | { type: 'replay-end' };

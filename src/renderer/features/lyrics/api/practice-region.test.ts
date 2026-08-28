@@ -3,6 +3,10 @@ import { describe, expect, it } from 'vitest';
 import {
     deriveLineRegion,
     derivePracticeLoop,
+    interpolateAnchorMs,
+    loopSettleMs,
+    MAX_SETTLE_MS,
+    MIN_SETTLE_MS,
     resolveLyricsSeekTargetMs,
     resolvePracticeTick,
 } from './practice-region';
@@ -44,8 +48,8 @@ describe('resolveLyricsSeekTargetMs', () => {
         expect(resolveLyricsSeekTargetMs(undefined, '1000')).toBe(1000);
     });
 
-    it('falls back to the line time when the word start is not numeric', () => {
-        expect(resolveLyricsSeekTargetMs('abc', '1000')).toBe(1000);
+    it('swallows the click when the word start is not numeric (pre-existing karaoke behaviour)', () => {
+        expect(resolveLyricsSeekTargetMs('abc', '1000')).toBeNull();
     });
 
     it('rejects negative line times', () => {
@@ -122,6 +126,32 @@ describe('derivePracticeLoop', () => {
             endMs: 4200,
             startMs: 1000,
         });
+    });
+});
+
+describe('interpolateAnchorMs', () => {
+    it('advances by wall-clock elapsed scaled by the playback rate', () => {
+        expect(interpolateAnchorMs({ at: 1000, timeMs: 5000 }, 1500, 1)).toBe(5500);
+        expect(interpolateAnchorMs({ at: 1000, timeMs: 5000 }, 1500, 0.5)).toBe(5250);
+        expect(interpolateAnchorMs({ at: 1000, timeMs: 5000 }, 1500, 2)).toBe(6000);
+    });
+
+    it('returns the anchor position when no time has elapsed', () => {
+        expect(interpolateAnchorMs({ at: 1000, timeMs: 5000 }, 1000, 0.75)).toBe(5000);
+    });
+});
+
+describe('loopSettleMs', () => {
+    it('caps the settle window at half the loop length for short loops', () => {
+        expect(loopSettleMs({ endMs: 1400, startMs: 1000 })).toBe(200);
+    });
+
+    it('never settles below the floor', () => {
+        expect(loopSettleMs({ endMs: 1050, startMs: 1000 })).toBe(MIN_SETTLE_MS);
+    });
+
+    it('never settles above the ceiling for long loops', () => {
+        expect(loopSettleMs({ endMs: 60_000, startMs: 1000 })).toBe(MAX_SETTLE_MS);
     });
 });
 

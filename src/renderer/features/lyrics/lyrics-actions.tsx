@@ -7,6 +7,7 @@ import styles from './lyrics-actions.module.css';
 import { openLyricSearchModal } from '/@/renderer/features/lyrics/components/lyrics-search-form';
 import {
     useLyricsSettings,
+    usePlaybackType,
     usePlayerActions,
     usePlayerSong,
     usePlayerSpeed,
@@ -28,6 +29,7 @@ import { Switch } from '/@/shared/components/switch/switch';
 import { Text } from '/@/shared/components/text/text';
 import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 import { LyricsKind, LyricsOverride } from '/@/shared/types/domain-types';
+import { PlayerType } from '/@/shared/types/types';
 
 export type OverlayLayerToggle = {
     key: string;
@@ -100,6 +102,7 @@ export const LyricsActions = ({
     const { sources } = useLyricsSettings();
     const speed = usePlayerSpeed();
     const { setSpeed } = usePlayerActions();
+    const playbackType = usePlaybackType();
     const practiceLoop = useLyricsPracticeLoop();
     const practiceLoopDraft = useLyricsPracticeLoopDraft();
     const { clearLoop } = useLyricsPracticeActions();
@@ -249,38 +252,43 @@ export const LyricsActions = ({
         ) : null;
 
     const isPracticeSpeedActive = speed !== 1;
-    const practiceSpeedMenu = (
-        <DropdownMenu position="top">
-            <DropdownMenu.Target>
-                <ActionIcon
-                    aria-label={t('page.fullscreenPlayer.practiceSpeed')}
-                    className={isPracticeSpeedActive ? styles.overlayToggleActive : undefined}
-                    disabled={isActionsDisabled}
-                    icon="mediaSpeed"
-                    iconProps={
-                        isPracticeSpeedActive ? { color: 'primary', size: 'lg' } : { size: 'lg' }
-                    }
-                    size="sm"
-                    tooltip={{
-                        label: `${t('page.fullscreenPlayer.practiceSpeed')}: ${speed}x`,
-                        openDelay: 0,
-                    }}
-                    variant="subtle"
-                />
-            </DropdownMenu.Target>
-            <DropdownMenu.Dropdown>
-                {PRACTICE_SPEEDS.map((value) => (
-                    <DropdownMenu.Item
-                        isSelected={speed === value}
-                        key={value}
-                        onClick={() => setSpeed(value)}
-                    >
-                        {`${value}x`}
-                    </DropdownMenu.Item>
-                ))}
-            </DropdownMenu.Dropdown>
-        </DropdownMenu>
-    );
+    // Jukebox playback never consumes player.speed; showing the control there
+    // would silently do nothing
+    const practiceSpeedMenu =
+        playbackType === PlayerType.JUKEBOX ? null : (
+            <DropdownMenu position="top">
+                <DropdownMenu.Target>
+                    <ActionIcon
+                        aria-label={t('page.fullscreenPlayer.practiceSpeed')}
+                        className={isPracticeSpeedActive ? styles.overlayToggleActive : undefined}
+                        disabled={isActionsDisabled}
+                        icon="mediaSpeed"
+                        iconProps={
+                            isPracticeSpeedActive
+                                ? { color: 'primary', size: 'lg' }
+                                : { size: 'lg' }
+                        }
+                        size="sm"
+                        tooltip={{
+                            label: `${t('page.fullscreenPlayer.practiceSpeed')}: ${speed}x`,
+                            openDelay: 0,
+                        }}
+                        variant="subtle"
+                    />
+                </DropdownMenu.Target>
+                <DropdownMenu.Dropdown>
+                    {PRACTICE_SPEEDS.map((value) => (
+                        <DropdownMenu.Item
+                            isSelected={speed === value}
+                            key={value}
+                            onClick={() => setSpeed(value)}
+                        >
+                            {`${value}x`}
+                        </DropdownMenu.Item>
+                    ))}
+                </DropdownMenu.Dropdown>
+            </DropdownMenu>
+        );
 
     const hasPracticeLoop = !!practiceLoop || !!practiceLoopDraft;
     const practiceLoopChip = hasPracticeLoop ? (

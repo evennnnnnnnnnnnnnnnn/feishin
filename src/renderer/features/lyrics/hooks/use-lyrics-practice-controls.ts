@@ -26,7 +26,8 @@ export const useLyricsPracticeControls = (
     const loopDraft = useLyricsPracticeLoopDraft();
     const { clearLoop, setLoop, setLoopDraft, setReplay } = useLyricsPracticeActions();
 
-    const songDurationMs = currentSong?.duration ? currentSong.duration * 1000 : undefined;
+    // Song.duration is normalized to milliseconds (see navidrome-normalize)
+    const songDurationMs = currentSong?.duration ?? undefined;
 
     const handleReplayLine = useCallback(
         (lineIndex: number) => {
