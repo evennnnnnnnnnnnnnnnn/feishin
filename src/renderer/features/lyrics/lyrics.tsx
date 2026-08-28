@@ -368,7 +368,8 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             const snippet = deriveMusicCardSnippetWindow(
                 rawSyncedLyrics,
                 pickerTarget.lineIndex,
-                currentSong.duration * 1000,
+                // Song.duration is already in milliseconds
+                currentSong.duration,
             );
 
             if (!snippet) {
