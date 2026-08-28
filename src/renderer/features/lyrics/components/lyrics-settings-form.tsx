@@ -452,6 +452,19 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
         {
             component: (
                 <ListConfigBooleanControl
+                    onChange={(value) => updateLyricsSetting({ enableWordLookup: value })}
+                    value={lyricsSettings.enableWordLookup ?? false}
+                />
+            ),
+            description: t('setting.enableWordLookup', {
+                context: 'description',
+            }),
+            id: 'enableWordLookup',
+            label: t('setting.enableWordLookup'),
+        },
+        {
+            component: (
+                <ListConfigBooleanControl
                     onChange={(value) => updateLyricsSetting({ enableRomaji: value })}
                     value={lyricsSettings.enableRomaji ?? false}
                 />
@@ -665,6 +678,11 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
                 {lyricsSettings.enableFurigana && (
                     <Text isMuted size="xs">
                         {t('setting.furiganaBindingsAttribution')}
+                    </Text>
+                )}
+                {lyricsSettings.enableWordLookup && (
+                    <Text isMuted size="xs">
+                        {t('setting.wordLookupAttribution')}
                     </Text>
                 )}
             </Fieldset>

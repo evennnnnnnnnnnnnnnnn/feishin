@@ -21,7 +21,11 @@ import {
     LYRICS_SCROLL_CONTAINER_ID,
     useSynchronizedLyricsBase,
 } from '/@/renderer/features/lyrics/hooks/use-synchronized-lyrics-base';
-import { KanjiSpanClickDetail, LyricLine } from '/@/renderer/features/lyrics/lyric-line';
+import {
+    KanjiSpanClickDetail,
+    LyricLine,
+    WordSpanClickDetail,
+} from '/@/renderer/features/lyrics/lyric-line';
 import {
     subscribePlayerStatus,
     useCurrentServer,
@@ -45,6 +49,7 @@ export interface SynchronizedLyricsProps extends Omit<FullLyricsMetadata, 'lyric
     lyrics: SynchronizedLyricsData;
     offsetMs?: number;
     onKanjiClick?: (detail: KanjiSpanClickDetail) => void;
+    onWordClick?: (detail: WordSpanClickDetail) => void;
     preview?: boolean;
     pronunciationLyrics?: null | SynchronizedLyricsData;
     /** Pre-furigana/romaji-transform lines, used as the edit/save source of
@@ -68,6 +73,7 @@ export const SynchronizedLyrics = ({
     name,
     offsetMs,
     onKanjiClick,
+    onWordClick,
     preview = false,
     pronunciationLyrics,
     rawLyrics,
@@ -444,6 +450,7 @@ export const SynchronizedLyrics = ({
                                 onPreview={handlePreview}
                                 onSetCurrentTime={() => handleSetCurrentTime(idx)}
                                 onStartEdit={(field) => setEditingLine({ field, index: idx })}
+                                onWordClick={onWordClick}
                                 rawText={rawLineText}
                                 romajiText={pronunciationText}
                                 startMs={lineStartMs}
@@ -463,6 +470,7 @@ export const SynchronizedLyrics = ({
                             key={idx}
                             lineIndex={idx}
                             onKanjiClick={onKanjiClick}
+                            onWordClick={onWordClick}
                             romajiText={pronunciationText}
                             text={lineText}
                             translatedText={translationText}

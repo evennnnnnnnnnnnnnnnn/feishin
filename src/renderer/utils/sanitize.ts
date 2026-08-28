@@ -12,6 +12,13 @@ const SANITIZE_OPTIONS: Config = {
         'data-text',
         'data-hidden',
         'data-bound',
+        // JMdict word-span click targets (word-lookup lyrics render)
+        'data-word-offset',
+        'data-word-length',
+        'data-word-text',
+        'data-word-base',
+        'data-word-reading',
+        'data-word-pos',
     ],
     ALLOWED_TAGS: ['a', 'b', 'div', 'em', 'i', 'p', 'span', 'strong', 'ruby', 'rt', 'rp'],
     // allow http://, https://, and // (mapped to https)

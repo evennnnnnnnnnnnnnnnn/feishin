@@ -4,12 +4,13 @@ import { useMemo } from 'react';
 import styles from './unsynchronized-lyrics.module.css';
 
 import { LyricsScrollContent } from '/@/renderer/features/lyrics/components/lyrics-scroll-content';
-import { LyricLine } from '/@/renderer/features/lyrics/lyric-line';
+import { LyricLine, WordSpanClickDetail } from '/@/renderer/features/lyrics/lyric-line';
 import { useLyricsDisplaySettings, useLyricsSettings } from '/@/renderer/store';
 import { FullLyricsMetadata } from '/@/shared/types/domain-types';
 
 export interface UnsynchronizedLyricsProps extends Omit<FullLyricsMetadata, 'lyrics'> {
     lyrics: string;
+    onWordClick?: (detail: WordSpanClickDetail) => void;
     preview?: boolean;
     romajiLyrics?: null | string;
     settingsKey?: string;
@@ -23,6 +24,7 @@ export const UnsynchronizedLyrics = ({
     artist,
     lyrics,
     name,
+    onWordClick,
     preview = false,
     romajiLyrics,
     settingsKey = 'default',
@@ -86,6 +88,8 @@ export const UnsynchronizedLyrics = ({
                         fontSize={settings.fontSizeUnsync}
                         id={`lyric-${idx}`}
                         key={idx}
+                        lineIndex={idx}
+                        onWordClick={onWordClick}
                         romajiText={romajiLines[idx]}
                         text={text}
                         translatedText={translatedLines[idx]}

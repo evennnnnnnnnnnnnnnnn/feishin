@@ -311,6 +311,129 @@ export const buildBindingAwareLineHtml = (pieces: LinePiece[], bindingsVisible: 
         )
         .join('');
 
+const WORD_CHAR_RE = /[ぁ-ヿㇰ-ㇿ一-鿿ｦ-ﾟ]/u;
+
+/** Only tokens with Japanese content (kana or kanji) are lookup targets; punctuation, whitespace, and ASCII runs stay plain */
+export const isLookupWordToken = (token: LyricTextToken): boolean => WORD_CHAR_RE.test(token.text);
+
+type WordRange = {
+    end: number;
+    start: number;
+    token: LyricTextToken;
+};
+
+/**
+ * Token startChar/endChar are UTF-16 offsets while the kanji piece offsets are
+ * code-point based (Array.from), so word ranges are recomputed here in code
+ * points from the token texts, which concatenate to the full line.
+ */
+const getWordRanges = (wordTokens: LyricTextToken[]): WordRange[] => {
+    const ranges: WordRange[] = [];
+    let cursor = 0;
+
+    for (const token of wordTokens) {
+        const length = Array.from(token.text).length;
+        if (isLookupWordToken(token)) {
+            ranges.push({ end: cursor + length, start: cursor, token });
+        }
+        cursor += length;
+    }
+
+    return ranges;
+};
+
+const wordSpanOpenTag = (range: WordRange): string => {
+    const attrs = [
+        `data-word-offset="${range.start}"`,
+        `data-word-length="${range.end - range.start}"`,
+        `data-word-text="${escapeHtml(range.token.text)}"`,
+        `data-word-base="${range.token.basicForm ? escapeHtml(range.token.basicForm) : ''}"`,
+        `data-word-reading="${range.token.reading ? escapeHtml(range.token.reading) : ''}"`,
+        `data-word-pos="${range.token.pos ? escapeHtml(range.token.pos) : ''}"`,
+        'role="button"',
+        'tabindex="0"',
+    ];
+
+    return `<span ${attrs.join(' ')}>`;
+};
+
+type LineAtom = {
+    html: string;
+    start: number;
+};
+
+/**
+ * Same serialization as buildBindingAwareLineHtml, additionally wrapping every
+ * Japanese analyzer token in a word span (JMdict word-tap lookup target).
+ * Kanji spans stay nested inside their word span; a binding span that crosses
+ * token boundaries is attached whole to the word containing its start. With
+ * `pieces` null (word lookup without furigana) the text stays plain inside the
+ * word spans; with `wordTokens` null the output is identical to
+ * buildBindingAwareLineHtml.
+ */
+export const buildWordAwareLineHtml = (
+    lineText: string,
+    pieces: LinePiece[] | null,
+    wordTokens: LyricTextToken[] | null,
+    bindingsVisible: boolean,
+): string => {
+    const effectivePieces: LinePiece[] = pieces ?? [{ kind: 'plain', text: lineText }];
+    const wordRanges = wordTokens ? getWordRanges(wordTokens) : [];
+
+    if (!wordRanges.length) {
+        return buildBindingAwareLineHtml(effectivePieces, bindingsVisible);
+    }
+
+    const atoms: LineAtom[] = [];
+    let cursor = 0;
+
+    for (const piece of effectivePieces) {
+        if (piece.kind === 'kanji') {
+            atoms.push({ html: wrapKanjiSpan(piece, bindingsVisible), start: piece.charOffset });
+            cursor = piece.charOffset + piece.spanLength;
+            continue;
+        }
+
+        for (const char of piece.text) {
+            atoms.push({ html: escapeHtml(char), start: cursor });
+            cursor += 1;
+        }
+    }
+
+    const output: string[] = [];
+    let rangeIdx = 0;
+    let openRange: null | WordRange = null;
+
+    for (const atom of atoms) {
+        while (rangeIdx < wordRanges.length && wordRanges[rangeIdx].end <= atom.start) {
+            rangeIdx += 1;
+        }
+
+        const range =
+            rangeIdx < wordRanges.length && wordRanges[rangeIdx].start <= atom.start
+                ? wordRanges[rangeIdx]
+                : null;
+
+        if (openRange !== range) {
+            if (openRange) {
+                output.push('</span>');
+            }
+            if (range) {
+                output.push(wordSpanOpenTag(range));
+            }
+            openRange = range;
+        }
+
+        output.push(atom.html);
+    }
+
+    if (openRange) {
+        output.push('</span>');
+    }
+
+    return output.join('');
+};
+
 export const alignFuriganaToWordCues = async (
     cueValue: string,
     words: SyncedWordCue[],

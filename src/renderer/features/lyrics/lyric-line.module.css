@@ -63,6 +63,18 @@
     background-color: alpha(var(--theme-colors-foreground-muted), 0.28);
 }
 
+/* JMdict word-lookup spans: no resting decoration (the lyric text must stay
+   clean), just a pointer and a faint hover wash to signal tappability */
+.lyric-line [data-word-offset] {
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.15s ease;
+}
+
+.lyric-line [data-word-offset]:hover {
+    background-color: alpha(var(--theme-colors-foreground-muted), 0.14);
+}
+
 .lyric-line [data-kanji-offset] rt {
     font-size: 0.62em;
     font-weight: 600;

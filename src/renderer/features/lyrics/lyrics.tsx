@@ -32,6 +32,10 @@ import {
 } from '/@/renderer/features/lyrics/components/kanji-picker';
 import { openLyricsExportModal } from '/@/renderer/features/lyrics/components/lyrics-export-form';
 import {
+    WordInfoPopover,
+    WordInfoTarget,
+} from '/@/renderer/features/lyrics/components/word-info-popover';
+import {
     useDeleteFuriganaBindingMutation,
     useFuriganaBindings,
     useUpsertFuriganaBindingMutation,
@@ -41,7 +45,7 @@ import {
     useRomajiLyrics,
     useSyncedRomajiLyrics,
 } from '/@/renderer/features/lyrics/hooks/use-furigana-lyrics';
-import { KanjiSpanClickDetail } from '/@/renderer/features/lyrics/lyric-line';
+import { KanjiSpanClickDetail, WordSpanClickDetail } from '/@/renderer/features/lyrics/lyric-line';
 import { LyricsActions } from '/@/renderer/features/lyrics/lyrics-actions';
 import { SynchronizedKaraokeLyrics } from '/@/renderer/features/lyrics/synchronized-karaoke-lyrics';
 import {
@@ -86,6 +90,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         enableAutoTranslation,
         enableFurigana,
         enableRomaji,
+        enableWordLookup,
         furiganaBindingsVisible,
         preferLocalLyrics,
         translationApiKey,
@@ -182,6 +187,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         !!enableFurigana,
         furiganaBindings,
         furiganaBindingsVisible ?? true,
+        !!enableWordLookup,
     );
     const { data: romajiConvertedLyrics, isFetching: isFetchingRomaji } = useRomajiLyrics(
         lyrics?.lyrics,
@@ -199,6 +205,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     const isNavidromeServer = currentServerType === ServerType.NAVIDROME;
 
     const [pickerTarget, setPickerTarget] = useState<KanjiPickerTarget | null>(null);
+    const [wordTarget, setWordTarget] = useState<null | WordInfoTarget>(null);
 
     const findFuriganaBinding = useCallback(
         (lineIndex: number, charOffset: number): FuriganaBinding | null =>
@@ -208,9 +215,18 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         [furiganaBindings],
     );
 
+    const handleWordClick = useCallback((detail: WordSpanClickDetail) => {
+        setPickerTarget(null);
+        setWordTarget(detail);
+    }, []);
+
+    const handleCloseWordInfo = useCallback(() => setWordTarget(null), []);
+
     const handleKanjiClick = useCallback(
         (detail: KanjiSpanClickDetail) => {
             if (!isNavidromeServer) return;
+
+            setWordTarget(null);
 
             // Shift-click while a picker is open on the same line extends the
             // open span to cover both kanji runs (Museeks span-extension model)
@@ -389,11 +405,11 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
 
     const displayLyrics = useMemo(() => {
         if (isLyricsDisabled || !lyrics) return null;
-        if (enableFurigana && furiganaConvertedLyrics) {
+        if ((enableFurigana || enableWordLookup) && furiganaConvertedLyrics) {
             return { ...lyrics, lyrics: furiganaConvertedLyrics };
         }
         return lyrics;
-    }, [enableFurigana, isLyricsDisabled, lyrics, furiganaConvertedLyrics]);
+    }, [enableFurigana, enableWordLookup, isLyricsDisabled, lyrics, furiganaConvertedLyrics]);
 
     const currentOffsetMs = useMemo(() => {
         if (!data) return 0;
@@ -501,6 +517,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             extraOverlayLyrics: isKaraoke ? extraOverlayLyrics : undefined,
             offsetMs: displayOffsetMs,
             onKanjiClick: enableFurigana ? handleKanjiClick : undefined,
+            onWordClick: enableWordLookup ? handleWordClick : undefined,
             pronunciationLyrics: pronunciationLyricsOverlay,
             rawLyrics: rawSyncedLyrics ?? undefined,
             romajiLyrics:
@@ -518,8 +535,10 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         displayOffsetMs,
         enableFurigana,
         enableRomaji,
+        enableWordLookup,
         extraOverlayLyrics,
         handleKanjiClick,
+        handleWordClick,
         isKaraoke,
         pronunciationLyricsOverlay,
         rawSyncedLyrics,
@@ -728,6 +747,13 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     return (
         <ComponentErrorBoundary>
             <div className={styles.lyricsContainer}>
+                {wordTarget && (
+                    <WordInfoPopover
+                        key={`${wordTarget.lineIndex}-${wordTarget.charOffset}`}
+                        onClose={handleCloseWordInfo}
+                        target={wordTarget}
+                    />
+                )}
                 {pickerTarget && (
                     <KanjiPicker
                         key={`${pickerTarget.lineIndex}-${pickerTarget.charOffset}-${pickerTarget.spanLength}`}
@@ -804,6 +830,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                                 ) : (
                                     <UnsynchronizedLyrics
                                         {...(displayLyrics as UnsynchronizedLyricsProps)}
+                                        onWordClick={enableWordLookup ? handleWordClick : undefined}
                                         romajiLyrics={
                                             enableRomaji
                                                 ? (romajiConvertedLyrics as UnsynchronizedLyricsProps['romajiLyrics'])

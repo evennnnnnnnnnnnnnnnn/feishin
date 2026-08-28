@@ -5,7 +5,11 @@ import styles from './editable-lyric-line.module.css';
 
 import { LyricTextEditor } from '/@/renderer/features/lyrics/components/lyric-text-editor';
 import { LyricTimeEditor } from '/@/renderer/features/lyrics/components/lyric-time-editor';
-import { KanjiSpanClickDetail, LyricLine } from '/@/renderer/features/lyrics/lyric-line';
+import {
+    KanjiSpanClickDetail,
+    LyricLine,
+    WordSpanClickDetail,
+} from '/@/renderer/features/lyrics/lyric-line';
 import { ContextMenu } from '/@/shared/components/context-menu/context-menu';
 
 interface EditableLyricLineProps {
@@ -21,6 +25,7 @@ interface EditableLyricLineProps {
     onPreview: (ms: number) => void;
     onSetCurrentTime: () => void;
     onStartEdit: (field: 'text' | 'time') => void;
+    onWordClick?: (detail: WordSpanClickDetail) => void;
     /** Pre-furigana/romaji-transform text; seeds the text editor so a commit
      * never persists rendered markup into the shared lyrics_override row.
      * Falls back to `text` when the caller has no raw source (e.g. preview). */
@@ -48,6 +53,7 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
         onPreview,
         onSetCurrentTime,
         onStartEdit,
+        onWordClick,
         rawText,
         romajiText,
         startMs,
@@ -108,6 +114,7 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
                         id={lineId}
                         lineIndex={lineIndex}
                         onKanjiClick={onKanjiClick}
+                        onWordClick={onWordClick}
                         romajiText={romajiText}
                         text={text}
                         translatedText={translatedText}

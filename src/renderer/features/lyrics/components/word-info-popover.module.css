@@ -1,0 +1,23 @@
+/* Zero-size point anchor, same model as the kanji picker: the primitive
+   positions and clamps the dropdown against this rect, so the click
+   coordinates are the only thing this component owns. */
+.anchor {
+    position: fixed;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Ambient px font size from the shared picker settings; everything below is
+   em-relative so the whole card scales with it */
+.dropdown {
+    padding: 1em;
+}
+
+.entries {
+    max-height: 18em;
+}
+
+.pos-chip {
+    font-size: 0.7em;
+}

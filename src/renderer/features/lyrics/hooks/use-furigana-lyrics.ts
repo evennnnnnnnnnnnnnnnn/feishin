@@ -5,16 +5,24 @@ import {
     buildLinePieces,
     FuriganaBinding,
     getLineBindings,
+    LinePiece,
 } from '/@/renderer/features/lyrics/api/furigana-render-model';
 import {
     alignFuriganaToWordCues,
     alignRomajiTokensToWordCues,
-    buildBindingAwareLineHtml,
+    buildWordAwareLineHtml,
     LyricTextToken,
     RomajiToken,
 } from '/@/renderer/features/lyrics/api/lyric-conversion';
 import { normalizeLyrics } from '/@/renderer/features/lyrics/api/lyrics-utils';
 import { LyricsResponse, SyncedCueLine, SynchronizedLyrics } from '/@/shared/types/domain-types';
+
+type InteractiveLineOptions = {
+    /** Emit binding-aware kanji spans and cue-line furigana (enableFurigana) */
+    furigana: boolean;
+    /** Emit JMdict word-lookup spans around Japanese tokens (enableWordLookup) */
+    wordSpans: boolean;
+};
 
 // Line-level text (line.text) is the primary interactive lyrics view
 // (SynchronizedLyrics/UnsynchronizedLyrics -> LyricLine) and is made
@@ -25,44 +33,83 @@ const convertSyncedLyricsFurigana = async (
     lyrics: SynchronizedLyrics,
     bindings: FuriganaBinding[],
     bindingsVisible: boolean,
+    options: InteractiveLineOptions,
 ): Promise<SynchronizedLyrics> => {
     const normalized = normalizeLyrics(lyrics);
 
     return Promise.all(
         normalized.map(async (line, lineIndex) => {
             const lineText = line.text;
-            const [lineTokens = []] = await lyricsApi.analyzeLyricsLines([lineText]);
-            const lineBindings = getLineBindings(bindings, lineIndex, lineText);
-            const linePieces = buildLinePieces(lineText, lineTokens, lineBindings);
+            let linePieces: LinePiece[] | null = null;
+
+            if (options.furigana) {
+                const [lineTokens = []] = await lyricsApi.analyzeLyricsLines([lineText]);
+                const lineBindings = getLineBindings(bindings, lineIndex, lineText);
+                linePieces = buildLinePieces(lineText, lineTokens, lineBindings);
+            }
+
+            const wordTokens = options.wordSpans
+                ? ((await lyricsApi.parseLyricsTextTokens(lineText)) as LyricTextToken[])
+                : null;
 
             return {
                 ...line,
-                cueLines: line.cueLines
-                    ? await Promise.all(
-                          line.cueLines.map(async (cueLine) => {
-                              const tokens = (await lyricsApi.parseLyricsTextTokens(
-                                  cueLine.value,
-                              )) as LyricTextToken[];
-                              const alignedWords = cueLine.words.length
-                                  ? await alignFuriganaToWordCues(
-                                        cueLine.value,
-                                        cueLine.words,
-                                        tokens,
-                                        (text) => lyricsApi.convertFuriganaFragment(text),
-                                    )
-                                  : cueLine.words;
-                              return {
-                                  ...cueLine,
-                                  value: await lyricsApi.convertFurigana(cueLine.value),
-                                  words: alignedWords ?? cueLine.words,
-                              };
-                          }),
-                      )
-                    : undefined,
-                text: buildBindingAwareLineHtml(linePieces, bindingsVisible),
+                cueLines:
+                    options.furigana && line.cueLines
+                        ? await Promise.all(
+                              line.cueLines.map(async (cueLine) => {
+                                  const tokens = (await lyricsApi.parseLyricsTextTokens(
+                                      cueLine.value,
+                                  )) as LyricTextToken[];
+                                  const alignedWords = cueLine.words.length
+                                      ? await alignFuriganaToWordCues(
+                                            cueLine.value,
+                                            cueLine.words,
+                                            tokens,
+                                            (text) => lyricsApi.convertFuriganaFragment(text),
+                                        )
+                                      : cueLine.words;
+                                  return {
+                                      ...cueLine,
+                                      value: await lyricsApi.convertFurigana(cueLine.value),
+                                      words: alignedWords ?? cueLine.words,
+                                  };
+                              }),
+                          )
+                        : line.cueLines,
+                text: buildWordAwareLineHtml(lineText, linePieces, wordTokens, bindingsVisible),
             };
         }),
     );
+};
+
+// Word-lookup-aware conversion of unsynchronized (plain string) lyrics: the
+// analyzer ruby comes from the same binding-aware serializer as the synced
+// path (with no bindings), so word spans and furigana compose per line.
+const convertPlainLyricsInteractive = async (
+    lyrics: string,
+    options: InteractiveLineOptions,
+): Promise<string> => {
+    const lines = lyrics.split('\n');
+
+    const converted = await Promise.all(
+        lines.map(async (lineText) => {
+            let linePieces: LinePiece[] | null = null;
+
+            if (options.furigana) {
+                const [lineTokens = []] = await lyricsApi.analyzeLyricsLines([lineText]);
+                linePieces = buildLinePieces(lineText, lineTokens, []);
+            }
+
+            const wordTokens = (await lyricsApi.parseLyricsTextTokens(
+                lineText,
+            )) as LyricTextToken[];
+
+            return buildWordAwareLineHtml(lineText, linePieces, wordTokens, true);
+        }),
+    );
+
+    return converted.join('\n');
 };
 
 const convertSyncedLyricsRomaji = async (
@@ -95,23 +142,32 @@ export const useFuriganaLyrics = (
     enabled: boolean,
     bindings: FuriganaBinding[] = [],
     bindingsVisible = true,
+    wordLookupEnabled = false,
 ) => {
+    const anyEnabled = enabled || wordLookupEnabled;
+
     return useQuery({
-        enabled: enabled && !!lyrics,
+        enabled: anyEnabled && !!lyrics,
         queryFn: async () => {
-            if (!lyrics || !enabled) return lyrics;
+            if (!lyrics || !anyEnabled) return lyrics;
+
+            const options = { furigana: enabled, wordSpans: wordLookupEnabled };
 
             if (typeof lyrics === 'string') {
-                return await lyricsApi.convertFurigana(lyrics);
+                if (!wordLookupEnabled) {
+                    return await lyricsApi.convertFurigana(lyrics);
+                }
+
+                return convertPlainLyricsInteractive(lyrics, options);
             }
 
             if (Array.isArray(lyrics)) {
-                return convertSyncedLyricsFurigana(lyrics, bindings, bindingsVisible);
+                return convertSyncedLyricsFurigana(lyrics, bindings, bindingsVisible, options);
             }
 
             return lyrics;
         },
-        queryKey: ['furigana', lyrics, bindings, bindingsVisible],
+        queryKey: ['furigana', lyrics, bindings, bindingsVisible, enabled, wordLookupEnabled],
         staleTime: Infinity,
     });
 };

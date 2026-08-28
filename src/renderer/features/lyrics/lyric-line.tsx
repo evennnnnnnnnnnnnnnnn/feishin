@@ -18,17 +18,52 @@ export type KanjiSpanClickDetail = {
     y: number;
 };
 
+export type WordSpanClickDetail = {
+    basicForm: null | string;
+    charOffset: number;
+    lineIndex: number;
+    pos: null | string;
+    reading: null | string;
+    spanLength: number;
+    text: string;
+    x: number;
+    y: number;
+};
+
 interface LyricLineProps extends ComponentPropsWithoutRef<'div'> {
     alignment: 'center' | 'left' | 'right';
     fontSize: number;
     lineIndex?: number;
     onKanjiClick?: (detail: KanjiSpanClickDetail) => void;
+    onWordClick?: (detail: WordSpanClickDetail) => void;
     romajiText?: null | string;
     text?: string;
     translatedText?: null | string;
 }
 
 const KANJI_SPAN_SELECTOR = '[data-kanji-offset]';
+const WORD_SPAN_SELECTOR = '[data-word-offset]';
+
+const readWordSpanDetail = (
+    element: HTMLElement,
+    lineIndex: number,
+): null | Omit<WordSpanClickDetail, 'x' | 'y'> => {
+    const offset = element.getAttribute('data-word-offset');
+    const spanLength = element.getAttribute('data-word-length');
+    if (offset === null || spanLength === null) {
+        return null;
+    }
+
+    return {
+        basicForm: element.getAttribute('data-word-base') || null,
+        charOffset: Number(offset),
+        lineIndex,
+        pos: element.getAttribute('data-word-pos') || null,
+        reading: element.getAttribute('data-word-reading') || null,
+        spanLength: Number(spanLength),
+        text: element.getAttribute('data-word-text') ?? element.textContent ?? '',
+    };
+};
 
 const readKanjiSpanDetail = (
     element: HTMLElement,
@@ -58,6 +93,7 @@ export const LyricLine = memo(
         fontSize,
         lineIndex,
         onKanjiClick,
+        onWordClick,
         romajiText,
         text,
         translatedText,
@@ -73,41 +109,87 @@ export const LyricLine = memo(
             [fontSize, alignment],
         );
 
+        // Innermost target wins: kanji spans (nested inside word spans) go to
+        // the KanjiPicker flow, the surrounding word span goes to the JMdict
+        // word lookup, anything else falls through to the line's click-to-seek.
+        // Alt/Ctrl-clicks on word spans are left unconsumed on purpose (word
+        // click-to-seek claims them).
         const handleClick = (event: React.MouseEvent<HTMLSpanElement>) => {
-            if (!onKanjiClick || lineIndex === undefined) return;
+            if (lineIndex === undefined) return;
 
-            const target = (event.target as HTMLElement).closest<HTMLElement>(KANJI_SPAN_SELECTOR);
-            if (!target) return;
+            const node = event.target as HTMLElement;
 
-            // Do not trigger the line's click-to-seek
+            if (onKanjiClick) {
+                const kanjiTarget = node.closest<HTMLElement>(KANJI_SPAN_SELECTOR);
+                if (kanjiTarget) {
+                    // Do not trigger the line's click-to-seek
+                    event.stopPropagation();
+
+                    const detail = readKanjiSpanDetail(kanjiTarget, lineIndex);
+                    if (!detail) return;
+
+                    onKanjiClick({
+                        ...detail,
+                        shiftKey: event.shiftKey,
+                        x: event.clientX,
+                        y: event.clientY,
+                    });
+                    return;
+                }
+            }
+
+            if (!onWordClick || event.altKey || event.ctrlKey) return;
+
+            const wordTarget = node.closest<HTMLElement>(WORD_SPAN_SELECTOR);
+            if (!wordTarget) return;
+
             event.stopPropagation();
 
-            const detail = readKanjiSpanDetail(target, lineIndex);
+            const detail = readWordSpanDetail(wordTarget, lineIndex);
             if (!detail) return;
 
-            onKanjiClick({
-                ...detail,
-                shiftKey: event.shiftKey,
-                x: event.clientX,
-                y: event.clientY,
-            });
+            onWordClick({ ...detail, x: event.clientX, y: event.clientY });
         };
 
         const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
-            if (!onKanjiClick || lineIndex === undefined) return;
+            if (lineIndex === undefined) return;
             if (event.key !== 'Enter' && event.key !== ' ') return;
 
-            const target = (event.target as HTMLElement).closest<HTMLElement>(KANJI_SPAN_SELECTOR);
-            if (!target) return;
+            const node = event.target as HTMLElement;
+
+            if (onKanjiClick) {
+                const kanjiTarget = node.closest<HTMLElement>(KANJI_SPAN_SELECTOR);
+                if (kanjiTarget) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const detail = readKanjiSpanDetail(kanjiTarget, lineIndex);
+                    if (!detail) return;
+
+                    const rect = kanjiTarget.getBoundingClientRect();
+                    onKanjiClick({
+                        ...detail,
+                        shiftKey: event.shiftKey,
+                        x: rect.left,
+                        y: rect.bottom,
+                    });
+                    return;
+                }
+            }
+
+            if (!onWordClick) return;
+
+            const wordTarget = node.closest<HTMLElement>(WORD_SPAN_SELECTOR);
+            if (!wordTarget) return;
 
             event.preventDefault();
             event.stopPropagation();
 
-            const detail = readKanjiSpanDetail(target, lineIndex);
+            const detail = readWordSpanDetail(wordTarget, lineIndex);
             if (!detail) return;
 
-            const rect = target.getBoundingClientRect();
-            onKanjiClick({ ...detail, shiftKey: event.shiftKey, x: rect.left, y: rect.bottom });
+            const rect = wordTarget.getBoundingClientRect();
+            onWordClick({ ...detail, x: rect.left, y: rect.bottom });
         };
 
         return (
