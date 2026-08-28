@@ -103,4 +103,65 @@ describe('reconcileMusicCards', () => {
 
         expect(reconciled).toEqual([other]);
     });
+
+    // Removing and re-adding the same Navidrome mints a new Feishin serverId
+    // while the server-minted card ids stay put, so the stale rows used to be
+    // carried forward as "other server" cards: a duplicate deck and duplicate
+    // React keys, one extra copy per re-add.
+    it('drops a stale-serverId copy of a card the current server still has', () => {
+        const stale = card({ serverId: 'old-server' });
+        const reconciled = reconcileMusicCards([stale], [serverCard()], 'server-1');
+
+        expect(reconciled).toHaveLength(1);
+        expect(reconciled[0].serverId).toBe('server-1');
+    });
+
+    it('drops stale copies left by several different serverIds', () => {
+        const local = [
+            card({ serverId: 'old-server-1' }),
+            card({ serverId: 'old-server-2' }),
+            card({ serverId: 'old-server-3' }),
+        ];
+        const reconciled = reconcileMusicCards(local, [serverCard()], 'server-1');
+
+        expect(reconciled).toHaveLength(1);
+        expect(reconciled[0].serverId).toBe('server-1');
+    });
+
+    it('collapses stale duplicates even when the server no longer has the card', () => {
+        // Nothing to reconcile against, so the orphan path wins - but the deck
+        // must still end up with one card, not three.
+        const local = [
+            card({ serverId: 'server-1' }),
+            card({ serverId: 'old-server-1' }),
+            card({ serverId: 'old-server-2' }),
+        ];
+        const reconciled = reconcileMusicCards(local, [], 'server-1');
+
+        expect(reconciled).toHaveLength(1);
+        expect(reconciled[0].songRemoved).toBe(true);
+    });
+
+    it('keeps a genuinely different card from another server', () => {
+        const other = card({ id: 'card-2', kanjiText: '空', serverId: 'server-2' });
+        const reconciled = reconcileMusicCards([other], [serverCard()], 'server-1');
+
+        expect(reconciled).toHaveLength(2);
+        expect(reconciled.map((entry) => entry.id).sort()).toEqual(['card-1', 'card-2']);
+    });
+
+    it('never emits the same card id twice', () => {
+        const local = [
+            card({ serverId: 'old-server' }),
+            card({ id: 'card-2', kanjiText: '空', serverId: 'old-server' }),
+        ];
+        const reconciled = reconcileMusicCards(
+            local,
+            [serverCard(), serverCard({ id: 'card-2', kanji_text: '空' })],
+            'server-1',
+        );
+
+        const ids = reconciled.map((entry) => entry.id);
+        expect(new Set(ids).size).toBe(ids.length);
+    });
 });

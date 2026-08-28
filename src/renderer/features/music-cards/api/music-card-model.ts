@@ -125,7 +125,18 @@ export const reconcileMusicCards = (
         songRemoved: true,
     }));
 
-    return sortMusicCards([...otherServerCards, ...reconciled, ...orphanedCards]);
+    // Card ids are server-minted, so the same id under two serverIds is one
+    // card the local deck saw before and after a server re-add, not two.
+    const thisServerCards = [...reconciled, ...orphanedCards];
+    const claimedIds = new Set(thisServerCards.map((card) => card.id));
+    const foreignCards = otherServerCards.filter((card) => {
+        if (claimedIds.has(card.id)) return false;
+
+        claimedIds.add(card.id);
+        return true;
+    });
+
+    return sortMusicCards([...foreignCards, ...thisServerCards]);
 };
 
 /** Every snippet id on a card - used to clean up its stored clips on delete */
