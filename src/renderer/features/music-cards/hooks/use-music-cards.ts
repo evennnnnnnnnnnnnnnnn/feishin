@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { api } from '/@/renderer/api';
 import { MusicCard } from '/@/renderer/features/music-cards/api/music-card-model';
+import { sweepSnippetClips } from '/@/renderer/features/music-cards/storage/music-card-clip-storage';
 import { useCurrentServer } from '/@/renderer/store';
 import { useLocalMusicCards, useMusicCardsStoreActions } from '/@/renderer/store/music-cards.store';
 import { ServerType } from '/@/shared/types/domain-types';
@@ -54,6 +55,19 @@ export const useMusicCards = (): {
 
         reconcile(serverId, serverCards);
     }, [reconcile, serverCards, serverId]);
+
+    // One orphan sweep per mount: drop stored clips no snippet in the hydrated
+    // local deck references (cleared store, interrupted deletes). Runs against
+    // the deck as it stood on mount, before any save this visit could race it.
+    const sweptRef = useRef(false);
+    useEffect(() => {
+        if (sweptRef.current) return;
+
+        sweptRef.current = true;
+        sweepSnippetClips(
+            new Set(cards.flatMap((card) => card.snippets.map((snippet) => snippet.id))),
+        );
+    }, [cards]);
 
     return {
         cards,

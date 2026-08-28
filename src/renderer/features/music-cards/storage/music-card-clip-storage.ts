@@ -59,7 +59,19 @@ const runTransaction = async <T>(
     });
 };
 
+// Clips are the standalone half of a card: ask the browser not to evict this
+// origin's storage under pressure. Best-effort and prompt-free in Chromium
+// (granted automatically in Electron and for installed/engaged origins).
+let persistRequested = false;
+
+const requestPersistentStorage = () => {
+    if (persistRequested) return;
+    persistRequested = true;
+    navigator.storage?.persist?.().catch(() => {});
+};
+
 export const putSnippetClip = async (snippetId: string, clip: Blob): Promise<void> => {
+    requestPersistentStorage();
     await runTransaction('readwrite', (store) => store.put(clip, snippetId));
 };
 
@@ -69,6 +81,27 @@ export const getSnippetClip = async (snippetId: string): Promise<Blob | undefine
 
 export const deleteSnippetClip = async (snippetId: string): Promise<void> => {
     await runTransaction('readwrite', (store) => store.delete(snippetId));
+};
+
+/**
+ * Deletes every stored clip whose snippet id is not in `keepIds` - blobs
+ * orphaned by a cleared local store or an interrupted delete would otherwise
+ * accumulate forever. Best-effort: the deck must render even if this fails.
+ */
+export const sweepSnippetClips = async (keepIds: ReadonlySet<string>): Promise<void> => {
+    try {
+        const keys = await runTransaction<IDBValidKey[]>('readonly', (store) => store.getAllKeys());
+        const orphaned = keys.filter(
+            (key): key is string => typeof key === 'string' && !keepIds.has(key),
+        );
+
+        if (orphaned.length > 0) {
+            logger.info('Sweeping orphaned music card clips', { count: orphaned.length });
+            await deleteSnippetClips(orphaned);
+        }
+    } catch (error) {
+        logger.warn('Music card clip sweep failed', { error: String(error) });
+    }
 };
 
 /** Best-effort cleanup - a card removal must not fail because a blob was already gone */
