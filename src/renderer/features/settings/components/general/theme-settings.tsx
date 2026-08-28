@@ -104,7 +104,7 @@ const renderThemeOption = ({ option }: { option: { label: string; value: string 
 const CustomThemesManager = memo(() => {
     const { t } = useTranslation();
     const customThemes = useCustomThemes();
-    const { openThemesFolder, refresh } = useCustomThemesStore();
+    const { importThemes, openThemesFolder, refresh } = useCustomThemesStore();
 
     const erroredThemes = customThemes.filter((theme) => theme.error);
     const warnedThemes = customThemes.filter((theme) => !theme.error && theme.warnings?.length);
@@ -114,6 +114,12 @@ const CustomThemesManager = memo(() => {
             <SettingsOptions
                 control={
                     <Group gap="xs">
+                        <Button onClick={() => importThemes()} size="compact-md" variant="subtle">
+                            {t('common.import', {
+                                defaultValue: 'Import',
+                                postProcess: 'titleCase',
+                            })}
+                        </Button>
                         <Button
                             onClick={() => openThemesFolder()}
                             size="compact-md"

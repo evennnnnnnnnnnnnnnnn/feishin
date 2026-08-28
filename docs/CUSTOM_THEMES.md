@@ -149,7 +149,7 @@ Rules:
 
 Use these as `extends` values (same ids as in Settings):
 
-`ayuDark`, `ayuLight`, `catppuccinLatte`, `catppuccinMocha`, `defaultDark`, `defaultLight`, `dracula`, `everforestDark`, `everforestLight`, `githubDark`, `githubLight`, `glassyDark`, `gruvboxDark`, `gruvboxLight`, `highContrastDark`, `highContrastLight`, `materialDark`, `materialLight`, `monokai`, `nightOwl`, `nord`, `oneDark`, `rosePine`, `rosePineDawn`, `rosePineMoon`, `shadesOfPurple`, `solarizedDark`, `solarizedLight`, `tokyoNight`, `vscodeDarkPlus`, `vscodeLightPlus`, `zenburn`
+`ayuDark`, `ayuLight`, `catppuccinLatte`, `catppuccinMocha`, `defaultDark`, `defaultLight`, `dracula`, `everforestDark`, `everforestLight`, `githubDark`, `githubLight`, `glassyDark`, `gruvboxDark`, `gruvboxLight`, `highContrastDark`, `highContrastLight`, `materialDark`, `materialLight`, `monokai`, `nightOwl`, `nord`, `oneDark`, `rosePine`, `rosePineDawn`, `rosePineMoon`, `sakuraDark`, `shadesOfPurple`, `solarizedDark`, `solarizedLight`, `tokyoNight`, `vscodeDarkPlus`, `vscodeLightPlus`, `zenburn`
 
 ---
 

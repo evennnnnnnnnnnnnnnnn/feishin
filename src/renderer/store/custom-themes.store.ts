@@ -14,6 +14,7 @@ export interface CustomThemeMeta {
 }
 
 interface CustomThemesActions {
+    importThemes: () => Promise<void>;
     openThemesFolder: () => Promise<void>;
     refresh: () => Promise<void>;
 }
@@ -73,6 +74,16 @@ const toRegistry = (rawThemes: RawCustomTheme[]): Record<string, AppThemeConfigu
 };
 
 export const useCustomThemesStore = create<CustomThemesActions & CustomThemesState>()((set) => ({
+    importThemes: async () => {
+        if (!customThemesApi) return;
+        try {
+            const rawThemes = (await customThemesApi.importThemes()) as unknown as RawCustomTheme[];
+            setCustomThemeRegistry(toRegistry(rawThemes));
+            set({ themes: rawThemes.map(toMeta) });
+        } catch (error) {
+            logger.warn('Failed to import custom themes', { error: String(error) });
+        }
+    },
     openThemesFolder: async () => {
         try {
             await customThemesApi?.openFolder();

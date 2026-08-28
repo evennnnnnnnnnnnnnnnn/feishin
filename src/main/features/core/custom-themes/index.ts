@@ -1,6 +1,6 @@
 import type { FSWatcher } from 'fs';
 
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import { promises as fs, watch as fsWatch } from 'fs';
 import path from 'path';
 import { validateHTMLColor } from 'validate-color';
@@ -372,6 +372,28 @@ ipcMain.handle('custom-themes-open-folder', async () => {
     await fs.mkdir(themesPath, { recursive: true });
     await shell.openPath(themesPath);
     return true;
+});
+
+ipcMain.handle('custom-themes-import', async () => {
+    const result = await dialog.showOpenDialog({
+        filters: [{ extensions: ['json', 'css'], name: 'Theme files' }],
+        properties: ['openFile', 'multiSelections'],
+    });
+
+    if (result.canceled || result.filePaths.length === 0) return cache;
+
+    await fs.mkdir(themesPath, { recursive: true });
+
+    for (const filePath of result.filePaths) {
+        const destination = path.join(themesPath, path.basename(filePath));
+        // Selecting a file already inside the themes folder would otherwise
+        // truncate it by copying it onto itself.
+        if (path.resolve(filePath) === destination) continue;
+        await fs.copyFile(filePath, destination);
+    }
+
+    await reloadThemes();
+    return cache;
 });
 
 ipcMain.handle('custom-themes-reload', async () => {

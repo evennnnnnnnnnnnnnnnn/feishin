@@ -18,6 +18,10 @@ const get = async (): Promise<CustomTheme[]> => {
     return ipcRenderer.invoke('custom-themes-get');
 };
 
+const importThemes = async (): Promise<CustomTheme[]> => {
+    return ipcRenderer.invoke('custom-themes-import');
+};
+
 const reload = async (): Promise<CustomTheme[]> => {
     return ipcRenderer.invoke('custom-themes-reload');
 };
@@ -34,6 +38,7 @@ const onUpdate = (cb: (themes: CustomTheme[]) => void) => {
 
 export const customThemes = {
     get,
+    importThemes,
     onUpdate,
     openFolder,
     reload,

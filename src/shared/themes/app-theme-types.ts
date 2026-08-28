@@ -28,6 +28,7 @@ export enum AppTheme {
     ROSE_PINE = 'rosePine',
     ROSE_PINE_DAWN = 'rosePineDawn',
     ROSE_PINE_MOON = 'rosePineMoon',
+    SAKURA_DARK = 'sakuraDark',
     SHADES_OF_PURPLE = 'shadesOfPurple',
     SOLARIZED_DARK = 'solarizedDark',
     SOLARIZED_LIGHT = 'solarizedLight',
