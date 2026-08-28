@@ -6,6 +6,7 @@ import styles from './music-cards-route.module.css';
 
 import { api } from '/@/renderer/api';
 import { PageHeader } from '/@/renderer/components/page-header/page-header';
+import { useKanjiInfo } from '/@/renderer/features/lyrics/hooks/use-kanji-info';
 import { MusicCard, MusicCardSnippet } from '/@/renderer/features/music-cards/api/music-card-model';
 import {
     useDeleteMusicCard,
@@ -17,7 +18,7 @@ import { convertToLogVolume } from '/@/renderer/features/player/audio-player/uti
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
+import { useLyricsSettings, usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
 import { Accordion } from '/@/shared/components/accordion/accordion';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Badge } from '/@/shared/components/badge/badge';
@@ -48,6 +49,82 @@ const FuriganaSnippet = ({ snippet }: { snippet: MusicCardSnippet }) => {
             </ruby>
             {characters.slice(end).join('')}
         </Text>
+    );
+};
+
+// Kun'yomi readings carry KANJIDIC2 okurigana markers ("た.べる", "-がた");
+// shown verbatim, exactly as the KanjiPicker's readings section does.
+const CardKanjiReadings = ({ kanjiText }: { kanjiText: string }) => {
+    const { t } = useTranslation();
+    const kanjiChars = useMemo(() => Array.from(kanjiText), [kanjiText]);
+    const { data: kanjiInfo } = useKanjiInfo(kanjiChars);
+    const lyricsSettings = useLyricsSettings();
+    const showMeanings = lyricsSettings.kanjiPickerShowMeanings ?? true;
+
+    if (!kanjiInfo || kanjiChars.every((char) => kanjiInfo[char] == null)) {
+        return null;
+    }
+
+    return (
+        <Paper p="md">
+            <Stack gap="sm">
+                {kanjiChars.map((char) => {
+                    const info = kanjiInfo[char];
+                    if (info == null) {
+                        return null;
+                    }
+
+                    return (
+                        <Stack gap={4} key={char}>
+                            {kanjiChars.length > 1 && <Text fw={700}>{char}</Text>}
+                            {info.on.length > 0 && (
+                                <>
+                                    <Text
+                                        fw={600}
+                                        isMuted
+                                        style={{ fontSize: '0.7em', letterSpacing: '0.06em' }}
+                                        tt="uppercase"
+                                    >
+                                        {t('setting.furiganaOnyomi')}
+                                    </Text>
+                                    <Group gap={4}>
+                                        {info.on.map((reading) => (
+                                            <Badge key={reading} variant="default">
+                                                {reading}
+                                            </Badge>
+                                        ))}
+                                    </Group>
+                                </>
+                            )}
+                            {info.kun.length > 0 && (
+                                <>
+                                    <Text
+                                        fw={600}
+                                        isMuted
+                                        style={{ fontSize: '0.7em', letterSpacing: '0.06em' }}
+                                        tt="uppercase"
+                                    >
+                                        {t('setting.furiganaKunyomi')}
+                                    </Text>
+                                    <Group gap={4}>
+                                        {info.kun.map((reading) => (
+                                            <Badge key={reading} variant="default">
+                                                {reading}
+                                            </Badge>
+                                        ))}
+                                    </Group>
+                                </>
+                            )}
+                            {showMeanings && info.meanings.length > 0 && (
+                                <Text isMuted style={{ fontSize: '0.8em' }}>
+                                    {info.meanings.join(', ')}
+                                </Text>
+                            )}
+                        </Stack>
+                    );
+                })}
+            </Stack>
+        </Paper>
     );
 };
 
@@ -325,6 +402,7 @@ const MusicCardsRoute = () => {
                                     {t('page.musicCards.deleteCard')}
                                 </Button>
                             </Group>
+                            <CardKanjiReadings kanjiText={selectedCard.kanjiText} />
                             {selectedCard.snippets.map((snippet) => (
                                 <Paper className={styles.snippet} key={snippet.id} p="md">
                                     <Stack gap="md">
