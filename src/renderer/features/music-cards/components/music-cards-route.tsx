@@ -317,23 +317,25 @@ const MusicCardsRoute = () => {
                             {filteredCards.length}
                         </LibraryHeaderBar.Badge>
                     </LibraryHeaderBar>
-                    {mediaFileId && (
-                        <Button onClick={() => setSearchParams({})} variant="subtle">
-                            {t('page.musicCards.allCards')}
-                        </Button>
-                    )}
-                    {!reviewQueue && dueQueue.length > 0 && (
-                        <Button
-                            onClick={() => {
-                                stopReplay();
-                                setSelectedCardId(null);
-                                setReviewQueue(dueQueue);
-                            }}
-                            variant="filled"
-                        >
-                            {t('page.musicCards.startReview', { count: dueQueue.length })}
-                        </Button>
-                    )}
+                    <Group style={{ flexShrink: 0 }} wrap="nowrap">
+                        {mediaFileId && (
+                            <Button onClick={() => setSearchParams({})} variant="subtle">
+                                {t('page.musicCards.allCards')}
+                            </Button>
+                        )}
+                        {!reviewQueue && dueQueue.length > 0 && (
+                            <Button
+                                onClick={() => {
+                                    stopReplay();
+                                    setSelectedCardId(null);
+                                    setReviewQueue(dueQueue);
+                                }}
+                                variant="filled"
+                            >
+                                {t('page.musicCards.startReview', { count: dueQueue.length })}
+                            </Button>
+                        )}
+                    </Group>
                 </PageHeader>
                 <ScrollArea className={styles.content}>
                     {isLoading ? (
