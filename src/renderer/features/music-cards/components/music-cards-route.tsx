@@ -13,9 +13,11 @@ import {
 } from '/@/renderer/features/music-cards/hooks/use-delete-music-card';
 import { useMusicCards } from '/@/renderer/features/music-cards/hooks/use-music-cards';
 import { useSnippetClipUrl } from '/@/renderer/features/music-cards/hooks/use-snippet-clip-url';
+import { convertToLogVolume } from '/@/renderer/features/player/audio-player/utils/player-utils';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
+import { usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
 import { Accordion } from '/@/shared/components/accordion/accordion';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Badge } from '/@/shared/components/badge/badge';
@@ -60,11 +62,41 @@ const MusicCardsRoute = () => {
     const [playingSnippetId, setPlayingSnippetId] = useState<string>();
     const clipUrl = useSnippetClipUrl(playingSnippetId);
     const audioRef = useRef<HTMLAudioElement | undefined>(undefined);
+    const fadeRafRef = useRef<number | undefined>(undefined);
     const fallbackStartedRef = useRef(false);
     const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
     const lastClipUrlRef = useRef<null | string>(null);
     const replayRequestRef = useRef<null | string>(null);
     const stopTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const playerVolume = usePlayerVolume();
+    const playerMuted = usePlayerMuted();
+    const targetVolumeRef = useRef(0);
+    targetVolumeRef.current = playerMuted ? 0 : convertToLogVolume(playerVolume / 100 || 0);
+
+    // Fade the snippet in/out inside its [startS, endS] window, tracking the app
+    // volume live. rAF-driven because timeupdate is too coarse for a 250ms ramp.
+    const startFadeEnvelope = useCallback(
+        (audio: HTMLAudioElement, startS: number, endSOverride?: number) => {
+            const FADE_S = 0.25;
+
+            cancelAnimationFrame(fadeRafRef.current ?? 0);
+
+            const tick = () => {
+                if (audioRef.current !== audio || audio.paused) return;
+
+                const endS =
+                    endSOverride ?? (Number.isFinite(audio.duration) ? audio.duration : Infinity);
+                const fadeIn = (audio.currentTime - startS) / FADE_S;
+                const fadeOut = (endS - audio.currentTime) / FADE_S;
+                audio.volume = targetVolumeRef.current * Math.max(0, Math.min(1, fadeIn, fadeOut));
+                fadeRafRef.current = requestAnimationFrame(tick);
+            };
+
+            audio.volume = 0;
+            fadeRafRef.current = requestAnimationFrame(tick);
+        },
+        [],
+    );
 
     const filteredCards = useMemo(
         () =>
@@ -80,6 +112,7 @@ const MusicCardsRoute = () => {
     const stopReplay = useCallback(() => {
         clearTimeout(fallbackTimerRef.current);
         clearTimeout(stopTimerRef.current);
+        cancelAnimationFrame(fadeRafRef.current ?? 0);
         audioRef.current?.pause();
         replayRequestRef.current = null;
         setPlayingSnippetId(undefined);
@@ -94,6 +127,7 @@ const MusicCardsRoute = () => {
         return () => {
             clearTimeout(fallbackTimerRef.current);
             clearTimeout(stopTimerRef.current);
+            cancelAnimationFrame(fadeRafRef.current ?? 0);
             audio.pause();
             audio.removeAttribute('src');
             audio.load();
@@ -118,8 +152,9 @@ const MusicCardsRoute = () => {
         lastClipUrlRef.current = clipUrl;
         audio.src = clipUrl;
         audio.currentTime = 0;
+        startFadeEnvelope(audio, 0);
         audio.play().catch(stopReplay);
-    }, [clipUrl, playingSnippetId, stopReplay]);
+    }, [clipUrl, playingSnippetId, startFadeEnvelope, stopReplay]);
 
     const toggleReplay = useCallback(
         (card: MusicCard, snippet: MusicCardSnippet) => {
@@ -160,6 +195,7 @@ const MusicCardsRoute = () => {
                         if (replayRequestRef.current !== snippet.id) return;
 
                         audio.currentTime = snippet.startMs / 1000;
+                        startFadeEnvelope(audio, snippet.startMs / 1000, snippet.endMs / 1000);
                         audio.play().catch(stopReplay);
                         stopTimerRef.current = setTimeout(
                             stopReplay,
@@ -176,7 +212,7 @@ const MusicCardsRoute = () => {
                 }
             }, 400);
         },
-        [playingSnippetId, stopReplay, t],
+        [playingSnippetId, startFadeEnvelope, stopReplay, t],
     );
 
     const confirmDeleteCard = useCallback(
