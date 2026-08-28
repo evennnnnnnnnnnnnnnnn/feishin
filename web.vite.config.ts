@@ -63,6 +63,13 @@ export default defineConfig({
             '@tanstack/react-query-persist-client',
             'idb-keyval',
         ],
+        // CJS deps reached only through the excluded packages above must be
+        // pre-bundled explicitly, or the browser gets raw CJS and fails on
+        // named ESM imports (bind-event-listener has no 'bind' export as-is)
+        include: [
+            '@atlaskit/pragmatic-drag-and-drop > bind-event-listener',
+            '@atlaskit/pragmatic-drag-and-drop-auto-scroll > raf-schd',
+        ],
     },
     plugins: [
         createReactPlugin(),
