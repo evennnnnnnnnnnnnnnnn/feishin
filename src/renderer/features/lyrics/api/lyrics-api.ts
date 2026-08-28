@@ -3,6 +3,7 @@ import isElectron from 'is-electron';
 
 import { api } from '/@/renderer/api';
 import { queryKeys } from '/@/renderer/api/query-keys';
+import { lyricsResultHasLyrics } from '/@/renderer/features/lyrics/api/lyrics-cache';
 import { getDefaultStructuredIndex } from '/@/renderer/features/lyrics/api/lyrics-utils';
 import { queryClient, QueryHookArgs } from '/@/renderer/lib/react-query';
 import { getServerById, useSettingsStore } from '/@/renderer/store';
@@ -372,7 +373,11 @@ export const lyricsQueries = {
                 };
             },
             queryKey: lyricsKey,
-            staleTime: Infinity,
+            // A result with lyrics is stable, so it stays cached forever - that is what
+            // keeps the user's offset and override selection alive. A result with no
+            // lyrics is provisional, because a sidecar or override can be added at any
+            // time, so it must revalidate instead of freezing a stale "nothing found".
+            staleTime: (query) => (lyricsResultHasLyrics(query.state.data) ? Infinity : 0),
             ...args.options,
         });
     },
