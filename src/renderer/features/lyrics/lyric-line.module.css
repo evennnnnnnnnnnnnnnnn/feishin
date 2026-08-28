@@ -47,22 +47,31 @@
     transition: background-color 0.15s ease;
 }
 
-.lyric-line [data-kanji-offset]:hover {
-    background-color: var(--theme-colors-background-alternate);
+.lyric-line [data-kanji-offset][data-bound='true'] {
+    background-color: alpha(var(--theme-colors-primary), 0.22);
+}
+
+.lyric-line [data-kanji-offset][data-bound='true']:hover {
+    background-color: alpha(var(--theme-colors-primary), 0.34);
 }
 
 .lyric-line [data-kanji-offset][data-bound='false'] {
-    text-decoration-line: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: var(--theme-colors-foreground-muted);
-    text-underline-offset: 4px;
+    background-color: alpha(var(--theme-colors-foreground-muted), 0.16);
+}
+
+.lyric-line [data-kanji-offset][data-bound='false']:hover {
+    background-color: alpha(var(--theme-colors-foreground-muted), 0.28);
 }
 
 .lyric-line [data-kanji-offset] rt {
-    font-size: 0.5em;
-    font-weight: normal;
+    font-size: 0.62em;
+    font-weight: 600;
     color: var(--theme-colors-foreground-muted);
     user-select: none;
+}
+
+.lyric-line [data-kanji-offset][data-bound='true'] rt {
+    color: var(--theme-colors-primary);
 }
 
 .lyric-line [data-kanji-offset][data-hidden='true'] rt {

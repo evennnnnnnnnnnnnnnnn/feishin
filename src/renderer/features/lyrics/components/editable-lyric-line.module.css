@@ -3,5 +3,15 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding-block: 4px;
+    padding: 4px 1rem;
+}
+
+/* Mirror LyricLine's text-align so switching into edit mode does not
+   re-center a line that was left- or right-aligned in the synced view. */
+.editing-row[data-alignment='left'] {
+    justify-content: flex-start;
+}
+
+.editing-row[data-alignment='right'] {
+    justify-content: flex-end;
 }

@@ -278,13 +278,19 @@ const wrapKanjiSpan = (
         'tabindex="0"',
     ];
 
+    const reading = piece.binding !== null ? piece.binding.reading : piece.suggestedReading;
+
     if (piece.binding !== null) {
         const hidden = !bindingsVisible || !piece.binding.display;
         if (hidden) {
             attrs.push('data-hidden="true"');
         }
+    } else if (reading && !bindingsVisible) {
+        attrs.push('data-hidden="true"');
+    }
 
-        return `<span ${attrs.join(' ')}><ruby>${escapeHtml(piece.text)}<rp>(</rp><rt>${escapeHtml(piece.binding.reading)}</rt><rp>)</rp></ruby></span>`;
+    if (reading) {
+        return `<span ${attrs.join(' ')}><ruby>${escapeHtml(piece.text)}<rp>(</rp><rt>${escapeHtml(reading)}</rt><rp>)</rp></ruby></span>`;
     }
 
     return `<span ${attrs.join(' ')}>${escapeHtml(piece.text)}</span>`;

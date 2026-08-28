@@ -55,10 +55,18 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
         translatedText,
     } = props;
     const { t } = useTranslation();
+    // Matches LyricLine's own style (see lyric-line.tsx) so the editing row
+    // sits at the same font size the line was showing before edit started.
+    const editingRowStyle = { '--lyric-edit-font-size': `${fontSize}px` } as React.CSSProperties;
 
     if (editing === 'time') {
         return (
-            <div className={styles.editingRow} data-lyric-time={startMs}>
+            <div
+                className={styles.editingRow}
+                data-alignment={alignment}
+                data-lyric-time={startMs}
+                style={editingRowStyle}
+            >
                 <LyricTimeEditor
                     initialMs={startMs}
                     onCancel={onCancelEdit}
@@ -71,7 +79,12 @@ export const EditableLyricLine = memo((props: EditableLyricLineProps) => {
 
     if (editing === 'text') {
         return (
-            <div className={styles.editingRow} data-lyric-time={startMs}>
+            <div
+                className={styles.editingRow}
+                data-alignment={alignment}
+                data-lyric-time={startMs}
+                style={editingRowStyle}
+            >
                 <LyricTextEditor
                     initialValue={rawText ?? text}
                     onCancel={onCancelEdit}

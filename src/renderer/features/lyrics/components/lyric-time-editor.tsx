@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './lyric-time-editor.module.css';
+
 import { formatLrcTime, parseLrcTime } from '/@/renderer/features/lyrics/api/lyrics-time-format';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Group } from '/@/shared/components/group/group';
@@ -45,6 +47,7 @@ export const LyricTimeEditor = ({
         <Group gap={4} onClick={(event) => event.stopPropagation()} wrap="nowrap">
             <TextInput
                 autoFocus
+                classNames={{ input: styles.input }}
                 onBlur={onCancel}
                 onChange={(event) => setValue(event.currentTarget.value)}
                 onKeyDown={(event) => {
@@ -63,12 +66,10 @@ export const LyricTimeEditor = ({
                     }
                 }}
                 placeholder={t('lyricsEditor.timePlaceholder')}
-                styles={{ input: { fontVariantNumeric: 'tabular-nums', textAlign: 'center' } }}
                 value={value}
-                width={96}
             />
             <ActionIcon
-                aria-label="+0.1s"
+                aria-label={t('lyricsEditor.nudgeForward')}
                 disabled={!isValid}
                 icon="arrowUpS"
                 onClick={() => nudge(NUDGE_MS)}
@@ -77,7 +78,7 @@ export const LyricTimeEditor = ({
                 variant="subtle"
             />
             <ActionIcon
-                aria-label="-0.1s"
+                aria-label={t('lyricsEditor.nudgeBackward')}
                 disabled={!isValid}
                 icon="arrowDownS"
                 onClick={() => nudge(-NUDGE_MS)}

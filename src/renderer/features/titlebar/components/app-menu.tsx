@@ -223,7 +223,7 @@ export const AppMenu = () => {
             item: {
                 icon: 'download',
                 id: 'youtube-import-item',
-                label: t('form.youtubeImport.title', { defaultValue: 'Import from YouTube' }),
+                label: t('form.youtubeImport.title'),
                 onClick: () => openYoutubeImportModal(),
                 type: 'item',
             },

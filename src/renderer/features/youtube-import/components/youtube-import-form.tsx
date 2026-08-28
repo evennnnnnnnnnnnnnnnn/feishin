@@ -36,24 +36,19 @@ export const YoutubeImportForm = ({ onSuccess }: { onSuccess?: () => void }) => 
         onError: (err) => {
             toast.error({
                 message: (err.response?.data as string) || err.message,
-                title: t('form.youtubeImport.failed', {
-                    defaultValue: 'Failed to import from YouTube',
-                }),
+                title: t('form.youtubeImport.failed'),
             });
         },
         onSuccess: (data) => {
             const message = !data.lyricsFound
                 ? t('form.youtubeImport.successNoLyrics', {
-                      defaultValue: '"{{title}}" was imported (no lyrics found on LRCLIB).',
                       title: data.title,
                   })
                 : data.lyricsSynced
                   ? t('form.youtubeImport.successSynced', {
-                        defaultValue: '"{{title}}" was imported with synced lyrics.',
                         title: data.title,
                     })
                   : t('form.youtubeImport.successPlain', {
-                        defaultValue: '"{{title}}" was imported with plain lyrics.',
                         title: data.title,
                     });
             toast.success({ message });
@@ -67,16 +62,13 @@ export const YoutubeImportForm = ({ onSuccess }: { onSuccess?: () => void }) => 
     return (
         <Stack gap="md">
             <Text isMuted size="sm">
-                {t('form.youtubeImport.description', {
-                    defaultValue:
-                        'Download the audio of a YouTube video as an MP3 file into the YouTube folder of the server library, together with its synced lyrics from LRCLIB (as a .lrc file).',
-                })}
+                {t('form.youtubeImport.description')}
             </Text>
             <TextInput
                 aria-label="YouTube URL"
                 data-autofocus
                 disabled={isImporting}
-                label={t('form.youtubeImport.input', { defaultValue: 'YouTube URL' })}
+                label={t('form.youtubeImport.input')}
                 onChange={(e) => setUrl(e.currentTarget.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' && url.trim() !== '' && !isImporting) {
@@ -94,8 +86,8 @@ export const YoutubeImportForm = ({ onSuccess }: { onSuccess?: () => void }) => 
                     variant="filled"
                 >
                     {isImporting
-                        ? t('form.youtubeImport.importing', { defaultValue: 'Importing…' })
-                        : t('form.youtubeImport.import', { defaultValue: 'Import' })}
+                        ? t('form.youtubeImport.importing')
+                        : t('form.youtubeImport.import')}
                 </Button>
             </Group>
         </Stack>
@@ -114,8 +106,6 @@ export const openYoutubeImportModal = () => {
     openModal({
         children: <YoutubeImportForm onSuccess={() => closeAllModals()} />,
         size: 'lg',
-        title: i18n.t('form.youtubeImport.title', {
-            defaultValue: 'Import from YouTube',
-        }) as string,
+        title: i18n.t('form.youtubeImport.title') as string,
     });
 };

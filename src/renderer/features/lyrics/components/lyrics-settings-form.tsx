@@ -2,7 +2,6 @@ import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
 import { languages } from '/@/i18n/i18n';
-import '/@/renderer/features/lyrics/i18n-furigana';
 import {
     ListConfigBooleanControl,
     ListConfigTable,

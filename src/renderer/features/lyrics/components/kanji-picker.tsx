@@ -1,17 +1,17 @@
-import { useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { kataToHira } from '../../../../main/features/core/lyrics/furigana';
 import styles from './kanji-picker.module.css';
 
-import '/@/renderer/features/lyrics/i18n-furigana';
 import { FuriganaBinding } from '/@/renderer/features/lyrics/api/furigana-render-model';
 import { useKanjiInfo } from '/@/renderer/features/lyrics/hooks/use-kanji-info';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Badge } from '/@/shared/components/badge/badge';
 import { Button } from '/@/shared/components/button/button';
+import { Divider } from '/@/shared/components/divider/divider';
 import { Group } from '/@/shared/components/group/group';
-import { Paper } from '/@/shared/components/paper/paper';
+import { Popover } from '/@/shared/components/popover/popover';
 import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Switch } from '/@/shared/components/switch/switch';
@@ -38,20 +38,55 @@ interface KanjiPickerProps {
     target: KanjiPickerTarget;
 }
 
-const PANEL_WIDTH = 320;
-const PANEL_MAX_HEIGHT = 420;
-const PANEL_MARGIN = 12;
+const PANEL_WIDTH = 340;
+
+// Marker attribute that lyric-conversion.ts puts on every clickable kanji run
+// (see KANJI_SPAN_SELECTOR in lyric-line.tsx)
+const KANJI_SPAN_SELECTOR = '[data-kanji-offset]';
 
 // Kun'yomi readings carry okurigana markers in KANJIDIC2: "た.べる" -> "た"
 // (the okurigana is already in the lyric text), "-がた" -> "がた"
 const kunReadingToBinding = (reading: string): string => reading.split('.')[0].replaceAll('-', '');
 
+const SectionLabel = ({ children }: { children: ReactNode }) => (
+    <Text fw={600} isMuted size="xs" tt="uppercase">
+        {children}
+    </Text>
+);
+
+/**
+ * The popover dismisses on document `mousedown`, which would tear this picker
+ * down before the kanji span's `click` handler runs, leaving the caller without
+ * the open target that shift-click span extension merges against. Kanji spans
+ * are re-entry points into the picker rather than "outside", so their pointer
+ * press is kept away from the dismiss listener.
+ */
+const useKeepOpenOnKanjiSpanPress = () => {
+    useEffect(() => {
+        const stopSpanPress = (event: Event) => {
+            const node = event.target as HTMLElement | null;
+
+            if (node?.closest?.(KANJI_SPAN_SELECTOR)) {
+                event.stopPropagation();
+            }
+        };
+
+        document.addEventListener('mousedown', stopSpanPress, true);
+        document.addEventListener('touchstart', stopSpanPress, true);
+
+        return () => {
+            document.removeEventListener('mousedown', stopSpanPress, true);
+            document.removeEventListener('touchstart', stopSpanPress, true);
+        };
+    }, []);
+};
+
 /**
  * Floating reading picker for a kanji span: analyzer suggestion, full
  * KANJIDIC2 on/kun readings and meanings, free-text reading, and binding
  * management (display toggle, unbind, apply-to-identical). Ported from the
- * Museeks reference (src/components/KanjiPicker.tsx), rebuilt with Mantine
- * wrappers. Keyed by the caller on `${lineIndex}-${charOffset}-${spanLength}`
+ * Museeks reference (src/components/KanjiPicker.tsx), rebuilt on the shared
+ * Popover. Keyed by the caller on `${lineIndex}-${charOffset}-${spanLength}`
  * so shift-click span extension remounts (and resets) this component.
  */
 export const KanjiPicker = ({
@@ -70,14 +105,7 @@ export const KanjiPicker = ({
         target.binding?.reading ?? target.suggestedReading ?? '',
     );
 
-    const left = Math.max(
-        PANEL_MARGIN,
-        Math.min(target.x, window.innerWidth - PANEL_WIDTH - PANEL_MARGIN),
-    );
-    const top = Math.max(
-        PANEL_MARGIN,
-        Math.min(target.y + 10, window.innerHeight - PANEL_MAX_HEIGHT - PANEL_MARGIN),
-    );
+    useKeepOpenOnKanjiSpanPress();
 
     const bind = () => {
         const trimmed = reading.trim();
@@ -87,20 +115,27 @@ export const KanjiPicker = ({
     };
 
     return (
-        <>
-            <div className={styles.backdrop} onClick={onClose} />
-            <div
-                onKeyDown={(event) => {
-                    if (event.key === 'Escape') {
-                        onClose();
-                    }
-                }}
-                role="dialog"
-            >
-                <Paper className={styles.panel} p={0} style={{ left, top }} withBorder>
-                    <Stack gap="sm" h="100%" p="md">
+        <Popover
+            // The anchor is a synthetic point rather than a real element, so it
+            // can never scroll out of view and be detached from the dropdown
+            hideDetached={false}
+            onDismiss={onClose}
+            opened
+            position="bottom-start"
+            returnFocus
+            trapFocus
+            width={PANEL_WIDTH}
+        >
+            <Popover.Target>
+                <div className={styles.anchor} style={{ left: target.x, top: target.y }} />
+            </Popover.Target>
+            <Popover.Dropdown>
+                <Stack gap="sm">
+                    <Group align="flex-start" gap="sm" justify="space-between" wrap="nowrap">
                         <Group align="baseline" gap="sm" wrap="wrap">
-                            <Text className={styles.kanjiTitle}>{target.text}</Text>
+                            <Text fw={700} size="3xl">
+                                {target.text}
+                            </Text>
                             {target.binding !== null && (
                                 <Text c="primary" size="sm">
                                     {target.binding.reading}
@@ -114,149 +149,143 @@ export const KanjiPicker = ({
                                     </Text>
                                 )}
                         </Group>
+                        <ActionIcon icon="x" onClick={onClose} size="sm" variant="subtle" />
+                    </Group>
 
-                        <Group className={styles.bindRow} gap="xs" wrap="nowrap">
-                            <TextInput
-                                autoFocus
-                                className={styles.readingInput}
-                                onChange={(event) => setReading(event.currentTarget.value)}
-                                onKeyDown={(event) => {
-                                    if (event.key === 'Enter') {
-                                        bind();
-                                    }
-                                }}
-                                placeholder={t('setting.furiganaBindingReadingPlaceholder')}
-                                value={reading}
-                            />
-                            <Button disabled={reading.trim() === ''} onClick={bind} size="sm">
-                                {target.binding !== null ? t('common.update') : t('common.bind')}
-                            </Button>
-                        </Group>
+                    <Group gap="xs" wrap="nowrap">
+                        <TextInput
+                            className={styles.readingInput}
+                            data-autofocus
+                            onChange={(event) => setReading(event.currentTarget.value)}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                    bind();
+                                }
+                            }}
+                            placeholder={t('setting.furiganaBindingReadingPlaceholder')}
+                            value={reading}
+                        />
+                        <Button disabled={reading.trim() === ''} onClick={bind} size="sm">
+                            {target.binding !== null ? t('common.update') : t('common.bind')}
+                        </Button>
+                    </Group>
 
-                        {target.suggestedReading !== null && (
-                            <Stack className={styles.section} gap={4}>
-                                <Text className={styles.sectionTitle}>
-                                    {t('setting.furiganaSuggestedReading')}
-                                </Text>
-                                <Group className={styles.chips} gap={4}>
-                                    <Badge
-                                        className={styles.chip}
-                                        onClick={() =>
-                                            setReading(target.suggestedReading as string)
-                                        }
-                                        variant="outline"
-                                    >
-                                        {target.suggestedReading}
-                                    </Badge>
-                                </Group>
-                            </Stack>
-                        )}
+                    {target.suggestedReading !== null && (
+                        <Stack gap={4}>
+                            <SectionLabel>{t('setting.furiganaSuggestedReading')}</SectionLabel>
+                            <Group gap={4}>
+                                <Badge
+                                    className={styles.chip}
+                                    onClick={() => setReading(target.suggestedReading as string)}
+                                    variant="outline"
+                                >
+                                    {target.suggestedReading}
+                                </Badge>
+                            </Group>
+                        </Stack>
+                    )}
 
-                        <ScrollArea className={styles.scrollArea}>
-                            <Stack gap="sm">
-                                {kanjiChars.map((char) => {
-                                    const info = kanjiInfo?.[char];
-                                    if (info == null) {
-                                        return null;
-                                    }
+                    <ScrollArea className={styles.readings}>
+                        <Stack gap="sm">
+                            {kanjiChars.map((char) => {
+                                const info = kanjiInfo?.[char];
+                                if (info == null) {
+                                    return null;
+                                }
 
-                                    return (
-                                        <Stack className={styles.section} gap={4} key={char}>
-                                            {kanjiChars.length > 1 && (
-                                                <Text fw={700} size="md">
-                                                    {char}
-                                                </Text>
-                                            )}
-                                            {info.on.length > 0 && (
-                                                <>
-                                                    <Text className={styles.sectionTitle}>
-                                                        {t('setting.furiganaOnyomi')}
-                                                    </Text>
-                                                    <Group className={styles.chips} gap={4}>
-                                                        {info.on.map((r) => (
-                                                            <Badge
-                                                                className={styles.chip}
-                                                                key={r}
-                                                                onClick={() =>
-                                                                    setReading(kataToHira(r))
-                                                                }
-                                                                variant="default"
-                                                            >
-                                                                {r}
-                                                            </Badge>
-                                                        ))}
-                                                    </Group>
-                                                </>
-                                            )}
-                                            {info.kun.length > 0 && (
-                                                <>
-                                                    <Text className={styles.sectionTitle}>
-                                                        {t('setting.furiganaKunyomi')}
-                                                    </Text>
-                                                    <Group className={styles.chips} gap={4}>
-                                                        {info.kun.map((r) => (
-                                                            <Badge
-                                                                className={styles.chip}
-                                                                key={r}
-                                                                onClick={() =>
-                                                                    setReading(
-                                                                        kunReadingToBinding(r),
-                                                                    )
-                                                                }
-                                                                variant="default"
-                                                            >
-                                                                {r}
-                                                            </Badge>
-                                                        ))}
-                                                    </Group>
-                                                </>
-                                            )}
-                                            {kanjiChars.length > 1 && info.meanings.length > 0 && (
-                                                <Text isMuted size="xs">
-                                                    {info.meanings.join(', ')}
-                                                </Text>
-                                            )}
-                                        </Stack>
-                                    );
-                                })}
-                            </Stack>
-                        </ScrollArea>
+                                return (
+                                    <Stack gap={4} key={char}>
+                                        {kanjiChars.length > 1 && (
+                                            <Text fw={700} size="md">
+                                                {char}
+                                            </Text>
+                                        )}
+                                        {info.on.length > 0 && (
+                                            <>
+                                                <SectionLabel>
+                                                    {t('setting.furiganaOnyomi')}
+                                                </SectionLabel>
+                                                <Group gap={4}>
+                                                    {info.on.map((r) => (
+                                                        <Badge
+                                                            className={styles.chip}
+                                                            key={r}
+                                                            onClick={() =>
+                                                                setReading(kataToHira(r))
+                                                            }
+                                                            variant="default"
+                                                        >
+                                                            {r}
+                                                        </Badge>
+                                                    ))}
+                                                </Group>
+                                            </>
+                                        )}
+                                        {info.kun.length > 0 && (
+                                            <>
+                                                <SectionLabel>
+                                                    {t('setting.furiganaKunyomi')}
+                                                </SectionLabel>
+                                                <Group gap={4}>
+                                                    {info.kun.map((r) => (
+                                                        <Badge
+                                                            className={styles.chip}
+                                                            key={r}
+                                                            onClick={() =>
+                                                                setReading(kunReadingToBinding(r))
+                                                            }
+                                                            variant="default"
+                                                        >
+                                                            {r}
+                                                        </Badge>
+                                                    ))}
+                                                </Group>
+                                            </>
+                                        )}
+                                        {kanjiChars.length > 1 && info.meanings.length > 0 && (
+                                            <Text isMuted size="xs">
+                                                {info.meanings.join(', ')}
+                                            </Text>
+                                        )}
+                                    </Stack>
+                                );
+                            })}
+                        </Stack>
+                    </ScrollArea>
 
-                        {target.binding !== null && (
-                            <Group className={styles.actions} gap="xs" wrap="wrap">
+                    {target.binding !== null && (
+                        <>
+                            <Divider />
+                            <Group gap="xs" justify="space-between" wrap="wrap">
                                 <Switch
                                     checked={target.binding.display}
-                                    className={styles.displayToggle}
                                     label={t('setting.furiganaShowBinding')}
                                     onChange={onToggleDisplay}
                                     size="xs"
                                 />
-                                <Button
-                                    onClick={onApplyToIdentical}
-                                    size="sm"
-                                    title={t('setting.furiganaApplyToIdenticalDescription')}
-                                    variant="default"
-                                >
-                                    {t('setting.furiganaApplyToIdentical')}
-                                </Button>
-                                <Button color="red" onClick={onUnbind} size="sm" variant="default">
-                                    {t('common.unbind')}
-                                </Button>
+                                <Group gap="xs" wrap="nowrap">
+                                    <Button
+                                        onClick={onApplyToIdentical}
+                                        size="sm"
+                                        title={t('setting.furiganaApplyToIdenticalDescription')}
+                                        variant="default"
+                                    >
+                                        {t('setting.furiganaApplyToIdentical')}
+                                    </Button>
+                                    <Button
+                                        color="red"
+                                        onClick={onUnbind}
+                                        size="sm"
+                                        variant="default"
+                                    >
+                                        {t('common.unbind')}
+                                    </Button>
+                                </Group>
                             </Group>
-                        )}
-
-                        <ActionIcon
-                            icon="x"
-                            onClick={onClose}
-                            pos="absolute"
-                            right={8}
-                            size="sm"
-                            top={8}
-                            variant="subtle"
-                        />
-                    </Stack>
-                </Paper>
-            </div>
-        </>
+                        </>
+                    )}
+                </Stack>
+            </Popover.Dropdown>
+        </Popover>
     );
 };

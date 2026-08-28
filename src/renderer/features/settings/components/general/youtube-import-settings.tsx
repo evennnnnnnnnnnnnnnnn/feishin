@@ -25,10 +25,8 @@ export const YoutubeImportSettings = () => {
     const options: SettingOption[] = [
         {
             control: <></>,
-            description: t('form.youtubeImport.requires', {
-                defaultValue: 'Requires yt-dlp and FFmpeg on the server.',
-            }),
-            title: t('form.youtubeImport.title', { defaultValue: 'Import from YouTube' }),
+            description: t('form.youtubeImport.requires'),
+            title: t('form.youtubeImport.title'),
         },
     ];
 
@@ -36,7 +34,7 @@ export const YoutubeImportSettings = () => {
         <SettingsSection
             extra={<YoutubeImportForm />}
             options={options}
-            title={t('form.youtubeImport.title', { defaultValue: 'Import from YouTube' })}
+            title={t('form.youtubeImport.title')}
         />
     );
 };

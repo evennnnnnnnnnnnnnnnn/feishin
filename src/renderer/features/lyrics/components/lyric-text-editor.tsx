@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import styles from './lyric-text-editor.module.css';
+
 import { TextInput } from '/@/shared/components/text-input/text-input';
 
 interface LyricTextEditorProps {
@@ -14,6 +16,7 @@ export const LyricTextEditor = ({ initialValue, onCancel, onSubmit }: LyricTextE
     return (
         <TextInput
             autoFocus
+            classNames={{ input: styles.input }}
             onBlur={onCancel}
             onChange={(event) => setValue(event.currentTarget.value)}
             onClick={(event) => event.stopPropagation()}
