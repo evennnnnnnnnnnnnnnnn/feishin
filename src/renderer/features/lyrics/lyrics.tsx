@@ -20,6 +20,10 @@ import {
     type LyricsQueryResult,
 } from '/@/renderer/features/lyrics/api/lyrics-api';
 import {
+    buildLyricsOverridePayload,
+    useSaveLyricsOverrideMutation,
+} from '/@/renderer/features/lyrics/api/lyrics-override-api';
+import {
     formatStructuredLyricLabel,
     getLyricLineText,
     getLyricsLayers,
@@ -65,6 +69,7 @@ import { ComponentErrorBoundary } from '/@/renderer/features/shared/components/c
 import { queryClient } from '/@/renderer/lib/react-query';
 import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer, useLyricsSettings, usePlayerSong } from '/@/renderer/store';
+import { useIsAdmin } from '/@/renderer/store/auth.store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Center } from '/@/shared/components/center/center';
 import { Group } from '/@/shared/components/group/group';
@@ -202,7 +207,41 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         return lyrics.lyrics;
     }, [lyrics, synced]);
 
+    // The unconverted plain lyrics of an unsynchronized song. Deliberately read
+    // off `lyrics` rather than `displayLyrics`: binding coordinates and card
+    // text must be the source text, never the furigana/word-span HTML.
+    const rawPlainLyrics = useMemo(() => {
+        if (synced || !lyrics || !('lyrics' in lyrics) || typeof lyrics.lyrics !== 'string') {
+            return null;
+        }
+
+        return lyrics.lyrics;
+    }, [lyrics, synced]);
+
+    // One line-text source for both views, so every kanji/binding handler below
+    // works the same whether the lyrics carry timings or not. Line index means
+    // the same thing on both sides: UnsynchronizedLyrics splits on '\n' and the
+    // synced view indexes its line array.
+    const lyricLineTexts = useMemo<null | string[]>(() => {
+        if (rawSyncedLyrics) {
+            return rawSyncedLyrics.map(getLyricLineText);
+        }
+
+        if (rawPlainLyrics !== null) {
+            return rawPlainLyrics.split('\n');
+        }
+
+        return null;
+    }, [rawPlainLyrics, rawSyncedLyrics]);
+
+    // A music card is a replayable audio window anchored on a line, so it needs
+    // timings. Unsynchronized lyrics carry none.
+    const lyricsAreTimed = !!rawSyncedLyrics;
+
     const isNavidromeServer = currentServerType === ServerType.NAVIDROME;
+    const { isAdmin } = useIsAdmin();
+    const saveLyricsOverride = useSaveLyricsOverrideMutation();
+    const canAddTimings = isAdmin && isNavidromeServer && !lyricsAreTimed && !!lyricLineTexts;
 
     const [pickerTarget, setPickerTarget] = useState<KanjiPickerTarget | null>(null);
     const [wordTarget, setWordTarget] = useState<null | WordInfoTarget>(null);
@@ -237,9 +276,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                     detail.charOffset + detail.spanLength,
                 );
                 const mergedSpanLength = mergedEnd - mergedOffset;
-                const lineText = rawSyncedLyrics?.[detail.lineIndex]
-                    ? getLyricLineText(rawSyncedLyrics[detail.lineIndex])
-                    : null;
+                const lineText = lyricLineTexts?.[detail.lineIndex] ?? null;
 
                 if (!lineText) return;
 
@@ -275,7 +312,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 y: detail.y,
             });
         },
-        [findFuriganaBinding, isNavidromeServer, pickerTarget, rawSyncedLyrics],
+        [findFuriganaBinding, isNavidromeServer, lyricLineTexts, pickerTarget],
     );
 
     const handleClosePicker = useCallback(() => setPickerTarget(null), []);
@@ -337,13 +374,13 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     }, [pickerTarget, upsertFuriganaBinding]);
 
     const handleApplyFuriganaToIdentical = useCallback(() => {
-        if (!pickerTarget?.binding || !rawSyncedLyrics) return;
+        if (!pickerTarget?.binding || !lyricLineTexts) return;
 
         const { display, reading } = pickerTarget.binding;
         const targetChars = Array.from(pickerTarget.text);
 
-        rawSyncedLyrics.forEach((line, lineIndex) => {
-            const chars = Array.from(getLyricLineText(line));
+        lyricLineTexts.forEach((lineText, lineIndex) => {
+            const chars = Array.from(lineText);
 
             for (let offset = 0; offset <= chars.length - targetChars.length; offset += 1) {
                 const isMatch = targetChars.every((char, i) => chars[offset + i] === char);
@@ -359,18 +396,27 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 });
             }
         });
-    }, [pickerTarget, rawSyncedLyrics, upsertFuriganaBinding]);
+    }, [lyricLineTexts, pickerTarget, upsertFuriganaBinding]);
 
     const handleSaveMusicCard = useCallback(
         (reading: string) => {
-            if (!currentSong || !pickerTarget || !rawSyncedLyrics) return;
+            if (!currentSong || !pickerTarget || !lyricLineTexts) return;
 
-            const snippet = deriveMusicCardSnippetWindow(
-                rawSyncedLyrics,
-                pickerTarget.lineIndex,
-                // Song.duration is already in milliseconds
-                currentSong.duration,
-            );
+            // Untimed lyrics carry no window to cut a clip from, so the card is
+            // saved text-only: a zero window, which useSaveMusicCard reads as
+            // "no clip to fetch" and the deck reads as "no replay to offer".
+            const snippet = rawSyncedLyrics
+                ? deriveMusicCardSnippetWindow(
+                      rawSyncedLyrics,
+                      pickerTarget.lineIndex,
+                      // Song.duration is already in milliseconds
+                      currentSong.duration,
+                  )
+                : {
+                      endMs: 0,
+                      snippetText: lyricLineTexts[pickerTarget.lineIndex] ?? '',
+                      startMs: 0,
+                  };
 
             if (!snippet) {
                 toast.error({ message: t('page.musicCards.saveError') });
@@ -381,7 +427,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 {
                     charOffset: pickerTarget.charOffset,
                     endMs: snippet.endMs,
-                    fullLyrics: rawSyncedLyrics.map(getLyricLineText).join('\n'),
+                    fullLyrics: lyricLineTexts.join('\n'),
                     kanjiText: pickerTarget.text,
                     lineIndex: pickerTarget.lineIndex,
                     mediaFileId: currentSong.id,
@@ -401,8 +447,39 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 },
             );
         },
-        [currentSong, pickerTarget, rawSyncedLyrics, saveMusicCard, t],
+        [currentSong, lyricLineTexts, pickerTarget, rawSyncedLyrics, saveMusicCard, t],
     );
+
+    /**
+     * Seed a synced lyrics override from the plain lines so the existing
+     * per-line time editor (EditableLyricLine/LyricTimeEditor, admin +
+     * Navidrome only) applies to this song. Starts are spread evenly across
+     * the track rather than zeroed: the editor is a nudging tool, so a rough
+     * monotonic starting point is more useful than every line at 0.
+     */
+    const handleAddTimings = useCallback(() => {
+        if (!currentSong?._serverId || !currentSong?.id || !lyricLineTexts?.length) return;
+
+        // Song.duration is already in milliseconds
+        const durationMs =
+            currentSong.duration > 0 ? currentSong.duration : lyricLineTexts.length * 1000;
+        const step = durationMs / lyricLineTexts.length;
+
+        saveLyricsOverride.mutate(
+            {
+                payload: buildLyricsOverridePayload(
+                    { artist: currentSong.artistName, name: currentSong.name },
+                    lyricLineTexts.map((text, lineIndex) => ({
+                        startMs: Math.round(lineIndex * step),
+                        text,
+                    })),
+                ),
+                serverId: currentSong._serverId,
+                songId: currentSong.id,
+            },
+            { onSuccess: () => setPickerTarget(null) },
+        );
+    }, [currentSong, lyricLineTexts, saveLyricsOverride]);
 
     const displayLyrics = useMemo(() => {
         if (isLyricsDisabled || !lyrics) return null;
@@ -761,7 +838,11 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 )}
                 {pickerTarget && (
                     <KanjiPicker
+                        addingTimings={saveLyricsOverride.isPending}
+                        canAddTimings={canAddTimings}
                         key={`${pickerTarget.lineIndex}-${pickerTarget.charOffset}-${pickerTarget.spanLength}`}
+                        lyricsAreTimed={lyricsAreTimed}
+                        onAddTimings={handleAddTimings}
                         onApplyToIdentical={handleApplyFuriganaToIdentical}
                         onBind={handleBindFurigana}
                         onClose={handleClosePicker}
@@ -835,6 +916,16 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                                 ) : (
                                     <UnsynchronizedLyrics
                                         {...(displayLyrics as UnsynchronizedLyricsProps)}
+                                        // Same gate as the synced branch: only
+                                        // installed where it can act (Navidrome
+                                        // binding API), so an unhandled kanji
+                                        // click still falls through to the word
+                                        // span's JMdict lookup
+                                        onKanjiClick={
+                                            enableFurigana && isNavidromeServer
+                                                ? handleKanjiClick
+                                                : undefined
+                                        }
                                         onWordClick={enableWordLookup ? handleWordClick : undefined}
                                         romajiLyrics={
                                             enableRomaji

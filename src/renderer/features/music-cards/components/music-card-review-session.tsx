@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './music-cards-route.module.css';
 
-import { MusicCard, MusicCardSnippet } from '/@/renderer/features/music-cards/api/music-card-model';
+import {
+    MusicCard,
+    MusicCardSnippet,
+    snippetHasAudio,
+} from '/@/renderer/features/music-cards/api/music-card-model';
 import {
     CardKanjiReadings,
     FuriganaSnippet,
@@ -125,24 +129,28 @@ export const MusicCardReviewSession = ({
                                         {snippet.songArtist}
                                     </Text>
                                 </Stack>
-                                <ActionIcon
-                                    aria-label={
-                                        playingSnippetId === snippet.id
-                                            ? t('page.musicCards.stopReplay')
-                                            : t('page.musicCards.replay')
-                                    }
-                                    icon={
-                                        playingSnippetId === snippet.id ? 'mediaPause' : 'mediaPlay'
-                                    }
-                                    onClick={() => toggleReplay(card, snippet)}
-                                    tooltip={{
-                                        label:
+                                {snippetHasAudio(snippet) && (
+                                    <ActionIcon
+                                        aria-label={
                                             playingSnippetId === snippet.id
                                                 ? t('page.musicCards.stopReplay')
-                                                : t('page.musicCards.replay'),
-                                    }}
-                                    variant="filled"
-                                />
+                                                : t('page.musicCards.replay')
+                                        }
+                                        icon={
+                                            playingSnippetId === snippet.id
+                                                ? 'mediaPause'
+                                                : 'mediaPlay'
+                                        }
+                                        onClick={() => toggleReplay(card, snippet)}
+                                        tooltip={{
+                                            label:
+                                                playingSnippetId === snippet.id
+                                                    ? t('page.musicCards.stopReplay')
+                                                    : t('page.musicCards.replay'),
+                                        }}
+                                        variant="filled"
+                                    />
+                                )}
                             </Group>
                         </Stack>
                     )}

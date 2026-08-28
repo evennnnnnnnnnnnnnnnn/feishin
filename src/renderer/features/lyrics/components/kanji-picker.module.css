@@ -36,6 +36,15 @@
     max-height: 18em;
 }
 
+/* Inline "these lyrics are not timed" panel. Rendered inside the picker rather
+   than as a nested popover: a second floating layer over a synthetic anchor
+   would be torn down by the same outside-press listener that owns this one. */
+.timing-prompt {
+    padding: 0.75em;
+    border: 1px solid var(--theme-colors-background-alternate);
+    border-radius: var(--theme-radius-sm);
+}
+
 .chip {
     font-size: 0.85em;
     cursor: pointer;

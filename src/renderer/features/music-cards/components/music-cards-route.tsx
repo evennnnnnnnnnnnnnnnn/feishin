@@ -6,7 +6,11 @@ import styles from './music-cards-route.module.css';
 
 import { api } from '/@/renderer/api';
 import { PageHeader } from '/@/renderer/components/page-header/page-header';
-import { MusicCard, MusicCardSnippet } from '/@/renderer/features/music-cards/api/music-card-model';
+import {
+    MusicCard,
+    MusicCardSnippet,
+    snippetHasAudio,
+} from '/@/renderer/features/music-cards/api/music-card-model';
 import {
     CardKanjiReadings,
     FuriganaSnippet,
@@ -187,6 +191,11 @@ const MusicCardsRoute = () => {
 
     const toggleReplay = useCallback(
         (card: MusicCard, snippet: MusicCardSnippet) => {
+            // Saved from untimed lyrics: no window, so nothing to replay. The
+            // controls are already hidden for such a snippet; this is the guard
+            // that keeps a stray call from seeking to 0 and stopping instantly.
+            if (!snippetHasAudio(snippet)) return;
+
             if (snippet.id === playingSnippetId) {
                 stopReplay();
                 return;
@@ -396,28 +405,32 @@ const MusicCardsRoute = () => {
                                                         {t('page.musicCards.songRemoved')}
                                                     </Badge>
                                                 )}
-                                                <ActionIcon
-                                                    aria-label={
-                                                        playingSnippetId === snippet.id
-                                                            ? t('page.musicCards.stopReplay')
-                                                            : t('page.musicCards.replay')
-                                                    }
-                                                    icon={
-                                                        playingSnippetId === snippet.id
-                                                            ? 'mediaPause'
-                                                            : 'mediaPlay'
-                                                    }
-                                                    onClick={() =>
-                                                        toggleReplay(selectedCard, snippet)
-                                                    }
-                                                    tooltip={{
-                                                        label:
+                                                {snippetHasAudio(snippet) && (
+                                                    <ActionIcon
+                                                        aria-label={
                                                             playingSnippetId === snippet.id
                                                                 ? t('page.musicCards.stopReplay')
-                                                                : t('page.musicCards.replay'),
-                                                    }}
-                                                    variant="filled"
-                                                />
+                                                                : t('page.musicCards.replay')
+                                                        }
+                                                        icon={
+                                                            playingSnippetId === snippet.id
+                                                                ? 'mediaPause'
+                                                                : 'mediaPlay'
+                                                        }
+                                                        onClick={() =>
+                                                            toggleReplay(selectedCard, snippet)
+                                                        }
+                                                        tooltip={{
+                                                            label:
+                                                                playingSnippetId === snippet.id
+                                                                    ? t(
+                                                                          'page.musicCards.stopReplay',
+                                                                      )
+                                                                    : t('page.musicCards.replay'),
+                                                        }}
+                                                        variant="filled"
+                                                    />
+                                                )}
                                                 <ActionIcon
                                                     aria-label={t('page.musicCards.deleteSnippet')}
                                                     icon="delete"

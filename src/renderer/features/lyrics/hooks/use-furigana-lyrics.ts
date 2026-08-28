@@ -83,29 +83,33 @@ const convertSyncedLyricsFurigana = async (
     );
 };
 
-// Word-lookup-aware conversion of unsynchronized (plain string) lyrics: the
-// analyzer ruby comes from the same binding-aware serializer as the synced
-// path (with no bindings), so word spans and furigana compose per line.
+// Interactive conversion of unsynchronized (plain string) lyrics. Line index is
+// the split index, which is exactly what UnsynchronizedLyrics renders against
+// and what a furigana binding's line_index means, so bindings address the same
+// lines here as they do on the synced path.
 const convertPlainLyricsInteractive = async (
     lyrics: string,
+    bindings: FuriganaBinding[],
+    bindingsVisible: boolean,
     options: InteractiveLineOptions,
 ): Promise<string> => {
     const lines = lyrics.split('\n');
 
     const converted = await Promise.all(
-        lines.map(async (lineText) => {
+        lines.map(async (lineText, lineIndex) => {
             let linePieces: LinePiece[] | null = null;
 
             if (options.furigana) {
                 const [lineTokens = []] = await lyricsApi.analyzeLyricsLines([lineText]);
-                linePieces = buildLinePieces(lineText, lineTokens, []);
+                const lineBindings = getLineBindings(bindings, lineIndex, lineText);
+                linePieces = buildLinePieces(lineText, lineTokens, lineBindings);
             }
 
-            const wordTokens = (await lyricsApi.parseLyricsTextTokens(
-                lineText,
-            )) as LyricTextToken[];
+            const wordTokens = options.wordSpans
+                ? ((await lyricsApi.parseLyricsTextTokens(lineText)) as LyricTextToken[])
+                : null;
 
-            return buildWordAwareLineHtml(lineText, linePieces, wordTokens, true);
+            return buildWordAwareLineHtml(lineText, linePieces, wordTokens, bindingsVisible);
         }),
     );
 
@@ -154,11 +158,7 @@ export const useFuriganaLyrics = (
             const options = { furigana: enabled, wordSpans: wordLookupEnabled };
 
             if (typeof lyrics === 'string') {
-                if (!wordLookupEnabled) {
-                    return await lyricsApi.convertFurigana(lyrics);
-                }
-
-                return convertPlainLyricsInteractive(lyrics, options);
+                return convertPlainLyricsInteractive(lyrics, bindings, bindingsVisible, options);
             }
 
             if (Array.isArray(lyrics)) {

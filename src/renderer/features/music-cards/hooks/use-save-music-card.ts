@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '/@/renderer/api';
-import { MusicCardSnippet } from '/@/renderer/features/music-cards/api/music-card-model';
+import {
+    MusicCardSnippet,
+    snippetHasAudio,
+} from '/@/renderer/features/music-cards/api/music-card-model';
 import { musicCardsQueryKey } from '/@/renderer/features/music-cards/hooks/use-music-cards';
 import { putSnippetClip } from '/@/renderer/features/music-cards/storage/music-card-clip-storage';
 import { useCurrentServer } from '/@/renderer/store';
@@ -103,6 +106,21 @@ export const useSaveMusicCard = () => {
             };
 
             let clipStored = false;
+
+            // A card saved from untimed lyrics carries a zero window: there is
+            // no clip to cut, and the server refuses a request where end_ms is
+            // not after start_ms. The card is still worth having as text.
+            if (!snippetHasAudio(snippet)) {
+                saveSnippet({
+                    cardId: card.id,
+                    createdAt: new Date().toISOString(),
+                    kanjiText: input.kanjiText,
+                    serverId,
+                    snippet,
+                });
+
+                return { cardId: card.id, clipStored, snippet };
+            }
 
             try {
                 const clip = await api.controller.getMusicCardClip?.({

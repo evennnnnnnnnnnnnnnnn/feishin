@@ -32,6 +32,13 @@ export type KanjiPickerTarget = {
 };
 
 interface KanjiPickerProps {
+    /** A seeded lyrics override is in flight */
+    addingTimings: boolean;
+    /** This viewer can seed timings (admin on Navidrome) rather than only being told they are missing */
+    canAddTimings: boolean;
+    /** Whether the current lyrics carry timestamps, i.e. whether a card can have audio */
+    lyricsAreTimed: boolean;
+    onAddTimings: () => void;
     onApplyToIdentical: () => void;
     onBind: (reading: string) => void;
     onClose: () => void;
@@ -96,6 +103,10 @@ const useKeepOpenOnKanjiSpanPress = () => {
  * so shift-click span extension remounts (and resets) this component.
  */
 export const KanjiPicker = ({
+    addingTimings,
+    canAddTimings,
+    lyricsAreTimed,
+    onAddTimings,
     onApplyToIdentical,
     onBind,
     onClose,
@@ -113,6 +124,7 @@ export const KanjiPicker = ({
     const [reading, setReading] = useState(
         target.binding?.reading ?? target.suggestedReading ?? '',
     );
+    const [timingPromptOpen, setTimingPromptOpen] = useState(false);
 
     useKeepOpenOnKanjiSpanPress();
 
@@ -126,6 +138,21 @@ export const KanjiPicker = ({
         if (trimmed !== '') {
             onBind(trimmed);
         }
+    };
+
+    // A music card is a replayable audio window anchored on a lyric line, so
+    // untimed lyrics have nothing to cut. Rather than saving a card that can
+    // never play, name the missing precondition and offer the way out.
+    const saveMusicCard = () => {
+        const trimmed = reading.trim();
+        if (trimmed === '') return;
+
+        if (!lyricsAreTimed) {
+            setTimingPromptOpen(true);
+            return;
+        }
+
+        onSaveMusicCard(trimmed);
     };
 
     return (
@@ -207,12 +234,51 @@ export const KanjiPicker = ({
                                 classNames={{ root: styles.bindButton }}
                                 disabled={reading.trim() === ''}
                                 loading={savingMusicCard}
-                                onClick={() => onSaveMusicCard(reading.trim())}
+                                onClick={saveMusicCard}
                                 size="sm"
                             >
                                 {t('page.musicCards.save')}
                             </Button>
                         </Group>
+
+                        {timingPromptOpen && !lyricsAreTimed && (
+                            <Stack className={styles.timingPrompt} gap="xs">
+                                <Text style={{ fontSize: '0.85em' }}>
+                                    {canAddTimings
+                                        ? t('page.musicCards.untimedLyricsCanTime')
+                                        : t('page.musicCards.untimedLyrics')}
+                                </Text>
+                                <Group gap="xs" wrap="nowrap">
+                                    {canAddTimings ? (
+                                        <Button
+                                            classNames={{ root: styles.bindButton }}
+                                            loading={addingTimings}
+                                            onClick={onAddTimings}
+                                            size="sm"
+                                        >
+                                            {t('page.musicCards.addTimings')}
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            classNames={{ root: styles.bindButton }}
+                                            loading={savingMusicCard}
+                                            onClick={() => onSaveMusicCard(reading.trim())}
+                                            size="sm"
+                                        >
+                                            {t('page.musicCards.saveWithoutAudio')}
+                                        </Button>
+                                    )}
+                                    <Button
+                                        classNames={{ root: styles.bindButton }}
+                                        onClick={() => setTimingPromptOpen(false)}
+                                        size="sm"
+                                        variant="default"
+                                    >
+                                        {t('common.cancel')}
+                                    </Button>
+                                </Group>
+                            </Stack>
+                        )}
 
                         {target.suggestedReading !== null && (
                             <Stack gap={4}>

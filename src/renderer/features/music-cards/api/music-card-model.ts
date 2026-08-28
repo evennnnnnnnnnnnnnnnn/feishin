@@ -39,6 +39,17 @@ export type MusicCardSnippet = {
     startMs: number;
 };
 
+/**
+ * Whether a snippet has an audio window at all.
+ *
+ * A card saved from untimed lyrics carries a zero window: there was no line
+ * timing to derive one from, so the card is text-only. This is the single
+ * predicate every replay path reads - without it, replay would seek to 0 and
+ * run a 0 ms envelope, which reads as a broken clip rather than an absent one.
+ */
+export const snippetHasAudio = (snippet: Pick<MusicCardSnippet, 'endMs' | 'startMs'>): boolean =>
+    snippet.endMs > snippet.startMs;
+
 const snippetFromDto = (
     dto: MusicCardWithSnippetsDto['snippets'][number],
 ): Omit<MusicCardSnippet, 'songRemoved'> => ({

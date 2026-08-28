@@ -529,6 +529,7 @@
             "title": "Radio stations"
         },
         "musicCards": {
+            "addTimings": "Add timings",
             "allCards": "All music cards",
             "cardsFromSong": "Cards from this song",
             "clipUnavailable": "This saved clip is unavailable.",
@@ -555,13 +556,16 @@
             "reviewedCount_other": "{{count}} cards reviewed",
             "save": "Save to Music Card",
             "saveError": "Could not save the music card",
+            "saveWithoutAudio": "Save without audio",
             "saved": "Music card saved",
             "showAnswer": "Show answer",
             "songRemoved": "Song removed",
             "startReview_one": "Review {{count}} card",
             "startReview_other": "Review {{count}} cards",
             "stopReplay": "Stop clip",
-            "title": "Music Cards"
+            "title": "Music Cards",
+            "untimedLyrics": "These lyrics have no timings, so this card cannot have an audio clip.",
+            "untimedLyricsCanTime": "These lyrics have no timings. Adding them saves an editable timed copy, so you can set each line’s time and then save a card with audio."
         },
         "releasenotes": {
             "commitsSinceStable": "Commits since {{stable}}",
