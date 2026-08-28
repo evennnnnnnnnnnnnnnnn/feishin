@@ -32,17 +32,15 @@ export type KanjiPickerTarget = {
 };
 
 interface KanjiPickerProps {
-    /** A seeded lyrics override is in flight */
-    addingTimings: boolean;
-    /** This viewer can seed timings (admin on Navidrome) rather than only being told they are missing */
-    canAddTimings: boolean;
+    /** This viewer can time the lyrics (admin on Navidrome) rather than only being told they are untimed */
+    canSyncLyrics: boolean;
     /** Whether the current lyrics carry timestamps, i.e. whether a card can have audio */
     lyricsAreTimed: boolean;
-    onAddTimings: () => void;
     onApplyToIdentical: () => void;
     onBind: (reading: string) => void;
     onClose: () => void;
     onSaveMusicCard: (reading: string) => void;
+    onSyncLyrics: () => void;
     onToggleDisplay: () => void;
     onUnbind: () => void;
     savingMusicCard: boolean;
@@ -103,14 +101,13 @@ const useKeepOpenOnKanjiSpanPress = () => {
  * so shift-click span extension remounts (and resets) this component.
  */
 export const KanjiPicker = ({
-    addingTimings,
-    canAddTimings,
+    canSyncLyrics,
     lyricsAreTimed,
-    onAddTimings,
     onApplyToIdentical,
     onBind,
     onClose,
     onSaveMusicCard,
+    onSyncLyrics,
     onToggleDisplay,
     onUnbind,
     savingMusicCard,
@@ -244,19 +241,18 @@ export const KanjiPicker = ({
                         {timingPromptOpen && !lyricsAreTimed && (
                             <Stack className={styles.timingPrompt} gap="xs">
                                 <Text style={{ fontSize: '0.85em' }}>
-                                    {canAddTimings
+                                    {canSyncLyrics
                                         ? t('page.musicCards.untimedLyricsCanTime')
                                         : t('page.musicCards.untimedLyrics')}
                                 </Text>
                                 <Group gap="xs" wrap="nowrap">
-                                    {canAddTimings ? (
+                                    {canSyncLyrics ? (
                                         <Button
                                             classNames={{ root: styles.bindButton }}
-                                            loading={addingTimings}
-                                            onClick={onAddTimings}
+                                            onClick={onSyncLyrics}
                                             size="sm"
                                         >
-                                            {t('page.musicCards.addTimings')}
+                                            {t('lyricsEditor.syncTitle')}
                                         </Button>
                                     ) : (
                                         <Button

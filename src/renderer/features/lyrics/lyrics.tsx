@@ -20,11 +20,8 @@ import {
     type LyricsQueryResult,
 } from '/@/renderer/features/lyrics/api/lyrics-api';
 import {
-    buildLyricsOverridePayload,
-    useSaveLyricsOverrideMutation,
-} from '/@/renderer/features/lyrics/api/lyrics-override-api';
-import {
     formatStructuredLyricLabel,
+    getLyricLineStartMs,
     getLyricLineText,
     getLyricsLayers,
     getOverlayLayerKey,
@@ -60,6 +57,7 @@ import {
     UnsynchronizedLyrics,
     UnsynchronizedLyricsProps,
 } from '/@/renderer/features/lyrics/unsynchronized-lyrics';
+import { openLyricSyncModal } from '/@/renderer/features/lyrics/utils/open-lyric-sync-modal';
 import { openLyricsSettingsModal } from '/@/renderer/features/lyrics/utils/open-lyrics-settings-modal';
 import { deriveMusicCardSnippetWindow } from '/@/renderer/features/music-cards/api/music-card-snippet-window';
 import { useSaveMusicCard } from '/@/renderer/features/music-cards/hooks/use-save-music-card';
@@ -240,8 +238,10 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
 
     const isNavidromeServer = currentServerType === ServerType.NAVIDROME;
     const { isAdmin } = useIsAdmin();
-    const saveLyricsOverride = useSaveLyricsOverrideMutation();
-    const canAddTimings = isAdmin && isNavidromeServer && !lyricsAreTimed && !!lyricLineTexts;
+    // Writing timings is a lyrics override, so it needs the same rights the
+    // per-line editor needs. Timed lyrics qualify too: syncing them again is a
+    // re-sync, which is why this does not test `lyricsAreTimed`.
+    const canSyncLyrics = isAdmin && isNavidromeServer && !!lyricLineTexts?.length;
 
     const [pickerTarget, setPickerTarget] = useState<KanjiPickerTarget | null>(null);
     const [wordTarget, setWordTarget] = useState<null | WordInfoTarget>(null);
@@ -451,35 +451,27 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
     );
 
     /**
-     * Seed a synced lyrics override from the plain lines so the existing
-     * per-line time editor (EditableLyricLine/LyricTimeEditor, admin +
-     * Navidrome only) applies to this song. Starts are spread evenly across
-     * the track rather than zeroed: the editor is a nudging tool, so a rough
-     * monotonic starting point is more useful than every line at 0.
+     * Open tap-to-sync timing over this song. The picker is dismissed first:
+     * syncing means watching the line list and tapping along to the music, so
+     * a floating picker over it would only be in the way.
      */
-    const handleAddTimings = useCallback(() => {
+    const handleSyncLyrics = useCallback(() => {
         if (!currentSong?._serverId || !currentSong?.id || !lyricLineTexts?.length) return;
 
-        // Song.duration is already in milliseconds
-        const durationMs =
-            currentSong.duration > 0 ? currentSong.duration : lyricLineTexts.length * 1000;
-        const step = durationMs / lyricLineTexts.length;
+        setPickerTarget(null);
 
-        saveLyricsOverride.mutate(
-            {
-                payload: buildLyricsOverridePayload(
-                    { artist: currentSong.artistName, name: currentSong.name },
-                    lyricLineTexts.map((text, lineIndex) => ({
-                        startMs: Math.round(lineIndex * step),
-                        text,
-                    })),
-                ),
-                serverId: currentSong._serverId,
-                songId: currentSong.id,
-            },
-            { onSuccess: () => setPickerTarget(null) },
-        );
-    }, [currentSong, lyricLineTexts, saveLyricsOverride]);
+        openLyricSyncModal({
+            artist: currentSong.artistName,
+            // Already-timed lyrics prefill, so this doubles as a re-sync tool
+            initialTimesMs: lyricLineTexts.map((_text, lineIndex) =>
+                rawSyncedLyrics ? getLyricLineStartMs(rawSyncedLyrics[lineIndex]) : null,
+            ),
+            lines: lyricLineTexts,
+            name: currentSong.name,
+            serverId: currentSong._serverId,
+            songId: currentSong.id,
+        });
+    }, [currentSong, lyricLineTexts, rawSyncedLyrics]);
 
     const displayLyrics = useMemo(() => {
         if (isLyricsDisabled || !lyrics) return null;
@@ -838,15 +830,14 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 )}
                 {pickerTarget && (
                     <KanjiPicker
-                        addingTimings={saveLyricsOverride.isPending}
-                        canAddTimings={canAddTimings}
+                        canSyncLyrics={canSyncLyrics}
                         key={`${pickerTarget.lineIndex}-${pickerTarget.charOffset}-${pickerTarget.spanLength}`}
                         lyricsAreTimed={lyricsAreTimed}
-                        onAddTimings={handleAddTimings}
                         onApplyToIdentical={handleApplyFuriganaToIdentical}
                         onBind={handleBindFurigana}
                         onClose={handleClosePicker}
                         onSaveMusicCard={handleSaveMusicCard}
+                        onSyncLyrics={handleSyncLyrics}
                         onToggleDisplay={handleToggleFuriganaDisplay}
                         onUnbind={handleUnbindFurigana}
                         savingMusicCard={saveMusicCard.isPending}
@@ -949,6 +940,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                         onExportLyrics={handleExportLyrics}
                         onRemoveLyric={handleOnRemoveLyric}
                         onSearchOverride={handleOnSearchOverride}
+                        onSyncLyrics={canSyncLyrics ? handleSyncLyrics : undefined}
                         onToggleOverlayLayer={handleToggleOverlayLayer}
                         onTranslateLyric={
                             translationApiProvider && translationApiKey

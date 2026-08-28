@@ -45,6 +45,8 @@ interface LyricsActionsProps {
     onExportLyrics: () => void;
     onRemoveLyric: () => void;
     onSearchOverride: (params: LyricsOverride) => void;
+    /** Absent when this viewer cannot write lyric timings (non-admin, or not Navidrome) */
+    onSyncLyrics?: () => void;
     onToggleOverlayLayer?: (key: string) => void;
     onTranslateLyric?: () => void;
     onUpdateOffset: (offsetMs: number) => void;
@@ -90,6 +92,7 @@ export const LyricsActions = ({
     onExportLyrics,
     onRemoveLyric,
     onSearchOverride,
+    onSyncLyrics,
     onToggleOverlayLayer,
     onTranslateLyric,
     onUpdateOffset,
@@ -374,6 +377,16 @@ export const LyricsActions = ({
                     }}
                     variant="subtle"
                 />
+                {onSyncLyrics && hasLyrics ? (
+                    <Button
+                        disabled={isActionsDisabled}
+                        onClick={onSyncLyrics}
+                        uppercase
+                        variant="subtle"
+                    >
+                        {t('lyricsEditor.syncTitle')}
+                    </Button>
+                ) : null}
                 {isDesktop && sources.length ? (
                     <Button
                         disabled={isActionsDisabled}

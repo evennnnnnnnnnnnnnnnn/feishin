@@ -1,4 +1,3 @@
-import isElectron from 'is-electron';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 import { resolveLyricsSeekTargetMs } from '/@/renderer/features/lyrics/api/practice-region';
@@ -9,28 +8,17 @@ import {
     resumeLyricsAutoscroll,
     shouldSkipLyricsScrollEvent,
 } from '/@/renderer/features/lyrics/hooks/lyrics-animation-engine';
-import {
-    useLyricsDisplaySettings,
-    useLyricsSettings,
-    usePlaybackType,
-    usePlayerActions,
-} from '/@/renderer/store';
+import { useLyricsSeek } from '/@/renderer/features/lyrics/hooks/use-lyrics-seek';
+import { useLyricsDisplaySettings, useLyricsSettings } from '/@/renderer/store';
 import { SynchronizedLyrics } from '/@/shared/types/domain-types';
-import { PlayerType } from '/@/shared/types/types';
-
-const mpvPlayer = isElectron() ? window.api.mpvPlayer : null;
-const utils = isElectron() ? window.api.utils : null;
-const mpris = isElectron() && utils?.isLinux() ? window.api.mpris : null;
 
 export const LYRICS_SCROLL_CONTAINER_ID = 'sychronized-lyrics-scroll-container';
 export const MANUAL_SCROLL_PAUSE_MS = 2000;
 const MANUAL_SCROLL_DRIFT_PX = 3;
 
 export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: number) => {
-    const playbackType = usePlaybackType();
     const lyricsSettings = useLyricsSettings();
     const displaySettings = useLyricsDisplaySettings(settingsKey);
-    const { mediaSeekToTimestamp } = usePlayerActions();
 
     const settings = useMemo(
         () => ({
@@ -64,17 +52,7 @@ export const useSynchronizedLyricsBase = (settingsKey = 'default', offsetMs?: nu
     const lyricRef = useRef<null | SynchronizedLyrics>(null);
     const scrollAnimStateRef = useRef(createAnimEngineState());
 
-    const handleSeek = useCallback(
-        (time: number) => {
-            if (playbackType === PlayerType.LOCAL && mpvPlayer) {
-                mpvPlayer.seekTo(time);
-            } else {
-                mpris?.updateSeek(time);
-                mediaSeekToTimestamp(time);
-            }
-        },
-        [mediaSeekToTimestamp, playbackType],
-    );
+    const handleSeek = useLyricsSeek();
 
     const handleLineClick = useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {

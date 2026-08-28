@@ -492,6 +492,13 @@
         "preview": "Play 1 second from this time",
         "saveFailed": "Could not save lyrics",
         "setTimeToCurrent": "Set time to current position",
+        "syncHint": "Play the song and press SPACE to time each line. Click a line to go back to it and wind the audio there.",
+        "syncOutOfOrder_one": "{{count}} line starts before the line above it",
+        "syncOutOfOrder_other": "{{count}} lines start before the line above them",
+        "syncProgress": "{{count}} of {{total}} lines timed",
+        "syncRestart": "Start from beginning",
+        "syncSaved": "Lyric timings saved",
+        "syncTitle": "Sync lyrics",
         "timePlaceholder": "mm:ss.xx"
     },
     "page": {
@@ -529,7 +536,6 @@
             "title": "Radio stations"
         },
         "musicCards": {
-            "addTimings": "Add timings",
             "allCards": "All music cards",
             "cardsFromSong": "Cards from this song",
             "clipUnavailable": "This saved clip is unavailable.",
@@ -565,7 +571,7 @@
             "stopReplay": "Stop clip",
             "title": "Music Cards",
             "untimedLyrics": "These lyrics have no timings, so this card cannot have an audio clip.",
-            "untimedLyricsCanTime": "These lyrics have no timings. Adding them saves an editable timed copy, so you can set each line’s time and then save a card with audio."
+            "untimedLyricsCanTime": "These lyrics have no timings. Sync them to the song, then save a card with audio."
         },
         "releasenotes": {
             "commitsSinceStable": "Commits since {{stable}}",

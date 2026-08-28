@@ -1,0 +1,56 @@
+.container {
+    height: 100%;
+}
+
+.clock {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+}
+
+.lines {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+/* A row is a button so the whole line is one keyboard- and pointer-reachable
+   re-target target, not a div with a click handler bolted on */
+.line {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-radius: var(--theme-radius-sm);
+}
+
+.line:hover {
+    background: var(--theme-colors-background-alternate);
+}
+
+.line-cursor {
+    outline: 2px solid var(--theme-colors-primary);
+    background: var(--theme-colors-background-alternate);
+}
+
+.time {
+    flex: 0 0 auto;
+    font-variant-numeric: tabular-nums;
+    color: var(--theme-colors-foreground);
+}
+
+.time-unset {
+    color: var(--theme-colors-foreground-muted);
+}
+
+.text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.warning {
+    color: var(--theme-colors-state-warning);
+}
