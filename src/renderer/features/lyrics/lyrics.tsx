@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 
 import styles from './lyrics.module.css';
 
@@ -52,16 +53,20 @@ import {
     UnsynchronizedLyricsProps,
 } from '/@/renderer/features/lyrics/unsynchronized-lyrics';
 import { openLyricsSettingsModal } from '/@/renderer/features/lyrics/utils/open-lyrics-settings-modal';
+import { deriveMusicCardSnippetWindow } from '/@/renderer/features/music-cards/api/music-card-snippet-window';
+import { useSaveMusicCard } from '/@/renderer/features/music-cards/hooks/use-save-music-card';
 import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/use-player-events';
 import { useIsRadioActive } from '/@/renderer/features/radio/hooks/use-radio-player';
 import { ComponentErrorBoundary } from '/@/renderer/features/shared/components/component-error-boundary';
 import { queryClient } from '/@/renderer/lib/react-query';
+import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer, useLyricsSettings, usePlayerSong } from '/@/renderer/store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Center } from '/@/shared/components/center/center';
 import { Group } from '/@/shared/components/group/group';
 import { Spinner } from '/@/shared/components/spinner/spinner';
 import { Text } from '/@/shared/components/text/text';
+import { toast } from '/@/shared/components/toast/toast';
 import { useLocalStorage } from '/@/shared/hooks/use-local-storage';
 import { LyricsOverride, ServerType } from '/@/shared/types/domain-types';
 
@@ -73,6 +78,7 @@ type LyricsProps = {
 export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' }: LyricsProps) => {
     const currentSong = usePlayerSong();
     const isRadioActive = useIsRadioActive();
+    const saveMusicCard = useSaveMusicCard();
 
     const isLyricsDisabled = isRadioActive;
 
@@ -87,6 +93,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         translationTargetLanguage,
     } = useLyricsSettings();
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const currentServerType = useCurrentServer()?.type;
     const [index, setIndexState] = useState(0);
     const [translatedLyrics, setTranslatedLyrics] = useState<null | string>(null);
@@ -337,6 +344,48 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
             }
         });
     }, [pickerTarget, rawSyncedLyrics, upsertFuriganaBinding]);
+
+    const handleSaveMusicCard = useCallback(
+        (reading: string) => {
+            if (!currentSong || !pickerTarget || !rawSyncedLyrics) return;
+
+            const snippet = deriveMusicCardSnippetWindow(
+                rawSyncedLyrics,
+                pickerTarget.lineIndex,
+                currentSong.duration * 1000,
+            );
+
+            if (!snippet) {
+                toast.error({ message: t('page.musicCards.saveError') });
+                return;
+            }
+
+            saveMusicCard.mutate(
+                {
+                    charOffset: pickerTarget.charOffset,
+                    endMs: snippet.endMs,
+                    fullLyrics: rawSyncedLyrics.map(getLyricLineText).join('\n'),
+                    kanjiText: pickerTarget.text,
+                    lineIndex: pickerTarget.lineIndex,
+                    mediaFileId: currentSong.id,
+                    reading,
+                    snippetText: snippet.snippetText,
+                    songArtist: currentSong.artistName,
+                    songTitle: currentSong.name,
+                    spanLength: pickerTarget.spanLength,
+                    startMs: snippet.startMs,
+                },
+                {
+                    onError: () => toast.error({ message: t('page.musicCards.saveError') }),
+                    onSuccess: () => {
+                        toast.success({ message: t('page.musicCards.saved') });
+                        setPickerTarget(null);
+                    },
+                },
+            );
+        },
+        [currentSong, pickerTarget, rawSyncedLyrics, saveMusicCard, t],
+    );
 
     const displayLyrics = useMemo(() => {
         if (isLyricsDisabled || !lyrics) return null;
@@ -685,8 +734,10 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                         onApplyToIdentical={handleApplyFuriganaToIdentical}
                         onBind={handleBindFurigana}
                         onClose={handleClosePicker}
+                        onSaveMusicCard={handleSaveMusicCard}
                         onToggleDisplay={handleToggleFuriganaDisplay}
                         onUnbind={handleUnbindFurigana}
+                        savingMusicCard={saveMusicCard.isPending}
                         target={pickerTarget}
                     />
                 )}
@@ -700,6 +751,22 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                     top={0}
                     variant="subtle"
                 />
+                {currentSong && (
+                    <ActionIcon
+                        aria-label={t('page.musicCards.cardsFromSong')}
+                        icon="library"
+                        onClick={() =>
+                            navigate(
+                                `${AppRoute.MUSIC_CARDS}?mediaFileId=${encodeURIComponent(currentSong.id)}`,
+                            )
+                        }
+                        pos="absolute"
+                        right={40}
+                        tooltip={{ label: t('page.musicCards.cardsFromSong') }}
+                        top={0}
+                        variant="subtle"
+                    />
+                )}
                 {isLoadingLyrics ? (
                     <Spinner container />
                 ) : (

@@ -528,6 +528,27 @@
         "radioList": {
             "title": "Radio stations"
         },
+        "musicCards": {
+            "allCards": "All music cards",
+            "cardsFromSong": "Cards from this song",
+            "clipUnavailable": "This saved clip is unavailable.",
+            "contextCount_one": "{{count}} context",
+            "contextCount_other": "{{count}} contexts",
+            "deleteCard": "Delete card",
+            "deleteCardConfirm": "Delete this card and all of its saved contexts?",
+            "deleteSnippet": "Delete context",
+            "deleteSnippetConfirm": "Delete this saved context?",
+            "empty": "Save a kanji from synced lyrics to start your deck.",
+            "emptyForSong": "No music cards have been saved from this song.",
+            "fullLyrics": "Full lyrics",
+            "replay": "Replay clip",
+            "save": "Save to Music Card",
+            "saveError": "Could not save the music card",
+            "saved": "Music card saved",
+            "songRemoved": "Song removed",
+            "stopReplay": "Stop clip",
+            "title": "Music Cards"
+        },
         "releasenotes": {
             "commitsSinceStable": "Commits since {{stable}}",
             "noNewCommits": "No new commits in this range",
@@ -746,6 +767,7 @@
             "folders": "Folders",
             "genres": "Genres",
             "home": "Home",
+            "musicCards": "Music Cards",
             "radio": "Radio Stations",
             "myLibrary": "My Library",
             "nowPlaying": "Now Playing",

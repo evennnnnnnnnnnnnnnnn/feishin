@@ -45,6 +45,7 @@ export const MobileSidebar = () => {
             Favorites: t('page.sidebar.favorites'),
             Genres: t('page.sidebar.genres'),
             Home: t('page.sidebar.home'),
+            'Music Cards': t('page.sidebar.musicCards'),
             'Now Playing': t('page.sidebar.nowPlaying'),
             Playlists: t('page.sidebar.playlists'),
             Search: t('page.sidebar.search'),

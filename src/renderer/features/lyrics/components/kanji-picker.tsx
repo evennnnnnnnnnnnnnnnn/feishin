@@ -35,8 +35,10 @@ interface KanjiPickerProps {
     onApplyToIdentical: () => void;
     onBind: (reading: string) => void;
     onClose: () => void;
+    onSaveMusicCard: (reading: string) => void;
     onToggleDisplay: () => void;
     onUnbind: () => void;
+    savingMusicCard: boolean;
     target: KanjiPickerTarget;
 }
 
@@ -53,7 +55,7 @@ const KANJI_SPAN_SELECTOR = '[data-kanji-offset]';
 const kunReadingToBinding = (reading: string): string => reading.split('.')[0].replaceAll('-', '');
 
 const SectionLabel = ({ children }: { children: ReactNode }) => (
-    <Text fw={600} isMuted style={{ fontSize: '0.8em' }} tt="uppercase">
+    <Text fw={600} isMuted style={{ fontSize: '0.7em', letterSpacing: '0.06em' }} tt="uppercase">
         {children}
     </Text>
 );
@@ -97,8 +99,10 @@ export const KanjiPicker = ({
     onApplyToIdentical,
     onBind,
     onClose,
+    onSaveMusicCard,
     onToggleDisplay,
     onUnbind,
+    savingMusicCard,
     target,
 }: KanjiPickerProps) => {
     const { t } = useTranslation();
@@ -146,6 +150,7 @@ export const KanjiPicker = ({
                     <div className={styles.anchor} style={{ left: target.x, top: target.y }} />
                 </Popover.Target>
                 <Popover.Dropdown
+                    className={styles.dropdown}
                     style={{
                         // Background alpha keeps text crisp at low opacity, unlike a
                         // full-element `opacity` which would also fade the text
@@ -179,6 +184,7 @@ export const KanjiPicker = ({
                         <Group gap="xs" wrap="nowrap">
                             <TextInput
                                 className={styles.readingInput}
+                                classNames={{ input: styles.readingField }}
                                 data-autofocus
                                 onChange={(event) => setReading(event.currentTarget.value)}
                                 onKeyDown={(event) => {
@@ -189,8 +195,22 @@ export const KanjiPicker = ({
                                 placeholder={t('setting.furiganaBindingReadingPlaceholder')}
                                 value={reading}
                             />
-                            <Button disabled={reading.trim() === ''} onClick={bind} size="sm">
+                            <Button
+                                classNames={{ root: styles.bindButton }}
+                                disabled={reading.trim() === ''}
+                                onClick={bind}
+                                size="sm"
+                            >
                                 {target.binding !== null ? t('common.update') : t('common.bind')}
+                            </Button>
+                            <Button
+                                classNames={{ root: styles.bindButton }}
+                                disabled={reading.trim() === ''}
+                                loading={savingMusicCard}
+                                onClick={() => onSaveMusicCard(reading.trim())}
+                                size="sm"
+                            >
+                                {t('page.musicCards.save')}
                             </Button>
                         </Group>
 

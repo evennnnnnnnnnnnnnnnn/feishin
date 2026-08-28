@@ -1009,6 +1009,7 @@ export enum SidebarItem {
     FOLDERS = 'Folders',
     GENRES = 'Genres',
     HOME = 'Home',
+    MUSIC_CARDS = 'Music Cards',
     NOW_PLAYING = 'Now Playing',
     PLAYLISTS = 'Playlists',
     RADIO = 'Radio',
@@ -1163,6 +1164,12 @@ export const sidebarItems: SidebarItemType[] = [
         route: generatePath(AppRoute.SEARCH, { itemType: LibraryItem.SONG }),
     },
     { disabled: false, id: 'Home', label: i18n.t('page.sidebar.home'), route: AppRoute.HOME },
+    {
+        disabled: false,
+        id: 'Music Cards',
+        label: i18n.t('page.sidebar.musicCards'),
+        route: AppRoute.MUSIC_CARDS,
+    },
     {
         disabled: false,
         id: 'Favorites',
@@ -2911,10 +2918,19 @@ export const useSettingsStore = createWithEqualityFn<SettingsSlice>()(
                     }
                 }
 
+                if (version < 34) {
+                    state.general.sidebarItems.push({
+                        disabled: false,
+                        id: 'Music Cards',
+                        label: i18n.t('page.sidebar.musicCards'),
+                        route: AppRoute.MUSIC_CARDS,
+                    });
+                }
+
                 return persistedState;
             },
             name: 'store_settings',
-            version: 33,
+            version: 34,
         },
     ),
 );

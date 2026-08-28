@@ -8,13 +8,32 @@
     pointer-events: none;
 }
 
+/* The card's font size is a setting applied as an ambient px size on the
+   dropdown; everything below is em-relative so the whole card scales with it,
+   including the Mantine controls whose size tokens would otherwise stay fixed */
+.dropdown {
+    padding: 1em;
+}
+
 .reading-input {
     flex: 1 1 0%;
     min-width: 0;
 }
 
+.reading-field {
+    height: 2.4em;
+    min-height: 2.4em;
+    font-size: 0.95em;
+}
+
+.bind-button {
+    height: 2.4em;
+    padding-inline: 1em;
+    font-size: 0.9em;
+}
+
 .readings {
-    max-height: 260px;
+    max-height: 18em;
 }
 
 .chip {

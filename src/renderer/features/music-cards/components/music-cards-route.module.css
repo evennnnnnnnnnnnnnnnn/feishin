@@ -1,0 +1,102 @@
+.page {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.content {
+    flex: 1;
+    min-height: 0;
+}
+
+.card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--theme-spacing-md);
+    padding: var(--theme-spacing-md);
+}
+
+.card {
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+    border: 1px solid var(--theme-colors-border);
+}
+
+.card-button {
+    display: flex;
+    flex: 1;
+    gap: var(--theme-spacing-md);
+    align-items: center;
+    min-width: 0;
+    padding: var(--theme-spacing-md);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+}
+
+.card-button:hover {
+    background: var(--theme-colors-surface-hover);
+}
+
+.kanji {
+    flex: 0 0 auto;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.card-meta {
+    min-width: 0;
+}
+
+.song-names {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-actions {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--theme-spacing-xs);
+}
+
+.detail-heading {
+    min-width: 0;
+}
+
+.detail-kanji {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.snippet {
+    border: 1px solid var(--theme-colors-border);
+}
+
+.snippet-text {
+    font-size: 1.1rem;
+    line-height: 2;
+    white-space: pre-wrap;
+}
+
+.snippet-text ruby {
+    color: var(--theme-colors-primary-filled);
+    ruby-position: over;
+}
+
+.snippet-text rt {
+    font-size: 0.6em;
+    font-weight: 500;
+}
+
+.full-lyrics {
+    max-height: 20rem;
+    overflow: auto;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
