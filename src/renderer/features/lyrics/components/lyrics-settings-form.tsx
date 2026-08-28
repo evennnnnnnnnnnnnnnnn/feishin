@@ -478,6 +478,98 @@ export const LyricsSettingsForm = ({ settingsKey }: LyricsSettingsFormProps) => 
         },
         {
             component: (
+                <Slider
+                    defaultValue={lyricsSettings.kanjiPickerOpacity ?? 100}
+                    label={(value) => `${value}%`}
+                    marks={[
+                        { label: '50%', value: 50 },
+                        { label: '75%', value: 75 },
+                        { label: '100%', value: 100 },
+                    ]}
+                    max={100}
+                    min={50}
+                    onChangeEnd={(value) => {
+                        updateLyricsSetting({ kanjiPickerOpacity: value });
+                    }}
+                    step={1}
+                    w="100%"
+                />
+            ),
+            description: t('setting.kanjiPickerOpacity', {
+                context: 'description',
+            }),
+            id: 'kanjiPickerOpacity',
+            isHidden: !lyricsSettings.enableFurigana,
+            label: t('setting.kanjiPickerOpacity'),
+        },
+        {
+            component: (
+                <Slider
+                    defaultValue={lyricsSettings.kanjiPickerFontSize ?? 14}
+                    label={(value) => `${value}px`}
+                    marks={[
+                        { label: '12', value: 12 },
+                        { label: '16', value: 16 },
+                        { label: '20', value: 20 },
+                    ]}
+                    max={20}
+                    min={12}
+                    onChangeEnd={(value) => {
+                        updateLyricsSetting({ kanjiPickerFontSize: value });
+                    }}
+                    step={1}
+                    w="100%"
+                />
+            ),
+            description: t('setting.kanjiPickerFontSize', {
+                context: 'description',
+            }),
+            id: 'kanjiPickerFontSize',
+            isHidden: !lyricsSettings.enableFurigana,
+            label: t('setting.kanjiPickerFontSize'),
+        },
+        {
+            component: (
+                <Slider
+                    defaultValue={lyricsSettings.kanjiPickerWidth ?? 340}
+                    label={(value) => `${value}px`}
+                    marks={[
+                        { label: '280', value: 280 },
+                        { label: '340', value: 340 },
+                        { label: '480', value: 480 },
+                    ]}
+                    max={480}
+                    min={280}
+                    onChangeEnd={(value) => {
+                        updateLyricsSetting({ kanjiPickerWidth: value });
+                    }}
+                    step={10}
+                    w="100%"
+                />
+            ),
+            description: t('setting.kanjiPickerWidth', {
+                context: 'description',
+            }),
+            id: 'kanjiPickerWidth',
+            isHidden: !lyricsSettings.enableFurigana,
+            label: t('setting.kanjiPickerWidth'),
+        },
+        {
+            component: (
+                <ListConfigBooleanControl
+                    onChange={(value) => updateLyricsSetting({ kanjiPickerShowMeanings: value })}
+                    value={lyricsSettings.kanjiPickerShowMeanings ?? true}
+                />
+            ),
+            description: t('setting.kanjiPickerShowMeanings', {
+                context: 'description',
+            }),
+            id: 'kanjiPickerShowMeanings',
+            isHidden: !lyricsSettings.enableFurigana,
+            label: t('setting.kanjiPickerShowMeanings'),
+        },
+        {
+            component: (
                 <ListConfigBooleanControl
                     onChange={(value) => {
                         updateLyricsSetting({ enableNeteaseTranslation: value });
