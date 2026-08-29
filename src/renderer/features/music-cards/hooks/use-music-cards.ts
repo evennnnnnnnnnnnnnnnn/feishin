@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import { api } from '/@/renderer/api';
 import { MusicCard } from '/@/renderer/features/music-cards/api/music-card-model';
@@ -35,6 +35,7 @@ export const useMusicCards = (): {
     const { reconcile } = useMusicCardsStoreActions();
 
     const serverId = server?.id;
+    const userId = server?.userId ?? null;
     const enabled = !!serverId && server?.type === ServerType.NAVIDROME;
 
     const query = useQuery({
@@ -53,12 +54,22 @@ export const useMusicCards = (): {
     useEffect(() => {
         if (!serverId || !serverCards) return;
 
-        reconcile(serverId, serverCards);
-    }, [reconcile, serverCards, serverId]);
+        reconcile(serverId, userId, serverCards);
+    }, [reconcile, serverCards, serverId, userId]);
+
+    // Two accounts on one machine share a server entry, so a card on the current
+    // server has to belong to the current account. Cards held against any other
+    // server are shown as before - that is what makes the deck standalone.
+    const visibleCards = useMemo(
+        () => cards.filter((card) => card.serverId !== serverId || card.userId === userId),
+        [cards, serverId, userId],
+    );
 
     // One orphan sweep per mount: drop stored clips no snippet in the hydrated
     // local deck references (cleared store, interrupted deletes). Runs against
     // the deck as it stood on mount, before any save this visit could race it.
+    // Deliberately the whole deck, not visibleCards - sweeping the visible slice
+    // would delete the other account's clips.
     const sweptRef = useRef(false);
     useEffect(() => {
         if (sweptRef.current) return;
@@ -70,7 +81,7 @@ export const useMusicCards = (): {
     }, [cards]);
 
     return {
-        cards,
+        cards: visibleCards,
         error: query.error,
         isError: query.isError,
         isFetching: query.isFetching,

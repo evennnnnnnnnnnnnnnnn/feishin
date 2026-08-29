@@ -19,8 +19,12 @@ export interface MusicCardsSlice extends MusicCardsState {
 }
 
 interface MusicCardsActions {
-    /** Merge one server's cards into the local deck - see reconcileMusicCards */
-    reconcile: (serverId: string, serverCards: MusicCardWithSnippetsDto[]) => void;
+    /** Merge one account's cards on one server into the local deck - see reconcileMusicCards */
+    reconcile: (
+        serverId: string,
+        userId: null | string,
+        serverCards: MusicCardWithSnippetsDto[],
+    ) => void;
     removeCard: (cardId: string) => void;
     removeSnippet: (cardId: string, snippetId: string) => void;
     /** Create or update a card locally and append/replace one of its snippets */
@@ -30,6 +34,7 @@ interface MusicCardsActions {
         kanjiText: string;
         serverId: string;
         snippet: MusicCardSnippet;
+        userId: null | string;
     }) => void;
 }
 
@@ -41,9 +46,14 @@ export const useMusicCardsStore = createWithEqualityFn<MusicCardsSlice>()(
     persist(
         immer((set) => ({
             actions: {
-                reconcile: (serverId, serverCards) => {
+                reconcile: (serverId, userId, serverCards) => {
                     set((state) => {
-                        state.cards = reconcileMusicCards(state.cards, serverCards, serverId);
+                        state.cards = reconcileMusicCards(
+                            state.cards,
+                            serverCards,
+                            serverId,
+                            userId,
+                        );
                     });
                 },
                 removeCard: (cardId) => {
@@ -61,7 +71,7 @@ export const useMusicCardsStore = createWithEqualityFn<MusicCardsSlice>()(
                         card.songRemoved = card.snippets.some((snippet) => snippet.songRemoved);
                     });
                 },
-                saveSnippet: ({ cardId, createdAt, kanjiText, serverId, snippet }) => {
+                saveSnippet: ({ cardId, createdAt, kanjiText, serverId, snippet, userId }) => {
                     set((state) => {
                         const existing = state.cards.find((card) => card.id === cardId);
 
@@ -75,10 +85,15 @@ export const useMusicCardsStore = createWithEqualityFn<MusicCardsSlice>()(
                                     serverId,
                                     snippets: [snippet],
                                     songRemoved: false,
+                                    userId,
                                 },
                             ]);
                             return;
                         }
+
+                        // The id came back from the server for this account, so
+                        // a legacy card at that id is this account's.
+                        existing.userId = userId;
 
                         const index = existing.snippets.findIndex(
                             (entry) => entry.id === snippet.id,
@@ -97,9 +112,21 @@ export const useMusicCardsStore = createWithEqualityFn<MusicCardsSlice>()(
             cards: [],
         })),
         {
+            // v1 decks predate user scoping: tag them null rather than guess an
+            // owner, so they stay hidden until a reconcile claims them.
+            migrate: (persisted, version) => {
+                const state = persisted as { cards?: MusicCard[] };
+
+                if (version >= 2) return state;
+
+                return {
+                    ...state,
+                    cards: (state.cards ?? []).map((card) => ({ ...card, userId: null })),
+                };
+            },
             name: 'store_music_cards',
             partialize: (state) => ({ cards: state.cards }),
-            version: 1,
+            version: 2,
         },
     ),
 );

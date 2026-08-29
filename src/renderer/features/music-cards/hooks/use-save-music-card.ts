@@ -52,6 +52,7 @@ export const useSaveMusicCard = () => {
     return useMutation({
         mutationFn: async (input: SaveMusicCardInput): Promise<SaveMusicCardResult> => {
             const serverId = server?.id;
+            const userId = server?.userId ?? null;
 
             if (!serverId || server?.type !== ServerType.NAVIDROME) {
                 return Promise.reject(new Error('No Navidrome server to save a music card to'));
@@ -117,6 +118,7 @@ export const useSaveMusicCard = () => {
                     kanjiText: input.kanjiText,
                     serverId,
                     snippet,
+                    userId,
                 });
 
                 return { cardId: card.id, clipStored, snippet };
@@ -149,6 +151,7 @@ export const useSaveMusicCard = () => {
                 kanjiText: input.kanjiText,
                 serverId,
                 snippet,
+                userId,
             });
 
             return { cardId: card.id, clipStored, snippet };

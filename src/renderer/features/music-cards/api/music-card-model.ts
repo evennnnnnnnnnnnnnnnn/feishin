@@ -10,6 +10,13 @@ export type MusicCard = {
     snippets: MusicCardSnippet[];
     /** True when the card itself, or any of its snippets, no longer exists server-side */
     songRemoved: boolean;
+    /**
+     * Which account on that server owns this card. Two accounts on one machine
+     * share a server entry, so serverId alone does not separate their decks.
+     * Null on cards stored before the deck was user-scoped: they stay hidden
+     * until a reconcile matches one to a server row and claims it.
+     */
+    userId: null | string;
 };
 
 /**
@@ -80,18 +87,21 @@ export const sortMusicCards = (cards: MusicCard[]): MusicCard[] =>
  * While a song exists the server is the source of truth, so server rows
  * overwrite their local copies. Local rows the server no longer has are kept
  * and flagged `songRemoved` rather than deleted - that flag is what makes the
- * deck standalone. Cards belonging to other servers are passed through
- * untouched.
+ * deck standalone. Cards belonging to other servers, or to another account on
+ * this one, are passed through untouched.
  */
 export const reconcileMusicCards = (
     localCards: MusicCard[],
     serverCards: MusicCardWithSnippetsDto[],
     serverId: string,
+    userId: null | string,
 ): MusicCard[] => {
-    const otherServerCards = localCards.filter((card) => card.serverId !== serverId);
-    const localById = new Map(
-        localCards.filter((card) => card.serverId === serverId).map((card) => [card.id, card]),
-    );
+    // Legacy cards (userId null) join this deck so a matching server row can
+    // claim them below. Unclaimed ones stay null, and stay hidden.
+    const inThisDeck = (card: MusicCard) =>
+        card.serverId === serverId && (card.userId === userId || card.userId === null);
+    const otherDeckCards = localCards.filter((card) => !inThisDeck(card));
+    const localById = new Map(localCards.filter(inThisDeck).map((card) => [card.id, card]));
 
     const reconciled: MusicCard[] = serverCards.map((dto) => {
         const local = localById.get(dto.id);
@@ -115,6 +125,7 @@ export const reconcileMusicCards = (
             serverId,
             snippets,
             songRemoved: snippets.some((snippet) => snippet.songRemoved),
+            userId,
         };
     });
 
@@ -129,7 +140,7 @@ export const reconcileMusicCards = (
     // card the local deck saw before and after a server re-add, not two.
     const thisServerCards = [...reconciled, ...orphanedCards];
     const claimedIds = new Set(thisServerCards.map((card) => card.id));
-    const foreignCards = otherServerCards.filter((card) => {
+    const foreignCards = otherDeckCards.filter((card) => {
         if (claimedIds.has(card.id)) return false;
 
         claimedIds.add(card.id);
