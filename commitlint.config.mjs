@@ -13,6 +13,7 @@ const config = {
                 'i18n',
                 'library',
                 'lyrics',
+                'music-cards',
                 'player',
                 'radio',
                 'release',
