@@ -1,14 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 
 import styles from './music-cards-route.module.css';
 
-import { api } from '/@/renderer/api';
 import { PageHeader } from '/@/renderer/components/page-header/page-header';
 import {
+    cardsForMediaFile,
     MusicCard,
-    MusicCardSnippet,
     snippetHasAudio,
 } from '/@/renderer/features/music-cards/api/music-card-model';
 import {
@@ -22,12 +21,11 @@ import {
 } from '/@/renderer/features/music-cards/hooks/use-delete-music-card';
 import { useMusicCardReviews } from '/@/renderer/features/music-cards/hooks/use-music-card-reviews';
 import { useMusicCards } from '/@/renderer/features/music-cards/hooks/use-music-cards';
-import { useSnippetClipUrl } from '/@/renderer/features/music-cards/hooks/use-snippet-clip-url';
-import { convertToLogVolume } from '/@/renderer/features/player/audio-player/utils/player-utils';
+import { useSnippetPlayback } from '/@/renderer/features/music-cards/hooks/use-snippet-playback';
 import { AnimatedPage } from '/@/renderer/features/shared/components/animated-page';
 import { LibraryHeaderBar } from '/@/renderer/features/shared/components/library-header-bar';
 import { PageErrorBoundary } from '/@/renderer/features/shared/components/page-error-boundary';
-import { useCurrentServer, usePlayerMuted, usePlayerVolume } from '/@/renderer/store';
+import { useCurrentServer } from '/@/renderer/store';
 import { Accordion } from '/@/shared/components/accordion/accordion';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Badge } from '/@/shared/components/badge/badge';
@@ -56,52 +54,10 @@ const MusicCardsRoute = () => {
     const deleteSnippet = useDeleteMusicCardSnippet();
     const [selectedCardId, setSelectedCardId] = useState<null | string>(null);
     const [reviewQueue, setReviewQueue] = useState<MusicCard[] | null>(null);
-    const [playingSnippetId, setPlayingSnippetId] = useState<string>();
-    const clipUrl = useSnippetClipUrl(playingSnippetId);
-    const audioRef = useRef<HTMLAudioElement | undefined>(undefined);
-    const fadeRafRef = useRef<number | undefined>(undefined);
-    const fallbackStartedRef = useRef(false);
-    const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-    const lastClipUrlRef = useRef<null | string>(null);
-    const replayRequestRef = useRef<null | string>(null);
-    const stopTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-    const playerVolume = usePlayerVolume();
-    const playerMuted = usePlayerMuted();
-    const targetVolumeRef = useRef(0);
-    targetVolumeRef.current = playerMuted ? 0 : convertToLogVolume(playerVolume / 100 || 0);
-
-    // Fade the snippet in/out inside its [startS, endS] window, tracking the app
-    // volume live. rAF-driven because timeupdate is too coarse for a 250ms ramp.
-    const startFadeEnvelope = useCallback(
-        (audio: HTMLAudioElement, startS: number, endSOverride?: number) => {
-            const FADE_S = 0.25;
-
-            cancelAnimationFrame(fadeRafRef.current ?? 0);
-
-            const tick = () => {
-                if (audioRef.current !== audio || audio.paused) return;
-
-                const endS =
-                    endSOverride ?? (Number.isFinite(audio.duration) ? audio.duration : Infinity);
-                const fadeIn = (audio.currentTime - startS) / FADE_S;
-                const fadeOut = (endS - audio.currentTime) / FADE_S;
-                audio.volume = targetVolumeRef.current * Math.max(0, Math.min(1, fadeIn, fadeOut));
-                fadeRafRef.current = requestAnimationFrame(tick);
-            };
-
-            audio.volume = 0;
-            fadeRafRef.current = requestAnimationFrame(tick);
-        },
-        [],
-    );
+    const { playingSnippetId, stopReplay, toggleReplay } = useSnippetPlayback();
 
     const filteredCards = useMemo(
-        () =>
-            mediaFileId
-                ? cards.filter((card) =>
-                      card.snippets.some((snippet) => snippet.mediaFileId === mediaFileId),
-                  )
-                : cards,
+        () => (mediaFileId ? cardsForMediaFile(cards, mediaFileId) : cards),
         [cards, mediaFileId],
     );
     const selectedCard = filteredCards.find((card) => card.id === selectedCardId) ?? null;
@@ -141,117 +97,6 @@ const MusicCardsRoute = () => {
 
         return [...due.map((entry) => entry.card), ...fresh];
     }, [cards, fetchedAt, reviewsByCardId, reviewsEnabled, reviewsUnavailable, serverId]);
-
-    const stopReplay = useCallback(() => {
-        clearTimeout(fallbackTimerRef.current);
-        clearTimeout(stopTimerRef.current);
-        cancelAnimationFrame(fadeRafRef.current ?? 0);
-        audioRef.current?.pause();
-        replayRequestRef.current = null;
-        setPlayingSnippetId(undefined);
-    }, []);
-
-    useEffect(() => {
-        const audio = new Audio();
-
-        audio.addEventListener('ended', stopReplay);
-        audioRef.current = audio;
-
-        return () => {
-            clearTimeout(fallbackTimerRef.current);
-            clearTimeout(stopTimerRef.current);
-            cancelAnimationFrame(fadeRafRef.current ?? 0);
-            audio.pause();
-            audio.removeAttribute('src');
-            audio.load();
-            audio.removeEventListener('ended', stopReplay);
-            audioRef.current = undefined;
-        };
-    }, [stopReplay]);
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (
-            !audio ||
-            !playingSnippetId ||
-            !clipUrl ||
-            fallbackStartedRef.current ||
-            clipUrl === lastClipUrlRef.current
-        ) {
-            return;
-        }
-
-        clearTimeout(fallbackTimerRef.current);
-        lastClipUrlRef.current = clipUrl;
-        audio.src = clipUrl;
-        audio.currentTime = 0;
-        startFadeEnvelope(audio, 0);
-        audio.play().catch(stopReplay);
-    }, [clipUrl, playingSnippetId, startFadeEnvelope, stopReplay]);
-
-    const toggleReplay = useCallback(
-        (card: MusicCard, snippet: MusicCardSnippet) => {
-            // Saved from untimed lyrics: no window, so nothing to replay. The
-            // controls are already hidden for such a snippet; this is the guard
-            // that keeps a stray call from seeking to 0 and stopping instantly.
-            if (!snippetHasAudio(snippet)) return;
-
-            if (snippet.id === playingSnippetId) {
-                stopReplay();
-                return;
-            }
-
-            stopReplay();
-            fallbackStartedRef.current = false;
-            replayRequestRef.current = snippet.id;
-            setPlayingSnippetId(snippet.id);
-
-            fallbackTimerRef.current = setTimeout(async () => {
-                if (replayRequestRef.current !== snippet.id) return;
-
-                if (snippet.songRemoved) {
-                    toast.error({ message: t('page.musicCards.clipUnavailable') });
-                    stopReplay();
-                    return;
-                }
-
-                fallbackStartedRef.current = true;
-
-                try {
-                    const streamUrl = await api.controller.getStreamUrl({
-                        apiClientProps: { serverId: card.serverId },
-                        query: {
-                            id: snippet.mediaFileId,
-                            transcode: false,
-                        },
-                    });
-                    const audio = audioRef.current;
-
-                    if (!audio || replayRequestRef.current !== snippet.id) return;
-
-                    const play = () => {
-                        if (replayRequestRef.current !== snippet.id) return;
-
-                        audio.currentTime = snippet.startMs / 1000;
-                        startFadeEnvelope(audio, snippet.startMs / 1000, snippet.endMs / 1000);
-                        audio.play().catch(stopReplay);
-                        stopTimerRef.current = setTimeout(
-                            stopReplay,
-                            snippet.endMs - snippet.startMs,
-                        );
-                    };
-
-                    audio.addEventListener('loadedmetadata', play, { once: true });
-                    audio.src = streamUrl;
-                    audio.load();
-                } catch {
-                    toast.error({ message: t('page.musicCards.clipUnavailable') });
-                    stopReplay();
-                }
-            }, 400);
-        },
-        [playingSnippetId, startFadeEnvelope, stopReplay, t],
-    );
 
     const confirmDeleteCard = useCallback(
         (card: MusicCard) => {

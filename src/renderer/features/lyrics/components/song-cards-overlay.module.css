@@ -1,0 +1,52 @@
+.dropdown {
+    padding: 0.75rem;
+    backdrop-filter: blur(8px);
+}
+
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 22rem;
+    overflow-y: auto;
+}
+
+.card-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.5rem;
+    border-radius: var(--theme-radius-sm, 4px);
+
+    &:hover {
+        background: color-mix(in srgb, var(--theme-colors-foreground) 8%, transparent);
+    }
+}
+
+.kanji {
+    flex-shrink: 0;
+    font-size: 1.6em;
+    line-height: 1.2;
+}
+
+.card-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.snippet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.snippet-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.snippet-text {
+    flex: 1;
+    min-width: 0;
+}
