@@ -123,6 +123,13 @@ const getLibraryId = (musicFolderId?: string | string[]): string[] | undefined =
 const getArtistSongKey = (server: null | ServerListItemWithCredential) =>
     hasFeature(server, ServerFeature.TRACK_ALBUM_ARTIST_SEARCH) ? 'artists_id' : 'album_artist_id';
 
+// ts-rest widens the body of a non-2xx branch, so the plain-text error the server sends has
+// to be dug out by hand.
+const serverErrorMessage = (body: unknown): string | undefined => {
+    const data = (body as undefined | { data?: unknown })?.data;
+    return typeof data === 'string' && data.trim() ? data.trim() : undefined;
+};
+
 export const NavidromeController: InternalControllerEndpoint = {
     addToPlaylist: async (args) => {
         const { apiClientProps, body, query } = args;
@@ -200,6 +207,23 @@ export const NavidromeController: InternalControllerEndpoint = {
         return {
             id: res.body.data.id,
         };
+    },
+    deleteAlbumsFromLibrary: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteAlbumsFromLibrary({
+            query: { id: query.ids },
+        });
+
+        if (res.status !== 200) {
+            // The server explains refusals in plain text (feature off, not an admin, unsafe
+            // path). Pass it through so the toast says something actionable.
+            throw new Error(
+                serverErrorMessage(res.body) ?? 'Failed to delete albums from the library',
+            );
+        }
+
+        return res.body.data;
     },
     deleteArtistImage: async (args: DeleteArtistImageArgs): Promise<DeleteArtistImageResponse> => {
         const { apiClientProps, query } = args;
@@ -340,6 +364,23 @@ export const NavidromeController: InternalControllerEndpoint = {
         }
 
         return res.body.data.status === 'ok';
+    },
+    deleteSongsFromLibrary: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteSongsFromLibrary({
+            query: { id: query.ids },
+        });
+
+        if (res.status !== 200) {
+            // The server explains refusals in plain text (feature off, not an admin, unsafe
+            // path). Pass it through so the toast says something actionable.
+            throw new Error(
+                serverErrorMessage(res.body) ?? 'Failed to delete songs from the library',
+            );
+        }
+
+        return res.body.data;
     },
     getAlbumArtistDetail: async (args) => {
         const { apiClientProps, query } = args;

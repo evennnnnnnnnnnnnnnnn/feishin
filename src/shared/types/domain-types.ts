@@ -1565,6 +1565,7 @@ export type ControllerEndpoint = {
         args: CreateMusicCardSnippetArgs,
     ) => Promise<CreateMusicCardSnippetResponse>;
     createPlaylist: (args: CreatePlaylistArgs) => Promise<CreatePlaylistResponse>;
+    deleteAlbumsFromLibrary?: (args: DeleteFromLibraryArgs) => Promise<DeleteFromLibraryResponse>;
     deleteArtistImage?: (args: DeleteArtistImageArgs) => Promise<DeleteArtistImageResponse>;
     deleteFavorite: (args: FavoriteArgs) => Promise<FavoriteResponse>;
     deleteFuriganaBinding?: (
@@ -1585,6 +1586,7 @@ export type ControllerEndpoint = {
     ) => Promise<DeleteMusicCardSnippetResponse>;
     deletePlaylist: (args: DeletePlaylistArgs) => Promise<DeletePlaylistResponse>;
     deletePlaylistImage?: (args: DeletePlaylistImageArgs) => Promise<DeletePlaylistImageResponse>;
+    deleteSongsFromLibrary?: (args: DeleteFromLibraryArgs) => Promise<DeleteFromLibraryResponse>;
     getAlbumArtistDetail: (args: AlbumArtistDetailArgs) => Promise<AlbumArtistDetailResponse>;
     getAlbumArtistInfo?: (args: AlbumArtistInfoArgs) => Promise<AlbumArtistInfoResponse | null>;
     getAlbumArtistList: (args: AlbumArtistListArgs) => Promise<AlbumArtistListResponse>;
@@ -1672,6 +1674,12 @@ export type CreateMusicCardSnippetArgs = BaseEndpointArgs & {
 
 // Same generic-REST caveat as furigana bindings: only {id} comes back.
 export type CreateMusicCardSnippetResponse = { id: string };
+
+// Admin-only removal of media from the server library. The server moves the files into its
+// trash folder and drops their rows.
+export type DeleteFromLibraryArgs = BaseEndpointArgs & { query: { ids: string[] } };
+
+export type DeleteFromLibraryResponse = { count: number; ids: string[]; trashFolder: string };
 
 export type DeleteFuriganaBindingArgs = BaseEndpointArgs & { query: { id: string } };
 
@@ -1786,6 +1794,9 @@ export type InternalControllerEndpoint = {
     createPlaylist: (
         args: ReplaceApiClientProps<CreatePlaylistArgs>,
     ) => Promise<CreatePlaylistResponse>;
+    deleteAlbumsFromLibrary?: (
+        args: ReplaceApiClientProps<DeleteFromLibraryArgs>,
+    ) => Promise<DeleteFromLibraryResponse>;
     deleteArtistImage?: (
         args: ReplaceApiClientProps<DeleteArtistImageArgs>,
     ) => Promise<DeleteArtistImageResponse>;
@@ -1814,6 +1825,9 @@ export type InternalControllerEndpoint = {
     deletePlaylistImage?: (
         args: ReplaceApiClientProps<DeletePlaylistImageArgs>,
     ) => Promise<DeletePlaylistImageResponse>;
+    deleteSongsFromLibrary?: (
+        args: ReplaceApiClientProps<DeleteFromLibraryArgs>,
+    ) => Promise<DeleteFromLibraryResponse>;
     getAlbumArtistDetail: (
         args: ReplaceApiClientProps<AlbumArtistDetailArgs>,
     ) => Promise<AlbumArtistDetailResponse>;

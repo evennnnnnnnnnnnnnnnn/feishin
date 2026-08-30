@@ -56,6 +56,21 @@ export const contract = c.router({
             500: resultWithHeaders(ndType._response.error),
         },
     },
+    // Admin-only, and only when the server has Deletion.Enabled. Both routes answer 403 when
+    // either condition is unmet, so callers must hide the affordance rather than rely on it.
+    deleteAlbumsFromLibrary: {
+        body: null,
+        method: 'DELETE',
+        path: 'deletion/album',
+        query: ndType._parameters.deleteFromLibrary,
+        responses: {
+            200: resultWithHeaders(ndType._response.deleteFromLibrary),
+            400: resultWithHeaders(ndType._response.error),
+            403: resultWithHeaders(ndType._response.error),
+            404: resultWithHeaders(ndType._response.error),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
     deleteArtistImage: {
         body: null,
         method: 'DELETE',
@@ -135,6 +150,19 @@ export const contract = c.router({
         path: 'playlist/:id/image',
         responses: {
             200: resultWithHeaders(ndType._response.deletePlaylistImage),
+            500: resultWithHeaders(ndType._response.error),
+        },
+    },
+    deleteSongsFromLibrary: {
+        body: null,
+        method: 'DELETE',
+        path: 'deletion/song',
+        query: ndType._parameters.deleteFromLibrary,
+        responses: {
+            200: resultWithHeaders(ndType._response.deleteFromLibrary),
+            400: resultWithHeaders(ndType._response.error),
+            403: resultWithHeaders(ndType._response.error),
+            404: resultWithHeaders(ndType._response.error),
             500: resultWithHeaders(ndType._response.error),
         },
     },
