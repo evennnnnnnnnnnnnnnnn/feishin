@@ -850,7 +850,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                     />
                 )}
                 <ActionIcon
-                    className={styles.settingsIcon}
+                    className={styles.overlayIcon}
                     icon="settings2"
                     iconProps={{ size: 'lg' }}
                     onClick={handleOpenSettings}
@@ -862,7 +862,9 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                 {currentSong && (
                     <ActionIcon
                         aria-label={t('page.musicCards.cardsFromSong')}
+                        className={styles.overlayIcon}
                         icon="library"
+                        iconProps={{ size: 'lg' }}
                         onClick={() =>
                             navigate(
                                 `${AppRoute.MUSIC_CARDS}?mediaFileId=${encodeURIComponent(currentSong.id)}`,
