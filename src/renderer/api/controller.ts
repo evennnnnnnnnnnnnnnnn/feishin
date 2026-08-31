@@ -283,6 +283,18 @@ export const controller: GeneralController = {
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },
+    deleteAlbumsFromLibrary(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: deleteAlbumsFromLibrary`);
+        }
+
+        return apiController(
+            'deleteAlbumsFromLibrary',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
     deleteArtistImage(args) {
         const server = getServerById(args.apiClientProps.serverId);
 
@@ -400,6 +412,18 @@ export const controller: GeneralController = {
 
         return apiController(
             'deletePlaylistImage',
+            server.type,
+        )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
+    },
+    deleteSongsFromLibrary(args) {
+        const server = getServerById(args.apiClientProps.serverId);
+
+        if (!server) {
+            throw new Error(`${i18n.t('error.apiRouteError')}: deleteSongsFromLibrary`);
+        }
+
+        return apiController(
+            'deleteSongsFromLibrary',
             server.type,
         )?.(addContext({ ...args, apiClientProps: { ...args.apiClientProps, server } }));
     },

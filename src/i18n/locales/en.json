@@ -11,6 +11,7 @@
         "createPlaylist": "Create $t(entity.playlist, {\"count\": 1})",
         "createPlaylistFromQueue": "Create $t(entity.playlist, {\"count\": 1}) from queue",
         "createRadioStation": "Create $t(entity.radioStation, {\"count\": 1})",
+        "deleteFromLibrary": "Delete from library",
         "deletePlaylist": "Delete $t(entity.playlist, {\"count\": 1})",
         "deleteRadioStation": "Delete $t(entity.radioStation, {\"count\": 1})",
         "selectAll": "Select all",
@@ -364,6 +365,15 @@
             "success": "Server added successfully",
             "title": "Add Server"
         },
+        "deleteFromLibrary": {
+            "albumDescription_one": "This moves every track of this album out of the music folder into the server's trash folder and removes it from the library, along with play counts and ratings. A rescan will not bring it back.",
+            "albumDescription_other": "This moves every track of these {{count}} albums out of the music folder into the server's trash folder and removes them from the library, along with play counts and ratings. A rescan will not bring them back.",
+            "songDescription_one": "This moves the audio file out of the music folder into the server's trash folder and removes it from the library, along with play counts and ratings. A rescan will not bring it back.",
+            "songDescription_other": "This moves {{count}} audio files out of the music folder into the server's trash folder and removes them from the library, along with play counts and ratings. A rescan will not bring them back.",
+            "success_one": "Moved {{count}} file to the server's trash",
+            "success_other": "Moved {{count}} files to the server's trash",
+            "title": "Delete from library"
+        },
         "largeFetchConfirmation": {
             "title": "Add items to the queue",
             "description": "This action will add all items in the current filtered view"
@@ -563,6 +573,7 @@
             "gradeError": "Could not save the review",
             "gradeGood": "Good",
             "gradeHard": "Hard",
+            "manageInDeck": "Manage in deck",
             "newCard": "New card",
             "replay": "Replay clip",
             "reviewComplete": "Review session complete",
@@ -629,6 +640,7 @@
             "addToFavorites": "$t(action.addToFavorites)",
             "addToPlaylist": "$t(action.addToPlaylist)",
             "createPlaylist": "$t(action.createPlaylist)",
+            "deleteFromLibrary": "$t(action.deleteFromLibrary)",
             "deletePlaylist": "$t(action.deletePlaylist)",
             "deselectAll": "$t(action.deselectAll)",
             "download": "Download",

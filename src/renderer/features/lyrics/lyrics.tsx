@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 
 import styles from './lyrics.module.css';
 
@@ -32,6 +31,7 @@ import {
     KanjiPickerTarget,
 } from '/@/renderer/features/lyrics/components/kanji-picker';
 import { openLyricsExportModal } from '/@/renderer/features/lyrics/components/lyrics-export-form';
+import { SongCardsOverlay } from '/@/renderer/features/lyrics/components/song-cards-overlay';
 import {
     WordInfoPopover,
     WordInfoTarget,
@@ -66,7 +66,6 @@ import { usePlayerEvents } from '/@/renderer/features/player/audio-player/hooks/
 import { useIsRadioActive } from '/@/renderer/features/radio/hooks/use-radio-player';
 import { ComponentErrorBoundary } from '/@/renderer/features/shared/components/component-error-boundary';
 import { queryClient } from '/@/renderer/lib/react-query';
-import { AppRoute } from '/@/renderer/router/routes';
 import { useCurrentServer, useLyricsSettings, usePlayerSong } from '/@/renderer/store';
 import { useIsAdmin } from '/@/renderer/store/auth.store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
@@ -103,7 +102,6 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
         translationTargetLanguage,
     } = useLyricsSettings();
     const { t } = useTranslation();
-    const navigate = useNavigate();
     const currentServerType = useCurrentServer()?.type;
     const [index, setIndexState] = useState(0);
     const [translatedLyrics, setTranslatedLyrics] = useState<null | string>(null);
@@ -850,7 +848,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                     />
                 )}
                 <ActionIcon
-                    className={styles.settingsIcon}
+                    className={styles.overlayIcon}
                     icon="settings2"
                     iconProps={{ size: 'lg' }}
                     onClick={handleOpenSettings}
@@ -860,20 +858,7 @@ export const Lyrics = ({ fadeOutNoLyricsMessage = true, settingsKey = 'default' 
                     variant="subtle"
                 />
                 {currentSong && (
-                    <ActionIcon
-                        aria-label={t('page.musicCards.cardsFromSong')}
-                        icon="library"
-                        onClick={() =>
-                            navigate(
-                                `${AppRoute.MUSIC_CARDS}?mediaFileId=${encodeURIComponent(currentSong.id)}`,
-                            )
-                        }
-                        pos="absolute"
-                        right={40}
-                        tooltip={{ label: t('page.musicCards.cardsFromSong') }}
-                        top={0}
-                        variant="subtle"
-                    />
+                    <SongCardsOverlay className={styles.overlayIcon} mediaFileId={currentSong.id} />
                 )}
                 {isLoadingLyrics ? (
                     <Spinner container />

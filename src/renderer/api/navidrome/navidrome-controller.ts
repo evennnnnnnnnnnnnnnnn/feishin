@@ -3,6 +3,7 @@ import { set } from 'idb-keyval';
 import orderBy from 'lodash/orderBy';
 
 import { ndApiClient, ndGetMusicCardClip } from '/@/renderer/api/navidrome/navidrome-api';
+import { serverErrorMessage } from '/@/renderer/api/navidrome/navidrome-error-message';
 import { ssApiClient } from '/@/renderer/api/subsonic/subsonic-api';
 import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller';
 import { ndNormalize } from '/@/shared/api/navidrome/navidrome-normalize';
@@ -201,6 +202,23 @@ export const NavidromeController: InternalControllerEndpoint = {
             id: res.body.data.id,
         };
     },
+    deleteAlbumsFromLibrary: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteAlbumsFromLibrary({
+            query: { id: query.ids },
+        });
+
+        if (res.status !== 200) {
+            // The server explains refusals in a JSON `message` (feature off, not an admin,
+            // unsafe path). Pass it through so the toast says something actionable.
+            throw new Error(
+                serverErrorMessage(res.body) ?? 'Failed to delete albums from the library',
+            );
+        }
+
+        return res.body.data;
+    },
     deleteArtistImage: async (args: DeleteArtistImageArgs): Promise<DeleteArtistImageResponse> => {
         const { apiClientProps, query } = args;
 
@@ -340,6 +358,23 @@ export const NavidromeController: InternalControllerEndpoint = {
         }
 
         return res.body.data.status === 'ok';
+    },
+    deleteSongsFromLibrary: async (args) => {
+        const { apiClientProps, query } = args;
+
+        const res = await ndApiClient(apiClientProps).deleteSongsFromLibrary({
+            query: { id: query.ids },
+        });
+
+        if (res.status !== 200) {
+            // The server explains refusals in a JSON `message` (feature off, not an admin,
+            // unsafe path). Pass it through so the toast says something actionable.
+            throw new Error(
+                serverErrorMessage(res.body) ?? 'Failed to delete songs from the library',
+            );
+        }
+
+        return res.body.data;
     },
     getAlbumArtistDetail: async (args) => {
         const { apiClientProps, query } = args;

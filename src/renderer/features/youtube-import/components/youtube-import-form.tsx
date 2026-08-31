@@ -6,14 +6,14 @@ import { useTranslation } from 'react-i18next';
 
 import i18n from '/@/i18n/i18n';
 import { api } from '/@/renderer/api';
-import { useCurrentServer } from '/@/renderer/store';
+import { useCurrentServer, useIsNavidromeAdmin } from '/@/renderer/store';
 import { Button } from '/@/shared/components/button/button';
 import { Group } from '/@/shared/components/group/group';
 import { Stack } from '/@/shared/components/stack/stack';
 import { TextInput } from '/@/shared/components/text-input/text-input';
 import { Text } from '/@/shared/components/text/text';
 import { toast } from '/@/shared/components/toast/toast';
-import { ServerType, YoutubeImportResponse } from '/@/shared/types/domain-types';
+import { YoutubeImportResponse } from '/@/shared/types/domain-types';
 
 /**
  * Import a track from a YouTube URL. The whole pipeline runs on the Navidrome
@@ -97,10 +97,7 @@ export const YoutubeImportForm = ({ onSuccess }: { onSuccess?: () => void }) => 
 /**
  * True when the current server supports the import and the account may use it.
  */
-export const useCanYoutubeImport = () => {
-    const server = useCurrentServer();
-    return server?.type === ServerType.NAVIDROME && Boolean(server?.isAdmin);
-};
+export const useCanYoutubeImport = useIsNavidromeAdmin;
 
 export const openYoutubeImportModal = () => {
     openModal({

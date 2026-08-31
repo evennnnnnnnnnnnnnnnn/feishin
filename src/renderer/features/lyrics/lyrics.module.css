@@ -77,12 +77,28 @@
     }
 }
 
-.settings-icon {
+/* Shared by every absolutely-positioned icon in the top-right corner of the
+   lyrics view. The z-index is load-bearing: .scroll-container is a positioned
+   sibling with z-index 1 that fills the container from the top, so an overlay
+   icon left at z-index auto paints beneath it and never receives the click. */
+.overlay-icon {
     z-index: 100;
     opacity: 0;
     transition: opacity 0.2s ease;
+
+    &:focus-visible {
+        opacity: 1;
+    }
 }
 
-.lyrics-container:hover .settings-icon {
+.lyrics-container:hover .overlay-icon {
+    opacity: 1;
+}
+
+/* An icon that owns an open panel stays visible on its own. The panel is
+   portalled outside .lyrics-container, so moving the pointer from the icon into
+   the panel stops the hover rule matching and the icon it belongs to fades out
+   from under it - and a mouse click sets no :focus-visible to fall back on. */
+.overlay-icon[data-pinned='true'] {
     opacity: 1;
 }

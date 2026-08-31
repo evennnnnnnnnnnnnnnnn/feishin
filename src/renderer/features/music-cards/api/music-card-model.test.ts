@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { MusicCard, MusicCardSnippet, reconcileMusicCards } from './music-card-model';
+import {
+    cardsForMediaFile,
+    MusicCard,
+    MusicCardSnippet,
+    reconcileMusicCards,
+} from './music-card-model';
 
 import { MusicCardWithSnippetsDto } from '/@/shared/types/domain-types';
 
@@ -77,7 +82,8 @@ describe('reconcileMusicCards', () => {
         const reconciled = reconcileMusicCards([], [serverCard()], 'server-1', 'user-1');
 
         expect(reconciled).toHaveLength(1);
-        expect(reconciled[0].serverId).toBe('server-1', 'user-1');
+        expect(reconciled[0].serverId).toBe('server-1');
+        expect(reconciled[0].userId).toBe('user-1');
         expect(reconciled[0].songRemoved).toBe(false);
     });
 
@@ -114,7 +120,8 @@ describe('reconcileMusicCards', () => {
         const reconciled = reconcileMusicCards([stale], [serverCard()], 'server-1', 'user-1');
 
         expect(reconciled).toHaveLength(1);
-        expect(reconciled[0].serverId).toBe('server-1', 'user-1');
+        expect(reconciled[0].serverId).toBe('server-1');
+        expect(reconciled[0].userId).toBe('user-1');
     });
 
     it('drops stale copies left by several different serverIds', () => {
@@ -126,7 +133,8 @@ describe('reconcileMusicCards', () => {
         const reconciled = reconcileMusicCards(local, [serverCard()], 'server-1', 'user-1');
 
         expect(reconciled).toHaveLength(1);
-        expect(reconciled[0].serverId).toBe('server-1', 'user-1');
+        expect(reconciled[0].serverId).toBe('server-1');
+        expect(reconciled[0].userId).toBe('user-1');
     });
 
     it('collapses stale duplicates even when the server no longer has the card', () => {
@@ -195,5 +203,55 @@ describe('reconcileMusicCards', () => {
 
         expect(reconciled[0].userId).toBeNull();
         expect(reconciled[0].songRemoved).toBe(true);
+    });
+});
+
+describe('cardsForMediaFile', () => {
+    it('keeps a card whose snippet was saved from the song', () => {
+        const match = card({ id: 'card-1', snippets: [snippet({ mediaFileId: 'media-1' })] });
+        const other = card({ id: 'card-2', snippets: [snippet({ mediaFileId: 'media-2' })] });
+
+        expect(cardsForMediaFile([match, other], 'media-1')).toEqual([match]);
+    });
+
+    // A card spans songs: the same kanji saved from two tracks is one card.
+    // Membership is decided over the snippets, so such a card belongs to both.
+    it('keeps a card that holds the song among several others', () => {
+        const spanning = card({
+            snippets: [
+                snippet({ id: 'snippet-1', mediaFileId: 'media-2' }),
+                snippet({ id: 'snippet-2', mediaFileId: 'media-1' }),
+            ],
+        });
+
+        expect(cardsForMediaFile([spanning], 'media-1')).toEqual([spanning]);
+        expect(cardsForMediaFile([spanning], 'media-2')).toEqual([spanning]);
+    });
+
+    it('drops a card with no snippet from the song, and never matches on card id', () => {
+        const other = card({ id: 'media-1', snippets: [snippet({ mediaFileId: 'media-2' })] });
+
+        expect(cardsForMediaFile([other], 'media-1')).toEqual([]);
+    });
+
+    it('returns nothing for a card carrying no snippets at all', () => {
+        expect(cardsForMediaFile([card({ snippets: [] })], 'media-1')).toEqual([]);
+    });
+
+    it('preserves the incoming order of the cards it keeps', () => {
+        const first = card({ id: 'card-1' });
+        const skipped = card({ id: 'card-2', snippets: [snippet({ mediaFileId: 'other' })] });
+        const last = card({ id: 'card-3' });
+
+        expect(cardsForMediaFile([first, skipped, last], 'media-1')).toEqual([first, last]);
+    });
+
+    it('does not mutate or copy the cards it is given', () => {
+        const only = card();
+        const input = [only];
+        const result = cardsForMediaFile(input, 'media-1');
+
+        expect(result).not.toBe(input);
+        expect(result[0]).toBe(only);
     });
 });

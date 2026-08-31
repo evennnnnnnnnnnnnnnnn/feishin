@@ -57,6 +57,16 @@ export type MusicCardSnippet = {
 export const snippetHasAudio = (snippet: Pick<MusicCardSnippet, 'endMs' | 'startMs'>): boolean =>
     snippet.endMs > snippet.startMs;
 
+/**
+ * The cards holding at least one snippet saved from a given song. A card spans
+ * songs - the same kanji can be saved from several - so membership is decided
+ * over the snippets, never over the card. Shared by the deck's ?mediaFileId
+ * filter and the lyrics view's song-cards overlay so both mean the same thing
+ * by "cards from this song".
+ */
+export const cardsForMediaFile = (cards: MusicCard[], mediaFileId: string): MusicCard[] =>
+    cards.filter((card) => card.snippets.some((snippet) => snippet.mediaFileId === mediaFileId));
+
 const snippetFromDto = (
     dto: MusicCardWithSnippetsDto['snippets'][number],
 ): Omit<MusicCardSnippet, 'songRemoved'> => ({

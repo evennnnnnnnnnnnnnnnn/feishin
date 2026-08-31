@@ -352,6 +352,10 @@ export enum NDUserListSort {
 
 const sortOrderValues = ['ASC', 'DESC'] as const;
 
+// Only describes the common shape: most nativeapi routes answer errors as plain text via
+// `http.Error`, but the deletion routes answer JSON `{"message": "..."}`. The client is
+// built without ts-rest's `validateResponse`, so this is compile-time typing only and the
+// body arrives verbatim either way - see `serverErrorMessage`, which narrows both shapes.
 const error = z.string();
 
 const paginationParameters = z.object({
@@ -713,6 +717,18 @@ const deletePlaylist = z.null();
 
 const deleteInternetRadioStation = deletePlaylist;
 
+// Admin-only removal of media from the library: the server moves the files into its trash
+// folder and drops their rows, then reports what it actually did.
+const deleteFromLibrary = z.object({
+    count: z.number(),
+    ids: z.array(z.string()),
+    trashFolder: z.string(),
+});
+
+const deleteFromLibraryParameters = z.object({
+    id: z.array(z.string()),
+});
+
 const deleteFuriganaBinding = deletePlaylist;
 
 const addToPlaylist = z.object({
@@ -1037,6 +1053,7 @@ export const ndType = {
         authenticate: authenticateParameters,
         createMusicCardSnippet: createMusicCardSnippetParameters,
         createPlaylist: createPlaylistParameters,
+        deleteFromLibrary: deleteFromLibraryParameters,
         furiganaBindingList: furiganaBindingListParameters,
         genreList: genreListParameters,
         gradeMusicCardReview: gradeMusicCardReviewParameters,
@@ -1073,6 +1090,7 @@ export const ndType = {
         createMusicCardSnippetResult,
         createPlaylist,
         deleteArtistImage,
+        deleteFromLibrary,
         deleteFuriganaBinding,
         deleteInternetRadioStation,
         deleteInternetRadioStationImage,
