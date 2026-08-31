@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const GITHUB_RELEASES_URL = 'https://api.github.com/repos/jeffvli/feishin/releases';
+// The fork this build updates from, matching `publish:` in electron-builder.yml. Releases
+// are cut here, not upstream, so anything that looks up a version by tag must ask this repo.
+export const GITHUB_REPO = 'evennnnnnnnnnnnnnnnn/feishin';
+export const GITHUB_REPO_URL = `https://github.com/${GITHUB_REPO}`;
+export const GITHUB_RELEASES_URL = `https://api.github.com/repos/${GITHUB_REPO}/releases`;
 export const RELEASES_TO_FETCH = 30;
 
 export interface GitHubRelease {
