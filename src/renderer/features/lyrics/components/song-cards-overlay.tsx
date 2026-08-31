@@ -131,7 +131,7 @@ const SongCardsPanel = ({ mediaFileId, onClose }: SongCardsPanelProps) => {
                 size="compact-sm"
                 variant="subtle"
             >
-                {t('page.musicCards.title')}
+                {t('page.musicCards.manageInDeck')}
             </Button>
         </Stack>
     );

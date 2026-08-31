@@ -573,6 +573,7 @@
             "gradeError": "Could not save the review",
             "gradeGood": "Good",
             "gradeHard": "Hard",
+            "manageInDeck": "Manage in deck",
             "newCard": "New card",
             "replay": "Replay clip",
             "reviewComplete": "Review session complete",
