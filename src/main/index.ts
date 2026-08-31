@@ -56,8 +56,11 @@ const ALPHA_UPDATER_CONFIG: {
     provider: 's3',
 };
 
+// Must match `publish:` in electron-builder.yml. Only the alpha channel's cross-channel probe
+// builds an updater from this; latest/beta go through autoUpdater and read the baked
+// app-update.yml, which is why a wrong owner here stays invisible until someone tries alpha.
 const GITHUB_UPDATER_CONFIG = {
-    owner: 'jeffvli',
+    owner: 'evennnnnnnnnnnnnnnnn',
     provider: 'github' as const,
     repo: 'feishin',
 };
