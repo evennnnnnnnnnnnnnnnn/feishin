@@ -3,6 +3,7 @@ import { set } from 'idb-keyval';
 import orderBy from 'lodash/orderBy';
 
 import { ndApiClient, ndGetMusicCardClip } from '/@/renderer/api/navidrome/navidrome-api';
+import { serverErrorMessage } from '/@/renderer/api/navidrome/navidrome-error-message';
 import { ssApiClient } from '/@/renderer/api/subsonic/subsonic-api';
 import { SubsonicController } from '/@/renderer/api/subsonic/subsonic-controller';
 import { ndNormalize } from '/@/shared/api/navidrome/navidrome-normalize';
@@ -123,13 +124,6 @@ const getLibraryId = (musicFolderId?: string | string[]): string[] | undefined =
 const getArtistSongKey = (server: null | ServerListItemWithCredential) =>
     hasFeature(server, ServerFeature.TRACK_ALBUM_ARTIST_SEARCH) ? 'artists_id' : 'album_artist_id';
 
-// ts-rest widens the body of a non-2xx branch, so the plain-text error the server sends has
-// to be dug out by hand.
-const serverErrorMessage = (body: unknown): string | undefined => {
-    const data = (body as undefined | { data?: unknown })?.data;
-    return typeof data === 'string' && data.trim() ? data.trim() : undefined;
-};
-
 export const NavidromeController: InternalControllerEndpoint = {
     addToPlaylist: async (args) => {
         const { apiClientProps, body, query } = args;
@@ -216,8 +210,8 @@ export const NavidromeController: InternalControllerEndpoint = {
         });
 
         if (res.status !== 200) {
-            // The server explains refusals in plain text (feature off, not an admin, unsafe
-            // path). Pass it through so the toast says something actionable.
+            // The server explains refusals in a JSON `message` (feature off, not an admin,
+            // unsafe path). Pass it through so the toast says something actionable.
             throw new Error(
                 serverErrorMessage(res.body) ?? 'Failed to delete albums from the library',
             );
@@ -373,8 +367,8 @@ export const NavidromeController: InternalControllerEndpoint = {
         });
 
         if (res.status !== 200) {
-            // The server explains refusals in plain text (feature off, not an admin, unsafe
-            // path). Pass it through so the toast says something actionable.
+            // The server explains refusals in a JSON `message` (feature off, not an admin,
+            // unsafe path). Pass it through so the toast says something actionable.
             throw new Error(
                 serverErrorMessage(res.body) ?? 'Failed to delete songs from the library',
             );

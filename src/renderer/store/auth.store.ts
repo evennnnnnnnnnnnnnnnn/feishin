@@ -5,7 +5,11 @@ import { immer } from 'zustand/middleware/immer';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-import { ServerListItem, ServerListItemWithCredential } from '/@/shared/types/domain-types';
+import {
+    ServerListItem,
+    ServerListItemWithCredential,
+    ServerType,
+} from '/@/shared/types/domain-types';
 
 export interface AuthSlice extends AuthState {
     actions: {
@@ -160,6 +164,18 @@ export const useIsAdmin = () =>
             userId: state.currentServer?.userId,
         };
     }, shallow);
+
+/**
+ * Gate for the fork's admin-only Navidrome nativeapi extensions - deleting media from the
+ * library, importing from YouTube. Those endpoints answer 403 for anyone else, so callers
+ * hide the affordance rather than show it and then have it refused.
+ */
+export const useIsNavidromeAdmin = () =>
+    useAuthStore(
+        (state) =>
+            state.currentServer?.type === ServerType.NAVIDROME &&
+            Boolean(state.currentServer?.isAdmin),
+    );
 
 export const useCurrentServerWithCredential = () =>
     useAuthStore((state) => state.currentServer) as ServerListItemWithCredential;

@@ -352,6 +352,10 @@ export enum NDUserListSort {
 
 const sortOrderValues = ['ASC', 'DESC'] as const;
 
+// Only describes the common shape: most nativeapi routes answer errors as plain text via
+// `http.Error`, but the deletion routes answer JSON `{"message": "..."}`. The client is
+// built without ts-rest's `validateResponse`, so this is compile-time typing only and the
+// body arrives verbatim either way - see `serverErrorMessage`, which narrows both shapes.
 const error = z.string();
 
 const paginationParameters = z.object({
